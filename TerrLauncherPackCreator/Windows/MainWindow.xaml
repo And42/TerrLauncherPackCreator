@@ -1,0 +1,43 @@
+﻿<Window x:Class="TerrLauncherPackCreator.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
+        xmlns:viewModels1="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle.Value, Mode=OneWay}"
+        
+        Height="450" Width="700"
+        MinHeight="450" MinWidth="700"
+        
+        WindowStartupLocation="CenterScreen"
+        FontSize="14"
+        FontFamily="Century Gothic"
+        
+        d:DataContext="{d:DesignInstance viewModels1:MainWindowViewModel, IsDesignTimeCreatable=True}">
+    <Grid Margin="5" UseLayoutRounding="True">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Frame x:Name="StepsFrame" NavigationUIVisibility="Hidden"/>
+        
+        <Grid Grid.Row="1" Margin="0 5 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal">
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Button Content="{x:Static localizations:StringResources.PreviousStepCaption}" Command="{Binding GoToPreviousStepCommand}"/>
+                <Button Margin="5 0 0 0" Content="{x:Static localizations:StringResources.NextStepCaption}" Command="{Binding GoToNextStepCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
