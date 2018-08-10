@@ -139,19 +139,16 @@
     <value>Вперёд</value>
   </data>
   <data name="PackDescriptionEnglish" xml:space="preserve">
-    <value>Описание (на английском):</value>
+    <value>Описание (на английском)</value>
   </data>
   <data name="PackDescriptionRussian" xml:space="preserve">
-    <value>Описание (на русском):</value>
+    <value>Описание (на русском)</value>
   </data>
   <data name="PackGuid" xml:space="preserve">
     <value>Guid:</value>
   </data>
-  <data name="PackIcon" xml:space="preserve">
-    <value>Иконка:</value>
-  </data>
   <data name="PackTitle" xml:space="preserve">
-    <value>Название:</value>
+    <value>Название</value>
   </data>
   <data name="PackVersion" xml:space="preserve">
     <value>Версия:</value>

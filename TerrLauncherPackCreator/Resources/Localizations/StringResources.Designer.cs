@@ -124,7 +124,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Описание (на английском):.
+        ///   Looks up a localized string similar to Описание (на английском).
         /// </summary>
         public static string PackDescriptionEnglish {
             get {
@@ -133,7 +133,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Описание (на русском):.
+        ///   Looks up a localized string similar to Описание (на русском).
         /// </summary>
         public static string PackDescriptionRussian {
             get {
@@ -151,16 +151,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Иконка:.
-        /// </summary>
-        public static string PackIcon {
-            get {
-                return ResourceManager.GetString("PackIcon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Название:.
+        ///   Looks up a localized string similar to Название.
         /// </summary>
         public static string PackTitle {
             get {

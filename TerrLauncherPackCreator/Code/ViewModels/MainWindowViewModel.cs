@@ -21,7 +21,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             var packCreationViewModel = new PackCreationViewModel();
 
             WindowTitle = new Property<string>(Assembly.GetEntryAssembly().GetName().Name);
-            // todo: change to 1
             CurrentStep = new Property<int>(1);
 
             StepsPages = new Property<Page[]>(

@@ -17,11 +17,11 @@
     <Grid UseLayoutRounding="True">
         <Grid.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                <Setter Property="Margin" Value="10 3"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
             </Style>
 
-            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Style TargetType="xctk:WatermarkTextBox" BasedOn="{StaticResource {x:Type xctk:WatermarkTextBox}}">
                 <Setter Property="Margin" Value="3"/>
                 <Setter Property="Padding" Value="7 3"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -38,7 +38,7 @@
                 <Setter Property="Padding" Value="7 2"/>
             </Style>
 
-            <Style x:Key="MultilineTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Style x:Key="MultilineTextBox" TargetType="xctk:WatermarkTextBox" BasedOn="{StaticResource {x:Type xctk:WatermarkTextBox}}">
                 <Setter Property="AcceptsReturn" Value="True"/>
                 <Setter Property="MaxLines" Value="5"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
@@ -54,13 +54,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition MinWidth="400"/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static localizations:StringResources.PackIcon}"/>
-        <Grid Grid.Row="0" Grid.Column="1" Width="120" Height="120" Margin="3">
+        <Grid Width="120" Height="120" Margin="3">
             <Grid Visibility="{Binding Icon.Value, Mode=OneWay, Converter={StaticResource VisibleIfNullConverter}}"
                   AllowDrop="True" DragOver="Icon_OnDragOver" Drop="Icon_OnDrop">
                 <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
@@ -71,28 +65,26 @@
                    RenderOptions.BitmapScalingMode="NearestNeighbor"/>
         </Grid>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static localizations:StringResources.PackTitle}"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Title.Value}"/>
+        <xctk:WatermarkTextBox Grid.Row="1" Text="{Binding Title.Value}" Watermark="{x:Static localizations:StringResources.PackTitle}"/>
 
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static localizations:StringResources.PackDescriptionRussian}"/>
-        <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionRussian.Value}"/>
+        <xctk:WatermarkTextBox Grid.Row="2" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionRussian.Value}" Watermark="{x:Static localizations:StringResources.PackDescriptionRussian}"/>
 
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static localizations:StringResources.PackDescriptionEnglish}"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionEnglish.Value}"/>
+        <xctk:WatermarkTextBox Grid.Row="3" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionEnglish.Value}" Watermark="{x:Static localizations:StringResources.PackDescriptionEnglish}"/>
 
-        <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static localizations:StringResources.PackGuid}"/>
-        <Grid Grid.Row="4" Grid.Column="1">
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Text="{Binding Guid.Value}"/>
+            <xctk:WatermarkTextBox Text="{Binding Guid.Value}" Padding="50 3 7 3"/>
+            <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackGuid}"/>
+
             <Button Grid.Column="1" Content="{x:Static localizations:StringResources.NewGuidCaption}"
                     Command="{Binding CreateNewGuidCommand}"/>
         </Grid>
 
-        <TextBlock Grid.Row="5" Grid.Column="0" Text="{x:Static localizations:StringResources.PackVersion}"/>
-        <xctk:IntegerUpDown Grid.Row="5" Grid.Column="1" Minimum="1" Value="{Binding Version.Value}"/>
+        <xctk:IntegerUpDown Grid.Row="5" Minimum="1" Value="{Binding Version.Value}"/>
+        <TextBlock Grid.Row="5" Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackVersion}"/>
     </Grid>
 </Page>
