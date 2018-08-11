@@ -6,9 +6,14 @@
              StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
          <ResourceDictionary>
+             <ResourceDictionary.MergedDictionaries>
+                 <ResourceDictionary Source="Resources/Styles/Styles.xaml"/>
+             </ResourceDictionary.MergedDictionaries>
+
              <converters:VisibleIfNullConverter x:Key="VisibleIfNullConverter"/>
              
              <templateSelectors:PreviewsTemplateSelector x:Key="PreviewsTemplateSelector"/>
+             <templateSelectors:ModifiedFilesTemplateSelector x:Key="ModifiedFilesTemplateSelector"/>
          </ResourceDictionary>
     </Application.Resources>
 </Application>

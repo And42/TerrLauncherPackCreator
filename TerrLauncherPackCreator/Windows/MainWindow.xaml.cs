@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using TerrLauncherPackCreator.Code.ViewModels;
+using TerrLauncherPackCreator.Controls;
 
 namespace TerrLauncherPackCreator.Windows
 {
@@ -11,7 +11,7 @@ namespace TerrLauncherPackCreator.Windows
     {
         private static readonly Duration StepChangeAnimationPartDuration = new Duration(TimeSpan.FromSeconds(0.25 / 2));
 
-        private readonly Button[] _pageNavigationNumberButtons;
+        private PageNavigationNumberButton[] _pageNavigationNumberButtons;
 
         public MainWindow()
         {
@@ -19,8 +19,7 @@ namespace TerrLauncherPackCreator.Windows
 
             ViewModel = new MainWindowViewModel();
 
-            _pageNavigationNumberButtons = PageNavigationNumberButtonsPanel.Children.Cast<Button>().ToArray();
-
+            InitPagingButtons();
             UpdateStepPage();
 
             ViewModel.CurrentStep.PropertyChanged += (sender, args) => UpdateStepPage();
@@ -30,6 +29,35 @@ namespace TerrLauncherPackCreator.Windows
         {
             get => DataContext as MainWindowViewModel;
             set => DataContext = value;
+        }
+
+        private void InitPagingButtons()
+        {
+            PageNavigationNumberButtonsPanel.Children.Clear();
+
+            int totalPages = ViewModel.StepsPages.Value.Length;
+            _pageNavigationNumberButtons = new PageNavigationNumberButton[totalPages];
+
+            for (int i = 1; i <= totalPages; i++)
+            {
+                var pageButton = new PageNavigationNumberButton
+                {
+                    PageNumber = i
+                };
+
+                if (i > 1)
+                {
+                    pageButton.Margin = new Thickness(10, 0, 0, 0);
+                }
+
+                pageButton.MouseLeftButtonDown += (sender, args) =>
+                {
+                    ViewModel.CurrentStep.Value = ((PageNavigationNumberButton) sender).PageNumber;
+                };
+
+                PageNavigationNumberButtonsPanel.Children.Add(pageButton);
+                _pageNavigationNumberButtons[i - 1] = pageButton;
+            }
         }
 
         private void UpdateStepPage()
@@ -42,7 +70,7 @@ namespace TerrLauncherPackCreator.Windows
             fadeOutAnimation.Completed += (sender, args) =>
             {
                 for (int i = 0; i < _pageNavigationNumberButtons.Length; i++)
-                    _pageNavigationNumberButtons[i].IsEnabled = i == currentPageIndex;
+                    _pageNavigationNumberButtons[i].IsActive = i == currentPageIndex;
 
                 StepsFrame.Navigate(ViewModel.StepsPages.Value[currentPageIndex]);
                 StepsFrame.BeginAnimation(Frame.OpacityProperty, fadeInAnimation);

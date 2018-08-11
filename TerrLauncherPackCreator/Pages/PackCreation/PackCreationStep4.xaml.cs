@@ -3,9 +3,9 @@ using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation
 {
-    public partial class PackCreationStep2
+    public partial class PackCreationStep4
     {
-        public PackCreationStep2(PackCreationViewModel viewModel)
+        public PackCreationStep4(PackCreationViewModel viewModel)
         {
             InitializeComponent();
 
@@ -18,7 +18,7 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             set => DataContext = value;
         }
 
-        private void Icon_OnDragOver(object sender, DragEventArgs e)
+        private void ModifiedFiles_OnDragOver(object sender, DragEventArgs e)
         {
             e.Handled = true;
 
@@ -30,13 +30,13 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
 
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (files != null && files.Length == 1 && ViewModel.DropIconCommand.CanExecute(files[0]))
+            if (files != null && ViewModel.DropModifiedFileCommand.CanExecute(files))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
         }
 
-        private void Icon_OnDrop(object sender, DragEventArgs e)
+        private void ModifiedFiles_OnDrop(object sender, DragEventArgs e)
         {
             e.Handled = true;
 
@@ -45,8 +45,8 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
 
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (files != null && files.Length == 1)
-                ViewModel.DropIconCommand.Execute(files[0]);
+            if (files != null)
+                ViewModel.DropModifiedFileCommand.Execute(files);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Page x:Class="TerrLauncherPackCreator.Pages.PackCreation.PackCreationStep1"
+﻿<Page x:Class="TerrLauncherPackCreator.Pages.PackCreation.PackCreationStep5"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,11 +13,7 @@
       d:DataContext="{d:DesignInstance viewModels:PackCreationViewModel, IsDesignTimeCreatable=True}">
     <StackPanel UseLayoutRounding="True" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button Style="{DynamicResource ActionButtonStyle}"
-                Content="{x:Static localizations:StringResources.PackCreateNew}"
+                Content="{x:Static localizations:StringResources.PackExport}"
                 Command="{Binding CreateNewPackCommand}"/>
-
-        <Button Style="{DynamicResource ActionButtonStyle}"
-                Content="{x:Static localizations:StringResources.PackLoadExisting}"
-                Command="{Binding ChooseExistingPackCommand}"/>
     </StackPanel>
 </Page>

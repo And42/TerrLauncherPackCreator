@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using MVVM_Tools.Code.Providers;
+using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Pages.PackCreation;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
@@ -18,21 +19,31 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public MainWindowViewModel()
         {
-            var packCreationViewModel = new PackCreationViewModel();
-
             WindowTitle = new Property<string>(Assembly.GetEntryAssembly().GetName().Name);
             CurrentStep = new Property<int>(1);
+
+            GoToPreviousStepCommand = new ActionCommand(GoToPreviousStepCommand_Execute, GoToPreviousStepCommand_CanExecute);
+            GoToNextStepCommand = new ActionCommand(GoToNextStepCommand_Execute, GoToNextStepCommand_CanExecute);
+
+            var packCreationViewModel = new PackCreationViewModel(
+                new PageNavigator(
+                    GoToPreviousStepCommand.Execute,
+                    GoToNextStepCommand.Execute
+                )
+            );
 
             StepsPages = new Property<Page[]>(
                 new Page[]
                 {
                     new PackCreationStep1(packCreationViewModel), 
                     new PackCreationStep2(packCreationViewModel), 
+                    new PackCreationStep3(packCreationViewModel), 
+                    new PackCreationStep4(packCreationViewModel), 
+                    new PackCreationStep5(packCreationViewModel), 
                 }
             );
 
-            GoToPreviousStepCommand = new ActionCommand(GoToPreviousStepCommand_Execute, GoToPreviousStepCommand_CanExecute);
-            GoToNextStepCommand = new ActionCommand(GoToNextStepCommand_Execute, GoToNextStepCommand_CanExecute);
+            CurrentStep.PropertyChanged += (sender, args) => RaiseNavigationCommandsCanExecute();
         }
 
         private bool GoToPreviousStepCommand_CanExecute()
@@ -43,7 +54,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private void GoToPreviousStepCommand_Execute()
         {
             CurrentStep.Value--;
-            RaiseNavigationCommandsCanExecute();
         }
 
         private bool GoToNextStepCommand_CanExecute()
@@ -54,7 +64,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private void GoToNextStepCommand_Execute()
         {
             CurrentStep.Value++;
-            RaiseNavigationCommandsCanExecute();
         }
 
         private void RaiseNavigationCommandsCanExecute()

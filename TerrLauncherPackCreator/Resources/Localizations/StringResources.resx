@@ -121,16 +121,25 @@
     <value>Удалить</value>
   </data>
   <data name="DragIconHelpText" xml:space="preserve">
-    <value>Перетащите иконку сюда</value>
+    <value>Перетащите иконку сюда (.png)</value>
+  </data>
+  <data name="DragModifiedFilesHelpText" xml:space="preserve">
+    <value>Перетащите файлы сюда</value>
   </data>
   <data name="DragPreviewsHelpText" xml:space="preserve">
-    <value>Перетащите изображения сюда</value>
+    <value>Перетащите изображения сюда (.jpg)</value>
   </data>
   <data name="ErrorLower" xml:space="preserve">
     <value>Ошибка</value>
   </data>
   <data name="LoadIconFromFileFailed" xml:space="preserve">
-    <value>Не удалось загрузить иконку из файла. Ошибка: {0}</value>
+    <value>Не удалось загрузить иконку из файла. Ошибка: "{0}"</value>
+  </data>
+  <data name="LoadImageFromFileFailed" xml:space="preserve">
+    <value>Не удалось загрузить изображение из файла: "{0}". Ошибка: "{1}"</value>
+  </data>
+  <data name="ModifiedFiles" xml:space="preserve">
+    <value>Изменённые файлы</value>
   </data>
   <data name="NewGuidCaption" xml:space="preserve">
     <value>Новый</value>
@@ -138,14 +147,23 @@
   <data name="NextStepCaption" xml:space="preserve">
     <value>Вперёд</value>
   </data>
+  <data name="PackCreateNew" xml:space="preserve">
+    <value>НОВЫЙ</value>
+  </data>
   <data name="PackDescriptionEnglish" xml:space="preserve">
     <value>Описание (на английском)</value>
   </data>
   <data name="PackDescriptionRussian" xml:space="preserve">
     <value>Описание (на русском)</value>
   </data>
+  <data name="PackExport" xml:space="preserve">
+    <value>СОХРАНИТЬ ГОТОВЫЙ</value>
+  </data>
   <data name="PackGuid" xml:space="preserve">
     <value>Guid:</value>
+  </data>
+  <data name="PackLoadExisting" xml:space="preserve">
+    <value>СУЩЕСТВУЮЩИЙ</value>
   </data>
   <data name="PackTitle" xml:space="preserve">
     <value>Название</value>

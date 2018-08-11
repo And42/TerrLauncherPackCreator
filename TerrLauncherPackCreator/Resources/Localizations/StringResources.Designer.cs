@@ -70,7 +70,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перетащите иконку сюда.
+        ///   Looks up a localized string similar to Перетащите иконку сюда (.png).
         /// </summary>
         public static string DragIconHelpText {
             get {
@@ -79,7 +79,16 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перетащите изображения сюда.
+        ///   Looks up a localized string similar to Перетащите файлы сюда.
+        /// </summary>
+        public static string DragModifiedFilesHelpText {
+            get {
+                return ResourceManager.GetString("DragModifiedFilesHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перетащите изображения сюда (.jpg).
         /// </summary>
         public static string DragPreviewsHelpText {
             get {
@@ -97,11 +106,29 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось загрузить иконку из файла. Ошибка: {0}.
+        ///   Looks up a localized string similar to Не удалось загрузить иконку из файла. Ошибка: &quot;{0}&quot;.
         /// </summary>
         public static string LoadIconFromFileFailed {
             get {
                 return ResourceManager.GetString("LoadIconFromFileFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось загрузить изображение из файла: &quot;{0}&quot;. Ошибка: &quot;{1}&quot;.
+        /// </summary>
+        public static string LoadImageFromFileFailed {
+            get {
+                return ResourceManager.GetString("LoadImageFromFileFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Изменённые файлы.
+        /// </summary>
+        public static string ModifiedFiles {
+            get {
+                return ResourceManager.GetString("ModifiedFiles", resourceCulture);
             }
         }
         
@@ -124,6 +151,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to НОВЫЙ.
+        /// </summary>
+        public static string PackCreateNew {
+            get {
+                return ResourceManager.GetString("PackCreateNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Описание (на английском).
         /// </summary>
         public static string PackDescriptionEnglish {
@@ -142,11 +178,29 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to СОХРАНИТЬ ГОТОВЫЙ.
+        /// </summary>
+        public static string PackExport {
+            get {
+                return ResourceManager.GetString("PackExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Guid:.
         /// </summary>
         public static string PackGuid {
             get {
                 return ResourceManager.GetString("PackGuid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to СУЩЕСТВУЮЩИЙ.
+        /// </summary>
+        public static string PackLoadExisting {
+            get {
+                return ResourceManager.GetString("PackLoadExisting", resourceCulture);
             }
         }
         

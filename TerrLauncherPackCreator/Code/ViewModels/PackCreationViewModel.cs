@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using MVVM_Tools.Code.Providers;
+using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
@@ -16,38 +17,141 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : BindableBase
     {
+        public IPageNavigator PageNavigator { get; }
+
         public Property<BitmapSource> Icon { get; }
+        public Property<string> IconFilePath { get; }
         public Property<string> Title { get; }
         public Property<string> DescriptionRussian { get; }
         public Property<string> DescriptionEnglish { get; }
         public Property<Guid> Guid { get; }
         public Property<int> Version { get; }
         public Property<ObservableCollection<PreviewItemModel>> Previews { get; }
+        public Property<ObservableCollection<ModifiedItemModel>> ModifiedFiles { get; }
 
+        public IActionCommand CreateNewPackCommand { get; }
+        public IActionCommand ChooseExistingPackCommand { get; }
         public IActionCommand CreateNewGuidCommand { get; }
         public IActionCommand<string> DropIconCommand { get; }
         public IActionCommand<string[]> DropPreviewsCommand { get; }
         public IActionCommand<PreviewItemModel> DeletePreviewItemCommand { get; }
+        public IActionCommand<string[]> DropModifiedFileCommand { get; }
+        public IActionCommand<ModifiedItemModel> DeleteModifiedItemCommand { get; }
 
-        public PackCreationViewModel()
+        public PackCreationViewModel() : this(null)
         {
+            if (!DesignerUtils.IsInDesignMode())
+                throw new Exception("This constructor is available only in design mode");
+        }
+
+        public PackCreationViewModel(IPageNavigator pageNavigator)
+        {
+            PageNavigator = pageNavigator;
+
             Icon = new Property<BitmapSource>();
+            IconFilePath = new Property<string>();
             Title = new Property<string>();
             DescriptionRussian = new Property<string>();
             DescriptionEnglish = new Property<string>();
             Guid = new Property<Guid>(System.Guid.NewGuid());
             Version = new Property<int>(1);
-            Previews = new Property<ObservableCollection<PreviewItemModel>>(
-                new ObservableCollection<PreviewItemModel>
-                {
-                    new PreviewItemModel(null, true)
-                }
-            );
+            Previews = new Property<ObservableCollection<PreviewItemModel>>();
+            ModifiedFiles = new Property<ObservableCollection<ModifiedItemModel>>();
+
+            CreateNewPackCommand = new ActionCommand(CreateNewPackCommand_Execute);
+            ChooseExistingPackCommand = new ActionCommand(ChooseExistingPackCommand_Execute);
 
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute);
             DropIconCommand = new ActionCommand<string>(DropIconCommand_Execute, DropIconCommand_CanExecute);
             DropPreviewsCommand = new ActionCommand<string[]>(DropPreviewsCommand_Execute, DropPreviewsCommand_CanExecute);
             DeletePreviewItemCommand = new ActionCommand<PreviewItemModel>(DeletePreviewItemCommand_Execute, DeletePreviewItemCommand_CanExecute);
+
+            DropModifiedFileCommand = new ActionCommand<string[]>(DropModifiedFileCommand_Execute, DropModifiedFileCommand_CanExecute);
+            DeleteModifiedItemCommand = new ActionCommand<ModifiedItemModel>(DeleteModifiedItemCommand_Execute, DeleteModifiedItemCommand_CanExecute);
+
+            ResetCollections();
+        }
+
+        public void InitFromPackModel(PackModel packModel)
+        {
+            if (packModel == null)
+                throw new ArgumentNullException(nameof(packModel));
+
+            IconFilePath.Value = packModel.IconFilePath;
+            
+        }
+
+        public PackModel GeneratePackModel()
+        {
+            return new PackModel
+            {
+                IconFilePath = IconFilePath.Value,
+                Title = Title.Value,
+                DescriptionRussian = DescriptionRussian.Value,
+                DescriptionEnglish = DescriptionEnglish.Value,
+                Guid = Guid.Value,
+                Version = Version.Value,
+                PreviewsPaths = Previews.Value.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
+                ModifiedFilesPaths = ModifiedFiles.Value.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
+            };
+        }
+
+        private bool DeleteModifiedItemCommand_CanExecute(ModifiedItemModel item)
+        {
+            return !item.IsDragDropTarget;
+        }
+
+        private void DeleteModifiedItemCommand_Execute(ModifiedItemModel item)
+        {
+            ModifiedFiles.Value.Remove(item);
+        }
+
+        private bool DropModifiedFileCommand_CanExecute(string[] files)
+        {
+            return files != null && files.All(File.Exists);
+        }
+
+        private void DropModifiedFileCommand_Execute(string[] files)
+        {
+            foreach (string file in files)
+            {
+                if (ModifiedFiles.Value.Any(item => item.FilePath == file))
+                    continue;
+
+                ModifiedFiles.Value.Add(new ModifiedItemModel(file, false));
+            }
+        }
+
+        private void ChooseExistingPackCommand_Execute()
+        {
+            PageNavigator.NavigateForward();
+        }
+
+        private void CreateNewPackCommand_Execute()
+        {
+            RestoreDefaults();
+            PageNavigator.NavigateForward();
+        }
+
+        public void RestoreDefaults()
+        {
+            Icon.ResetValue();
+            IconFilePath.ResetValue();
+            Title.ResetValue();
+            DescriptionRussian.ResetValue();
+            DescriptionEnglish.ResetValue();
+            Guid.Value = System.Guid.NewGuid();
+            Version.ResetValue();
+            ResetCollections();
+        }
+
+        private void ResetCollections()
+        {
+            Previews.Value = new ObservableCollection<PreviewItemModel>();
+            ModifiedFiles.Value = new ObservableCollection<ModifiedItemModel>();
+
+            Previews.Value.Add(new PreviewItemModel(null, null, true));
+            ModifiedFiles.Value.Add(new ModifiedItemModel(null, true));
         }
 
         private bool DeletePreviewItemCommand_CanExecute(PreviewItemModel previewItem)
@@ -62,24 +166,35 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DropPreviewsCommand_CanExecute(string[] files)
         {
-            return files != null && files.Any(it => File.Exists(it) && Path.GetExtension(it) == ".jpg");
+            return files != null && files.All(it => File.Exists(it) && Path.GetExtension(it) == ".jpg");
         }
 
         private void DropPreviewsCommand_Execute(string[] files)
         {
-            var filtered = files.Where(it => File.Exists(it) && Path.GetExtension(it) == ".jpg").ToArray();
-
-            foreach (var file in filtered)
+            foreach (string file in files)
             {
+                Bitmap bitmap;
+
                 try
                 {
-                    var bitmap = new Bitmap(file);
-                    Previews.Value.Insert(0, new PreviewItemModel(bitmap.ToBitmapSource(), false));
+                    bitmap = new Bitmap(file);
                 }
                 catch (Exception ex)
                 {
-
+                    CrashUtils.HandleException(ex);
+                    MessageBox.Show(
+                        string.Format(StringResources.LoadImageFromFileFailed, file, ex.Message),
+                        StringResources.ErrorLower,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Asterisk
+                    );
+                    continue;
                 }
+
+                if (Previews.Value.Any(item => item.FilePath == file))
+                    continue;
+
+                Previews.Value.Add(new PreviewItemModel(bitmap.ToBitmapSource(), file, false));
             }
         }
 
@@ -93,7 +208,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             try
             {
                 var bitmap = new Bitmap(file);
+
                 Icon.Value = bitmap.ToBitmapSource();
+                IconFilePath.Value = file;
             }
             catch (Exception ex)
             {

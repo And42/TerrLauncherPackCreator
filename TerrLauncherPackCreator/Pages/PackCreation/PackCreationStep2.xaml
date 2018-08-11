@@ -6,7 +6,6 @@
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
-      xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -18,11 +17,11 @@
     <Grid UseLayoutRounding="True">
         <Grid.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                <Setter Property="Margin" Value="10 3"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
             </Style>
 
-            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Style TargetType="xctk:WatermarkTextBox" BasedOn="{StaticResource {x:Type xctk:WatermarkTextBox}}">
                 <Setter Property="Margin" Value="3"/>
                 <Setter Property="Padding" Value="7 3"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -39,7 +38,7 @@
                 <Setter Property="Padding" Value="7 2"/>
             </Style>
 
-            <Style x:Key="MultilineTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Style x:Key="MultilineTextBox" TargetType="xctk:WatermarkTextBox" BasedOn="{StaticResource {x:Type xctk:WatermarkTextBox}}">
                 <Setter Property="AcceptsReturn" Value="True"/>
                 <Setter Property="MaxLines" Value="5"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
@@ -48,44 +47,45 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="15" HorizontalAlignment="Center" Text="{x:Static localizations:StringResources.Previews}"/>
-        <ListView Grid.Row="1" Background="Transparent"
-                  ItemsSource="{Binding Previews.Value}"
-                  ItemTemplateSelector="{StaticResource PreviewsTemplateSelector}">
-            <ListView.Resources>
-                <DataTemplate x:Key="PreviewImageDataTemplate" DataType="{x:Type models:PreviewItemModel}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+        <Grid Width="120" Height="120" Margin="3">
+            <Grid Visibility="{Binding Icon.Value, Mode=OneWay, Converter={StaticResource VisibleIfNullConverter}}"
+                  AllowDrop="True" DragOver="Icon_OnDragOver" Drop="Icon_OnDrop">
+                <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
+                <TextBlock Text="{x:Static localizations:StringResources.DragIconHelpText}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+            </Grid>
+            <Image VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Source="{Binding Icon.Value, Mode=OneWay}"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor"
+                   ToolTip="{Binding IconFilePath.Value}"/>
+        </Grid>
 
-                        <Image Source="{Binding Image}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-                        <Button Grid.Column="1" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
-                                Command="{Binding DataContext.DeletePreviewItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
-                                CommandParameter="{Binding}"/>
-                    </Grid>
-                </DataTemplate>
+        <xctk:WatermarkTextBox Grid.Row="1" Text="{Binding Title.Value}" Watermark="{x:Static localizations:StringResources.PackTitle}"/>
 
-                <DataTemplate x:Key="PreviewDropTargetDataTemplate" DataType="{x:Type models:PreviewItemModel}">
-                    <Grid Height="120" Margin="3" AllowDrop="True" DragOver="Previews_OnDragOver" Drop="Previews_OnDrop">
-                        <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
-                        <TextBlock Text="{x:Static localizations:StringResources.DragPreviewsHelpText}"
-                                   TextWrapping="Wrap" FontSize="15"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.Resources>
+        <xctk:WatermarkTextBox Grid.Row="2" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionRussian.Value}" Watermark="{x:Static localizations:StringResources.PackDescriptionRussian}"/>
 
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Focusable" Value="False"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <xctk:WatermarkTextBox Grid.Row="3" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionEnglish.Value}" Watermark="{x:Static localizations:StringResources.PackDescriptionEnglish}"/>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <xctk:WatermarkTextBox Text="{Binding Guid.Value}" Padding="50 3 7 3"/>
+            <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackGuid}"/>
+
+            <Button Grid.Column="1" Content="{x:Static localizations:StringResources.NewGuidCaption}"
+                    Command="{Binding CreateNewGuidCommand}"/>
+        </Grid>
+
+        <xctk:IntegerUpDown Grid.Row="5" Minimum="1" Value="{Binding Version.Value}"/>
+        <TextBlock Grid.Row="5" Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackVersion}"/>
     </Grid>
 </Page>

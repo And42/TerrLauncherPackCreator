@@ -2,9 +2,9 @@
 
 namespace TerrLauncherPackCreator.Pages.PackCreation
 {
-    public partial class PackCreationStep1
+    public partial class PackCreationStep5
     {
-        public PackCreationStep1(PackCreationViewModel viewModel)
+        public PackCreationStep5(PackCreationViewModel viewModel)
         {
             InitializeComponent();
 

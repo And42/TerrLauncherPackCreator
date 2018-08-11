@@ -39,6 +39,7 @@
     <Reference Include="Costura, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.3.1.0\lib\net46\Costura.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="MVVM_Tools, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\MVVM_Tools.dll</HintPath>
@@ -49,6 +50,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -84,10 +89,28 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="Pages\PackCreation\PackCreationStep2.xaml">
+    <Page Include="Controls\PageNavigationNumberButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PackCreation\PackCreationStep5.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PackCreation\PackCreationStep1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PackCreation\PackCreationStep4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PackCreation\PackCreationStep3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PackCreation\PackCreationStep2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\ButtonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\MainWindow.xaml">
@@ -99,15 +122,37 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\Converters\VisibleIfNullConverter.cs" />
+    <Compile Include="Code\Implementations\PackProcessor.cs" />
+    <Compile Include="Code\Implementations\PageNavigator.cs" />
+    <Compile Include="Code\Interfaces\IPackProcessor.cs" />
+    <Compile Include="Code\Interfaces\IPageNavigator.cs" />
+    <Compile Include="Code\Interfaces\IProgressManager.cs" />
     <Compile Include="Code\Json\PackSettings.cs" />
+    <Compile Include="Code\Models\ModifiedItemModel.cs" />
+    <Compile Include="Code\Models\PackModel.cs" />
     <Compile Include="Code\Models\PreviewItemModel.cs" />
+    <Compile Include="Code\TemplateSelectors\ModifiedFilesTemplateSelector.cs" />
     <Compile Include="Code\TemplateSelectors\PreviewsTemplateSelector.cs" />
     <Compile Include="Code\Utils\BitmapUtils.cs" />
-    <Compile Include="Pages\PackCreation\PackCreationStep2.xaml.cs">
-      <DependentUpon>PackCreationStep2.xaml</DependentUpon>
+    <Compile Include="Code\Utils\CrashUtils.cs" />
+    <Compile Include="Code\Utils\DesignerUtils.cs" />
+    <Compile Include="Controls\PageNavigationNumberButton.xaml.cs">
+      <DependentUpon>PageNavigationNumberButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PackCreation\PackCreationStep5.xaml.cs">
+      <DependentUpon>PackCreationStep5.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PackCreation\PackCreationStep1.xaml.cs">
       <DependentUpon>PackCreationStep1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PackCreation\PackCreationStep4.xaml.cs">
+      <DependentUpon>PackCreationStep4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PackCreation\PackCreationStep3.xaml.cs">
+      <DependentUpon>PackCreationStep3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PackCreation\PackCreationStep2.xaml.cs">
+      <DependentUpon>PackCreationStep2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\Localizations\StringResources.Designer.cs">
       <AutoGen>True</AutoGen>
