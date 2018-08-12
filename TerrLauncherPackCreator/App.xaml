@@ -1,17 +1,15 @@
 ﻿<Application x:Class="TerrLauncherPackCreator.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:TerrLauncherPackCreator.Code.Converters"
              xmlns:templateSelectors="clr-namespace:TerrLauncherPackCreator.Code.TemplateSelectors"
              StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
          <ResourceDictionary>
              <ResourceDictionary.MergedDictionaries>
-                 <ResourceDictionary Source="Resources/Styles/Styles.xaml"/>
+                <ResourceDictionary Source="Code/Converters/Converters.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml"/>
              </ResourceDictionary.MergedDictionaries>
 
-             <converters:VisibleIfNullConverter x:Key="VisibleIfNullConverter"/>
-             
              <templateSelectors:PreviewsTemplateSelector x:Key="PreviewsTemplateSelector"/>
              <templateSelectors:ModifiedFilesTemplateSelector x:Key="ModifiedFilesTemplateSelector"/>
          </ResourceDictionary>

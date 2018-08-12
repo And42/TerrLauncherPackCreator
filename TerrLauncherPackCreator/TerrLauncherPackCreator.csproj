@@ -89,6 +89,9 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Code\Converters\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\PageNavigationNumberButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,6 +124,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Code\Converters\AnyToVisibleConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfNullConverter.cs" />
     <Compile Include="Code\Implementations\PackProcessor.cs" />
     <Compile Include="Code\Implementations\PageNavigator.cs" />

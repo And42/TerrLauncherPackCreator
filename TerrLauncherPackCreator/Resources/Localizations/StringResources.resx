@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChoosePackDialogFailed" xml:space="preserve">
+    <value>Пак не выбран</value>
+  </data>
+  <data name="ChoosePackDialogFilter" xml:space="preserve">
+    <value>Паки TerrLauncher</value>
+  </data>
+  <data name="ChoosePackDialogTitle" xml:space="preserve">
+    <value>Выберите пак:</value>
+  </data>
+  <data name="ChoosePackProcessStarted" xml:space="preserve">
+    <value>Загрузка пака началась</value>
+  </data>
   <data name="DeletePreviewCaption" xml:space="preserve">
     <value>Удалить</value>
   </data>
@@ -132,11 +144,17 @@
   <data name="ErrorLower" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="InformationLower" xml:space="preserve">
+    <value>Информация</value>
+  </data>
   <data name="LoadIconFromFileFailed" xml:space="preserve">
     <value>Не удалось загрузить иконку из файла. Ошибка: "{0}"</value>
   </data>
   <data name="LoadImageFromFileFailed" xml:space="preserve">
     <value>Не удалось загрузить изображение из файла: "{0}". Ошибка: "{1}"</value>
+  </data>
+  <data name="LoadingProgressStep" xml:space="preserve">
+    <value>Загрузка паков</value>
   </data>
   <data name="ModifiedFiles" xml:space="preserve">
     <value>Изменённые файлы</value>
@@ -165,6 +183,9 @@
   <data name="PackLoadExisting" xml:space="preserve">
     <value>СУЩЕСТВУЮЩИЙ</value>
   </data>
+  <data name="PackLoadingFailed" xml:space="preserve">
+    <value>Не удалось загрузить пак \"{0}\". Ошибка: \"{1}"</value>
+  </data>
   <data name="PackTitle" xml:space="preserve">
     <value>Название</value>
   </data>
@@ -176,5 +197,11 @@
   </data>
   <data name="PreviousStepCaption" xml:space="preserve">
     <value>Назад</value>
+  </data>
+  <data name="SavingProcessRemaining" xml:space="preserve">
+    <value>Осталось</value>
+  </data>
+  <data name="SavingProcessStep" xml:space="preserve">
+    <value>Сохранение паков</value>
   </data>
 </root>

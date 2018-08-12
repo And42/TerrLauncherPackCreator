@@ -61,6 +61,42 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Пак не выбран.
+        /// </summary>
+        public static string ChoosePackDialogFailed {
+            get {
+                return ResourceManager.GetString("ChoosePackDialogFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Паки TerrLauncher.
+        /// </summary>
+        public static string ChoosePackDialogFilter {
+            get {
+                return ResourceManager.GetString("ChoosePackDialogFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выберите пак:.
+        /// </summary>
+        public static string ChoosePackDialogTitle {
+            get {
+                return ResourceManager.GetString("ChoosePackDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Загрузка пака началась.
+        /// </summary>
+        public static string ChoosePackProcessStarted {
+            get {
+                return ResourceManager.GetString("ChoosePackProcessStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить.
         /// </summary>
         public static string DeletePreviewCaption {
@@ -106,6 +142,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Информация.
+        /// </summary>
+        public static string InformationLower {
+            get {
+                return ResourceManager.GetString("InformationLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не удалось загрузить иконку из файла. Ошибка: &quot;{0}&quot;.
         /// </summary>
         public static string LoadIconFromFileFailed {
@@ -120,6 +165,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string LoadImageFromFileFailed {
             get {
                 return ResourceManager.GetString("LoadImageFromFileFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Загрузка паков.
+        /// </summary>
+        public static string LoadingProgressStep {
+            get {
+                return ResourceManager.GetString("LoadingProgressStep", resourceCulture);
             }
         }
         
@@ -205,6 +259,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удалось загрузить пак \&quot;{0}\&quot;. Ошибка: \&quot;{1}&quot;.
+        /// </summary>
+        public static string PackLoadingFailed {
+            get {
+                return ResourceManager.GetString("PackLoadingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Название.
         /// </summary>
         public static string PackTitle {
@@ -237,6 +300,24 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string PreviousStepCaption {
             get {
                 return ResourceManager.GetString("PreviousStepCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Осталось.
+        /// </summary>
+        public static string SavingProcessRemaining {
+            get {
+                return ResourceManager.GetString("SavingProcessRemaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сохранение паков.
+        /// </summary>
+        public static string SavingProcessStep {
+            get {
+                return ResourceManager.GetString("SavingProcessStep", resourceCulture);
             }
         }
     }

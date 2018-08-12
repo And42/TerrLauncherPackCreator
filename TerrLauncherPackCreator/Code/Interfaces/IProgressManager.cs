@@ -4,16 +4,12 @@
     {
         string Text { get; set; }
 
-        int CurrentStep { get; set; }
+        int CurrentProgress { get; set; }
 
-        int MaximumStep { get; set; }
+        int MaximumProgress { get; set; }
 
-        int CurrentProcessedFile { get; set; }
+        int RemainingFilesCount { get; set; }
 
-        int TotalFilesToProcess { get; set; }
-
-        void SetNormalState();
-
-        void SetIndeterminateState();
+        bool IsIndeterminate { get; set; }
     }
 }

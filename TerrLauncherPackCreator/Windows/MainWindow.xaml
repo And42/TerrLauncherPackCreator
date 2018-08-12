@@ -6,6 +6,7 @@
         xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
         xmlns:viewModels1="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
+        xmlns:interfaces="clr-namespace:TerrLauncherPackCreator.Code.Interfaces"
         mc:Ignorable="d"
         Title="{Binding WindowTitle.Value, Mode=OneWay}"
         
@@ -21,11 +22,12 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Frame x:Name="StepsFrame" NavigationUIVisibility="Hidden"/>
 
-        <Grid Grid.Row="1" Margin="0 5 0 0">
+        <Grid Row="1" Margin="0 5 0 0">
             <Grid.Resources>
                 <Style x:Key="NavigationButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                     <Setter Property="Padding" Value="5 3"/>
@@ -49,5 +51,55 @@
 
             <Button Grid.Column="2" Style="{StaticResource NavigationButtonStyle}" Content="{x:Static localizations:StringResources.NextStepCaption}" Command="{Binding GoToNextStepCommand}"/>
         </Grid>
+
+        <StatusBar Grid.Row="2" Margin="-5 5 -5 -5" HorizontalContentAlignment="Stretch" Background="#007ACC" UseLayoutRounding="True">
+            <StatusBarItem HorizontalContentAlignment="Stretch">
+                <ItemsControl ItemsSource="{Binding ProgressManagers.Value}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="interfaces:IProgressManager">
+                            <Grid Margin="0 1" Visibility="{Binding RemainingFilesCount, Converter={StaticResource AnyToVisibleConverter}}">
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="FontSize" Value="13"/>
+                                        <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                    </Style>
+                                </Grid.Resources>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Row="1" Text="{Binding Text}" TextTrimming="CharacterEllipsis"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="1" Margin="5 0">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}: {1}">
+                                            <Binding Source="{x:Static localizations:StringResources.SavingProcessRemaining}"/>
+                                            <Binding Path="RemainingFilesCount"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+
+                                <Border Grid.Row="1" Grid.Column="2" BorderThickness="1" BorderBrush="#FFD8D8D8" VerticalAlignment="Center">
+                                    <ProgressBar 
+                                        Value="{Binding CurrentProgress}"
+                                        Maximum="{Binding MaximumProgress}"
+                                        IsIndeterminate="{Binding IsIndeterminate}"
+                                        Height="13"
+                                        Width="200"/>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>
