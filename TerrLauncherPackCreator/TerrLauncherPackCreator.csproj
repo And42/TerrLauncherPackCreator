@@ -125,6 +125,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\Converters\AnyToVisibleConverter.cs" />
+    <Compile Include="Code\Converters\StatusBarVisibilityConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfNullConverter.cs" />
     <Compile Include="Code\Implementations\PackProcessor.cs" />
     <Compile Include="Code\Implementations\PageNavigator.cs" />

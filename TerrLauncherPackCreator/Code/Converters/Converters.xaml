@@ -3,4 +3,5 @@
                     xmlns:local="clr-namespace:TerrLauncherPackCreator.Code.Converters">
     <local:VisibleIfNullConverter x:Key="VisibleIfNullConverter"/>
     <local:AnyToVisibleConverter x:Key="AnyToVisibleConverter"/>
+    <local:StatusBarVisibilityConverter x:Key="StatusBarVisibilityConverter"/>
 </ResourceDictionary>

@@ -8,6 +8,7 @@
         xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
         xmlns:interfaces="clr-namespace:TerrLauncherPackCreator.Code.Interfaces"
         mc:Ignorable="d"
+        
         Title="{Binding WindowTitle.Value, Mode=OneWay}"
         
         Height="600" Width="750"
@@ -52,7 +53,7 @@
             <Button Grid.Column="2" Style="{StaticResource NavigationButtonStyle}" Content="{x:Static localizations:StringResources.NextStepCaption}" Command="{Binding GoToNextStepCommand}"/>
         </Grid>
 
-        <StatusBar Grid.Row="2" Margin="-5 5 -5 -5" HorizontalContentAlignment="Stretch" Background="#007ACC" UseLayoutRounding="True">
+        <StatusBar Grid.Row="2" Margin="-5 5 -5 -5" HorizontalContentAlignment="Stretch" Background="#007ACC" UseLayoutRounding="True" Visibility="{Binding ProgressManagers.Value, Converter={StaticResource StatusBarVisibilityConverter}}">
             <StatusBarItem HorizontalContentAlignment="Stretch">
                 <ItemsControl ItemsSource="{Binding ProgressManagers.Value}">
                     <ItemsControl.ItemTemplate>

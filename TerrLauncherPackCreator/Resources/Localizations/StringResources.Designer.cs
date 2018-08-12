@@ -61,7 +61,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пак не выбран.
+        ///   Looks up a localized string similar to Пак не выбран!.
         /// </summary>
         public static string ChoosePackDialogFailed {
             get {
@@ -205,6 +205,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Создать.
+        /// </summary>
+        public static string PackCreate {
+            get {
+                return ResourceManager.GetString("PackCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to НОВЫЙ.
         /// </summary>
         public static string PackCreateNew {
@@ -241,6 +250,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Пак &quot;{0}&quot; сохранён. Показать в проводнике?.
+        /// </summary>
+        public static string PackExported {
+            get {
+                return ResourceManager.GetString("PackExported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Guid:.
         /// </summary>
         public static string PackGuid {
@@ -259,7 +277,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось загрузить пак \&quot;{0}\&quot;. Ошибка: \&quot;{1}&quot;.
+        ///   Looks up a localized string similar to Не удалось загрузить пак &quot;{0}&quot;. Ошибка: &quot;{1}&quot;.
         /// </summary>
         public static string PackLoadingFailed {
             get {
@@ -273,6 +291,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string PackTitle {
             get {
                 return ResourceManager.GetString("PackTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Тип пака.
+        /// </summary>
+        public static string PackTypeHelpText {
+            get {
+                return ResourceManager.GetString("PackTypeHelpText", resourceCulture);
             }
         }
         
@@ -300,6 +327,42 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string PreviousStepCaption {
             get {
                 return ResourceManager.GetString("PreviousStepCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Путь не выбран!.
+        /// </summary>
+        public static string SavePackDialogFailed {
+            get {
+                return ResourceManager.GetString("SavePackDialogFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Паки TerrLauncher.
+        /// </summary>
+        public static string SavePackDialogFilter {
+            get {
+                return ResourceManager.GetString("SavePackDialogFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Выберите путь к готовому паку:.
+        /// </summary>
+        public static string SavePackDialogTitle {
+            get {
+                return ResourceManager.GetString("SavePackDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось сохранить пак: &quot;{0}&quot;. Ошибка: &quot;{1}&quot;.
+        /// </summary>
+        public static string SavingPackFailed {
+            get {
+                return ResourceManager.GetString("SavingPackFailed", resourceCulture);
             }
         }
         

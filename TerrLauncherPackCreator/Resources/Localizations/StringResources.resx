@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ChoosePackDialogFailed" xml:space="preserve">
-    <value>Пак не выбран</value>
+    <value>Пак не выбран!</value>
   </data>
   <data name="ChoosePackDialogFilter" xml:space="preserve">
     <value>Паки TerrLauncher</value>
@@ -165,6 +165,9 @@
   <data name="NextStepCaption" xml:space="preserve">
     <value>Вперёд</value>
   </data>
+  <data name="PackCreate" xml:space="preserve">
+    <value>Создать</value>
+  </data>
   <data name="PackCreateNew" xml:space="preserve">
     <value>НОВЫЙ</value>
   </data>
@@ -177,6 +180,9 @@
   <data name="PackExport" xml:space="preserve">
     <value>СОХРАНИТЬ ГОТОВЫЙ</value>
   </data>
+  <data name="PackExported" xml:space="preserve">
+    <value>Пак "{0}" сохранён. Показать в проводнике?</value>
+  </data>
   <data name="PackGuid" xml:space="preserve">
     <value>Guid:</value>
   </data>
@@ -184,10 +190,13 @@
     <value>СУЩЕСТВУЮЩИЙ</value>
   </data>
   <data name="PackLoadingFailed" xml:space="preserve">
-    <value>Не удалось загрузить пак \"{0}\". Ошибка: \"{1}"</value>
+    <value>Не удалось загрузить пак "{0}". Ошибка: "{1}"</value>
   </data>
   <data name="PackTitle" xml:space="preserve">
     <value>Название</value>
+  </data>
+  <data name="PackTypeHelpText" xml:space="preserve">
+    <value>Тип пака</value>
   </data>
   <data name="PackVersion" xml:space="preserve">
     <value>Версия:</value>
@@ -197,6 +206,18 @@
   </data>
   <data name="PreviousStepCaption" xml:space="preserve">
     <value>Назад</value>
+  </data>
+  <data name="SavePackDialogFailed" xml:space="preserve">
+    <value>Путь не выбран!</value>
+  </data>
+  <data name="SavePackDialogFilter" xml:space="preserve">
+    <value>Паки TerrLauncher</value>
+  </data>
+  <data name="SavePackDialogTitle" xml:space="preserve">
+    <value>Выберите путь к готовому паку:</value>
+  </data>
+  <data name="SavingPackFailed" xml:space="preserve">
+    <value>Не удалось сохранить пак: "{0}". Ошибка: "{1}"</value>
   </data>
   <data name="SavingProcessRemaining" xml:space="preserve">
     <value>Осталось</value>

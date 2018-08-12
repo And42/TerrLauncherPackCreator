@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private readonly IPackProcessor _packProcessor;
 
         #region Properties
+
+        #region Step 1
+
+        public Property<int> PackTypeSelectedIndex { get; }
+        public Property<int> PackTypeCurrentIndex { get; }
+
+        #endregion
 
         #region Step 2
 
@@ -79,6 +87,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #endregion
 
+        #region Step 5
+
+        public IActionCommand ExportPackCommand { get; }
+
+        #endregion
+
         #endregion
 
         public PackCreationViewModel() : this(null, null)
@@ -94,6 +108,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             _pageNavigator = pageNavigator;
             _packProcessor = packProcessor;
+
+            PackTypeSelectedIndex = new Property<int>(-1);
+            PackTypeCurrentIndex = new Property<int>(-1);
 
             Icon = new Property<BitmapSource>();
             IconFilePath = new Property<string>();
@@ -116,9 +133,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             DropModifiedFileCommand = new ActionCommand<string[]>(DropModifiedFileCommand_Execute, DropModifiedFileCommand_CanExecute);
             DeleteModifiedItemCommand = new ActionCommand<ModifiedItemModel>(DeleteModifiedItemCommand_Execute, DeleteModifiedItemCommand_CanExecute);
 
+            ExportPackCommand = new ActionCommand(ExportPackCommand_Execute);
+
             ResetCollections();
 
             _packProcessor.PackLoaded += PackProcessorOnPackLoaded;
+            _packProcessor.PackSaved += PackProcessorOnPackSaved;
         }
 
         private void PackProcessorOnPackLoaded((string filePath, PackModel loadedPack, Exception error) item)
@@ -139,6 +159,35 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             );
         }
 
+        private void PackProcessorOnPackSaved((PackModel pack, string targetFilePath, Exception error) item)
+        {
+            if (item.error == null)
+            {
+                MessageBoxResult dialogResult = MessageBox.Show(
+                    string.Format(StringResources.PackExported, item.pack.Title),
+                    StringResources.InformationLower,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question
+                );
+
+                if (dialogResult == MessageBoxResult.Yes)
+                {
+                    Process.Start($"explorer.exe /select, \"{item.targetFilePath}\"");
+                }
+
+                return;
+            }
+
+            CrashUtils.HandleException(item.error);
+
+            MessageBox.Show(
+                string.Format(StringResources.SavingPackFailed, item.pack.Title, item.error.Message),
+                StringResources.ErrorLower,
+                MessageBoxButton.OK,
+                MessageBoxImage.Exclamation
+            );
+        }
+
         public void InitFromPackModel(PackModel packModel)
         {
             if (packModel == null)
@@ -148,7 +197,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             
         }
 
-        public PackModel GeneratePackModel()
+        private PackModel GeneratePackModel()
         {
             return new PackModel
             {
@@ -165,6 +214,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public void RestoreDefaults()
         {
+            PackTypeCurrentIndex.ResetValue();
             Icon.ResetValue();
             IconFilePath.ResetValue();
             Title.ResetValue();
@@ -333,6 +383,35 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private void DeleteModifiedItemCommand_Execute(ModifiedItemModel item)
         {
             ModifiedFiles.Value.Remove(item);
+        }
+
+        #endregion
+
+        #region Step 5
+
+        private void ExportPackCommand_Execute()
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = StringResources.SavePackDialogTitle,
+                Filter = StringResources.SavePackDialogFilter + " (*.zip)|*.zip",
+                AddExtension = true
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                MessageBox.Show(
+                    StringResources.SavePackDialogFailed,
+                    StringResources.ErrorLower,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Exclamation
+                );
+                return;
+            }
+
+            PackModel packModel = GeneratePackModel();
+
+            _packProcessor.SavePackToFile(packModel, dialog.FileName);
         }
 
         #endregion

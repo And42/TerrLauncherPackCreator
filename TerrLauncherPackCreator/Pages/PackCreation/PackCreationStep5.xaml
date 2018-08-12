@@ -14,6 +14,6 @@
     <StackPanel UseLayoutRounding="True" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Button Style="{DynamicResource ActionButtonStyle}"
                 Content="{x:Static localizations:StringResources.PackExport}"
-                Command="{Binding CreateNewPackCommand}"/>
+                Command="{Binding ExportPackCommand}"/>
     </StackPanel>
 </Page>
