@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using MVVM_Tools.Code.Providers;
+using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
@@ -19,19 +20,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : BindableBase
     {
-        private readonly IPageNavigator _pageNavigator;
         private readonly IPackProcessor _packProcessor;
+
+        public Property<PackTypes> PackType;
 
         #region Properties
 
         #region Step 1
-
-        public Property<int> PackTypeSelectedIndex { get; }
-        public Property<int> PackTypeCurrentIndex { get; }
-
-        #endregion
-
-        #region Step 2
 
         public Property<BitmapSource> Icon { get; }
         public Property<string> IconFilePath { get; }
@@ -43,15 +38,21 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #endregion
 
-        #region Step 3
+        #region Step 2
 
         public Property<ObservableCollection<PreviewItemModel>> Previews { get; }
 
         #endregion
 
-        #region Step 4
+        #region Step 3
 
         public Property<ObservableCollection<ModifiedItemModel>> ModifiedFiles { get; }
+
+        #endregion
+
+        #region Step 4
+
+        public Property<string> PackFilesExtension { get; }
 
         #endregion
 
@@ -61,33 +62,26 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #region Step 1
 
-        public IActionCommand CreateNewPackCommand { get; }
-        public IActionCommand ChooseExistingPackCommand { get; }
-
-        #endregion
-
-        #region Step 2
-
         public IActionCommand CreateNewGuidCommand { get; }
         public IActionCommand<string> DropIconCommand { get; }
 
         #endregion
 
-        #region Step 3
+        #region Step 2
 
         public IActionCommand<string[]> DropPreviewsCommand { get; }
         public IActionCommand<PreviewItemModel> DeletePreviewItemCommand { get; }
 
         #endregion
 
-        #region Step 4
+        #region Step 3
 
         public IActionCommand<string[]> DropModifiedFileCommand { get; }
         public IActionCommand<ModifiedItemModel> DeleteModifiedItemCommand { get; }
 
         #endregion
 
-        #region Step 5
+        #region Step 4
 
         public IActionCommand ExportPackCommand { get; }
 
@@ -95,23 +89,19 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #endregion
 
-        public PackCreationViewModel() : this(null, null)
+        public PackCreationViewModel() : this(null)
         {
             if (!DesignerUtils.IsInDesignMode())
                 throw new Exception("This constructor is available only in design mode");
         }
 
         public PackCreationViewModel(
-            IPageNavigator pageNavigator,
             IPackProcessor packProcessor
         )
         {
-            _pageNavigator = pageNavigator;
             _packProcessor = packProcessor;
 
-            PackTypeSelectedIndex = new Property<int>(-1);
-            PackTypeCurrentIndex = new Property<int>(-1);
-
+            PackType = new Property<PackTypes>();
             Icon = new Property<BitmapSource>();
             IconFilePath = new Property<string>();
             Title = new Property<string>();
@@ -121,9 +111,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Version = new Property<int>(1);
             Previews = new Property<ObservableCollection<PreviewItemModel>>();
             ModifiedFiles = new Property<ObservableCollection<ModifiedItemModel>>();
-
-            CreateNewPackCommand = new ActionCommand(CreateNewPackCommand_Execute);
-            ChooseExistingPackCommand = new ActionCommand(ChooseExistingPackCommand_Execute);
+            PackFilesExtension = new Property<string>();
 
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute);
             DropIconCommand = new ActionCommand<string>(DropIconCommand_Execute, DropIconCommand_CanExecute);
@@ -136,6 +124,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             ExportPackCommand = new ActionCommand(ExportPackCommand_Execute);
 
             ResetCollections();
+
+            PackType.PropertyChanged += (sender, args) =>
+            {
+                PackFilesExtension.Value = PackUtils.PacksInfo.First(it => it.packType == PackType.Value).packFilesExt;
+            };
 
             _packProcessor.PackLoaded += PackProcessorOnPackLoaded;
             _packProcessor.PackSaved += PackProcessorOnPackSaved;
@@ -201,6 +194,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             return new PackModel
             {
+                PackType = PackType.Value,
                 IconFilePath = IconFilePath.Value,
                 Title = Title.Value,
                 DescriptionRussian = DescriptionRussian.Value,
@@ -210,19 +204,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 PreviewsPaths = Previews.Value.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
                 ModifiedFilesPaths = ModifiedFiles.Value.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
             };
-        }
-
-        public void RestoreDefaults()
-        {
-            PackTypeCurrentIndex.ResetValue();
-            Icon.ResetValue();
-            IconFilePath.ResetValue();
-            Title.ResetValue();
-            DescriptionRussian.ResetValue();
-            DescriptionEnglish.ResetValue();
-            Guid.Value = System.Guid.NewGuid();
-            Version.ResetValue();
-            ResetCollections();
         }
 
         private void ResetCollections()
@@ -235,47 +216,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         #region Step 1
-
-        private void CreateNewPackCommand_Execute()
-        {
-            RestoreDefaults();
-            _pageNavigator.NavigateForward();
-        }
-
-        private void ChooseExistingPackCommand_Execute()
-        {
-            var dialog = new OpenFileDialog
-            {
-                Title = StringResources.ChoosePackDialogTitle,
-                Filter = StringResources.ChoosePackDialogFilter + " (*.zip)|*.zip",
-                CheckFileExists = true
-            };
-
-            if (dialog.ShowDialog() != true)
-            {
-                MessageBox.Show(
-                    StringResources.ChoosePackDialogFailed,
-                    StringResources.ErrorLower,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information
-                );
-                return;
-            }
-
-            _packProcessor.LoadPackFromFile(dialog.FileName);
-            _pageNavigator.NavigateForward();
-
-            MessageBox.Show(
-                StringResources.ChoosePackProcessStarted,
-                StringResources.InformationLower,
-                MessageBoxButton.OK,
-                MessageBoxImage.Information
-            );
-        }
-
-        #endregion
-
-        #region Step 2
 
         private void CreateNewGuidCommand_Execute()
         {
@@ -309,7 +249,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #endregion
 
-        #region Step 3
+        #region Step 2
 
         private bool DropPreviewsCommand_CanExecute(string[] files)
         {
@@ -357,7 +297,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #endregion
 
-        #region Step 4
+        #region Step 3
 
         private bool DropModifiedFileCommand_CanExecute(string[] files)
         {
@@ -387,7 +327,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #endregion
 
-        #region Step 5
+        #region Step 4
 
         private void ExportPackCommand_Execute()
         {

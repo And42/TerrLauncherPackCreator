@@ -195,8 +195,32 @@
   <data name="PackTitle" xml:space="preserve">
     <value>Название</value>
   </data>
+  <data name="PackTypeAudio" xml:space="preserve">
+    <value>Аудио</value>
+  </data>
+  <data name="PackTypeCharacters" xml:space="preserve">
+    <value>Персонажи</value>
+  </data>
+  <data name="PackTypeFonts" xml:space="preserve">
+    <value>Шрифты</value>
+  </data>
+  <data name="PackTypeGui" xml:space="preserve">
+    <value>Gui</value>
+  </data>
   <data name="PackTypeHelpText" xml:space="preserve">
     <value>Тип пака</value>
+  </data>
+  <data name="PackTypeMaps" xml:space="preserve">
+    <value>Карты</value>
+  </data>
+  <data name="PackTypeNotSelected" xml:space="preserve">
+    <value>Тип пака не выбран!</value>
+  </data>
+  <data name="PackTypeTextures" xml:space="preserve">
+    <value>Текстуры</value>
+  </data>
+  <data name="PackTypeTranslations" xml:space="preserve">
+    <value>Переводы</value>
   </data>
   <data name="PackVersion" xml:space="preserve">
     <value>Версия:</value>

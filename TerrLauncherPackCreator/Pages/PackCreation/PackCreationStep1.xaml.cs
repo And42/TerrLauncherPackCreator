@@ -1,15 +1,10 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
+﻿using System.Windows;
 using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation
 {
     public partial class PackCreationStep1
     {
-        private static readonly Duration PackOptionsMarginDuration = new Duration(TimeSpan.FromSeconds(0.2));
-
         public PackCreationStep1(PackCreationViewModel viewModel)
         {
             InitializeComponent();
@@ -23,23 +18,35 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             set => DataContext = value;
         }
 
-        private void PackCreateButton_Click(object sender, RoutedEventArgs e)
+        private void Icon_OnDragOver(object sender, DragEventArgs e)
         {
-            if (packCreationOptions.Visibility == Visibility.Visible)
-            {
-                var margin = new ThicknessAnimation(new Thickness(0), PackOptionsMarginDuration);
-                margin.Completed += (o, args) => packCreationOptions.Visibility = Visibility.Collapsed;
+            e.Handled = true;
 
-                packCreationOptions.BeginAnimation(StackPanel.MarginProperty, margin);
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.None;
+                return;
             }
+
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (files != null && files.Length == 1 && ViewModel.DropIconCommand.CanExecute(files[0]))
+                e.Effects = DragDropEffects.Copy;
             else
-            {
-                var margin = new ThicknessAnimation(new Thickness(5, packOptionsToggle.ActualHeight + 3, 5, 0), PackOptionsMarginDuration);
+                e.Effects = DragDropEffects.None;
+        }
 
-                packCreationOptions.BeginAnimation(StackPanel.MarginProperty, margin);
+        private void Icon_OnDrop(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
 
-                packCreationOptions.Visibility = Visibility.Visible;
-            }
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+                return;
+
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (files != null && files.Length == 1)
+                ViewModel.DropIconCommand.Execute(files[0]);
         }
     }
 }

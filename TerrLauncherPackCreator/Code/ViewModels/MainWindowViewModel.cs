@@ -90,6 +90,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
 
+        public Property<PackCreationViewModel> PackCreationViewModel { get; }
+
         public Property<string> WindowTitle { get; }
         public Property<int> CurrentStep { get; }
         public Property<Page[]> StepsPages { get; }
@@ -98,6 +100,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public Property<IProgressManager> SaveProgressManager { get; }
 
         public Property<ObservableCollection<IProgressManager>> ProgressManagers { get; }
+        public Property<IPackProcessor> PackProcessor { get; }
 
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
@@ -119,25 +122,26 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 Value = new ProgressManager {Text = StringResources.SavingProcessStep}
             };
 
-            var packCreationViewModel = new PackCreationViewModel(
-                new PageNavigator(
-                    GoToPreviousStepCommand.Execute,
-                    GoToNextStepCommand.Execute
-                ),
-                new PackProcessor(
+            PackProcessor = new Property<IPackProcessor>
+            {
+                Value = new PackProcessor(
                     LoadProgressManager.Value,
                     SaveProgressManager.Value
                 )
-            );
+            };
+
+            PackCreationViewModel = new Property<PackCreationViewModel>
+            {
+                Value = new PackCreationViewModel(PackProcessor.Value)
+            };
 
             StepsPages = new Property<Page[]>(
                 new Page[]
                 {
-                    new PackCreationStep1(packCreationViewModel), 
-                    new PackCreationStep2(packCreationViewModel), 
-                    new PackCreationStep3(packCreationViewModel), 
-                    new PackCreationStep4(packCreationViewModel), 
-                    new PackCreationStep5(packCreationViewModel), 
+                    new PackCreationStep1(PackCreationViewModel.Value), 
+                    new PackCreationStep2(PackCreationViewModel.Value), 
+                    new PackCreationStep3(PackCreationViewModel.Value), 
+                    new PackCreationStep4(PackCreationViewModel.Value), 
                 }
             );
 

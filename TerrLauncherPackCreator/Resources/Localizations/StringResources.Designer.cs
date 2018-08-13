@@ -295,11 +295,83 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Аудио.
+        /// </summary>
+        public static string PackTypeAudio {
+            get {
+                return ResourceManager.GetString("PackTypeAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Персонажи.
+        /// </summary>
+        public static string PackTypeCharacters {
+            get {
+                return ResourceManager.GetString("PackTypeCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Шрифты.
+        /// </summary>
+        public static string PackTypeFonts {
+            get {
+                return ResourceManager.GetString("PackTypeFonts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gui.
+        /// </summary>
+        public static string PackTypeGui {
+            get {
+                return ResourceManager.GetString("PackTypeGui", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Тип пака.
         /// </summary>
         public static string PackTypeHelpText {
             get {
                 return ResourceManager.GetString("PackTypeHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Карты.
+        /// </summary>
+        public static string PackTypeMaps {
+            get {
+                return ResourceManager.GetString("PackTypeMaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Тип пака не выбран!.
+        /// </summary>
+        public static string PackTypeNotSelected {
+            get {
+                return ResourceManager.GetString("PackTypeNotSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Текстуры.
+        /// </summary>
+        public static string PackTypeTextures {
+            get {
+                return ResourceManager.GetString("PackTypeTextures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Переводы.
+        /// </summary>
+        public static string PackTypeTranslations {
+            get {
+                return ResourceManager.GetString("PackTypeTranslations", resourceCulture);
             }
         }
         

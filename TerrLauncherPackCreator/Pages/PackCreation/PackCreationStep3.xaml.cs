@@ -18,7 +18,7 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             set => DataContext = value;
         }
 
-        private void Previews_OnDragOver(object sender, DragEventArgs e)
+        private void ModifiedFiles_OnDragOver(object sender, DragEventArgs e)
         {
             e.Handled = true;
 
@@ -30,13 +30,13 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
 
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (files != null && ViewModel.DropPreviewsCommand.CanExecute(files))
+            if (files != null && ViewModel.DropModifiedFileCommand.CanExecute(files))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
         }
 
-        private void Previews_OnDrop(object sender, DragEventArgs e)
+        private void ModifiedFiles_OnDrop(object sender, DragEventArgs e)
         {
             e.Handled = true;
 
@@ -46,7 +46,7 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
             if (files != null)
-                ViewModel.DropPreviewsCommand.Execute(files);
+                ViewModel.DropModifiedFileCommand.Execute(files);
         }
     }
 }
