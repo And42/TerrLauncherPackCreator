@@ -144,11 +144,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             CrashUtils.HandleException(item.error);
 
-            MessageBox.Show(
-                string.Format(StringResources.PackLoadingFailed, item.filePath, item.error.Message),
-                StringResources.ErrorLower,
-                MessageBoxButton.OK,
-                MessageBoxImage.Exclamation
+            MessageBoxUtils.ShowError(
+                string.Format(StringResources.PackLoadingFailed, item.filePath, item.error.Message)
             );
         }
 
@@ -173,11 +170,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             CrashUtils.HandleException(item.error);
 
-            MessageBox.Show(
-                string.Format(StringResources.SavingPackFailed, item.pack.Title, item.error.Message),
-                StringResources.ErrorLower,
-                MessageBoxButton.OK,
-                MessageBoxImage.Exclamation
+            MessageBoxUtils.ShowError(
+                string.Format(StringResources.SavingPackFailed, item.pack.Title, item.error.Message)
             );
         }
 
@@ -238,11 +232,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    string.Format(StringResources.LoadIconFromFileFailed, ex.Message),
-                    StringResources.ErrorLower,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Exclamation
+                MessageBoxUtils.ShowError(
+                    string.Format(StringResources.LoadIconFromFileFailed, ex.Message)
                 );
             }
         }
@@ -340,12 +331,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             if (dialog.ShowDialog() != true)
             {
-                MessageBox.Show(
-                    StringResources.SavePackDialogFailed,
-                    StringResources.ErrorLower,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Exclamation
-                );
+                MessageBoxUtils.ShowError(StringResources.SavePackDialogFailed);
                 return;
             }
 

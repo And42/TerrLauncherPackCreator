@@ -40,12 +40,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             if (PackTypeSelectedIndex.Value == -1)
             {
-                MessageBox.Show(
-                    StringResources.PackTypeNotSelected,
-                    StringResources.ErrorLower,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Exclamation
-                );
+                MessageBoxUtils.ShowError(StringResources.PackTypeNotSelected);
                 return;
             }
 
