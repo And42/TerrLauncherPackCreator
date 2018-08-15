@@ -14,5 +14,15 @@ namespace TerrLauncherPackCreator.Code.Utils
                 MessageBoxImage.Exclamation
             );
         }
+
+        public static void ShowInformation(string text)
+        {
+            MessageBox.Show(
+                text,
+                StringResources.InformationLower,
+                MessageBoxButton.OK,
+                MessageBoxImage.Information
+            );
+        }
     }
 }

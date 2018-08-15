@@ -260,11 +260,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 catch (Exception ex)
                 {
                     CrashUtils.HandleException(ex);
-                    MessageBox.Show(
-                        string.Format(StringResources.LoadImageFromFileFailed, file, ex.Message),
-                        StringResources.ErrorLower,
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Asterisk
+                    MessageBoxUtils.ShowError(
+                        string.Format(StringResources.LoadImageFromFileFailed, file, ex.Message)
                     );
                     continue;
                 }
@@ -322,10 +319,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ExportPackCommand_Execute()
         {
+            string allExtsCommaSeparated = string.Join(", ", PackUtils.PacksInfo.Select(it => $"*{it.packExt}"));
+            string allExtsCombined = string.Join(";", PackUtils.PacksInfo.Select(it => $"*{it.packExt}"));
+            string allTypesCombined = string.Join("|", PackUtils.PacksInfo.Select(it => $"{it.title} (*{it.packExt})|*{it.packExt}"));
+
+            string filters = $"{StringResources.SavePackDialogFilter} ({allExtsCommaSeparated})|{allExtsCombined}|{allTypesCombined}";
+
             var dialog = new SaveFileDialog
             {
                 Title = StringResources.SavePackDialogTitle,
-                Filter = StringResources.SavePackDialogFilter + " (*.zip)|*.zip",
+                Filter = filters,
                 AddExtension = true
             };
 

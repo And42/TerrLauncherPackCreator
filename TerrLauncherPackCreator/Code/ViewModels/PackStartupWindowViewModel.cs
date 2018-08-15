@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Windows;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
 using MVVM_Tools.Code.Providers;
@@ -55,23 +56,26 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ChooseExistingPackCommand_Execute()
         {
+            string allExtsCommaSeparated = string.Join(", ", PackUtils.PacksInfo.Select(it => $"*{it.packExt}"));
+            string allExtsCombined = string.Join(";", PackUtils.PacksInfo.Select(it => $"*{it.packExt}"));
+            string allTypesCombined = string.Join("|", PackUtils.PacksInfo.Select(it => $"{it.title} (*{it.packExt})|*{it.packExt}"));
+
+            string filters = $"{StringResources.ChoosePackDialogFilter} ({allExtsCommaSeparated})|{allExtsCombined}|{allTypesCombined}";
+
             var dialog = new OpenFileDialog
             {
                 Title = StringResources.ChoosePackDialogTitle,
-                Filter = StringResources.ChoosePackDialogFilter + " (*.zip)|*.zip",
+                Filter = filters,
                 CheckFileExists = true
             };
 
             if (dialog.ShowDialog() != true)
             {
-                MessageBox.Show(
-                    StringResources.ChoosePackDialogFailed,
-                    StringResources.ErrorLower,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information
-                );
+                MessageBoxUtils.ShowError(StringResources.ChoosePackDialogFailed);
                 return;
             }
+
+            Debug.Assert(PackUtils.PacksInfo.Select(it => it.packExt).Contains(Path.GetExtension(dialog.FileName)));
 
             var mainWindow = new MainWindow();
             mainWindow.Show();
@@ -79,12 +83,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             _attachedWindowManipulator.Close();
 
-            MessageBox.Show(
-                StringResources.ChoosePackProcessStarted,
-                StringResources.InformationLower,
-                MessageBoxButton.OK,
-                MessageBoxImage.Information
-            );
+            MessageBoxUtils.ShowInformation(StringResources.ChoosePackProcessStarted);
         }
     }
 }
