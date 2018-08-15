@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Media.Imaging;
+using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
@@ -17,6 +19,11 @@ namespace TerrLauncherPackCreator.Code.Models
 
             Debug.Assert(image != null ^ isDragDropTarget, "image != null ^ isDragDropTarget");
             Debug.Assert(filePath != null ^ isDragDropTarget, "filePath != null ^ isDragDropTarget");
+        }
+
+        public static PreviewItemModel FromImageFile(string filePath)
+        {
+            return new PreviewItemModel(new Bitmap(filePath).ToBitmapSource(), filePath, false);
         }
     }
 }

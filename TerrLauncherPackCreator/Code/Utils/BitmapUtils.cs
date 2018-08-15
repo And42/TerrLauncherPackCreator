@@ -59,7 +59,7 @@ namespace TerrLauncherPackCreator.Code.Utils
                 source.GetHbitmap(),
                 IntPtr.Zero,
                 Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
+                BitmapSizeOptions.FromEmptyOptions()).FreezeIfCan();
         }
 
         public static Bitmap ToBitmap(this byte[] imageBytes)

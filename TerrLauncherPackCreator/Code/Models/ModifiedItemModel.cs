@@ -14,5 +14,10 @@ namespace TerrLauncherPackCreator.Code.Models
 
             Debug.Assert(filePath != null ^ isDragDropTarget, "filePath != null ^ isDragDropTarget");
         }
+
+        public static ModifiedItemModel FromFile(string filePath)
+        {
+            return new ModifiedItemModel(filePath, false);
+        }
     }
 }

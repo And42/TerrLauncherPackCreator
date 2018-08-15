@@ -180,8 +180,32 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             if (packModel == null)
                 throw new ArgumentNullException(nameof(packModel));
 
+            PackType.Value = packModel.PackType;
             IconFilePath.Value = packModel.IconFilePath;
-            
+            Title.Value = packModel.Title;
+            DescriptionRussian.Value = packModel.DescriptionRussian;
+            DescriptionEnglish.Value = packModel.DescriptionEnglish;
+            Guid.Value = packModel.Guid;
+            Version.Value = packModel.Version;
+
+            if (packModel.PreviewsPaths != null)
+            {
+                Previews.Value = new ObservableCollection<PreviewItemModel>(
+                    packModel.PreviewsPaths.Select(PreviewItemModel.FromImageFile)
+                );
+            }
+
+            if (packModel.ModifiedFilesPaths != null)
+            {
+                ModifiedFiles.Value = new ObservableCollection<ModifiedItemModel>(
+                    packModel.ModifiedFilesPaths.Select(ModifiedItemModel.FromFile)
+                );
+            }
+
+            if (packModel.IconFilePath != null)
+            {
+                Icon.Value = new Bitmap(packModel.IconFilePath).ToBitmapSource();
+            }
         }
 
         private PackModel GeneratePackModel()
