@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -60,6 +61,7 @@ namespace TerrLauncherPackCreator.Windows
             }
         }
 
+        [SuppressMessage("ReSharper", "ArrangeStaticMemberQualifier")]
         private void UpdateStepPage()
         {
             int currentPageIndex = ViewModel.CurrentStep.Value - 1;

@@ -17,6 +17,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private class ProgressManager : BindableBase, IProgressManager
         {
             private const int UpdateTextDelayMs = 500;
+            // ReSharper disable once NotAccessedField.Local
             private readonly Timer _updateTextTimer;
 
             private string _initialText;

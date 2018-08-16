@@ -89,6 +89,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #endregion
 
+        // ReSharper disable once UnusedMember.Global
         public PackCreationViewModel() : this(null)
         {
             if (!DesignerUtils.IsInDesignMode())

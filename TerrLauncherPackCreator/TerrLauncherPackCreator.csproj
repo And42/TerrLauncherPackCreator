@@ -132,9 +132,7 @@
     <Compile Include="Code\Converters\VisibleIfNullConverter.cs" />
     <Compile Include="Code\Enums\PackTypes.cs" />
     <Compile Include="Code\Implementations\PackProcessor.cs" />
-    <Compile Include="Code\Implementations\PageNavigator.cs" />
     <Compile Include="Code\Interfaces\IPackProcessor.cs" />
-    <Compile Include="Code\Interfaces\IPageNavigator.cs" />
     <Compile Include="Code\Interfaces\IProgressManager.cs" />
     <Compile Include="Code\Json\PackSettings.cs" />
     <Compile Include="Code\Models\ModifiedItemModel.cs" />

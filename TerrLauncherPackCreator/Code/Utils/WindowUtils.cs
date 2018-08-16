@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
 namespace TerrLauncherPackCreator.Code.Utils
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public static class WindowUtils
     {
         [DllImport("user32.dll")]

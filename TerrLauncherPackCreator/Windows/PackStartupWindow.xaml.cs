@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -8,7 +9,7 @@ using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Windows
 {
-    public partial class PackStartupWindow : Window
+    public partial class PackStartupWindow
     {
         private static readonly Duration PackOptionsMarginDuration = new Duration(TimeSpan.FromSeconds(0.2));
 
@@ -30,6 +31,7 @@ namespace TerrLauncherPackCreator.Windows
             WindowUtils.RemoveIcon(this);
         }
 
+        [SuppressMessage("ReSharper", "ArrangeStaticMemberQualifier")]
         private void PackCreateButton_Click(object sender, RoutedEventArgs e)
         {
             if (packCreationOptions.Visibility == Visibility.Visible)

@@ -38,12 +38,6 @@
                 <Setter Property="Margin" Value="3"/>
                 <Setter Property="Padding" Value="7 2"/>
             </Style>
-
-            <Style x:Key="MultilineTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-                <Setter Property="AcceptsReturn" Value="True"/>
-                <Setter Property="MaxLines" Value="5"/>
-                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-            </Style>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
