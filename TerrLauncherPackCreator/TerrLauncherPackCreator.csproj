@@ -88,6 +88,7 @@
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Utils\ApplicationDataUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
+    <Compile Include="Code\Utils\IOUtils.cs" />
     <Compile Include="Code\Utils\MessageBoxUtils.cs" />
     <Compile Include="Code\Utils\WindowUtils.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />

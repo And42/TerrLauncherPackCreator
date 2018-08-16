@@ -162,7 +162,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
                 if (dialogResult == MessageBoxResult.Yes)
                 {
-                    Process.Start($"explorer.exe /select, \"{item.targetFilePath}\"");
+                    Process.Start("explorer.exe", $"/select, \"{item.targetFilePath}\"");
                 }
 
                 return;
@@ -343,16 +343,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ExportPackCommand_Execute()
         {
-            string allExtsCommaSeparated = string.Join(", ", PackUtils.PacksInfo.Select(it => $"*{it.packExt}"));
-            string allExtsCombined = string.Join(";", PackUtils.PacksInfo.Select(it => $"*{it.packExt}"));
-            string allTypesCombined = string.Join("|", PackUtils.PacksInfo.Select(it => $"{it.title} (*{it.packExt})|*{it.packExt}"));
-
-            string filters = $"{StringResources.SavePackDialogFilter} ({allExtsCommaSeparated})|{allExtsCombined}|{allTypesCombined}";
+            var packInfo = PackUtils.PacksInfo.First(it => it.packType == PackType.Value);
 
             var dialog = new SaveFileDialog
             {
                 Title = StringResources.SavePackDialogTitle,
-                Filter = filters,
+                Filter = $"{packInfo.title} (*{packInfo.packExt})|*{packInfo.packExt}",
                 AddExtension = true
             };
 

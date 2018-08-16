@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Ionic.Zip;
 using Newtonsoft.Json;
@@ -130,6 +129,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private static PackModel LoadPackModelInternal(string filePath)
         {
+            // todo: implement the ability to process multiple packs with the same names simultaniously
+
             string packExt = Path.GetExtension(filePath);
 
             Debug.Assert(PackUtils.PacksInfo.Select(it => it.packExt).Contains(packExt));
@@ -141,28 +142,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 Path.GetFileNameWithoutExtension(filePath) ?? "undefined"
             );
 
-            if (Directory.Exists(targetFolderPath))
-            {
-                int currentTry = 1;
-                while (true)
-                {
-                    try
-                    {
-                        Directory.Delete(targetFolderPath, true);
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                        if (currentTry == PackProcessingTries)
-                            throw;
+            IOUtils.TryDeleteDirectory(targetFolderPath, PackProcessingTries, PackProcessingSleepMs);
 
-                        currentTry++;
-                        Thread.Sleep(PackProcessingSleepMs);
-                    }
-                }
-            }
-
-            using (var zip = new ZipFile(filePath))
+            using (var zip = ZipFile.Read(filePath))
             {
                 zip.ExtractAll(targetFolderPath);
             }
@@ -205,7 +187,32 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private static void SavePackModelInternal(PackModel packModel, string filePath)
         {
-            throw new NotImplementedException();
+            var packSettingsJson = new PackSettings
+            {
+                Title = packModel.Title,
+                DescriptionEnglish = packModel.DescriptionEnglish,
+                DescriptionRussian = packModel.DescriptionRussian,
+                Version = packModel.Version,
+                Guid = packModel.Guid
+            };
+
+            IOUtils.TryDeleteFile(filePath, PackProcessingTries, PackProcessingSleepMs);
+
+            using (var zip = new ZipFile(filePath, Encoding.UTF8))
+            {
+                zip.AddEntry("Settings.json", JsonConvert.SerializeObject(packSettingsJson, Formatting.Indented), Encoding.UTF8);
+
+                if (!string.IsNullOrEmpty(packModel.IconFilePath))
+                    zip.AddFile(packModel.IconFilePath, string.Empty);
+
+                foreach (string previewPath in packModel.PreviewsPaths)
+                    zip.AddFile(previewPath, "Previews");
+
+                foreach (string modifiedFilePath in packModel.ModifiedFilesPaths)
+                    zip.AddFile(modifiedFilePath, "Modified");
+
+                zip.Save();
+            }
         }
     }
 }

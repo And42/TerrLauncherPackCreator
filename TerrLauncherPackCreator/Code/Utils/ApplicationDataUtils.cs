@@ -6,18 +6,21 @@ namespace TerrLauncherPackCreator.Code.Utils
 {
     public static class ApplicationDataUtils
     {
+        public static string PathToRootFolder { get; }
+
         public static string PathToDataFolder { get; }
 
         public static string PathToTempFolder { get; }
 
         static ApplicationDataUtils()
         {
-            PathToDataFolder = Path.Combine(
+            PathToRootFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 Assembly.GetEntryAssembly().GetName().Name
             );
 
-            PathToTempFolder = Path.Combine(PathToDataFolder, "Temp");
+            PathToDataFolder = Path.Combine(PathToRootFolder, "Data");
+            PathToTempFolder = Path.Combine(PathToRootFolder, "Temp");
         }
     }
 }
