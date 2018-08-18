@@ -4,8 +4,10 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using CommonLibrary.CommonUtils;
+using IWshRuntimeLibrary;
 using TerrLauncherPackCreatorUpdater.Resources.Localizations;
 using TerrLauncherPackCreatorUpdater.Windows;
+using File = System.IO.File;
 using ProcessStartInfo = System.Diagnostics.ProcessStartInfo;
 
 namespace TerrLauncherPackCreatorUpdater
@@ -18,22 +20,15 @@ namespace TerrLauncherPackCreatorUpdater
 
             if (commandLineArguments.Length == 0)
             {
-                string currentExeLocation = Assembly.GetExecutingAssembly().Location;
-
-                string tempFile = Path.GetTempFileName();
-
-                File.Copy(currentExeLocation, tempFile, true);
-                Process.Start(new ProcessStartInfo(tempFile, "process_update")
-                {
-                    UseShellExecute = false
-                });
-
-                Shutdown(0);
-                return;
+                CreateShortcut();
+                RunUpdate();
             }
 
             switch (commandLineArguments[0])
             {
+                case "disable_shortcut":
+                    RunUpdate();
+                    break;
                 case "process_update":
                     break;
                 case "delete_temp":
@@ -52,7 +47,7 @@ namespace TerrLauncherPackCreatorUpdater
                         CrashUtils.HandleException(ex);
                     }
 
-                    Process.Start(Path.Combine(ApplicationDataUtils.PathToRootFolder, "TerrLauncherPackCreator.exe"));
+                    Process.Start(GetCreatorPath());
 
                     Shutdown(0);
                     return;
@@ -64,6 +59,41 @@ namespace TerrLauncherPackCreatorUpdater
             base.OnStartup(e);
 
             new UpdaterWindow().Show();
+        }
+
+        private static string GetCreatorPath()
+        {
+            return Path.Combine(ApplicationDataUtils.PathToRootFolder, "TerrLauncherPackCreator.exe");
+        }
+
+        private static void RunUpdate()
+        {
+            string currentExeLocation = Assembly.GetExecutingAssembly().Location;
+
+            string tempFile = Path.GetTempFileName();
+
+            File.Copy(currentExeLocation, tempFile, true);
+            Process.Start(new ProcessStartInfo(tempFile, "process_update")
+            {
+                UseShellExecute = false
+            });
+
+            Environment.Exit(0);
+        }
+
+        private static void CreateShortcut()
+        {
+            var shell = new WshShell();
+
+            IWshShortcut shortcut = shell.CreateShortcut(
+                Path.Combine(
+                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty,
+                    "TerrLauncherPackCreator.lnk"
+                )
+            );
+
+            shortcut.TargetPath = GetCreatorPath();
+            shortcut.Save();
         }
 
         private void InvalidArguments()

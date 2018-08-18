@@ -4,22 +4,13 @@ namespace TerrLauncherPackCreatorUpdater.Controls
 {
     public partial class CircleProgress
     {
-        public static readonly DependencyProperty PrimaryProgressProperty = DependencyProperty.Register(
-            "PrimaryProgress", typeof(int), typeof(CircleProgress), new PropertyMetadata(50));
+        public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register(
+            "Progress", typeof(int), typeof(CircleProgress), new PropertyMetadata(50));
 
-        public int PrimaryProgress
+        public int Progress
         {
-            get => (int) GetValue(PrimaryProgressProperty);
-            set => SetValue(PrimaryProgressProperty, value);
-        }
-
-        public static readonly DependencyProperty SecondaryProgressProperty = DependencyProperty.Register(
-            "SecondaryProgress", typeof(int), typeof(CircleProgress), new PropertyMetadata(default(int)));
-
-        public int SecondaryProgress
-        {
-            get => (int) GetValue(SecondaryProgressProperty);
-            set => SetValue(SecondaryProgressProperty, value);
+            get => (int) GetValue(ProgressProperty);
+            set => SetValue(ProgressProperty, value);
         }
 
         public static readonly DependencyProperty DownloadSpeedInBytesProperty = DependencyProperty.Register(

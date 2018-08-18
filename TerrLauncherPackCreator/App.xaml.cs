@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Windows;
@@ -15,29 +14,29 @@ namespace TerrLauncherPackCreator
         {
             base.OnStartup(e);
 
-            new PackStartupWindow().Show();
-
-            Task.Run(async () =>
+            try
             {
-                try
-                {
-                    int[] appVersion = UpdateUtils.ConvertVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
-                    int[] latestVersion = UpdateUtils.ConvertVersion(await UpdateUtils.GetLatestVersionAsync());
+                int[] appVersion = UpdateUtils.ConvertVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
+                int[] latestVersion = UpdateUtils.ConvertVersion(UpdateUtils.GetLatestVersion());
 
-                    for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
+                {
+                    if (appVersion[i] < latestVersion[i])
                     {
-                        if (appVersion[i] < latestVersion[i])
-                        {
-                            Process.Start(Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"));
-                            Environment.Exit(0);
-                        }
+                        Process.Start(
+                            Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
+                            "disable_shortcut"
+                        );
+                        Environment.Exit(0);
                     }
                 }
-                catch (Exception ex)
-                {
-                    CrashUtils.HandleException(ex);
-                }
-            });
+            }
+            catch (Exception ex)
+            {
+                CrashUtils.HandleException(ex);
+            }
+
+            new PackStartupWindow().Show();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace TerrLauncherPackCreatorUpdater.Windows
             ViewModel = new UpdaterWindowViewModel(TaskbarItemInfo = new TaskbarItemInfo());
         }
 
-        private async void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            await ViewModel.StartLoading();
+            ViewModel.StartLoading();
         }
 
         private void MainWindow_OnSourceInitialized(object sender, EventArgs e)

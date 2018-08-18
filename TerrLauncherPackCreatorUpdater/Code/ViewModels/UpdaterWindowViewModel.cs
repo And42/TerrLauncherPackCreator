@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shell;
 using CommonLibrary;
@@ -13,7 +12,6 @@ using Ionic.Zip;
 using MVVM_Tools.Code.Providers;
 using TerrLauncherPackCreatorUpdater.Code.Implementations;
 using TerrLauncherPackCreatorUpdater.Resources.Localizations;
-using Exception = System.Exception;
 
 namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
 {
@@ -39,31 +37,12 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             CurrentProgress.PropertyChanged += CurrentProgressOnPropertyChanged;
         }
 
-        public async Task StartLoading()
+        public void StartLoading()
         {
             if (_started)
                 return;
 
             _started = true;
-
-            string latestUrl = string.Empty;
-            try
-            {
-                latestUrl = await UpdateUtils.GetLatestVersionUrlAsync();
-            }
-            catch (Exception ex)
-            {
-                CrashUtils.HandleException(ex);
-
-                MessageBox.Show(
-                    StringResources.VersionUrlError,
-                    StringResources.ErrorLower,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                );
-
-                Environment.Exit(3);
-            }
 
             _webClient = new WebClient();
 
@@ -72,7 +51,7 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
 
             _downloadSpeedEvaluator = new DownloadSpeedEvaluator(_webClient, 1000, speed => SpeedInBytes.Value = speed);
 
-            _webClient.DownloadDataAsync(new Uri(latestUrl));
+            _webClient.DownloadDataAsync(new Uri(CommonConstants.LatestVersionZipUrl));
         }
 
         private void CurrentProgressOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -99,7 +78,7 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
                 if (dialogResult == MessageBoxResult.No)
                     Environment.Exit(0);
 
-                _webClient.DownloadDataAsync(new Uri(CommonConstants.UpdateUrl));
+                _webClient.DownloadDataAsync(new Uri(CommonConstants.VersionFileUrl));
 
                 return;
             }
@@ -118,8 +97,6 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             {
                 zip.ExtractAll(ApplicationDataUtils.PathToRootFolder, ExtractExistingFileAction.OverwriteSilently);
             }
-
-            var path = $"delete_temp \"{Assembly.GetExecutingAssembly().Location}\"";
 
             Process.Start(
                 Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),

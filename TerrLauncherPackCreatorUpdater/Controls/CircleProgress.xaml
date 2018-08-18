@@ -11,14 +11,14 @@
 
         <ed:Arc Margin="0" StartAngle="0" Stretch="None"
                 ArcThickness="0" ArcThicknessUnit="Pixel"
-                EndAngle="{Binding PrimaryProgress, Converter={StaticResource ProgressToArcEndConverter}}"
+                EndAngle="{Binding Progress, Converter={StaticResource ProgressToArcEndConverter}}"
                 Stroke="#007ACC"
                 StrokeThickness="13"
                 StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
 
         <ed:Arc Margin="18" StartAngle="0" Stretch="None"
                 ArcThickness="0" ArcThicknessUnit="Pixel"
-                EndAngle="{Binding PrimaryProgress, Converter={StaticResource ProgressToArcEndConverter}}"
+                EndAngle="{Binding Progress, Converter={StaticResource ProgressToArcEndConverter}}"
                 Stroke="#88AFDD"
                 StrokeThickness="10"
                 StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
@@ -39,7 +39,7 @@
             <TextBlock FontSize="60"
                        FontFamily="Century Gothic"
                        Foreground="#444444"
-                       Text="{Binding PrimaryProgress}"
+                       Text="{Binding Progress}"
                        HorizontalAlignment="Right"/>
 
             <TextBlock Grid.Column="1"
