@@ -7,7 +7,7 @@
     <ProjectGuid>{D9CB589C-D3BC-4B09-AC6D-0AA95BAB993E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>TerrLauncherPackCreatorUpdater</RootNamespace>
-    <AssemblyName>TerrLauncherPackCreatorUpdater</AssemblyName>
+    <AssemblyName>updater</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
