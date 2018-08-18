@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Windows;
@@ -14,27 +15,30 @@ namespace TerrLauncherPackCreator
         {
             base.OnStartup(e);
 
-            try
+            Task.Run(() =>
             {
-                int[] appVersion = UpdateUtils.ConvertVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
-                int[] latestVersion = UpdateUtils.ConvertVersion(UpdateUtils.GetLatestVersion());
-
-                for (int i = 0; i < 4; i++)
+                try
                 {
-                    if (appVersion[i] < latestVersion[i])
+                    int[] appVersion = UpdateUtils.ConvertVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
+                    int[] latestVersion = UpdateUtils.ConvertVersion(UpdateUtils.GetLatestVersion());
+
+                    for (int i = 0; i < 4; i++)
                     {
-                        Process.Start(
-                            Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
-                            "disable_shortcut"
-                        );
-                        Environment.Exit(0);
+                        if (appVersion[i] < latestVersion[i])
+                        {
+                            Process.Start(
+                                Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
+                                "disable_shortcut"
+                            );
+                            Environment.Exit(0);
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                CrashUtils.HandleException(ex);
-            }
+                catch (Exception ex)
+                {
+                    CrashUtils.HandleException(ex);
+                }
+            });
 
             new PackStartupWindow().Show();
         }
