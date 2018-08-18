@@ -37,11 +37,6 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             CurrentProgress.PropertyChanged += CurrentProgressOnPropertyChanged;
         }
 
-        private void CurrentProgressOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            _taskbarItemInfo.ProgressValue = CurrentProgress.Value / 100.0;
-        }
-
         public void StartLoading()
         {
             if (_started)
@@ -57,6 +52,11 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             _downloadSpeedEvaluator = new DownloadSpeedEvaluator(_webClient, 1000, speed => SpeedInBytes.Value = speed);
 
             _webClient.DownloadDataAsync(new Uri(CommonConstants.UpdateUrl));
+        }
+
+        private void CurrentProgressOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            _taskbarItemInfo.ProgressValue = CurrentProgress.Value / 100.0;
         }
 
         private void WebClientOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
