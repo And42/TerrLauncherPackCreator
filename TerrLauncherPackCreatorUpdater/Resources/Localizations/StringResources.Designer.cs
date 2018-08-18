@@ -106,5 +106,14 @@ namespace TerrLauncherPackCreatorUpdater.Resources.Localizations {
                 return ResourceManager.GetString("SpeedOrdinals", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось получить ссылку на последнюю версию!.
+        /// </summary>
+        internal static string VersionUrlError {
+            get {
+                return ResourceManager.GetString("VersionUrlError", resourceCulture);
+            }
+        }
     }
 }

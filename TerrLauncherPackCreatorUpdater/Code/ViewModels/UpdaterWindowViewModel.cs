@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shell;
 using CommonLibrary;
@@ -12,6 +13,7 @@ using Ionic.Zip;
 using MVVM_Tools.Code.Providers;
 using TerrLauncherPackCreatorUpdater.Code.Implementations;
 using TerrLauncherPackCreatorUpdater.Resources.Localizations;
+using Exception = System.Exception;
 
 namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
 {
@@ -37,12 +39,31 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             CurrentProgress.PropertyChanged += CurrentProgressOnPropertyChanged;
         }
 
-        public void StartLoading()
+        public async Task StartLoading()
         {
             if (_started)
                 return;
 
             _started = true;
+
+            string latestUrl = string.Empty;
+            try
+            {
+                latestUrl = await UpdateUtils.GetLatestVersionUrlAsync();
+            }
+            catch (Exception ex)
+            {
+                CrashUtils.HandleException(ex);
+
+                MessageBox.Show(
+                    StringResources.VersionUrlError,
+                    StringResources.ErrorLower,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+
+                Environment.Exit(3);
+            }
 
             _webClient = new WebClient();
 
@@ -51,7 +72,7 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
 
             _downloadSpeedEvaluator = new DownloadSpeedEvaluator(_webClient, 1000, speed => SpeedInBytes.Value = speed);
 
-            _webClient.DownloadDataAsync(new Uri(CommonConstants.UpdateUrl));
+            _webClient.DownloadDataAsync(new Uri(latestUrl));
         }
 
         private void CurrentProgressOnPropertyChanged(object sender, PropertyChangedEventArgs e)

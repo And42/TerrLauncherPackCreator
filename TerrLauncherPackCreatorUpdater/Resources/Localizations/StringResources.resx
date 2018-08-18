@@ -134,4 +134,7 @@
   <data name="SpeedOrdinals" xml:space="preserve">
     <value>;К;М;Г;Т;П;Э</value>
   </data>
+  <data name="VersionUrlError" xml:space="preserve">
+    <value>Не удалось получить ссылку на последнюю версию!</value>
+  </data>
 </root>
