@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,7 +9,19 @@ namespace CommonLibrary.CommonUtils
 {
     public static class UpdateUtils
     {
-        public static async Task<int[]> GetLatestVersionFourDigitsAsync()
+        public static int[] ConvertVersion(string version)
+        {
+            List<int> parts = version.Split('.').Select(int.Parse).ToList();
+
+            if (parts.Count > 4)
+                parts.RemoveRange(4, parts.Count - 4);
+            while (parts.Count < 4)
+                parts.Add(0);
+
+            return parts.ToArray();
+        }
+
+        public static async Task<string> GetLatestVersionAsync()
         {
             HtmlNode latestRelease = (await GetLatestReleaseNodeAsync()).SelectNodes("//div[contains(@class, 'release-header')]").FirstOrDefault();
 
@@ -20,17 +33,7 @@ namespace CommonLibrary.CommonUtils
             if (latestVersion == null)
                 throw new Exception("Can't find latest version text");
 
-            latestVersion = latestVersion.Substring(1);
-
-            var result = latestVersion.Split('.').Select(int.Parse).ToList();
-
-            if (result.Count > 4)
-                result.RemoveRange(4, result.Count - 4);
-
-            while (result.Count < 4)
-                result.Add(0);
-
-            return result.ToArray();
+            return latestVersion.Substring(1);
         }
 
         public static async Task<string> GetLatestVersionUrlAsync()

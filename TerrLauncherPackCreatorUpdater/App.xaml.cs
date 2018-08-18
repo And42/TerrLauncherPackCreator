@@ -52,6 +52,8 @@ namespace TerrLauncherPackCreatorUpdater
                         CrashUtils.HandleException(ex);
                     }
 
+                    Process.Start(Path.Combine(ApplicationDataUtils.PathToRootFolder, "TerrLauncherPackCreator.exe"));
+
                     Shutdown(0);
                     return;
                 default:

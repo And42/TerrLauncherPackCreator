@@ -119,6 +119,8 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
                 zip.ExtractAll(ApplicationDataUtils.PathToRootFolder, ExtractExistingFileAction.OverwriteSilently);
             }
 
+            var path = $"delete_temp \"{Assembly.GetExecutingAssembly().Location}\"";
+
             Process.Start(
                 Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
                 $"delete_temp \"{Assembly.GetExecutingAssembly().Location}\""
