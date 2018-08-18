@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace CommonLibrary.CommonUtils
 {
     public static class ApplicationDataUtils
     {
@@ -16,7 +15,7 @@ namespace TerrLauncherPackCreator.Code.Utils
         {
             PathToRootFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                Assembly.GetEntryAssembly().GetName().Name
+                "TerrLauncherPackCreator"
             );
 
             PathToDataFolder = Path.Combine(PathToRootFolder, "Data");

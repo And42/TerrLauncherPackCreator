@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace CommonLibrary.CommonUtils
 {
     // ReSharper disable once InconsistentNaming
     public static class IOUtils

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace CommonLibrary.CommonUtils
 {
     [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public static class WindowUtils

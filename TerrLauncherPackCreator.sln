@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLauncherPackCreator", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLauncherPackCreatorTests", "TerrLauncherPackCreatorTests\TerrLauncherPackCreatorTests.csproj", "{AC241444-0A7D-4696-9477-EFA4B3D2835B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLauncherPackCreatorUpdater", "TerrLauncherPackCreatorUpdater\TerrLauncherPackCreatorUpdater.csproj", "{D9CB589C-D3BC-4B09-AC6D-0AA95BAB993E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{C963037D-1C4B-4387-BF22-5E15444DF3F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{AC241444-0A7D-4696-9477-EFA4B3D2835B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC241444-0A7D-4696-9477-EFA4B3D2835B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC241444-0A7D-4696-9477-EFA4B3D2835B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9CB589C-D3BC-4B09-AC6D-0AA95BAB993E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CB589C-D3BC-4B09-AC6D-0AA95BAB993E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9CB589C-D3BC-4B09-AC6D-0AA95BAB993E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9CB589C-D3BC-4B09-AC6D-0AA95BAB993E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C963037D-1C4B-4387-BF22-5E15444DF3F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C963037D-1C4B-4387-BF22-5E15444DF3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C963037D-1C4B-4387-BF22-5E15444DF3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C963037D-1C4B-4387-BF22-5E15444DF3F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

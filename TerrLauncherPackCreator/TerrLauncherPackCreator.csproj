@@ -86,11 +86,8 @@
     </ApplicationDefinition>
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
-    <Compile Include="Code\Utils\ApplicationDataUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
-    <Compile Include="Code\Utils\IOUtils.cs" />
     <Compile Include="Code\Utils\MessageBoxUtils.cs" />
-    <Compile Include="Code\Utils\WindowUtils.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
     <Compile Include="Windows\PackStartupWindow.xaml.cs">
       <DependentUpon>PackStartupWindow.xaml</DependentUpon>
@@ -141,7 +138,6 @@
     <Compile Include="Code\TemplateSelectors\ModifiedFilesTemplateSelector.cs" />
     <Compile Include="Code\TemplateSelectors\PreviewsTemplateSelector.cs" />
     <Compile Include="Code\Utils\BitmapUtils.cs" />
-    <Compile Include="Code\Utils\CrashUtils.cs" />
     <Compile Include="Code\Utils\DesignerUtils.cs" />
     <Compile Include="Code\Utils\PackUtils.cs" />
     <Compile Include="Controls\PageNavigationNumberButton.xaml.cs">
@@ -185,7 +181,12 @@
     <None Include="Libraries\zzz_refresh_references_pause.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
+      <Project>{c963037d-1c4b-4387-bf22-5e15444df3f5}</Project>
+      <Name>CommonLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Localizations\StringResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

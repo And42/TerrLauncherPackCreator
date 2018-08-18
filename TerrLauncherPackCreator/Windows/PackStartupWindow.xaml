@@ -14,6 +14,8 @@
         FontSize="16"
         FontFamily="Rockwell Nova"
         
+        SourceInitialized="PackStartupWindow_OnSourceInitialized"
+        
         d:DataContext="{d:DesignInstance viewModels:PackStartupWindowViewModel, IsDesignTimeCreatable=True}">
     <StackPanel UseLayoutRounding="True" HorizontalAlignment="Center" VerticalAlignment="Center">
         <StackPanel.Resources>

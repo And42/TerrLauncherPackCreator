@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace CommonLibrary.CommonUtils
 {
     public static class CrashUtils
     {
