@@ -130,7 +130,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private static PackModel LoadPackModelInternal(string filePath)
         {
-            // todo: implement the ability to process multiple packs with the same names simultaniously
+            // todo: implement the ability to process multiple packs with the same names simultaneously
 
             string packExt = Path.GetExtension(filePath);
 
