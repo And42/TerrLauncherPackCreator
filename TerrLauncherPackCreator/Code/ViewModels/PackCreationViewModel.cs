@@ -192,8 +192,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Guid.Value = packModel.Guid;
             Version.Value = packModel.Version;
 
-            packModel.PreviewsPaths?.Select(PreviewItemModel.FromImageFile).ForEach(Previews.Value.Add);
-            packModel.ModifiedFilesPaths?.Select(ModifiedItemModel.FromFile).ForEach(ModifiedFiles.Value.Add);
+            var previewItems = packModel.PreviewsPaths?.Select(PreviewItemModel.FromImageFile).ToArray();
+            var modifiedItems = packModel.ModifiedFilesPaths?.Select(ModifiedItemModel.FromFile).ToArray();
+
+            if (previewItems != null || modifiedItems != null)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    previewItems?.ForEach(Previews.Value.Add);
+                    modifiedItems?.ForEach(ModifiedFiles.Value.Add);
+                });
+            }
 
             if (packModel.IconFilePath != null)
             {
