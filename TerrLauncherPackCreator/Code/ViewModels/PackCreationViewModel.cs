@@ -127,6 +127,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             ResetCollections();
 
+            PackFilesExtension.Value = PackUtils.PacksInfo.First(it => it.packType == PackType.Value).packFilesExt;
             PackType.PropertyChanged += (sender, args) =>
             {
                 PackFilesExtension.Value = PackUtils.PacksInfo.First(it => it.packType == PackType.Value).packFilesExt;
