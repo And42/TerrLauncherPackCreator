@@ -182,6 +182,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             if (packModel == null)
                 throw new ArgumentNullException(nameof(packModel));
 
+            ResetCollections();
+
             PackType.Value = packModel.PackType;
             IconFilePath.Value = packModel.IconFilePath;
             Title.Value = packModel.Title;
@@ -190,19 +192,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Guid.Value = packModel.Guid;
             Version.Value = packModel.Version;
 
-            if (packModel.PreviewsPaths != null)
-            {
-                Previews.Value = new ObservableCollection<PreviewItemModel>(
-                    packModel.PreviewsPaths.Select(PreviewItemModel.FromImageFile)
-                );
-            }
-
-            if (packModel.ModifiedFilesPaths != null)
-            {
-                ModifiedFiles.Value = new ObservableCollection<ModifiedItemModel>(
-                    packModel.ModifiedFilesPaths.Select(ModifiedItemModel.FromFile)
-                );
-            }
+            packModel.PreviewsPaths?.Select(PreviewItemModel.FromImageFile).ForEach(Previews.Value.Add);
+            packModel.ModifiedFilesPaths?.Select(ModifiedItemModel.FromFile).ForEach(ModifiedFiles.Value.Add);
 
             if (packModel.IconFilePath != null)
             {

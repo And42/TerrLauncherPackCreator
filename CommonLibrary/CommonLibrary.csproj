@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="CommonConstants.cs" />
     <Compile Include="CommonUtils\ApplicationDataUtils.cs" />
+    <Compile Include="CommonUtils\CollectionUtils.cs" />
     <Compile Include="CommonUtils\CrashUtils.cs" />
     <Compile Include="CommonUtils\IOUtils.cs" />
     <Compile Include="CommonUtils\MessageBoxUtils.cs" />
