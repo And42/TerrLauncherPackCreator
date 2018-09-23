@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using TerrLauncherPackCreator.Resources.Localizations;
+using CommonLibrary.Resources.Localizations;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace CommonLibrary.CommonUtils
 {
     public static class MessageBoxUtils
     {

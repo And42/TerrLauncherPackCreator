@@ -87,7 +87,6 @@
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
-    <Compile Include="Code\Utils\MessageBoxUtils.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
     <Compile Include="Windows\PackStartupWindow.xaml.cs">
       <DependentUpon>PackStartupWindow.xaml</DependentUpon>
