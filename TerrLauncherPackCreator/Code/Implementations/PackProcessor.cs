@@ -204,11 +204,11 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 zip.AddEntry("Settings.json", JsonConvert.SerializeObject(packSettingsJson, Formatting.Indented), Encoding.UTF8);
 
                 if (!string.IsNullOrEmpty(packModel.IconFilePath))
-                    zip.AddFile(packModel.IconFilePath, string.Empty).FileName = $"Icon{Path.GetExtension(packModel.IconFilePath)}";
+                    zip.AddFile(packModel.IconFilePath).FileName = $"Icon{Path.GetExtension(packModel.IconFilePath)}";
 
                 int previewIndex = 1;
                 foreach (string previewPath in packModel.PreviewsPaths)
-                    zip.AddFile(previewPath, "Previews").FileName = $"{previewIndex++}{Path.GetExtension(previewPath)}";
+                    zip.AddFile(previewPath).FileName = $"Previews/{previewIndex++}{Path.GetExtension(previewPath)}";
 
                 foreach (string modifiedFilePath in packModel.ModifiedFilesPaths)
                     zip.AddFile(modifiedFilePath, "Modified");
