@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using CommonLibrary.CommonUtils;
 using Microsoft.Win32;
-using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using MVVM_Tools.Code.Providers;
 using TerrLauncherPackCreator.Code.Enums;
@@ -19,41 +18,41 @@ using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
-    public class PackCreationViewModel : BindableBase
+    public class PackCreationViewModel
     {
         private readonly IPackProcessor _packProcessor;
 
-        public Property<PackTypes> PackType;
+        public IProperty<PackTypes> PackType;
 
         #region Properties
 
         #region Step 1
 
-        public Property<BitmapSource> Icon { get; }
-        public Property<string> IconFilePath { get; }
-        public Property<string> Title { get; }
-        public Property<string> DescriptionRussian { get; }
-        public Property<string> DescriptionEnglish { get; }
-        public Property<Guid> Guid { get; }
-        public Property<int> Version { get; }
+        public IProperty<BitmapSource> Icon { get; }
+        public IProperty<string> IconFilePath { get; }
+        public IProperty<string> Title { get; }
+        public IProperty<string> DescriptionRussian { get; }
+        public IProperty<string> DescriptionEnglish { get; }
+        public IProperty<Guid> Guid { get; }
+        public IProperty<int> Version { get; }
 
         #endregion
 
         #region Step 2
 
-        public Property<ObservableCollection<PreviewItemModel>> Previews { get; }
+        public IProperty<ObservableCollection<PreviewItemModel>> Previews { get; }
 
         #endregion
 
         #region Step 3
 
-        public Property<ObservableCollection<ModifiedItemModel>> ModifiedFiles { get; }
+        public IProperty<ObservableCollection<ModifiedItemModel>> ModifiedFiles { get; }
 
         #endregion
 
         #region Step 4
 
-        public Property<string> PackFilesExtension { get; }
+        public IProperty<string> PackFilesExtension { get; }
 
         #endregion
 
@@ -103,17 +102,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             _packProcessor = packProcessor;
 
-            PackType = new Property<PackTypes>();
-            Icon = new Property<BitmapSource>();
-            IconFilePath = new Property<string>();
-            Title = new Property<string>();
-            DescriptionRussian = new Property<string>();
-            DescriptionEnglish = new Property<string>();
-            Guid = new Property<Guid>(System.Guid.NewGuid());
-            Version = new Property<int>(1);
-            Previews = new Property<ObservableCollection<PreviewItemModel>>();
-            ModifiedFiles = new Property<ObservableCollection<ModifiedItemModel>>();
-            PackFilesExtension = new Property<string>();
+            PackType = new FieldProperty<PackTypes>();
+            Icon = new FieldProperty<BitmapSource>();
+            IconFilePath = new FieldProperty<string>();
+            Title = new FieldProperty<string>();
+            DescriptionRussian = new FieldProperty<string>();
+            DescriptionEnglish = new FieldProperty<string>();
+            Guid = new FieldProperty<Guid>(System.Guid.NewGuid());
+            Version = new FieldProperty<int>(1);
+            Previews = new FieldProperty<ObservableCollection<PreviewItemModel>>();
+            ModifiedFiles = new FieldProperty<ObservableCollection<ModifiedItemModel>>();
+            PackFilesExtension = new FieldProperty<string>();
 
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute);
             DropIconCommand = new ActionCommand<string>(DropIconCommand_Execute, DropIconCommand_CanExecute);

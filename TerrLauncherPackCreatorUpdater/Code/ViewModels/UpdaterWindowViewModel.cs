@@ -23,15 +23,15 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
         private WebClient _webClient;
         private bool _started;
 
-        public Property<int> CurrentProgress { get; }
-        public Property<long> SpeedInBytes { get; }
+        public IProperty<int> CurrentProgress { get; }
+        public IProperty<long> SpeedInBytes { get; }
 
         public UpdaterWindowViewModel(TaskbarItemInfo taskbarItemInfo)
         {
             _taskbarItemInfo = taskbarItemInfo ?? throw new ArgumentNullException(nameof(taskbarItemInfo));
 
-            CurrentProgress = new Property<int>();
-            SpeedInBytes = new Property<long>();
+            CurrentProgress = new FieldProperty<int>();
+            SpeedInBytes = new FieldProperty<long>();
 
             taskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
             CurrentProgress.PropertyChanged += CurrentProgressOnPropertyChanged;

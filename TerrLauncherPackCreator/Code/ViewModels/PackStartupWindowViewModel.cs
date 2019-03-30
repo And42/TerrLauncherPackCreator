@@ -18,8 +18,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     {
         private readonly IAttachedWindowManipulator _attachedWindowManipulator;
 
-        public Property<int> PackTypeSelectedIndex { get; }
-        public Property<ObservableCollection<string>> PackTypeNames { get; }
+        public IProperty<int> PackTypeSelectedIndex { get; }
+        public IProperty<ObservableCollection<string>> PackTypeNames { get; }
 
         public IActionCommand CreateNewPackCommand { get; }
         public IActionCommand ChooseExistingPackCommand { get; }
@@ -28,8 +28,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             _attachedWindowManipulator = attachedWindowManipulator;
 
-            PackTypeSelectedIndex = new Property<int>(-1);
-            PackTypeNames = new Property<ObservableCollection<string>>
+            PackTypeSelectedIndex = new FieldProperty<int>(-1);
+            PackTypeNames = new FieldProperty<ObservableCollection<string>>
             {
                 Value = new ObservableCollection<string>(PackUtils.PacksInfo.Select(it => it.title))
             };

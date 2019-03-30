@@ -24,7 +24,14 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             private string[] _steps;
             private int _step;
 
+            #region backing fields
             private string _text;
+            private int _currentProgress;
+            private int _maximumProgress;
+            private int _remainingFilesCount;
+            private bool _isIndeterminate;
+            #endregion
+
             public string Text
             {
                 get => _text;
@@ -43,29 +50,21 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     };
                 }
             }
-
-            private int _currentProgress;
             public int CurrentProgress
             {
                 get => _currentProgress;
                 set => SetProperty(ref _currentProgress, value);
             }
-
-            private int _maximumProgress;
             public int MaximumProgress
             {
                 get => _maximumProgress;
                 set => SetProperty(ref _maximumProgress, value);
             }
-
-            private int _remainingFilesCount;
             public int RemainingFilesCount
             {
                 get => _remainingFilesCount;
                 set => SetProperty(ref _remainingFilesCount, value);
             }
-
-            private bool _isIndeterminate;
             public bool IsIndeterminate
             {
                 get => _isIndeterminate;
@@ -91,52 +90,55 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
 
-        public Property<PackCreationViewModel> PackCreationViewModel { get; }
+        public IReadonlyProperty<PackCreationViewModel> PackCreationViewModel { get; }
 
-        public Property<string> WindowTitle { get; }
-        public Property<int> CurrentStep { get; }
-        public Property<Page[]> StepsPages { get; }
+        public IReadonlyProperty<string> WindowTitle { get; }
+        public IProperty<int> CurrentStep { get; }
+        public IReadonlyProperty<Page[]> StepsPages { get; }
 
-        public Property<IProgressManager> LoadProgressManager { get; }
-        public Property<IProgressManager> SaveProgressManager { get; }
+        public IReadonlyProperty<IProgressManager> LoadProgressManager { get; }
+        public IReadonlyProperty<IProgressManager> SaveProgressManager { get; }
 
-        public Property<ObservableCollection<IProgressManager>> ProgressManagers { get; }
-        public Property<IPackProcessor> PackProcessor { get; }
+        public IReadonlyProperty<ObservableCollection<IProgressManager>> ProgressManagers { get; }
+        public IReadonlyProperty<IPackProcessor> PackProcessor { get; }
 
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
 
         public MainWindowViewModel()
         {
-            WindowTitle = new Property<string>(Assembly.GetEntryAssembly().GetName().Name);
-            CurrentStep = new Property<int>(1);
+            WindowTitle = new FieldProperty<string>(Assembly.GetEntryAssembly().GetName().Name).AsReadonly();
+            CurrentStep = new FieldProperty<int>(1);
 
-            GoToPreviousStepCommand = new ActionCommand(GoToPreviousStepCommand_Execute, GoToPreviousStepCommand_CanExecute);
-            GoToNextStepCommand = new ActionCommand(GoToNextStepCommand_Execute, GoToNextStepCommand_CanExecute);
+            GoToPreviousStepCommand = new ActionCommand(
+                GoToPreviousStepCommand_Execute, 
+                GoToPreviousStepCommand_CanExecute
+            ).BindCanExecute(CurrentStep);
+            GoToNextStepCommand = new ActionCommand(
+                GoToNextStepCommand_Execute,
+                GoToNextStepCommand_CanExecute
+            ).BindCanExecute(CurrentStep);
 
-            LoadProgressManager = new Property<IProgressManager>
-            {
-                Value = new ProgressManager {Text = StringResources.LoadingProgressStep}
-            };
-            SaveProgressManager = new Property<IProgressManager>
-            {
-                Value = new ProgressManager {Text = StringResources.SavingProcessStep}
-            };
+            LoadProgressManager = new FieldProperty<IProgressManager>(
+                new ProgressManager {Text = StringResources.LoadingProgressStep}
+            ).AsReadonly();
+            SaveProgressManager = new FieldProperty<IProgressManager>(
+                new ProgressManager {Text = StringResources.SavingProcessStep}
+            ).AsReadonly();
 
-            PackProcessor = new Property<IPackProcessor>
+            PackProcessor = new FieldProperty<IPackProcessor>
             {
                 Value = new PackProcessor(
                     LoadProgressManager.Value,
                     SaveProgressManager.Value
                 )
-            };
+            }.AsReadonly();
 
-            PackCreationViewModel = new Property<PackCreationViewModel>
-            {
-                Value = new PackCreationViewModel(PackProcessor.Value)
-            };
+            PackCreationViewModel = new FieldProperty<PackCreationViewModel>(
+                new PackCreationViewModel(PackProcessor.Value)
+            ).AsReadonly();
 
-            StepsPages = new Property<Page[]>(
+            StepsPages = new FieldProperty<Page[]>(
                 new Page[]
                 {
                     new PackCreationStep1(PackCreationViewModel.Value), 
@@ -144,18 +146,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     new PackCreationStep3(PackCreationViewModel.Value), 
                     new PackCreationStep4(PackCreationViewModel.Value), 
                 }
-            );
+            ).AsReadonly();
 
-            ProgressManagers = new Property<ObservableCollection<IProgressManager>>
-            {
-                Value = new ObservableCollection<IProgressManager>
+            ProgressManagers = new FieldProperty<ObservableCollection<IProgressManager>>
+            (
+                new ObservableCollection<IProgressManager>
                 {
                     LoadProgressManager.Value,
                     SaveProgressManager.Value
                 }
-            };
-
-            CurrentStep.PropertyChanged += (sender, args) => RaiseNavigationCommandsCanExecute();
+            ).AsReadonly();
         }
 
         private bool GoToPreviousStepCommand_CanExecute()
@@ -176,12 +176,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private void GoToNextStepCommand_Execute()
         {
             CurrentStep.Value++;
-        }
-
-        private void RaiseNavigationCommandsCanExecute()
-        {
-            GoToPreviousStepCommand.RaiseCanExecuteChanged();
-            GoToNextStepCommand.RaiseCanExecuteChanged();
         }
     }
 }
