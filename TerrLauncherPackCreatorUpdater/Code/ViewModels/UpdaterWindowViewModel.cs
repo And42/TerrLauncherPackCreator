@@ -9,32 +9,43 @@ using System.Windows.Shell;
 using CommonLibrary;
 using CommonLibrary.CommonUtils;
 using Ionic.Zip;
-using MVVM_Tools.Code.Providers;
+using MVVM_Tools.Code.Classes;
 using TerrLauncherPackCreatorUpdater.Code.Implementations;
 using TerrLauncherPackCreatorUpdater.Resources.Localizations;
 
 namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
 {
-    public class UpdaterWindowViewModel
+    public class UpdaterWindowViewModel : BindableBase
     {
+        public int CurrentProgress
+        {
+            get => _currentProgress;
+            set => SetProperty(ref _currentProgress, value);
+        }
+        public long SpeedInBytes
+        {
+            get => _speedInBytes;
+            set => SetProperty(ref _speedInBytes, value);
+        }
+
         private readonly TaskbarItemInfo _taskbarItemInfo;
 
         private DownloadSpeedEvaluator _downloadSpeedEvaluator;
         private WebClient _webClient;
         private bool _started;
 
-        public IProperty<int> CurrentProgress { get; }
-        public IProperty<long> SpeedInBytes { get; }
+        #region backing fields
+        private int _currentProgress;
+        private long _speedInBytes;
+        #endregion
 
         public UpdaterWindowViewModel(TaskbarItemInfo taskbarItemInfo)
         {
             _taskbarItemInfo = taskbarItemInfo ?? throw new ArgumentNullException(nameof(taskbarItemInfo));
 
-            CurrentProgress = new FieldProperty<int>();
-            SpeedInBytes = new FieldProperty<long>();
-
-            taskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
-            CurrentProgress.PropertyChanged += CurrentProgressOnPropertyChanged;
+            _taskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            
+            PropertyChanged += OnPropertyChanged;
         }
 
         public void StartLoading()
@@ -49,19 +60,14 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             _webClient.DownloadProgressChanged += WebClientOnDownloadProgressChanged;
             _webClient.DownloadDataCompleted += WebClientOnDownloadDataCompleted;
 
-            _downloadSpeedEvaluator = new DownloadSpeedEvaluator(_webClient, 1000, speed => SpeedInBytes.Value = speed);
+            _downloadSpeedEvaluator = new DownloadSpeedEvaluator(_webClient, 1000, speed => SpeedInBytes = speed);
 
             _webClient.DownloadDataAsync(new Uri(CommonConstants.LatestVersionZipUrl));
         }
 
-        private void CurrentProgressOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            _taskbarItemInfo.ProgressValue = CurrentProgress.Value / 100.0;
-        }
-
         private void WebClientOnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            CurrentProgress.Value = e.ProgressPercentage;
+            CurrentProgress = e.ProgressPercentage;
         }
 
         private void WebClientOnDownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
@@ -104,6 +110,16 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             );
 
             Environment.Exit(0);
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(CurrentProgress):
+                    _taskbarItemInfo.ProgressValue = CurrentProgress / 100.0;
+                    break;
+            }
         }
     }
 }

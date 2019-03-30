@@ -25,12 +25,12 @@
         </StackPanel.Resources>
 
         <Grid Margin="3">
-            <StackPanel x:Name="packCreationOptions" Visibility="Collapsed">
+            <StackPanel x:Name="PackCreationOptions" Visibility="Collapsed">
                 <xctk:WatermarkComboBox 
                     FontSize="15"
                     Watermark="{x:Static localizations:StringResources.PackTypeHelpText}"
-                    ItemsSource="{Binding PackTypeNames.Value}"
-                    SelectedIndex="{Binding PackTypeSelectedIndex.Value}"/>
+                    ItemsSource="{Binding PackTypeNames}"
+                    SelectedIndex="{Binding PackTypeSelectedIndex}"/>
 
                 <Button 
                     Margin="0 3 0 0"
@@ -42,7 +42,7 @@
             </StackPanel>
 
             <Button 
-                x:Name="packOptionsToggle"
+                x:Name="PackOptionsToggle"
                 Style="{DynamicResource ActionButtonStyle}"
                 Content="{x:Static localizations:StringResources.PackCreateNew}"
                 Click="PackCreateButton_Click"

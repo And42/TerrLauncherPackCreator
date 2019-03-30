@@ -34,20 +34,20 @@ namespace TerrLauncherPackCreator.Windows
         [SuppressMessage("ReSharper", "ArrangeStaticMemberQualifier")]
         private void PackCreateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (packCreationOptions.Visibility == Visibility.Visible)
+            if (PackCreationOptions.Visibility == Visibility.Visible)
             {
                 var margin = new ThicknessAnimation(new Thickness(0), PackOptionsMarginDuration);
-                margin.Completed += (o, args) => packCreationOptions.Visibility = Visibility.Collapsed;
+                margin.Completed += (o, args) => PackCreationOptions.Visibility = Visibility.Collapsed;
 
-                packCreationOptions.BeginAnimation(StackPanel.MarginProperty, margin);
+                PackCreationOptions.BeginAnimation(StackPanel.MarginProperty, margin);
             }
             else
             {
-                var margin = new ThicknessAnimation(new Thickness(5, packOptionsToggle.ActualHeight + 3, 5, 0), PackOptionsMarginDuration);
+                var margin = new ThicknessAnimation(new Thickness(5, PackOptionsToggle.ActualHeight + 3, 5, 0), PackOptionsMarginDuration);
 
-                packCreationOptions.BeginAnimation(StackPanel.MarginProperty, margin);
+                PackCreationOptions.BeginAnimation(StackPanel.MarginProperty, margin);
 
-                packCreationOptions.Visibility = Visibility.Visible;
+                PackCreationOptions.Visibility = Visibility.Visible;
             }
         }
     }

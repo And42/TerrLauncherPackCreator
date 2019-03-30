@@ -47,7 +47,7 @@
 
         <TextBlock Grid.Row="0" FontSize="18" Margin="10" HorizontalAlignment="Center" Text="{x:Static localizations:StringResources.Previews}"/>
         <ListView Grid.Row="1" Background="Transparent"
-                  ItemsSource="{Binding Previews.Value}"
+                  ItemsSource="{Binding Previews}"
                   ItemTemplateSelector="{StaticResource PreviewsTemplateSelector}">
             <ListView.Resources>
                 <DataTemplate x:Key="PreviewImageDataTemplate" DataType="{x:Type models:PreviewItemModel}">

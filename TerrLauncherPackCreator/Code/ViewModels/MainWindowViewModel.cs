@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Controls;
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
-using MVVM_Tools.Code.Providers;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Pages.PackCreation;
@@ -90,92 +90,99 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
 
-        public IReadonlyProperty<PackCreationViewModel> PackCreationViewModel { get; }
+        public PackCreationViewModel PackCreationViewModel { get; }
 
-        public IReadonlyProperty<string> WindowTitle { get; }
-        public IProperty<int> CurrentStep { get; }
-        public IReadonlyProperty<Page[]> StepsPages { get; }
+        public string WindowTitle { get; }
+        public int CurrentStep
+        {
+            get => _currentStep;
+            set => SetProperty(ref _currentStep, value);
+        }
+        public Page[] StepsPages { get; }
 
-        public IReadonlyProperty<IProgressManager> LoadProgressManager { get; }
-        public IReadonlyProperty<IProgressManager> SaveProgressManager { get; }
+        public IProgressManager LoadProgressManager { get; }
+        public IProgressManager SaveProgressManager { get; }
 
-        public IReadonlyProperty<ObservableCollection<IProgressManager>> ProgressManagers { get; }
-        public IReadonlyProperty<IPackProcessor> PackProcessor { get; }
+        public ObservableCollection<IProgressManager> ProgressManagers { get; }
+        public IPackProcessor PackProcessor { get; }
 
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
 
+        #region backing fields
+        private int _currentStep;
+        #endregion
+
         public MainWindowViewModel()
         {
-            WindowTitle = new FieldProperty<string>(Assembly.GetEntryAssembly().GetName().Name).AsReadonly();
-            CurrentStep = new FieldProperty<int>(1);
+            WindowTitle = Assembly.GetEntryAssembly().GetName().Name;
+            CurrentStep = 1;
 
             GoToPreviousStepCommand = new ActionCommand(
                 GoToPreviousStepCommand_Execute, 
                 GoToPreviousStepCommand_CanExecute
-            ).BindCanExecute(CurrentStep);
+            );
             GoToNextStepCommand = new ActionCommand(
                 GoToNextStepCommand_Execute,
                 GoToNextStepCommand_CanExecute
-            ).BindCanExecute(CurrentStep);
+            );
 
-            LoadProgressManager = new FieldProperty<IProgressManager>(
-                new ProgressManager {Text = StringResources.LoadingProgressStep}
-            ).AsReadonly();
-            SaveProgressManager = new FieldProperty<IProgressManager>(
-                new ProgressManager {Text = StringResources.SavingProcessStep}
-            ).AsReadonly();
+            LoadProgressManager = new ProgressManager {Text = StringResources.LoadingProgressStep};
+            SaveProgressManager = new ProgressManager {Text = StringResources.SavingProcessStep};
 
-            PackProcessor = new FieldProperty<IPackProcessor>
+            PackProcessor = new PackProcessor(
+                LoadProgressManager,
+                SaveProgressManager
+            );
+
+            PackCreationViewModel = new PackCreationViewModel(PackProcessor);
+
+            StepsPages = new Page[]
             {
-                Value = new PackProcessor(
-                    LoadProgressManager.Value,
-                    SaveProgressManager.Value
-                )
-            }.AsReadonly();
+                new PackCreationStep1(PackCreationViewModel), 
+                new PackCreationStep2(PackCreationViewModel), 
+                new PackCreationStep3(PackCreationViewModel), 
+                new PackCreationStep4(PackCreationViewModel), 
+            };
 
-            PackCreationViewModel = new FieldProperty<PackCreationViewModel>(
-                new PackCreationViewModel(PackProcessor.Value)
-            ).AsReadonly();
+            ProgressManagers = new ObservableCollection<IProgressManager>
+            {
+                LoadProgressManager,
+                SaveProgressManager
+            };
 
-            StepsPages = new FieldProperty<Page[]>(
-                new Page[]
-                {
-                    new PackCreationStep1(PackCreationViewModel.Value), 
-                    new PackCreationStep2(PackCreationViewModel.Value), 
-                    new PackCreationStep3(PackCreationViewModel.Value), 
-                    new PackCreationStep4(PackCreationViewModel.Value), 
-                }
-            ).AsReadonly();
-
-            ProgressManagers = new FieldProperty<ObservableCollection<IProgressManager>>
-            (
-                new ObservableCollection<IProgressManager>
-                {
-                    LoadProgressManager.Value,
-                    SaveProgressManager.Value
-                }
-            ).AsReadonly();
+            PropertyChanged += OnPropertyChanged;
         }
 
         private bool GoToPreviousStepCommand_CanExecute()
         {
-            return CurrentStep.Value > 1;
+            return CurrentStep > 1;
         }
 
         private void GoToPreviousStepCommand_Execute()
         {
-            CurrentStep.Value--;
+            CurrentStep--;
         }
 
         private bool GoToNextStepCommand_CanExecute()
         {
-            return CurrentStep.Value < StepsPages.Value.Length;
+            return CurrentStep < StepsPages.Length;
         }
 
         private void GoToNextStepCommand_Execute()
         {
-            CurrentStep.Value++;
+            CurrentStep++;
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(CurrentStep):
+                    GoToPreviousStepCommand.RaiseCanExecuteChanged();
+                    GoToNextStepCommand.RaiseCanExecuteChanged();
+                    break;
+            }
         }
     }
 }

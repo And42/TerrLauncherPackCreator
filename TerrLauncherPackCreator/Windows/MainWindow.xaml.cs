@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,7 @@ namespace TerrLauncherPackCreator.Windows
             InitPagingButtons();
             UpdateStepPage();
 
-            ViewModel.CurrentStep.PropertyChanged += (sender, args) => UpdateStepPage();
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
         }
 
         public MainWindowViewModel ViewModel
@@ -36,7 +37,7 @@ namespace TerrLauncherPackCreator.Windows
         {
             PageNavigationNumberButtonsPanel.Children.Clear();
 
-            int totalPages = ViewModel.StepsPages.Value.Length;
+            int totalPages = ViewModel.StepsPages.Length;
             _pageNavigationNumberButtons = new PageNavigationNumberButton[totalPages];
 
             for (int i = 1; i <= totalPages; i++)
@@ -53,7 +54,7 @@ namespace TerrLauncherPackCreator.Windows
 
                 pageButton.MouseLeftButtonDown += (sender, args) =>
                 {
-                    ViewModel.CurrentStep.Value = ((PageNavigationNumberButton) sender).PageNumber;
+                    ViewModel.CurrentStep = ((PageNavigationNumberButton) sender).PageNumber;
                 };
 
                 PageNavigationNumberButtonsPanel.Children.Add(pageButton);
@@ -64,7 +65,7 @@ namespace TerrLauncherPackCreator.Windows
         [SuppressMessage("ReSharper", "ArrangeStaticMemberQualifier")]
         private void UpdateStepPage()
         {
-            int currentPageIndex = ViewModel.CurrentStep.Value - 1;
+            int currentPageIndex = ViewModel.CurrentStep - 1;
 
             var fadeOutAnimation = new DoubleAnimation(0, StepChangeAnimationPartDuration);
             var fadeInAnimation = new DoubleAnimation(1, StepChangeAnimationPartDuration);
@@ -74,11 +75,21 @@ namespace TerrLauncherPackCreator.Windows
                 for (int i = 0; i < _pageNavigationNumberButtons.Length; i++)
                     _pageNavigationNumberButtons[i].IsActive = i == currentPageIndex;
 
-                StepsFrame.Navigate(ViewModel.StepsPages.Value[currentPageIndex]);
+                StepsFrame.Navigate(ViewModel.StepsPages[currentPageIndex]);
                 StepsFrame.BeginAnimation(Frame.OpacityProperty, fadeInAnimation);
             };
 
             StepsFrame.BeginAnimation(Frame.OpacityProperty, fadeOutAnimation);
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(ViewModel.CurrentStep):
+                    UpdateStepPage();
+                    break;
+            }
         }
     }
 }

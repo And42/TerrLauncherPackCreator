@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using CommonLibrary.CommonUtils;
 using Microsoft.Win32;
+using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
-using MVVM_Tools.Code.Providers;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Utils;
@@ -14,25 +14,35 @@ using TerrLauncherPackCreator.Windows;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
-    public class PackStartupWindowViewModel
+    public class PackStartupWindowViewModel : BindableBase
     {
         private readonly IAttachedWindowManipulator _attachedWindowManipulator;
 
-        public IProperty<int> PackTypeSelectedIndex { get; }
-        public IProperty<ObservableCollection<string>> PackTypeNames { get; }
+        public int PackTypeSelectedIndex
+        {
+            get => _packTypeSelectedIndex;
+            set => SetProperty(ref _packTypeSelectedIndex, value);
+        }
+        public ObservableCollection<string> PackTypeNames
+        {
+            get => _packTypeNames;
+            set => SetProperty(ref _packTypeNames, value);
+        }
 
         public IActionCommand CreateNewPackCommand { get; }
         public IActionCommand ChooseExistingPackCommand { get; }
+
+        #region backing fields
+        private int _packTypeSelectedIndex;
+        private ObservableCollection<string> _packTypeNames;
+        #endregion
 
         public PackStartupWindowViewModel(IAttachedWindowManipulator attachedWindowManipulator)
         {
             _attachedWindowManipulator = attachedWindowManipulator;
 
-            PackTypeSelectedIndex = new FieldProperty<int>(-1);
-            PackTypeNames = new FieldProperty<ObservableCollection<string>>
-            {
-                Value = new ObservableCollection<string>(PackUtils.PacksInfo.Select(it => it.title))
-            };
+            PackTypeSelectedIndex = -1;
+            PackTypeNames = new ObservableCollection<string>(PackUtils.PacksInfo.Select(it => it.title));
 
             CreateNewPackCommand = new ActionCommand(CreateNewPackCommand_Execute);
             ChooseExistingPackCommand = new ActionCommand(ChooseExistingPackCommand_Execute);
@@ -40,17 +50,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void CreateNewPackCommand_Execute()
         {
-            if (PackTypeSelectedIndex.Value == -1)
+            if (PackTypeSelectedIndex == -1)
             {
                 MessageBoxUtils.ShowError(StringResources.PackTypeNotSelected);
                 return;
             }
 
-            PackTypes packType = PackUtils.PacksInfo[PackTypeSelectedIndex.Value].packType;
+            PackTypes packType = PackUtils.PacksInfo[PackTypeSelectedIndex].packType;
 
             var mainWindow = new MainWindow();
             mainWindow.Show();
-            mainWindow.ViewModel.PackCreationViewModel.Value.PackType.Value = packType;
+            mainWindow.ViewModel.PackCreationViewModel.PackType = packType;
 
             _attachedWindowManipulator.Close();
         }
@@ -80,7 +90,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             var mainWindow = new MainWindow();
             mainWindow.Show();
-            mainWindow.ViewModel.PackProcessor.Value.LoadPackFromFile(dialog.FileName);
+            mainWindow.ViewModel.PackProcessor.LoadPackFromFile(dialog.FileName);
 
             _attachedWindowManipulator.Close();
 

@@ -22,7 +22,7 @@
 
         <TextBlock Grid.Row="0" FontSize="18" Margin="10" HorizontalAlignment="Center" Text="{x:Static localizations:StringResources.ModifiedFiles}"/>
         <ListView Grid.Row="1" Background="Transparent"
-                  ItemsSource="{Binding ModifiedFiles.Value}"
+                  ItemsSource="{Binding ModifiedFiles}"
                   ItemTemplateSelector="{StaticResource ModifiedFilesTemplateSelector}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.Resources>
@@ -49,7 +49,7 @@
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}{0} ({1})">
                                     <Binding Source="{x:Static localizations:StringResources.DragModifiedFilesHelpText}"/>
-                                    <Binding Path="DataContext.PackFilesExtension.Value" RelativeSource="{RelativeSource FindAncestor, AncestorType=Page}"/>
+                                    <Binding Path="DataContext.PackFilesExtension" RelativeSource="{RelativeSource FindAncestor, AncestorType=Page}"/>
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>

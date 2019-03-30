@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -8,8 +9,8 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using CommonLibrary.CommonUtils;
 using Microsoft.Win32;
+using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
-using MVVM_Tools.Code.Providers;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Models;
@@ -18,41 +19,111 @@ using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
-    public class PackCreationViewModel
+    public class PackCreationViewModel : BindableBase
     {
         private readonly IPackProcessor _packProcessor;
 
-        public IProperty<PackTypes> PackType;
+        public PackTypes PackType
+        {
+            get => _packType;
+            set => SetProperty(ref _packType, value);
+        }
+
+        #region backing fields
+        private PackTypes _packType;
+        #endregion
 
         #region Properties
 
         #region Step 1
 
-        public IProperty<BitmapSource> Icon { get; }
-        public IProperty<string> IconFilePath { get; }
-        public IProperty<string> Title { get; }
-        public IProperty<string> DescriptionRussian { get; }
-        public IProperty<string> DescriptionEnglish { get; }
-        public IProperty<Guid> Guid { get; }
-        public IProperty<int> Version { get; }
+        public BitmapSource Icon
+        {
+            get => _icon;
+            set => SetProperty(ref _icon, value);
+        }
+        public string IconFilePath
+        {
+            get => _iconFilePath;
+            set => SetProperty(ref _iconFilePath, value);
+        }
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+        public string DescriptionRussian
+        {
+            get => _descriptionRussian;
+            set => SetProperty(ref _descriptionRussian, value);
+        }
+        public string DescriptionEnglish
+        {
+            get => _descriptionEnglish;
+            set => SetProperty(ref _descriptionEnglish, value);
+        }
+        public Guid Guid
+        {
+            get => _guid;
+            set => SetProperty(ref _guid, value);
+        }
+        public int Version
+        {
+            get => _version;
+            set => SetProperty(ref _version, value);
+        }
+
+        #region backing fields
+        private BitmapSource _icon;
+        private string _iconFilePath;
+        private string _title;
+        private string _descriptionRussian;
+        private string _descriptionEnglish;
+        private Guid _guid;
+        private int _version;
+        #endregion
 
         #endregion
 
         #region Step 2
 
-        public IProperty<ObservableCollection<PreviewItemModel>> Previews { get; }
+        public ObservableCollection<PreviewItemModel> Previews
+        {
+            get => _previews;
+            set => SetProperty(ref _previews, value);
+        }
+
+        #region backing fields
+        private ObservableCollection<PreviewItemModel> _previews;
+        #endregion
 
         #endregion
 
         #region Step 3
 
-        public IProperty<ObservableCollection<ModifiedItemModel>> ModifiedFiles { get; }
+        public ObservableCollection<ModifiedItemModel> ModifiedFiles
+        {
+            get => _modifiedFiles;
+            set => SetProperty(ref _modifiedFiles, value);
+        }
+
+        #region backing fields
+        private ObservableCollection<ModifiedItemModel> _modifiedFiles;
+        #endregion
 
         #endregion
 
         #region Step 4
 
-        public IProperty<string> PackFilesExtension { get; }
+        public string PackFilesExtension
+        {
+            get => _packFilesExtension;
+            set => SetProperty(ref _packFilesExtension, value);
+        }
+
+        #region backing fields
+        private string _packFilesExtension;
+        #endregion
 
         #endregion
 
@@ -102,17 +173,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             _packProcessor = packProcessor;
 
-            PackType = new FieldProperty<PackTypes>();
-            Icon = new FieldProperty<BitmapSource>();
-            IconFilePath = new FieldProperty<string>();
-            Title = new FieldProperty<string>();
-            DescriptionRussian = new FieldProperty<string>();
-            DescriptionEnglish = new FieldProperty<string>();
-            Guid = new FieldProperty<Guid>(System.Guid.NewGuid());
-            Version = new FieldProperty<int>(1);
-            Previews = new FieldProperty<ObservableCollection<PreviewItemModel>>();
-            ModifiedFiles = new FieldProperty<ObservableCollection<ModifiedItemModel>>();
-            PackFilesExtension = new FieldProperty<string>();
+            Guid = Guid.NewGuid();
+            Version = 1;
+            Previews = new ObservableCollection<PreviewItemModel>();
+            ModifiedFiles = new ObservableCollection<ModifiedItemModel>();
 
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute);
             DropIconCommand = new ActionCommand<string>(DropIconCommand_Execute, DropIconCommand_CanExecute);
@@ -126,14 +190,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             ResetCollections();
 
-            PackFilesExtension.Value = PackUtils.PacksInfo.First(it => it.packType == PackType.Value).packFilesExt;
-            PackType.PropertyChanged += (sender, args) =>
-            {
-                PackFilesExtension.Value = PackUtils.PacksInfo.First(it => it.packType == PackType.Value).packFilesExt;
-            };
+            PackFilesExtension = PackUtils.PacksInfo.First(it => it.packType == PackType).packFilesExt;
 
             _packProcessor.PackLoaded += PackProcessorOnPackLoaded;
             _packProcessor.PackSaved += PackProcessorOnPackSaved;
+
+            PropertyChanged += OnPropertyChanged;
         }
 
         private void PackProcessorOnPackLoaded((string filePath, PackModel loadedPack, Exception error) item)
@@ -184,13 +246,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             ResetCollections();
 
-            PackType.Value = packModel.PackType;
-            IconFilePath.Value = packModel.IconFilePath;
-            Title.Value = packModel.Title;
-            DescriptionRussian.Value = packModel.DescriptionRussian;
-            DescriptionEnglish.Value = packModel.DescriptionEnglish;
-            Guid.Value = packModel.Guid;
-            Version.Value = packModel.Version;
+            PackType = packModel.PackType;
+            IconFilePath = packModel.IconFilePath;
+            Title = packModel.Title;
+            DescriptionRussian = packModel.DescriptionRussian;
+            DescriptionEnglish = packModel.DescriptionEnglish;
+            Guid = packModel.Guid;
+            Version = packModel.Version;
 
             var previewItems = packModel.PreviewsPaths?.Select(PreviewItemModel.FromImageFile).ToArray();
             var modifiedItems = packModel.ModifiedFilesPaths?.Select(ModifiedItemModel.FromFile).ToArray();
@@ -199,47 +261,23 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    previewItems?.ForEach(Previews.Value.Add);
-                    modifiedItems?.ForEach(ModifiedFiles.Value.Add);
+                    previewItems?.ForEach(Previews.Add);
+                    modifiedItems?.ForEach(ModifiedFiles.Add);
                 });
             }
 
             if (packModel.IconFilePath != null)
             {
-                Icon.Value = new Bitmap(packModel.IconFilePath).ToBitmapSource();
+                Icon = new Bitmap(packModel.IconFilePath).ToBitmapSource();
             }
         }
-
-        private PackModel GeneratePackModel()
-        {
-            return new PackModel
-            {
-                PackType = PackType.Value,
-                IconFilePath = IconFilePath.Value,
-                Title = Title.Value,
-                DescriptionRussian = DescriptionRussian.Value,
-                DescriptionEnglish = DescriptionEnglish.Value,
-                Guid = Guid.Value,
-                Version = Version.Value,
-                PreviewsPaths = Previews.Value.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
-                ModifiedFilesPaths = ModifiedFiles.Value.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
-            };
-        }
-
-        private void ResetCollections()
-        {
-            Previews.Value = new ObservableCollection<PreviewItemModel>();
-            ModifiedFiles.Value = new ObservableCollection<ModifiedItemModel>();
-
-            Previews.Value.Add(new PreviewItemModel(null, null, true));
-            ModifiedFiles.Value.Add(new ModifiedItemModel(null, true));
-        }
+        
 
         #region Step 1
 
         private void CreateNewGuidCommand_Execute()
         {
-            Guid.Value = System.Guid.NewGuid();
+            Guid = Guid.NewGuid();
         }
 
         private bool DropIconCommand_CanExecute(string file)
@@ -253,8 +291,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             {
                 var bitmap = new Bitmap(file);
 
-                Icon.Value = bitmap.ToBitmapSource();
-                IconFilePath.Value = file;
+                Icon = bitmap.ToBitmapSource();
+                IconFilePath = file;
             }
             catch (Exception ex)
             {
@@ -292,10 +330,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     continue;
                 }
 
-                if (Previews.Value.Any(item => item.FilePath == file))
+                if (Previews.Any(item => item.FilePath == file))
                     continue;
 
-                Previews.Value.Add(new PreviewItemModel(bitmap.ToBitmapSource(), file, false));
+                Previews.Add(new PreviewItemModel(bitmap.ToBitmapSource(), file, false));
             }
         }
 
@@ -306,7 +344,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void DeletePreviewItemCommand_Execute(PreviewItemModel previewItem)
         {
-            Previews.Value.Remove(previewItem);
+            Previews.Remove(previewItem);
         }
 
         #endregion
@@ -322,10 +360,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             foreach (string file in files)
             {
-                if (ModifiedFiles.Value.Any(item => item.FilePath == file))
+                if (ModifiedFiles.Any(item => item.FilePath == file))
                     continue;
 
-                ModifiedFiles.Value.Add(new ModifiedItemModel(file, false));
+                ModifiedFiles.Add(new ModifiedItemModel(file, false));
             }
         }
 
@@ -336,7 +374,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void DeleteModifiedItemCommand_Execute(ModifiedItemModel item)
         {
-            ModifiedFiles.Value.Remove(item);
+            ModifiedFiles.Remove(item);
         }
 
         #endregion
@@ -345,7 +383,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ExportPackCommand_Execute()
         {
-            var packInfo = PackUtils.PacksInfo.First(it => it.packType == PackType.Value);
+            var packInfo = PackUtils.PacksInfo.First(it => it.packType == PackType);
 
             var dialog = new SaveFileDialog
             {
@@ -366,5 +404,40 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         #endregion
+
+        private PackModel GeneratePackModel()
+        {
+            return new PackModel
+            {
+                PackType = PackType,
+                IconFilePath = IconFilePath,
+                Title = Title,
+                DescriptionRussian = DescriptionRussian,
+                DescriptionEnglish = DescriptionEnglish,
+                Guid = Guid,
+                Version = Version,
+                PreviewsPaths = Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
+                ModifiedFilesPaths = ModifiedFiles.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
+            };
+        }
+
+        private void ResetCollections()
+        {
+            Previews = new ObservableCollection<PreviewItemModel>();
+            ModifiedFiles = new ObservableCollection<ModifiedItemModel>();
+
+            Previews.Add(new PreviewItemModel(null, null, true));
+            ModifiedFiles.Add(new ModifiedItemModel(null, true));
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(PackType):
+                    PackFilesExtension = PackUtils.PacksInfo.First(it => it.packType == PackType).packFilesExt;
+                    break;
+            }
+        }
     }
 }
