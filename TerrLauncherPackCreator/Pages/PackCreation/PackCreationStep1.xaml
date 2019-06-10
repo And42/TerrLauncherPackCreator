@@ -55,9 +55,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Width="120" Height="120" Margin="3">
-            <Grid Visibility="{Binding Icon, Mode=OneWay, Converter={StaticResource VisibleIfNullConverter}}"
-                  AllowDrop="True" DragOver="Icon_OnDragOver" Drop="Icon_OnDrop">
+        <Grid Width="120" Height="120" Margin="3" AllowDrop="True" DragOver="Icon_OnDragOver" Drop="Icon_OnDrop">
+            <Grid Visibility="{Binding Icon, Mode=OneWay, Converter={StaticResource VisibleIfNullConverter}}">
                 <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
                 <TextBlock Text="{x:Static localizations:StringResources.DragIconHelpText}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
             </Grid>
