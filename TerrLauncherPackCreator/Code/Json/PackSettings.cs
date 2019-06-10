@@ -19,8 +19,5 @@ namespace TerrLauncherPackCreator.Code.Json
         
         [JsonProperty("guid")]
         public Guid Guid { get; set; }
-
-        [JsonProperty("packHash")]
-        public string PackHash { get; set; }
     }
 }
