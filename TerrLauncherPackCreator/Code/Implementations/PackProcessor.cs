@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 {
     public class PackProcessor : IPackProcessor
     {
+        private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         private const int PackProcessingTries = 20;
         private const int PackProcessingSleepMs = 500;
 
@@ -166,7 +168,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
             string[] previewsPaths = 
                 Directory.Exists(packPreviewsFolder)
-                    ? Directory.GetFiles(packPreviewsFolder, "*.jpg")
+                    ? Directory.EnumerateFiles(packPreviewsFolder).Where(it => PreviewExtensions.Contains(Path.GetExtension(it))).ToArray()
                     : null;
 
             string[] modifiedFilesPaths =
