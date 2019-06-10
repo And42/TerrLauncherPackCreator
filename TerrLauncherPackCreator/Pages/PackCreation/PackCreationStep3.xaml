@@ -24,7 +24,8 @@
         <ListView Grid.Row="1" Background="Transparent"
                   ItemsSource="{Binding ModifiedFiles}"
                   ItemTemplateSelector="{StaticResource ModifiedFilesTemplateSelector}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  VirtualizingStackPanel.ScrollUnit="Pixel">
             <ListView.Resources>
                 <DataTemplate x:Key="ModifiedFileDataTemplate" DataType="{x:Type models:ModifiedItemModel}">
                     <Grid>
