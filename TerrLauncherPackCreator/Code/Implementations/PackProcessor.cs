@@ -205,7 +205,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
             using (var zip = new ZipFile(filePath, Encoding.UTF8))
             {
-                zip.AddEntry("Settings.json", JsonConvert.SerializeObject(packSettingsJson, Formatting.Indented), Encoding.UTF8);
+                zip.AddEntry("Settings.json", JsonUtils.Serialize(packSettingsJson), Encoding.UTF8);
 
                 if (!string.IsNullOrEmpty(packModel.IconFilePath))
                     zip.AddFile(packModel.IconFilePath).FileName = $"Icon{Path.GetExtension(packModel.IconFilePath)}";

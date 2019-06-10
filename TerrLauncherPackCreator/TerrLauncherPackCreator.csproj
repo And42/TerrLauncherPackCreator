@@ -42,6 +42,9 @@
     <Reference Include="DotNetZip, Version=1.13.3.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.13.3\lib\net40\DotNetZip.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="MVVM_Tools, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -89,6 +92,7 @@
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
+    <Compile Include="Code\Utils\JsonUtils.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
     <Compile Include="Windows\PackStartupWindow.xaml.cs">
       <DependentUpon>PackStartupWindow.xaml</DependentUpon>
