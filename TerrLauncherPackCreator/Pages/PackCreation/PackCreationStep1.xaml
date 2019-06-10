@@ -6,6 +6,7 @@
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
+      xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -60,8 +61,9 @@
                 <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
                 <TextBlock Text="{x:Static localizations:StringResources.DragIconHelpText}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
             </Grid>
-            <Image VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Source="{Binding Icon, Mode=OneWay}"
+            <Image Name="IconImage"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   gif:AnimationBehavior.SourceUri="{Binding Icon, Mode=OneWay}"
                    RenderOptions.BitmapScalingMode="NearestNeighbor"
                    ToolTip="{Binding IconFilePath}"/>
         </Grid>

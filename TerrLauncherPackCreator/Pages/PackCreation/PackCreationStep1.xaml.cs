@@ -30,7 +30,7 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
 
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-            if (files != null && files.Length == 1 && ViewModel.DropIconCommand.CanExecute(files[0]))
+            if (files != null && files.Length == 1 && ViewModel.DropIconCommand.CanExecute((filePath: files[0], iconHolder: IconImage)))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
@@ -46,7 +46,7 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
             if (files != null && files.Length == 1)
-                ViewModel.DropIconCommand.Execute(files[0]);
+                ViewModel.DropIconCommand.Execute((filePath: files[0], iconHolder: IconImage));
         }
     }
 }

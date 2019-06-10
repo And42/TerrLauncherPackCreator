@@ -151,14 +151,18 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
 
             string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
-            string packIconFile = Path.Combine(targetFolderPath, "Icon.png");
+            string packIconGif = Path.Combine(targetFolderPath, "Icon.gif");
+            string packIconPng = Path.Combine(targetFolderPath, "Icon.png");
             string packPreviewsFolder = Path.Combine(targetFolderPath, "Previews");
             string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
 
             PackSettings packSettings = JsonConvert.DeserializeObject<PackSettings>(File.ReadAllText(packSettingsFile, Encoding.UTF8));
 
-            if (!File.Exists(packIconFile))
-                packIconFile = null;
+            string packIconFile = null;
+            if (File.Exists(packIconGif))
+                packIconFile = packIconGif;
+            else if (File.Exists(packIconPng))
+                packIconFile = packIconPng;
 
             string[] previewsPaths = 
                 Directory.Exists(packPreviewsFolder)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -6,7 +7,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media.Imaging;
 using CommonLibrary.CommonUtils;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Classes;
@@ -16,11 +16,13 @@ using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
+using Image = System.Windows.Controls.Image;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : BindableBase
     {
+        private static readonly ISet<string> PackIconExtensions = new HashSet<string> {".png", ".gif"};
         private readonly IPackProcessor _packProcessor;
 
         public PackTypes PackType
@@ -37,7 +39,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #region Step 1
 
-        public BitmapSource Icon
+        public Uri Icon
         {
             get => _icon;
             set => SetProperty(ref _icon, value);
@@ -74,7 +76,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         #region backing fields
-        private BitmapSource _icon;
+        private Uri _icon;
         private string _iconFilePath;
         private string _title;
         private string _descriptionRussian;
@@ -134,7 +136,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         #region Step 1
 
         public IActionCommand CreateNewGuidCommand { get; }
-        public IActionCommand<string> DropIconCommand { get; }
+        public IActionCommand<(string filePath, Image iconHolder)> DropIconCommand { get; }
 
         #endregion
 
@@ -179,7 +181,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             ModifiedFiles = new ObservableCollection<ModifiedItemModel>();
 
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute);
-            DropIconCommand = new ActionCommand<string>(DropIconCommand_Execute, DropIconCommand_CanExecute);
+            DropIconCommand = new ActionCommand<(string filePath, Image iconHolder)>(DropIconCommand_Execute, DropIconCommand_CanExecute);
             DropPreviewsCommand = new ActionCommand<string[]>(DropPreviewsCommand_Execute, DropPreviewsCommand_CanExecute);
             DeletePreviewItemCommand = new ActionCommand<PreviewItemModel>(DeletePreviewItemCommand_Execute, DeletePreviewItemCommand_CanExecute);
 
@@ -268,7 +270,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             if (packModel.IconFilePath != null)
             {
-                Icon = new Bitmap(packModel.IconFilePath).ToBitmapSource();
+                Icon = new Uri(packModel.IconFilePath);
             }
         }
         
@@ -280,19 +282,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Guid = Guid.NewGuid();
         }
 
-        private bool DropIconCommand_CanExecute(string file)
+        private bool DropIconCommand_CanExecute((string filePath, Image iconHolder) parameters)
         {
-            return File.Exists(file) && Path.GetExtension(file) == ".png";
+            return File.Exists(parameters.filePath) && PackIconExtensions.Contains(Path.GetExtension(parameters.filePath));
         }
 
-        private void DropIconCommand_Execute(string file)
+        private void DropIconCommand_Execute((string filePath, Image iconHolder) parameters)
         {
             try
             {
-                var bitmap = new Bitmap(file);
-
-                Icon = bitmap.ToBitmapSource();
-                IconFilePath = file;
+                Icon = new Uri(parameters.filePath);
+                IconFilePath = parameters.filePath;
             }
             catch (Exception ex)
             {
