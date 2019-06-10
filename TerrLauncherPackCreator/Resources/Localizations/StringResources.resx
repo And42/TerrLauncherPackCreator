@@ -139,7 +139,7 @@
     <value>Перетащите файлы сюда</value>
   </data>
   <data name="DragPreviewsHelpText" xml:space="preserve">
-    <value>Перетащите изображения сюда (.jpg)</value>
+    <value>Перетащите изображения сюда (.jpg|.png|.gif)</value>
   </data>
   <data name="ErrorLower" xml:space="preserve">
     <value>Ошибка</value>

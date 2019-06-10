@@ -124,7 +124,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перетащите изображения сюда (.jpg).
+        ///   Looks up a localized string similar to Перетащите изображения сюда (.jpg|.png|.gif).
         /// </summary>
         public static string DragPreviewsHelpText {
             get {

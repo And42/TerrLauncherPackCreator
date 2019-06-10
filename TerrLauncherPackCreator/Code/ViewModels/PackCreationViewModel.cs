@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -22,7 +21,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : BindableBase
     {
-        private static readonly ISet<string> PackIconExtensions = new HashSet<string> {".png", ".gif"};
+        private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
+        private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         private readonly IPackProcessor _packProcessor;
 
         public PackTypes PackType
@@ -284,7 +284,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DropIconCommand_CanExecute((string filePath, Image iconHolder) parameters)
         {
-            return File.Exists(parameters.filePath) && PackIconExtensions.Contains(Path.GetExtension(parameters.filePath));
+            return File.Exists(parameters.filePath) && IconExtensions.Contains(Path.GetExtension(parameters.filePath));
         }
 
         private void DropIconCommand_Execute((string filePath, Image iconHolder) parameters)
@@ -308,32 +308,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DropPreviewsCommand_CanExecute(string[] files)
         {
-            return files != null && files.All(it => File.Exists(it) && Path.GetExtension(it) == ".jpg");
+            return files != null && files.All(it => File.Exists(it) && PreviewExtensions.Contains(Path.GetExtension(it)));
         }
 
         private void DropPreviewsCommand_Execute(string[] files)
         {
             foreach (string file in files)
             {
-                Bitmap bitmap;
-
-                try
-                {
-                    bitmap = new Bitmap(file);
-                }
-                catch (Exception ex)
-                {
-                    CrashUtils.HandleException(ex);
-                    MessageBoxUtils.ShowError(
-                        string.Format(StringResources.LoadImageFromFileFailed, file, ex.Message)
-                    );
-                    continue;
-                }
-
                 if (Previews.Any(item => item.FilePath == file))
                     continue;
 
-                Previews.Add(new PreviewItemModel(bitmap.ToBitmapSource(), file, false));
+                Previews.Add(new PreviewItemModel(file, false));
             }
         }
 
@@ -426,7 +411,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Previews = new ObservableCollection<PreviewItemModel>();
             ModifiedFiles = new ObservableCollection<ModifiedItemModel>();
 
-            Previews.Add(new PreviewItemModel(null, null, true));
+            Previews.Add(new PreviewItemModel(filePath: null, isDragDropTarget: true));
             ModifiedFiles.Add(new ModifiedItemModel(null, true));
         }
 

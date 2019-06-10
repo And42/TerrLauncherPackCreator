@@ -7,6 +7,7 @@
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
       xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
+      xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -57,7 +58,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image Source="{Binding Image}" ToolTip="{Binding FilePath}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUri}" ToolTip="{Binding FilePath}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                         <Button Grid.Column="1" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
                                 Command="{Binding DataContext.DeletePreviewItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                                 CommandParameter="{Binding}"/>

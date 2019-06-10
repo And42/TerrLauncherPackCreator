@@ -1,29 +1,29 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using System.Windows.Media.Imaging;
-using TerrLauncherPackCreator.Code.Utils;
+﻿using System;
+using System.Diagnostics;
+using JetBrains.Annotations;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
     public class PreviewItemModel
     {
-        public BitmapSource Image { get; }
+        [CanBeNull]
+        public Uri ImageUri { get; }
+        [CanBeNull]
         public string FilePath { get; }
         public bool IsDragDropTarget { get; }
 
-        public PreviewItemModel(BitmapSource image, string filePath, bool isDragDropTarget)
+        public PreviewItemModel([CanBeNull] string filePath, bool isDragDropTarget)
         {
-            Image = image;
+            ImageUri = filePath != null ? new Uri(filePath) : null;
             FilePath = filePath;
             IsDragDropTarget = isDragDropTarget;
 
-            Debug.Assert(image != null ^ isDragDropTarget, "image != null ^ isDragDropTarget");
             Debug.Assert(filePath != null ^ isDragDropTarget, "filePath != null ^ isDragDropTarget");
         }
 
-        public static PreviewItemModel FromImageFile(string filePath)
+        public static PreviewItemModel FromImageFile([NotNull] string filePath)
         {
-            return new PreviewItemModel(new Bitmap(filePath).ToBitmapSource(), filePath, false);
+            return new PreviewItemModel(filePath, false);
         }
     }
 }
