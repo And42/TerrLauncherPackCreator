@@ -15,8 +15,8 @@
       
       d:DataContext="{d:DesignInstance viewModels:PackCreationViewModel, IsDesignTimeCreatable=True}">
 
-    <Grid UseLayoutRounding="True">
-        <Grid.Resources>
+    <StackPanel UseLayoutRounding="True">
+        <StackPanel.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -44,16 +44,7 @@
                 <Setter Property="MaxLines" Value="5"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
             </Style>
-        </Grid.Resources>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        </StackPanel.Resources>
 
         <Grid Width="120" Height="120" Margin="3" AllowDrop="True" DragOver="Icon_OnDragOver" Drop="Icon_OnDrop">
             <Grid Visibility="{Binding Icon, Mode=OneWay, Converter={StaticResource VisibleIfNullConverter}}">
@@ -67,13 +58,18 @@
                    ToolTip="{Binding IconFilePath}"/>
         </Grid>
 
-        <xctk:WatermarkTextBox Grid.Row="1" Text="{Binding Title}" Watermark="{x:Static localizations:StringResources.PackTitle}"/>
+        <Grid>
+            <xctk:IntegerUpDown Minimum="2" Value="{Binding TerrariaStructureVersion}"/>
+            <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.TerrariaStructureVersion}"/>
+        </Grid>
+        
+        <xctk:WatermarkTextBox Text="{Binding Title}" Watermark="{x:Static localizations:StringResources.PackTitle}"/>
 
-        <xctk:WatermarkTextBox Grid.Row="2" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionRussian}" Watermark="{x:Static localizations:StringResources.PackDescriptionRussian}"/>
+        <xctk:WatermarkTextBox Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionRussian}" Watermark="{x:Static localizations:StringResources.PackDescriptionRussian}"/>
 
-        <xctk:WatermarkTextBox Grid.Row="3" Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionEnglish}" Watermark="{x:Static localizations:StringResources.PackDescriptionEnglish}"/>
+        <xctk:WatermarkTextBox Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionEnglish}" Watermark="{x:Static localizations:StringResources.PackDescriptionEnglish}"/>
 
-        <Grid Grid.Row="4">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
@@ -86,7 +82,9 @@
                     Command="{Binding CreateNewGuidCommand}"/>
         </Grid>
 
-        <xctk:IntegerUpDown Grid.Row="5" Minimum="1" Value="{Binding Version}"/>
-        <TextBlock Grid.Row="5" Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackVersion}"/>
-    </Grid>
+        <Grid>
+            <xctk:IntegerUpDown Minimum="1" Value="{Binding Version}"/>
+            <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackVersion}"/>
+        </Grid>
+    </StackPanel>
 </Page>

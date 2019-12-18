@@ -58,6 +58,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         public void LoadPackFromFile(string filePath)
         {
+            // todo: add loading existing packs
+            throw new NotSupportedException();
+            
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
 
@@ -132,70 +135,74 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private static PackModel LoadPackModelInternal(string filePath)
         {
+            // todo: add loading packs support
+            throw new NotSupportedException();
+            
             // todo: implement the ability to process multiple packs with the same names simultaneously
 
-            string packExt = Path.GetExtension(filePath);
-
-            Debug.Assert(PackUtils.PacksInfo.Select(it => it.packExt).Contains(packExt));
-
-            var packTypeInfo = PackUtils.PacksInfo.First(it => it.packExt == packExt);
-
-            string targetFolderPath = Path.Combine(
-                ApplicationDataUtils.PathToTempFolder,
-                Path.GetFileNameWithoutExtension(filePath) ?? "undefined"
-            );
-
-            IOUtils.TryDeleteDirectory(targetFolderPath, PackProcessingTries, PackProcessingSleepMs);
-
-            using (var zip = ZipFile.Read(filePath))
-            {
-                zip.ExtractAll(targetFolderPath);
-            }
-
-            string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
-            string packIconGif = Path.Combine(targetFolderPath, "Icon.gif");
-            string packIconPng = Path.Combine(targetFolderPath, "Icon.png");
-            string packPreviewsFolder = Path.Combine(targetFolderPath, "Previews");
-            string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
-
-            PackSettings packSettings = JsonConvert.DeserializeObject<PackSettings>(File.ReadAllText(packSettingsFile, Encoding.UTF8));
-
-            string packIconFile = null;
-            if (File.Exists(packIconGif))
-                packIconFile = packIconGif;
-            else if (File.Exists(packIconPng))
-                packIconFile = packIconPng;
-
-            string[] previewsPaths = 
-                Directory.Exists(packPreviewsFolder)
-                    ? Directory.EnumerateFiles(packPreviewsFolder).Where(it => PreviewExtensions.Contains(Path.GetExtension(it))).ToArray()
-                    : null;
-
-            string[] modifiedFilesPaths =
-                Directory.Exists(packModifiedFilesFolder)
-                    ? Directory.GetFiles(packModifiedFilesFolder, "*" + packTypeInfo.packFilesExt)
-                    : null;
-
-            var packModel = new PackModel
-            {
-                PackType = packTypeInfo.packType,
-                IconFilePath = packIconFile,
-                Title = packSettings.Title,
-                DescriptionEnglish = packSettings.DescriptionEnglish,
-                DescriptionRussian = packSettings.DescriptionRussian,
-                Version = packSettings.Version,
-                Guid = packSettings.Guid,
-                PreviewsPaths = previewsPaths,
-                ModifiedFilesPaths = modifiedFilesPaths
-            };
-
-            return packModel;
+//            string packExt = Path.GetExtension(filePath);
+//
+//            Debug.Assert(PackUtils.PacksInfo.Select(it => it.packExt).Contains(packExt));
+//
+//            var packTypeInfo = PackUtils.PacksInfo.First(it => it.packExt == packExt);
+//
+//            string targetFolderPath = Path.Combine(
+//                ApplicationDataUtils.PathToTempFolder,
+//                Path.GetFileNameWithoutExtension(filePath) ?? "undefined"
+//            );
+//
+//            IOUtils.TryDeleteDirectory(targetFolderPath, PackProcessingTries, PackProcessingSleepMs);
+//
+//            using (var zip = ZipFile.Read(filePath))
+//            {
+//                zip.ExtractAll(targetFolderPath);
+//            }
+//
+//            string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
+//            string packIconGif = Path.Combine(targetFolderPath, "Icon.gif");
+//            string packIconPng = Path.Combine(targetFolderPath, "Icon.png");
+//            string packPreviewsFolder = Path.Combine(targetFolderPath, "Previews");
+//            string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
+//
+//            PackSettings packSettings = JsonConvert.DeserializeObject<PackSettings>(File.ReadAllText(packSettingsFile, Encoding.UTF8));
+//
+//            string packIconFile = null;
+//            if (File.Exists(packIconGif))
+//                packIconFile = packIconGif;
+//            else if (File.Exists(packIconPng))
+//                packIconFile = packIconPng;
+//
+//            string[] previewsPaths = 
+//                Directory.Exists(packPreviewsFolder)
+//                    ? Directory.EnumerateFiles(packPreviewsFolder).Where(it => PreviewExtensions.Contains(Path.GetExtension(it))).ToArray()
+//                    : null;
+//
+//            string[] modifiedFilesPaths =
+//                Directory.Exists(packModifiedFilesFolder)
+//                    ? Directory.GetFiles(packModifiedFilesFolder, "*" + packTypeInfo.packFilesExt)
+//                    : null;
+//
+//            var packModel = new PackModel
+//            {
+//                PackType = packTypeInfo.packType,
+//                IconFilePath = packIconFile,
+//                Title = packSettings.Title,
+//                DescriptionEnglish = packSettings.DescriptionEnglish,
+//                DescriptionRussian = packSettings.DescriptionRussian,
+//                Version = packSettings.Version,
+//                Guid = packSettings.Guid,
+//                PreviewsPaths = previewsPaths,
+//                ModifiedFilesPaths = modifiedFilesPaths
+//            };
+//
+//            return packModel;
         }
 
         private static void SavePackModelInternal(PackModel packModel, string filePath)
         {
             var packSettingsJson = new PackSettings
             {
+                TerrariaStructureVersion = packModel.TerrariaStructureVersion,
                 Title = packModel.Title,
                 DescriptionEnglish = packModel.DescriptionEnglish,
                 DescriptionRussian = packModel.DescriptionRussian,

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
         xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         mc:Ignorable="d"
@@ -24,33 +23,15 @@
             </Style>
         </StackPanel.Resources>
 
-        <Grid Margin="3">
-            <StackPanel x:Name="PackCreationOptions" Visibility="Collapsed">
-                <xctk:WatermarkComboBox 
-                    FontSize="15"
-                    Watermark="{x:Static localizations:StringResources.PackTypeHelpText}"
-                    ItemsSource="{Binding PackTypeNames}"
-                    SelectedIndex="{Binding PackTypeSelectedIndex}"/>
+        <Button 
+            Style="{DynamicResource ActionButtonMarginStyle}"
+            Content="{x:Static localizations:StringResources.PackCreateNew}"
+            Command="{Binding CreateNewPackCommand}"
+            VerticalAlignment="Top"/>
 
-                <Button 
-                    Margin="0 3 0 0"
-                    FontSize="15"
-                    Padding="7 1"
-                    Style="{DynamicResource ActionButtonStyle}"
-                    Content="{x:Static localizations:StringResources.PackCreate}"
-                    Command="{Binding CreateNewPackCommand}"/>
-            </StackPanel>
-
-            <Button 
-                x:Name="PackOptionsToggle"
-                Style="{DynamicResource ActionButtonStyle}"
-                Content="{x:Static localizations:StringResources.PackCreateNew}"
-                Click="PackCreateButton_Click"
-                VerticalAlignment="Top"/>
-        </Grid>
-
-        <Button Style="{StaticResource ActionButtonMarginStyle}"
-                Content="{x:Static localizations:StringResources.PackLoadExisting}"
-                Command="{Binding ChooseExistingPackCommand}"/>
+        <Button
+            Style="{StaticResource ActionButtonMarginStyle}"
+            Content="{x:Static localizations:StringResources.PackLoadExisting}"
+            Command="{Binding ChooseExistingPackCommand}"/>
     </StackPanel>
 </Window>

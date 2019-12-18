@@ -7,6 +7,7 @@ using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
+using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Pages.PackCreation;
 using TerrLauncherPackCreator.Resources.Localizations;
 
@@ -105,6 +106,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public ObservableCollection<IProgressManager> ProgressManagers { get; }
         public IPackProcessor PackProcessor { get; }
+        public ITempDirsProvider TempDirsProvider { get; }
 
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
@@ -134,8 +136,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 LoadProgressManager,
                 SaveProgressManager
             );
-
-            PackCreationViewModel = new PackCreationViewModel(PackProcessor);
+            TempDirsProvider = new TempDirsProvider(Paths.TempDir);
+            TempDirsProvider.DeleteAll();
+            
+            PackCreationViewModel = new PackCreationViewModel(PackProcessor, TempDirsProvider);
 
             StepsPages = new Page[]
             {
@@ -143,6 +147,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 new PackCreationStep2(PackCreationViewModel), 
                 new PackCreationStep3(PackCreationViewModel), 
                 new PackCreationStep4(PackCreationViewModel), 
+                new PackCreationStep5(PackCreationViewModel) 
             };
 
             ProgressManagers = new ObservableCollection<IProgressManager>

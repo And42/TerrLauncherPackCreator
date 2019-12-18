@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation
@@ -28,9 +29,10 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
                 return;
             }
 
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            var dropModel = (ModifiedFileModel) ((FrameworkElement) sender).DataContext;
 
-            if (files != null && ViewModel.DropModifiedFileCommand.CanExecute(files))
+            if (files != null && ViewModel.DropModifiedFileCommand.CanExecute((files, dropModel)))
                 e.Effects = DragDropEffects.Copy;
             else
                 e.Effects = DragDropEffects.None;
@@ -43,10 +45,12 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             if (!e.Data.GetDataPresent(DataFormats.FileDrop))
                 return;
 
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
+            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            var dropModel = (ModifiedFileModel) ((FrameworkElement) sender).DataContext;
             if (files != null)
-                ViewModel.DropModifiedFileCommand.Execute(files);
+            {
+                ViewModel.DropModifiedFileCommand.Execute((files, dropModel));
+            }
         }
     }
 }

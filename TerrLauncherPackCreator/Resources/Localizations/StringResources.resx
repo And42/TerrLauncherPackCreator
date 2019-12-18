@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Authors" xml:space="preserve">
+    <value>Авторы</value>
+  </data>
   <data name="ChoosePackDialogFailed" xml:space="preserve">
     <value>Пак не выбран!</value>
   </data>
@@ -164,9 +167,6 @@
   </data>
   <data name="NextStepCaption" xml:space="preserve">
     <value>Вперёд</value>
-  </data>
-  <data name="PackCreate" xml:space="preserve">
-    <value>Создать</value>
   </data>
   <data name="PackCreateNew" xml:space="preserve">
     <value>НОВЫЙ</value>
@@ -222,6 +222,9 @@
   <data name="PackTypeTranslations" xml:space="preserve">
     <value>Переводы</value>
   </data>
+  <data name="TerrariaStructureVersion" xml:space="preserve">
+    <value>Версия структуры террарии:</value>
+  </data>
   <data name="PackVersion" xml:space="preserve">
     <value>Версия:</value>
   </data>
@@ -248,5 +251,8 @@
   </data>
   <data name="SavingProcessStep" xml:space="preserve">
     <value>Сохранение паков</value>
+  </data>
+  <data name="TlPacksFilter" xml:space="preserve">
+    <value>Пак TerLauncher</value>
   </data>
 </root>

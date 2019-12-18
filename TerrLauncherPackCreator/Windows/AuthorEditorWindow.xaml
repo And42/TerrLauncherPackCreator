@@ -1,0 +1,31 @@
+﻿<Window x:Class="TerrLauncherPackCreator.Windows.AuthorEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        mc:Ignorable="d"
+        Title="AuthorEditor"
+        Height="450" Width="800"
+        
+        WindowStartupLocation="CenterScreen"
+        FontSize="14"
+        FontFamily="Century Gothic"
+        
+        d:DataContext="{d:DesignInstance viewModels:AuthorEditorWindowViewModel}">
+    <Grid Margin="5" UseLayoutRounding="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Image gif:AnimationBehavior.SourceUri="{Binding AuthorModel.ImageUri}" Height="200"/>
+
+        <xctk:WatermarkTextBox Grid.Row="1" Text="{Binding AuthorModel.Name}" Margin="0 5 0 0"/>
+
+        <xctk:ColorPicker Grid.Row="2" SelectedColor="{Binding AuthorModel.Color}" Margin="0 5 0 0"/>
+    </Grid>
+</Window>

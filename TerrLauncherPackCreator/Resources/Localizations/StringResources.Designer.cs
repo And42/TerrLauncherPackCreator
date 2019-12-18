@@ -19,7 +19,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class StringResources {
@@ -57,6 +57,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Авторы.
+        /// </summary>
+        public static string Authors {
+            get {
+                return ResourceManager.GetString("Authors", resourceCulture);
             }
         }
         
@@ -201,15 +210,6 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string NextStepCaption {
             get {
                 return ResourceManager.GetString("NextStepCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Создать.
-        /// </summary>
-        public static string PackCreate {
-            get {
-                return ResourceManager.GetString("PackCreate", resourceCulture);
             }
         }
         
@@ -453,6 +453,24 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string SavingProcessStep {
             get {
                 return ResourceManager.GetString("SavingProcessStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Версия структуры террарии:.
+        /// </summary>
+        public static string TerrariaStructureVersion {
+            get {
+                return ResourceManager.GetString("TerrariaStructureVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Пак TerLauncher.
+        /// </summary>
+        public static string TlPacksFilter {
+            get {
+                return ResourceManager.GetString("TlPacksFilter", resourceCulture);
             }
         }
     }

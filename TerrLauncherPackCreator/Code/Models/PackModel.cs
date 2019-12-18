@@ -5,8 +5,8 @@ namespace TerrLauncherPackCreator.Code.Models
 {
     public class PackModel
     {
-        public PackTypes PackType { get; set; }
-
+        public int TerrariaStructureVersion { get; set; }
+        
         public string IconFilePath { get; set; }
 
         public string Title { get; set; }

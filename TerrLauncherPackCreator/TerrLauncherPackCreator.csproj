@@ -15,6 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -90,10 +91,24 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
+    <Compile Include="Code\Implementations\FileConverter.cs" />
+    <Compile Include="Code\Implementations\TempDirsProvider.cs" />
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
+    <Compile Include="Code\Interfaces\IFileConverter.cs" />
+    <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
+    <Compile Include="Code\Models\AuthorItemModel.cs" />
+    <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
     <Compile Include="Code\Utils\JsonUtils.cs" />
+    <Compile Include="Code\Utils\Paths.cs" />
+    <Compile Include="Code\ViewModels\AuthorEditorWindowViewModel.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
+    <Compile Include="Pages\PackCreation\PackCreationStep4.xaml.cs">
+      <DependentUpon>PackCreationStep4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AuthorEditorWindow.xaml.cs">
+      <DependentUpon>AuthorEditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PackStartupWindow.xaml.cs">
       <DependentUpon>PackStartupWindow.xaml</DependentUpon>
     </Compile>
@@ -105,6 +120,11 @@
     </Page>
     <Page Include="Pages\PackCreation\PackCreationStep4.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PackCreation\PackCreationStep5.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\PackCreation\PackCreationStep3.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +141,10 @@
     <Page Include="Resources\Styles\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\AuthorEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -132,15 +156,15 @@
     <Compile Include="Code\Converters\AnyToVisibleConverter.cs" />
     <Compile Include="Code\Converters\StatusBarVisibilityConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfNullConverter.cs" />
-    <Compile Include="Code\Enums\PackTypes.cs" />
+    <Compile Include="Code\Enums\FileType.cs" />
     <Compile Include="Code\Implementations\PackProcessor.cs" />
     <Compile Include="Code\Interfaces\IPackProcessor.cs" />
     <Compile Include="Code\Interfaces\IProgressManager.cs" />
     <Compile Include="Code\Json\PackSettings.cs" />
-    <Compile Include="Code\Models\ModifiedItemModel.cs" />
+    <Compile Include="Code\Models\ModifiedFileModel.cs" />
     <Compile Include="Code\Models\PackModel.cs" />
     <Compile Include="Code\Models\PreviewItemModel.cs" />
-    <Compile Include="Code\TemplateSelectors\ModifiedFilesTemplateSelector.cs" />
+    <Compile Include="Code\TemplateSelectors\ModifiedFileTemplateSelector.cs" />
     <Compile Include="Code\TemplateSelectors\PreviewsTemplateSelector.cs" />
     <Compile Include="Code\Utils\BitmapUtils.cs" />
     <Compile Include="Code\Utils\DesignerUtils.cs" />
@@ -148,8 +172,8 @@
     <Compile Include="Controls\PageNavigationNumberButton.xaml.cs">
       <DependentUpon>PageNavigationNumberButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\PackCreation\PackCreationStep4.xaml.cs">
-      <DependentUpon>PackCreationStep4.xaml</DependentUpon>
+    <Compile Include="Pages\PackCreation\PackCreationStep5.xaml.cs">
+      <DependentUpon>PackCreationStep5.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PackCreation\PackCreationStep3.xaml.cs">
       <DependentUpon>PackCreationStep3.xaml</DependentUpon>

@@ -5,6 +5,9 @@ namespace TerrLauncherPackCreator.Code.Json
 {
     public class PackSettings
     {
+        [JsonProperty("terrariaStructureVersion")]
+        public int TerrariaStructureVersion { get; set; }
+
         [JsonProperty("title")]
         public string Title { get; set; }
         

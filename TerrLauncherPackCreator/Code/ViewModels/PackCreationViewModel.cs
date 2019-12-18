@@ -7,10 +7,12 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using CommonLibrary.CommonUtils;
+using JetBrains.Annotations;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Enums;
+using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
@@ -23,59 +25,82 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     {
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
+        [NotNull]
         private readonly IPackProcessor _packProcessor;
-
-        public PackTypes PackType
-        {
-            get => _packType;
-            set => SetProperty(ref _packType, value);
-        }
-
-        #region backing fields
-        private PackTypes _packType;
-        #endregion
-
+        [NotNull]
+        private readonly string _packTempDir;
+        [NotNull]
+        private readonly IFileConverter _fileConverter;
+        
         #region Properties
 
-        #region Step 1
+        // Step 1
+        public int TerrariaStructureVersion
+        {
+            get => _terrariaStructureVersion;
+            set => SetProperty(ref _terrariaStructureVersion, value);
+        }
 
         public Uri Icon
         {
             get => _icon;
             set => SetProperty(ref _icon, value);
         }
+
         public string IconFilePath
         {
             get => _iconFilePath;
             set => SetProperty(ref _iconFilePath, value);
         }
+
         public string Title
         {
             get => _title;
             set => SetProperty(ref _title, value);
         }
+
         public string DescriptionRussian
         {
             get => _descriptionRussian;
             set => SetProperty(ref _descriptionRussian, value);
         }
+
         public string DescriptionEnglish
         {
             get => _descriptionEnglish;
             set => SetProperty(ref _descriptionEnglish, value);
         }
+
         public Guid Guid
         {
             get => _guid;
             set => SetProperty(ref _guid, value);
         }
+
         public int Version
         {
             get => _version;
             set => SetProperty(ref _version, value);
         }
 
-        #region backing fields
+        // Step 2
+        [NotNull]
+        public ObservableCollection<PreviewItemModel> Previews { get; }
+
+        // Step 3
+        [NotNull]
+        public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
+
+        // Step 4
+        [NotNull]
+        public ObservableCollection<AuthorItemModel> Authors { get; }
+
+        #endregion
+
+        #region Backing fields
+
+        // Step 1
+        private int _terrariaStructureVersion = 2;
         private Uri _icon;
         private string _iconFilePath;
         private string _title;
@@ -83,116 +108,68 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private string _descriptionEnglish;
         private Guid _guid;
         private int _version;
-        #endregion
-
-        #endregion
-
-        #region Step 2
-
-        public ObservableCollection<PreviewItemModel> Previews
-        {
-            get => _previews;
-            set => SetProperty(ref _previews, value);
-        }
-
-        #region backing fields
-        private ObservableCollection<PreviewItemModel> _previews;
-        #endregion
-
-        #endregion
-
-        #region Step 3
-
-        public ObservableCollection<ModifiedItemModel> ModifiedFiles
-        {
-            get => _modifiedFiles;
-            set => SetProperty(ref _modifiedFiles, value);
-        }
-
-        #region backing fields
-        private ObservableCollection<ModifiedItemModel> _modifiedFiles;
-        #endregion
-
-        #endregion
-
-        #region Step 4
-
-        public string PackFilesExtension
-        {
-            get => _packFilesExtension;
-            set => SetProperty(ref _packFilesExtension, value);
-        }
-
-        #region backing fields
-        private string _packFilesExtension;
-        #endregion
-
-        #endregion
 
         #endregion
 
         #region Commands
 
-        #region Step 1
-
+        // Step 1
         public IActionCommand CreateNewGuidCommand { get; }
         public IActionCommand<(string filePath, Image iconHolder)> DropIconCommand { get; }
 
-        #endregion
-
-        #region Step 2
-
+        // Step 2
         public IActionCommand<string[]> DropPreviewsCommand { get; }
         public IActionCommand<PreviewItemModel> DeletePreviewItemCommand { get; }
 
-        #endregion
+        // Step 3
+        public IActionCommand<(string[] files, ModifiedFileModel dropModel)> DropModifiedFileCommand { get; }
+        public IActionCommand<ModifiedFileModel> DeleteModifiedItemCommand { get; }
 
-        #region Step 3
-
-        public IActionCommand<string[]> DropModifiedFileCommand { get; }
-        public IActionCommand<ModifiedItemModel> DeleteModifiedItemCommand { get; }
-
-        #endregion
-
-        #region Step 4
-
+        // Step 5
         public IActionCommand ExportPackCommand { get; }
 
         #endregion
 
-        #endregion
-
         // ReSharper disable once UnusedMember.Global
-        public PackCreationViewModel() : this(null)
+        // ReSharper disable AssignNullToNotNullAttribute
+        public PackCreationViewModel() : this(null, null)
+        // ReSharper restore AssignNullToNotNullAttribute
         {
             if (!DesignerUtils.IsInDesignMode())
                 throw new Exception("This constructor is available only in design mode");
         }
 
         public PackCreationViewModel(
-            IPackProcessor packProcessor
+            [NotNull] IPackProcessor packProcessor,
+            [NotNull] ITempDirsProvider tempDirsProvider
         )
         {
             _packProcessor = packProcessor;
+            _packTempDir = tempDirsProvider.GetNewDir();
+            _fileConverter = new FileConverter(Paths.TextureDefinitionsFile);
 
             Guid = Guid.NewGuid();
             Version = 1;
             Previews = new ObservableCollection<PreviewItemModel>();
-            ModifiedFiles = new ObservableCollection<ModifiedItemModel>();
+            ModifiedFileGroups = new ObservableCollection<ModifiedFilesGroupModel>();
+            Authors = new ObservableCollection<AuthorItemModel>
+            {
+                // todo: remove
+                new AuthorItemModel(),
+                new AuthorItemModel()
+            };
 
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute);
             DropIconCommand = new ActionCommand<(string filePath, Image iconHolder)>(DropIconCommand_Execute, DropIconCommand_CanExecute);
             DropPreviewsCommand = new ActionCommand<string[]>(DropPreviewsCommand_Execute, DropPreviewsCommand_CanExecute);
             DeletePreviewItemCommand = new ActionCommand<PreviewItemModel>(DeletePreviewItemCommand_Execute, DeletePreviewItemCommand_CanExecute);
 
-            DropModifiedFileCommand = new ActionCommand<string[]>(DropModifiedFileCommand_Execute, DropModifiedFileCommand_CanExecute);
-            DeleteModifiedItemCommand = new ActionCommand<ModifiedItemModel>(DeleteModifiedItemCommand_Execute, DeleteModifiedItemCommand_CanExecute);
+            DropModifiedFileCommand = new ActionCommand<(string[] files, ModifiedFileModel dropModel)>(DropModifiedFileCommand_Execute, DropModifiedFileCommand_CanExecute);
+            DeleteModifiedItemCommand = new ActionCommand<ModifiedFileModel>(DeleteModifiedItemCommand_Execute, DeleteModifiedItemCommand_CanExecute);
 
             ExportPackCommand = new ActionCommand(ExportPackCommand_Execute);
 
             ResetCollections();
-
-            PackFilesExtension = PackUtils.PacksInfo.First(it => it.packType == PackType).packFilesExt;
 
             _packProcessor.PackLoaded += PackProcessorOnPackLoaded;
             _packProcessor.PackSaved += PackProcessorOnPackSaved;
@@ -248,7 +225,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             ResetCollections();
 
-            PackType = packModel.PackType;
             IconFilePath = packModel.IconFilePath;
             Title = packModel.Title;
             DescriptionRussian = packModel.DescriptionRussian;
@@ -257,14 +233,22 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Version = packModel.Version;
 
             var previewItems = packModel.PreviewsPaths?.Select(PreviewItemModel.FromImageFile).ToArray();
-            var modifiedItems = packModel.ModifiedFilesPaths?.Select(ModifiedItemModel.FromFile).ToArray();
+            var modifiedItems = packModel.ModifiedFilesPaths?.Select(ModifiedFileModel.FromFile).ToArray();
 
             if (previewItems != null || modifiedItems != null)
             {
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     previewItems?.ForEach(Previews.Add);
-                    modifiedItems?.ForEach(ModifiedFiles.Add);
+                    if (modifiedItems == null)
+                        return;
+                    foreach (var modifiedItem in modifiedItems)
+                    {
+                        string itemExtension = Path.GetExtension(modifiedItem.FilePath);
+                        var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesExtension == itemExtension);
+                        if (fileGroup != null)
+                            fileGroup.ModifiedFiles.Add(modifiedItem);
+                    }
                 });
             }
 
@@ -336,30 +320,48 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #region Step 3
 
-        private bool DropModifiedFileCommand_CanExecute(string[] files)
+        private bool DropModifiedFileCommand_CanExecute((string[] files, ModifiedFileModel dropModel) parameter)
         {
-            return files != null && files.All(File.Exists);
+            return parameter.files != null && parameter.files.All(File.Exists);
         }
 
-        private void DropModifiedFileCommand_Execute(string[] files)
+        private void DropModifiedFileCommand_Execute((string[] files, ModifiedFileModel dropModel) parameter)
         {
-            foreach (string file in files)
+            foreach (string file in parameter.files)
             {
-                if (ModifiedFiles.Any(item => item.FilePath == file))
+                string fileExtension = Path.GetExtension(file);
+                var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.ModifiedFiles.First() == parameter.dropModel && it.FilesExtension == fileExtension);
+                if (fileGroup == null)
+                {
+                    Debug.WriteLine($"Can't find a group for `{file}` with extension `{fileExtension}`");
                     continue;
+                }
 
-                ModifiedFiles.Add(new ModifiedItemModel(file, false));
+                if (fileGroup.ModifiedFiles.Any(item => item.FilePath == file))
+                {
+                    Debug.WriteLine($"File `{file}` already added; ignoring");
+                    continue;
+                }
+
+                string convertedFile = _fileConverter.ConvertToTarget(fileGroup.FilesType, file, _packTempDir);
+                fileGroup.ModifiedFiles.Add(new ModifiedFileModel(convertedFile, false));
             }
         }
 
-        private bool DeleteModifiedItemCommand_CanExecute(ModifiedItemModel item)
+        private bool DeleteModifiedItemCommand_CanExecute(ModifiedFileModel file)
         {
-            return !item.IsDragDropTarget;
+            return !file.IsDragDropTarget;
         }
 
-        private void DeleteModifiedItemCommand_Execute(ModifiedItemModel item)
+        private void DeleteModifiedItemCommand_Execute(ModifiedFileModel file)
         {
-            ModifiedFiles.Remove(item);
+            foreach (var fileGroup in ModifiedFileGroups)
+            {
+                if (fileGroup.ModifiedFiles.Remove(file))
+                    return;
+            }
+            
+            Debug.WriteLine($"Can't delete modified file: {file}");
         }
 
         #endregion
@@ -368,12 +370,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ExportPackCommand_Execute()
         {
-            var packInfo = PackUtils.PacksInfo.First(it => it.packType == PackType);
-
             var dialog = new SaveFileDialog
             {
                 Title = StringResources.SavePackDialogTitle,
-                Filter = $"{packInfo.title} (*{packInfo.packExt})|*{packInfo.packExt}",
+                Filter = $"{StringResources.TlPacksFilter} (*{PackUtils.PacksExtension})|*{PackUtils.PacksExtension}",
                 AddExtension = true
             };
 
@@ -394,7 +394,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             return new PackModel
             {
-                PackType = PackType,
+                TerrariaStructureVersion = TerrariaStructureVersion,
                 IconFilePath = IconFilePath,
                 Title = Title,
                 DescriptionRussian = DescriptionRussian,
@@ -402,27 +402,27 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 Guid = Guid,
                 Version = Version,
                 PreviewsPaths = Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
-                ModifiedFilesPaths = ModifiedFiles.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
+                ModifiedFilesPaths = ModifiedFileGroups.SelectMany(it => it.ModifiedFiles).Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
             };
         }
 
         private void ResetCollections()
         {
-            Previews = new ObservableCollection<PreviewItemModel>();
-            ModifiedFiles = new ObservableCollection<ModifiedItemModel>();
+            Previews.Clear();
+            ModifiedFileGroups.Clear();
 
             Previews.Add(new PreviewItemModel(filePath: null, isDragDropTarget: true));
-            ModifiedFiles.Add(new ModifiedItemModel(null, true));
+            foreach ((FileType fileType, string initialFilesExt, string _, string title) in PackUtils.PacksInfo)
+            {
+                var group = new ModifiedFilesGroupModel(title, initialFilesExt, fileType);
+                group.ModifiedFiles.Add(new ModifiedFileModel(filePath: "drop_target" + initialFilesExt, isDragDropTarget: true));
+                ModifiedFileGroups.Add(group);
+            }
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
-            {
-                case nameof(PackType):
-                    PackFilesExtension = PackUtils.PacksInfo.First(it => it.packType == PackType).packFilesExt;
-                    break;
-            }
+            
         }
     }
 }

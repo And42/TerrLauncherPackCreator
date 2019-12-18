@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
-        xmlns:viewModels1="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
+        xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
         xmlns:interfaces="clr-namespace:TerrLauncherPackCreator.Code.Interfaces"
         mc:Ignorable="d"
@@ -18,7 +18,7 @@
         FontSize="14"
         FontFamily="Century Gothic"
         
-        d:DataContext="{d:DesignInstance viewModels1:MainWindowViewModel, IsDesignTimeCreatable=True}">
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
     <Grid Margin="5" UseLayoutRounding="True">
         <Grid.RowDefinitions>
             <RowDefinition/>
