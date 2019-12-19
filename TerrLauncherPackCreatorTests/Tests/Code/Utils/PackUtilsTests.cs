@@ -19,7 +19,7 @@ namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
         [TestMethod]
         public void PacksInfo_PackTypesValid()
         {
-            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.packType).ToArray();
+            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
 
             Assert.IsTrue(packTypes.All(type => Enum.IsDefined(typeof(FileType), type)));
         }
@@ -27,7 +27,7 @@ namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
         [TestMethod]
         public void PacksInfo_PackTypesUnique()
         {
-            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.packType).ToArray();
+            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
             var packTypesSet = new HashSet<FileType>(packTypes);
 
             Assert.IsTrue(packTypes.Length == packTypesSet.Count);
