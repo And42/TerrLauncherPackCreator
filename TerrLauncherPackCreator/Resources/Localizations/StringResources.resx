@@ -147,6 +147,9 @@
   <data name="ErrorLower" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>Обнаружена ошибка: %s</value>
+  </data>
   <data name="InformationLower" xml:space="preserve">
     <value>Информация</value>
   </data>
@@ -254,5 +257,8 @@
   </data>
   <data name="TlPacksFilter" xml:space="preserve">
     <value>Пак TerLauncher</value>
+  </data>
+  <data name="Log" xml:space="preserve">
+    <value>Лог</value>
   </data>
 </root>

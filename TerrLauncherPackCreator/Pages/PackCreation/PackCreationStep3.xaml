@@ -6,6 +6,7 @@
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
       xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
+      xmlns:attachedProperties="clr-namespace:TerrLauncherPackCreator.Code.AttachedProperties"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -18,9 +19,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" FontSize="18" Margin="10" HorizontalAlignment="Center" Text="{x:Static localizations:StringResources.ModifiedFiles}"/>
+        
         <ListView Grid.Row="1" Background="Transparent"
                   ItemsSource="{Binding ModifiedFileGroups}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -77,5 +80,13 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+        <Expander Grid.Row="2" Header="{x:Static localizations:StringResources.Log}" Margin="0 2 0 0" Padding="0 8 0 0">
+            <TextBox
+                Background="Black" Foreground="White" IsReadOnly="True" AcceptsReturn="True"
+                Text="{Binding Log, Mode=OneWay}" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"
+                MinLines="10" MaxLines="10" FontFamily="Consolas"
+                attachedProperties:TextBoxAP.AutoScrollToEnd="True"/>
+        </Expander>
     </Grid>
 </Page>

@@ -5,11 +5,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using Microsoft.Win32;
-using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Implementations;
@@ -21,7 +21,7 @@ using Image = System.Windows.Controls.Image;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
-    public class PackCreationViewModel : BindableBase
+    public class PackCreationViewModel : ViewModelBase
     {
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
@@ -91,6 +91,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         [NotNull]
         public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
 
+        [NotNull]
+        public string Log => _log.ToString();
+
         // Step 4
         [NotNull]
         public ObservableCollection<AuthorItemModel> Authors { get; }
@@ -109,6 +112,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private Guid _guid;
         private int _version;
 
+        // Step 3
+        [NotNull]
+        private readonly StringBuilder _log = new StringBuilder();
+        
         #endregion
 
         #region Commands
@@ -146,7 +153,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             _packProcessor = packProcessor;
             _packTempDir = tempDirsProvider.GetNewDir();
-            _fileConverter = new FileConverter(Paths.TextureDefinitionsFile);
+            _fileConverter = new FileConverter(Paths.TextureDefinitionsFile, WriteToLog);
 
             Guid = Guid.NewGuid();
             Version = 1;
@@ -159,15 +166,20 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 new AuthorItemModel()
             };
 
-            CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute);
+            // Step 1
+            CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute, CreateNewGuidCommand_CanExecute);
             DropIconCommand = new ActionCommand<(string filePath, Image iconHolder)>(DropIconCommand_Execute, DropIconCommand_CanExecute);
+            
+            // Step 2
             DropPreviewsCommand = new ActionCommand<string[]>(DropPreviewsCommand_Execute, DropPreviewsCommand_CanExecute);
             DeletePreviewItemCommand = new ActionCommand<PreviewItemModel>(DeletePreviewItemCommand_Execute, DeletePreviewItemCommand_CanExecute);
 
+            // Step 3
             DropModifiedFileCommand = new ActionCommand<(string[] files, ModifiedFileModel dropModel)>(DropModifiedFileCommand_Execute, DropModifiedFileCommand_CanExecute);
             DeleteModifiedItemCommand = new ActionCommand<ModifiedFileModel>(DeleteModifiedItemCommand_Execute, DeleteModifiedItemCommand_CanExecute);
 
-            ExportPackCommand = new ActionCommand(ExportPackCommand_Execute);
+            // Step 5
+            ExportPackCommand = new ActionCommand(ExportPackCommand_Execute, ExportPackCommand_CanExecute);
 
             ResetCollections();
 
@@ -266,9 +278,14 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Guid = Guid.NewGuid();
         }
 
+        private bool CreateNewGuidCommand_CanExecute()
+        {
+            return !Working;
+        }
+        
         private bool DropIconCommand_CanExecute((string filePath, Image iconHolder) parameters)
         {
-            return File.Exists(parameters.filePath) && IconExtensions.Contains(Path.GetExtension(parameters.filePath));
+            return !Working && File.Exists(parameters.filePath) && IconExtensions.Contains(Path.GetExtension(parameters.filePath));
         }
 
         private void DropIconCommand_Execute((string filePath, Image iconHolder) parameters)
@@ -292,7 +309,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DropPreviewsCommand_CanExecute(string[] files)
         {
-            return files != null && files.All(it => File.Exists(it) && PreviewExtensions.Contains(Path.GetExtension(it)));
+            return !Working && files != null && files.All(it => File.Exists(it) && PreviewExtensions.Contains(Path.GetExtension(it)));
         }
 
         private void DropPreviewsCommand_Execute(string[] files)
@@ -308,7 +325,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DeletePreviewItemCommand_CanExecute(PreviewItemModel previewItem)
         {
-            return !previewItem.IsDragDropTarget;
+            return !Working && !previewItem.IsDragDropTarget;
         }
 
         private void DeletePreviewItemCommand_Execute(PreviewItemModel previewItem)
@@ -322,35 +339,49 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DropModifiedFileCommand_CanExecute((string[] files, ModifiedFileModel dropModel) parameter)
         {
-            return parameter.files != null && parameter.files.All(File.Exists);
+            return !Working && parameter.files != null && parameter.files.All(File.Exists);
         }
 
-        private void DropModifiedFileCommand_Execute((string[] files, ModifiedFileModel dropModel) parameter)
+        private async void DropModifiedFileCommand_Execute((string[] files, ModifiedFileModel dropModel) parameter)
         {
-            foreach (string file in parameter.files)
+            using (LaunchWork())
             {
-                string fileExtension = Path.GetExtension(file);
-                var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.ModifiedFiles.First() == parameter.dropModel && it.FilesExtension == fileExtension);
-                if (fileGroup == null)
+                foreach (string file in parameter.files)
                 {
-                    Debug.WriteLine($"Can't find a group for `{file}` with extension `{fileExtension}`");
-                    continue;
-                }
+                    string fileExtension = Path.GetExtension(file);
+                    var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.ModifiedFiles.First() == parameter.dropModel && it.FilesExtension == fileExtension);
+                    if (fileGroup == null)
+                    {
+                        Debug.WriteLine($"Can't find a group for `{file}` with extension `{fileExtension}`");
+                        continue;
+                    }
 
-                if (fileGroup.ModifiedFiles.Any(item => item.FilePath == file))
-                {
-                    Debug.WriteLine($"File `{file}` already added; ignoring");
-                    continue;
-                }
+                    if (fileGroup.ModifiedFiles.Any(item => item.FilePath == file))
+                    {
+                        Debug.WriteLine($"File `{file}` already added; ignoring");
+                        continue;
+                    }
 
-                string convertedFile = _fileConverter.ConvertToTarget(fileGroup.FilesType, file, _packTempDir);
-                fileGroup.ModifiedFiles.Add(new ModifiedFileModel(convertedFile, false));
+                    try
+                    {
+                        string convertedFile = await _fileConverter.ConvertToTarget(fileGroup.FilesType, file, _packTempDir);
+                        fileGroup.ModifiedFiles.Add(new ModifiedFileModel(convertedFile, false));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(
+                            StringResources.ErrorLower,
+                            string.Format(StringResources.ErrorOccurred, ex),
+                            MessageBoxButton.OK, MessageBoxImage.Warning
+                        );
+                    }
+                }
             }
         }
 
         private bool DeleteModifiedItemCommand_CanExecute(ModifiedFileModel file)
         {
-            return !file.IsDragDropTarget;
+            return !Working && !file.IsDragDropTarget;
         }
 
         private void DeleteModifiedItemCommand_Execute(ModifiedFileModel file)
@@ -364,6 +395,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Debug.WriteLine($"Can't delete modified file: {file}");
         }
 
+        private void WriteToLog([CanBeNull] string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return;
+
+            _log.Append(text);
+            OnPropertyChanged(nameof(Log));
+        }
+        
         #endregion
 
         #region Step 4
@@ -388,6 +428,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             _packProcessor.SavePackToFile(packModel, dialog.FileName);
         }
 
+        private bool ExportPackCommand_CanExecute()
+        {
+            return !Working;
+        }
+        
         #endregion
 
         private PackModel GeneratePackModel()
@@ -422,7 +467,24 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            
+            switch (e.PropertyName)
+            {
+                case nameof(Log):
+                    break;
+                case nameof(Working):
+                    // Step 1
+                    CreateNewGuidCommand.RaiseCanExecuteChanged();
+                    DropIconCommand.RaiseCanExecuteChanged();
+                    // Step 2
+                    DropPreviewsCommand.RaiseCanExecuteChanged();
+                    DeletePreviewItemCommand.RaiseCanExecuteChanged();
+                    // Step 3
+                    DropModifiedFileCommand.RaiseCanExecuteChanged();
+                    DeleteModifiedItemCommand.RaiseCanExecuteChanged();
+                    // Step 5
+                    ExportPackCommand.RaiseCanExecuteChanged();
+                    break;
+            }
         }
     }
 }

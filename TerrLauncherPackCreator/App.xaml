@@ -11,7 +11,7 @@
              </ResourceDictionary.MergedDictionaries>
 
              <templateSelectors:PreviewsTemplateSelector x:Key="PreviewsTemplateSelector"/>
-             <templateSelectors:ModifiedFilesTemplateSelector x:Key="ModifiedFilesTemplateSelector"/>
+             <templateSelectors:ModifiedFileTemplateSelector x:Key="ModifiedFilesTemplateSelector"/>
          </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -27,12 +27,6 @@ namespace TerrLauncherPackCreator.Code.Utils
         public static readonly string TextureDefinitionsFile = Path.Combine(DataDir, "texture_definitions.txt");
 
         [NotNull]
-        private static readonly string Etc2ConversionDir = Path.Combine(DataDir, "etc2_conversion");
-
-        [NotNull]
-        public static readonly string ConvertExe = Path.Combine(Etc2ConversionDir, "convert.exe");
-        
-        [NotNull]
-        public static readonly string EtcPackExe = Path.Combine(Etc2ConversionDir, "etcpack.exe");
+        public static readonly string EtcPackExe = Path.Combine(DataDir, "etc2_conversion", "etcpack.exe");
     }
 }

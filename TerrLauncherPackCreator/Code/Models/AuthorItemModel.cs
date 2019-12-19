@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Windows.Media;
 using JetBrains.Annotations;
-using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
+using TerrLauncherPackCreator.Code.ViewModels;
 using TerrLauncherPackCreator.Windows;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
-    public class AuthorItemModel : BindableBase
+    public class AuthorItemModel : ViewModelBase
     {
         [CanBeNull]
         public Uri ImageUri

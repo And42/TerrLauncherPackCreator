@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using JetBrains.Annotations;
-using MVVM_Tools.Code.Classes;
 using TerrLauncherPackCreator.Code.Enums;
+using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
-    public class ModifiedFilesGroupModel : BindableBase
+    public class ModifiedFilesGroupModel : ViewModelBase
     {
         [NotNull]
         public string Title { get; }

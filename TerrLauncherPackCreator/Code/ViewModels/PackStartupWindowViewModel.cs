@@ -1,13 +1,12 @@
 ﻿using System;
 using JetBrains.Annotations;
-using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Windows;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
-    public class PackStartupWindowViewModel : BindableBase
+    public class PackStartupWindowViewModel : ViewModelBase
     {
         [NotNull]
         private readonly IAttachedWindowManipulator _attachedWindowManipulator;

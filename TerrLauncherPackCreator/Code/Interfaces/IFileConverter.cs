@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Threading.Tasks;
+using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
 
 namespace TerrLauncherPackCreator.Code.Interfaces
@@ -6,6 +7,6 @@ namespace TerrLauncherPackCreator.Code.Interfaces
     public interface IFileConverter
     {
         [NotNull]
-        string ConvertToTarget(FileType fileType, [NotNull] string sourceFile, [NotNull] string packTempDir);
+        Task<string> ConvertToTarget(FileType fileType, [NotNull] string sourceFile, [NotNull] string packTempDir);
     }
 }

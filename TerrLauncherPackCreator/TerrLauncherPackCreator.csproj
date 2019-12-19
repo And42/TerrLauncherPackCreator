@@ -90,6 +90,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Code\AttachedProperties\TextBoxAP.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />
     <Compile Include="Code\Implementations\TempDirsProvider.cs" />
@@ -101,8 +102,10 @@
     <Compile Include="Code\Utils\FreezableUtils.cs" />
     <Compile Include="Code\Utils\JsonUtils.cs" />
     <Compile Include="Code\Utils\Paths.cs" />
+    <Compile Include="Code\Utils\ProcessUtils.cs" />
     <Compile Include="Code\ViewModels\AuthorEditorWindowViewModel.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
+    <Compile Include="Code\ViewModels\ViewModelBase.cs" />
     <Compile Include="Pages\PackCreation\PackCreationStep4.xaml.cs">
       <DependentUpon>PackCreationStep4.xaml</DependentUpon>
     </Compile>

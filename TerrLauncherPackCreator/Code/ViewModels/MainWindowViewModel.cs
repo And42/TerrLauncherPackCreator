@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Controls;
-using MVVM_Tools.Code.Classes;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
@@ -13,9 +12,9 @@ using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ViewModelBase
     {
-        private class ProgressManager : BindableBase, IProgressManager
+        private class ProgressManager : ViewModelBase, IProgressManager
         {
             private const int UpdateTextDelayMs = 500;
             // ReSharper disable once NotAccessedField.Local

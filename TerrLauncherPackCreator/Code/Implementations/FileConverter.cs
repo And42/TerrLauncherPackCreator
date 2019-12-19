@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
@@ -16,6 +17,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
     {
         [NotNull]
         private readonly Dictionary<string, TextureDefinition> _textureDefinitions;
+        [CanBeNull]
+        private readonly Action<string> _consoleLogger;
 
         private static readonly Dictionary<FileType, string> TempFilesDir = new Dictionary<FileType, string>
         {
@@ -24,16 +27,17 @@ namespace TerrLauncherPackCreator.Code.Implementations
             { FileType.Character, "characters" }
         };
 
-        public FileConverter([NotNull] string textureDefinitionsFile)
+        public FileConverter([NotNull] string textureDefinitionsFile, [CanBeNull] Action<string> consoleLogger)
         {
             if (!File.Exists(textureDefinitionsFile))
                 throw new FileNotFoundException("Can't find definitions file", textureDefinitionsFile);
 
             _textureDefinitions = ParseTextureDefinitions(textureDefinitionsFile);
+            _consoleLogger = consoleLogger;
         }
         
         [NotNull]
-        public string ConvertToTarget(FileType fileType, [NotNull] string sourceFile, [NotNull] string packTempDir)
+        public async Task<string> ConvertToTarget(FileType fileType, [NotNull] string sourceFile, [NotNull] string packTempDir)
         {
             if (!File.Exists(sourceFile))
                 throw new FileNotFoundException("File not found", sourceFile);
@@ -63,7 +67,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                             File.WriteAllBytes(targetFile, PngToRGBA32(sourceFile));
                             break;
                         case TextureFormat.ETC2_RGBA8:
-                            File.WriteAllBytes(targetFile, PngToETC2_RGBA8(sourceFile, tempFilesDir));
+                            File.WriteAllBytes(targetFile, await PngToETC2_RGBA8(sourceFile, tempFilesDir));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -88,6 +92,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
         }
 
+        // ReSharper disable once InconsistentNaming
         private byte[] PngToRGBA32([NotNull] string imageFile)
         {
             Bitmap bitmap = new Bitmap(imageFile);
@@ -122,15 +127,38 @@ namespace TerrLauncherPackCreator.Code.Implementations
             return result;
         }
 
-        private byte[] PngToETC2_RGBA8([NotNull] string imageFile, [NotNull] string tempDir)
+        private async Task<byte[]> PngToETC2_RGBA8([NotNull] string imageFile, [NotNull] string tempDir)
         {
             string pkmImage = Path.Combine(tempDir, Path.GetFileNameWithoutExtension(imageFile) + ".pkm");
             try
             {
-                Process.Start(new ProcessStartInfo(Paths.EtcPackExe, $"\"{imageFile}\" \"{tempDir}\" -s slow -e perceptual -c etc2 -f RGBA8")
+                var processInfo = new ProcessStartInfo
                 {
+                    FileName = Paths.EtcPackExe,
+                    Arguments = $"\"{imageFile}\" \"{tempDir}\" -s slow -e perceptual -c etc2 -f RGBA8 -progress",
                     WorkingDirectory = Path.GetDirectoryName(Paths.EtcPackExe)
-                }).WaitForExit();
+                };
+                if (_consoleLogger != null)
+                {
+                    processInfo.RedirectStandardOutput = true;
+                    processInfo.RedirectStandardError = true;
+                    processInfo.UseShellExecute = false;
+                    processInfo.CreateNoWindow = true;
+                }
+
+                using (var process = Process.Start(processInfo))
+                {
+                    if (_consoleLogger != null)
+                    {
+                        process.OutputDataReceived += (sender, args) => _consoleLogger(args.Data + Environment.NewLine);
+                        process.ErrorDataReceived += (sender, args) => _consoleLogger(args.Data + Environment.NewLine);
+                        process.BeginOutputReadLine();
+                        process.BeginErrorReadLine();
+                    }
+                    
+                    await process.WaitForExitAsync();
+                }
+
                 int fileSize = (int) new FileInfo(pkmImage).Length;
                 byte[] result = new byte[fileSize - 16];
                 using (var input = File.OpenRead(pkmImage))
