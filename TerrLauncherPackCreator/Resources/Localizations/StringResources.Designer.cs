@@ -151,7 +151,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Обнаружена ошибка: %s.
+        ///   Looks up a localized string similar to Обнаружена ошибка: {0}.
         /// </summary>
         public static string ErrorOccurred {
             get {

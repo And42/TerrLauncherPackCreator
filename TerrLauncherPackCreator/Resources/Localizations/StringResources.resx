@@ -148,7 +148,7 @@
     <value>Ошибка</value>
   </data>
   <data name="ErrorOccurred" xml:space="preserve">
-    <value>Обнаружена ошибка: %s</value>
+    <value>Обнаружена ошибка: {0}</value>
   </data>
   <data name="InformationLower" xml:space="preserve">
     <value>Информация</value>

@@ -77,13 +77,13 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 }
                 case FileType.Map:
                 {
-                    string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile), convertedFilesExt);
+                    string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile) + convertedFilesExt);
                     File.Copy(sourceFile, targetFile, overwrite: true);
                     return targetFile;
                 }
                 case FileType.Character:
                 {
-                    string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile), convertedFilesExt);
+                    string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile) + convertedFilesExt);
                     File.Copy(sourceFile, targetFile, overwrite: true);
                     return targetFile;
                 }

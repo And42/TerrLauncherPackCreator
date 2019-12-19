@@ -373,8 +373,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     catch (Exception ex)
                     {
                         MessageBox.Show(
-                            StringResources.ErrorLower,
                             string.Format(StringResources.ErrorOccurred, ex),
+                            StringResources.ErrorLower,
                             MessageBoxButton.OK, MessageBoxImage.Warning
                         );
                     }
