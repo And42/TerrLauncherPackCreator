@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Code\AttachedProperties\TextBoxAP.cs" />
+    <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />
     <Compile Include="Code\Implementations\TempDirsProvider.cs" />

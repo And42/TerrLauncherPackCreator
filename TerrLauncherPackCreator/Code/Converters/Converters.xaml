@@ -4,4 +4,5 @@
     <local:VisibleIfNullConverter x:Key="VisibleIfNullConverter"/>
     <local:AnyToVisibleConverter x:Key="AnyToVisibleConverter"/>
     <local:StatusBarVisibilityConverter x:Key="StatusBarVisibilityConverter"/>
+    <local:PathToFileNameConverter x:Key="PathToFileNameConverter"/>
 </ResourceDictionary>

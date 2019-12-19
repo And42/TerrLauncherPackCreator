@@ -36,7 +36,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding FilePath}" ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding FilePath, Converter={StaticResource PathToFileNameConverter}}" ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3" TextTrimming="CharacterEllipsis"/>
                         <Button Grid.Column="1" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
                                 Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                                 CommandParameter="{Binding}"
