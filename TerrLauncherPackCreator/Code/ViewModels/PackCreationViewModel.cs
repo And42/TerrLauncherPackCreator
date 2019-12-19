@@ -356,10 +356,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         continue;
                     }
 
-                    if (fileGroup.ModifiedFiles.Any(item => item.FilePath == file))
+                    string fileName = Path.GetFileNameWithoutExtension(file);
+                    var existingFile = fileGroup.ModifiedFiles.FirstOrDefault(item => Path.GetFileNameWithoutExtension(item.FilePath) == fileName);
+                    if (existingFile != null)
                     {
-                        Debug.WriteLine($"File `{file}` already added; ignoring");
-                        continue;
+                        Debug.WriteLine($"File `{file}` already added; replacing");
+                        SafeFileSystemUtils.DeleteFile(existingFile.FilePath);
+                        fileGroup.ModifiedFiles.Remove(existingFile);
                     }
 
                     try
@@ -388,6 +391,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             foreach (var fileGroup in ModifiedFileGroups)
             {
+                SafeFileSystemUtils.DeleteFile(file.FilePath);
                 if (fileGroup.ModifiedFiles.Remove(file))
                     return;
             }
@@ -401,6 +405,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 return;
 
             _log.Append(text);
+            if (_log.Length >= 15000)
+            {
+                int endLineIndex;
+                for (endLineIndex = 4000; endLineIndex < 6000 && _log[endLineIndex] != '\n'; endLineIndex++) {}
+                _log.Remove(0, endLineIndex + 1);
+            }
             OnPropertyChanged(nameof(Log));
         }
         
