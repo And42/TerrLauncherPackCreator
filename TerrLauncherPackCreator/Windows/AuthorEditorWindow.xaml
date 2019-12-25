@@ -5,27 +5,67 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
+        xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
         mc:Ignorable="d"
         Title="AuthorEditor"
         Height="450" Width="800"
+        MinWidth="300"
+        SizeToContent="Height"
         
         WindowStartupLocation="CenterScreen"
         FontSize="14"
         FontFamily="Century Gothic"
         
         d:DataContext="{d:DesignInstance viewModels:AuthorEditorWindowViewModel}">
-    <Grid Margin="5" UseLayoutRounding="True">
+    <Grid Margin="8" UseLayoutRounding="True">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="Padding" Value="7 3"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Padding" Value="7 3"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <Image gif:AnimationBehavior.SourceUri="{Binding AuthorModel.ImageUri}" Height="200"/>
+        <controls:DragAndDropImage
+            VerticalAlignment="Top"
+            Grid.RowSpan="6" Width="120" Height="120"
+            ImagePath="{Binding AuthorModel.ImagePath}"
+            DropImageCommand="{Binding DropAuthorImageCommand}"
+            ImageHelpText="{x:Static localizations:StringResources.DragAuthorImageHelpText}"/>
 
-        <xctk:WatermarkTextBox Grid.Row="1" Text="{Binding AuthorModel.Name}" Margin="0 5 0 0"/>
+        <TextBlock Grid.Column="2" Text="Имя:"/>
+        <TextBox Grid.Column="4" Text="{Binding AuthorModel.Name}"/>
 
-        <xctk:ColorPicker Grid.Row="2" SelectedColor="{Binding AuthorModel.Color}" Margin="0 5 0 0"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="Цвет:"/>
+        <xctk:ColorPicker Grid.Row="2" Grid.Column="4" SelectedColor="{Binding AuthorModel.Color}"/>
+        
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="Ссылка:"/>
+        <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding AuthorModel.Link}"/>
     </Grid>
 </Window>

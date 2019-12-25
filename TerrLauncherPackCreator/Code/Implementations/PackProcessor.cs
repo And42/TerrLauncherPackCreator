@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using CommonLibrary.CommonUtils;
 using Ionic.Zip;
-using Newtonsoft.Json;
+using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
@@ -200,6 +200,13 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private static void SavePackModelInternal(PackModel packModel, string filePath)
         {
+            var authorsMappings = new List<(string sourceFile, string targetFile, string json)>();
+            int authorFileIndex = 1;
+            foreach (var author in packModel.Authors)
+            {
+                string json = AuthorModelToString(author, ref authorFileIndex, out bool copyIcon);
+                authorsMappings.Add((copyIcon ? author.iconPath : null, copyIcon ? $"{authorFileIndex - 1}.png" : null, json));
+            }
             var packSettingsJson = new PackSettings
             {
                 TerrariaStructureVersion = packModel.TerrariaStructureVersion,
@@ -207,7 +214,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 DescriptionEnglish = packModel.DescriptionEnglish,
                 DescriptionRussian = packModel.DescriptionRussian,
                 Version = packModel.Version,
-                Guid = packModel.Guid
+                Guid = packModel.Guid,
+                Authors = string.Join("<->", authorsMappings.Select(it => it.json))
             };
 
             IOUtils.TryDeleteFile(filePath, PackProcessingTries, PackProcessingSleepMs);
@@ -219,6 +227,10 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 if (!string.IsNullOrEmpty(packModel.IconFilePath))
                     zip.AddFile(packModel.IconFilePath).FileName = $"Icon{Path.GetExtension(packModel.IconFilePath)}";
 
+                foreach (var (sourceFile, targetFile, _) in authorsMappings)
+                    if (sourceFile != null)
+                        zip.AddFile(sourceFile).FileName = $"Authors/{targetFile}";
+
                 int previewIndex = 1;
                 foreach (string previewPath in packModel.PreviewsPaths)
                     zip.AddFile(previewPath).FileName = $"Previews/{previewIndex++}{Path.GetExtension(previewPath)}";
@@ -228,6 +240,31 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
                 zip.Save();
             }
+        }
+
+        [NotNull]
+        private static string AuthorModelToString((string name, Color? color, string link, string iconPath) author, ref int authorFileIndex, out bool copyIcon)
+        {
+            var parts = new List<string>();
+
+            if (!string.IsNullOrEmpty(author.name))
+                parts.Add("name=" + author.name);
+            if (author.color.HasValue)
+                parts.Add("color=" + author.color);
+            if (!string.IsNullOrEmpty(author.link))
+                parts.Add("link=" + author.link);
+            if (!string.IsNullOrEmpty(author.iconPath) && File.Exists(author.iconPath))
+            {
+                parts.Add($"file={authorFileIndex.ToString()}.png");
+                authorFileIndex++;
+                copyIcon = true;
+            }
+            else
+            {
+                copyIcon = false;
+            }
+
+            return string.Join("|", parts);
         }
     }
 }

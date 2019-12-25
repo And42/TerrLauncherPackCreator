@@ -22,5 +22,8 @@ namespace TerrLauncherPackCreator.Code.Json
         
         [JsonProperty("guid")]
         public Guid Guid { get; set; }
+        
+        [JsonProperty("authors")]
+        public string Authors { get; set; }
     }
 }

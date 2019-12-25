@@ -61,6 +61,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить.
+        /// </summary>
+        public static string AddAuthorCaption {
+            get {
+                return ResourceManager.GetString("AddAuthorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Авторы.
         /// </summary>
         public static string Authors {
@@ -108,9 +117,27 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Удалить.
         /// </summary>
+        public static string DeleteAuthorCaption {
+            get {
+                return ResourceManager.GetString("DeleteAuthorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить.
+        /// </summary>
         public static string DeletePreviewCaption {
             get {
                 return ResourceManager.GetString("DeletePreviewCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Перетащите иконку сюда (.png).
+        /// </summary>
+        public static string DragAuthorImageHelpText {
+            get {
+                return ResourceManager.GetString("DragAuthorImageHelpText", resourceCulture);
             }
         }
         
@@ -138,6 +165,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string DragPreviewsHelpText {
             get {
                 return ResourceManager.GetString("DragPreviewsHelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Изменить.
+        /// </summary>
+        public static string EditAuthorCaption {
+            get {
+                return ResourceManager.GetString("EditAuthorCaption", resourceCulture);
             }
         }
         

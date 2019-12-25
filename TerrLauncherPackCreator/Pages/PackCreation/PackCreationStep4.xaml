@@ -46,26 +46,46 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="18" Margin="10" HorizontalAlignment="Center" Text="{x:Static localizations:StringResources.Authors}"/>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <TextBlock FontSize="18" Margin="10" Text="{x:Static localizations:StringResources.Authors}"/>
+            <Button VerticalAlignment="Center" Content="{x:Static localizations:StringResources.AddAuthorCaption}" Command="{Binding AddAuthorCommand}"/>
+        </StackPanel>
 
         <ListView Grid.Row="1" Background="Transparent"
                   ItemsSource="{Binding Authors}"
-                  VirtualizingStackPanel.ScrollUnit="Pixel">
+                  VirtualizingStackPanel.ScrollUnit="Pixel"
+                  Grid.IsSharedSizeScope="True">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:AuthorItemModel}">
-                    <Grid IsSharedSizeScope="True">
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Image"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup"/>
+                            <ColumnDefinition Width="8"/>
                             <ColumnDefinition/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUri}"
-                               VerticalAlignment="Center"/>
+                        <Image
+                            Height="40" Width="40" VerticalAlignment="Center"
+                            gif:AnimationBehavior.SourceUri="{Binding ImagePath, Mode=OneWay}"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
-                        <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"/>
+                        <Rectangle Grid.Column="2" Width="40" Height="40" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" VerticalAlignment="Center"/>
+                        
+                        <TextBlock Grid.Column="4" Text="{Binding Name}" VerticalAlignment="Center"/>
 
-                        <Button Grid.Column="2" Content="Edit" Command="{Binding EditAuthorCommand}" CommandParameter="{Binding}"/>
+                        <TextBlock Grid.Column="6" Text="{Binding Link}" VerticalAlignment="Center" Foreground="DodgerBlue" TextDecorations="Underline"/>
+                        
+                        <Button Grid.Column="8" Content="{x:Static localizations:StringResources.EditAuthorCaption}" Command="{Binding EditAuthorCommand}" CommandParameter="{Binding}"/>
+                        
+                        <Button Grid.Column="10" Content="{x:Static localizations:StringResources.DeleteAuthorCaption}" Command="{Binding DataContext.DeleteAuthorCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}" CommandParameter="{Binding}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

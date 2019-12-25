@@ -138,6 +138,9 @@
   <data name="DragIconHelpText" xml:space="preserve">
     <value>Перетащите иконку сюда (.png|.gif)</value>
   </data>
+  <data name="DragAuthorImageHelpText" xml:space="preserve">
+    <value>Перетащите иконку сюда (.png)</value>
+  </data>
   <data name="DragModifiedFilesHelpText" xml:space="preserve">
     <value>Перетащите файлы сюда</value>
   </data>
@@ -260,5 +263,14 @@
   </data>
   <data name="Log" xml:space="preserve">
     <value>Лог</value>
+  </data>
+  <data name="AddAuthorCaption" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="EditAuthorCaption" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="DeleteAuthorCaption" xml:space="preserve">
+    <value>Удалить</value>
   </data>
 </root>

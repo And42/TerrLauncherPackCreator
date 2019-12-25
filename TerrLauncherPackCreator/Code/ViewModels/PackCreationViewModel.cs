@@ -17,7 +17,6 @@ using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
-using Image = System.Windows.Controls.Image;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
@@ -39,12 +38,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             get => _terrariaStructureVersion;
             set => SetProperty(ref _terrariaStructureVersion, value);
-        }
-
-        public Uri Icon
-        {
-            get => _icon;
-            set => SetProperty(ref _icon, value);
         }
 
         public string IconFilePath
@@ -104,7 +97,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         // Step 1
         private int _terrariaStructureVersion = 2;
-        private Uri _icon;
         private string _iconFilePath;
         private string _title;
         private string _descriptionRussian;
@@ -122,7 +114,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         // Step 1
         public IActionCommand CreateNewGuidCommand { get; }
-        public IActionCommand<(string filePath, Image iconHolder)> DropIconCommand { get; }
+        public IActionCommand<string> DropIconCommand { get; }
 
         // Step 2
         public IActionCommand<string[]> DropPreviewsCommand { get; }
@@ -132,6 +124,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IActionCommand<(string[] files, ModifiedFileModel dropModel)> DropModifiedFileCommand { get; }
         public IActionCommand<ModifiedFileModel> DeleteModifiedItemCommand { get; }
 
+        // Step 4
+        public IActionCommand AddAuthorCommand { get; }
+        public IActionCommand<AuthorItemModel> DeleteAuthorCommand { get; }
+        
         // Step 5
         public IActionCommand ExportPackCommand { get; }
 
@@ -159,16 +155,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Version = 1;
             Previews = new ObservableCollection<PreviewItemModel>();
             ModifiedFileGroups = new ObservableCollection<ModifiedFilesGroupModel>();
-            Authors = new ObservableCollection<AuthorItemModel>
-            {
-                // todo: remove
-                new AuthorItemModel(),
-                new AuthorItemModel()
-            };
+            Authors = new ObservableCollection<AuthorItemModel>();
 
             // Step 1
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute, CreateNewGuidCommand_CanExecute);
-            DropIconCommand = new ActionCommand<(string filePath, Image iconHolder)>(DropIconCommand_Execute, DropIconCommand_CanExecute);
+            DropIconCommand = new ActionCommand<string>(file => {}, DropIconCommand_CanExecute);
             
             // Step 2
             DropPreviewsCommand = new ActionCommand<string[]>(DropPreviewsCommand_Execute, DropPreviewsCommand_CanExecute);
@@ -178,6 +169,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             DropModifiedFileCommand = new ActionCommand<(string[] files, ModifiedFileModel dropModel)>(DropModifiedFileCommand_Execute, DropModifiedFileCommand_CanExecute);
             DeleteModifiedItemCommand = new ActionCommand<ModifiedFileModel>(DeleteModifiedItemCommand_Execute, DeleteModifiedItemCommand_CanExecute);
 
+            // Step 4
+            AddAuthorCommand = new ActionCommand(AddAuthorCommand_Execute);
+            DeleteAuthorCommand = new ActionCommand<AuthorItemModel>(DeleteAuthorCommand_Execute);
+            
             // Step 5
             ExportPackCommand = new ActionCommand(ExportPackCommand_Execute, ExportPackCommand_CanExecute);
 
@@ -263,11 +258,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     }
                 });
             }
-
-            if (packModel.IconFilePath != null)
-            {
-                Icon = new Uri(packModel.IconFilePath);
-            }
         }
         
 
@@ -283,24 +273,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             return !Working;
         }
         
-        private bool DropIconCommand_CanExecute((string filePath, Image iconHolder) parameters)
+        private bool DropIconCommand_CanExecute(string filePath)
         {
-            return !Working && File.Exists(parameters.filePath) && IconExtensions.Contains(Path.GetExtension(parameters.filePath));
-        }
-
-        private void DropIconCommand_Execute((string filePath, Image iconHolder) parameters)
-        {
-            try
-            {
-                Icon = new Uri(parameters.filePath);
-                IconFilePath = parameters.filePath;
-            }
-            catch (Exception ex)
-            {
-                MessageBoxUtils.ShowError(
-                    string.Format(StringResources.LoadIconFromFileFailed, ex.Message)
-                );
-            }
+            return !Working && File.Exists(filePath) && IconExtensions.Contains(Path.GetExtension(filePath));
         }
 
         #endregion
@@ -399,6 +374,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Debug.WriteLine($"Can't delete modified file: {file}");
         }
 
+        private void AddAuthorCommand_Execute()
+        {
+            Authors.Add(new AuthorItemModel());
+        }
+        
+        private void DeleteAuthorCommand_Execute(AuthorItemModel author)
+        {
+            Authors.Remove(author);
+        }
+        
         private void WriteToLog([CanBeNull] string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -447,7 +432,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private PackModel GeneratePackModel()
         {
-            return new PackModel
+            return new PackModel(
+                Authors.Select(author => (author.Name, author.Color, author.Link, author.ImagePath)).ToArray(),
+                Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
+                ModifiedFileGroups.SelectMany(it => it.ModifiedFiles).Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
+            )
             {
                 TerrariaStructureVersion = TerrariaStructureVersion,
                 IconFilePath = IconFilePath,
@@ -455,9 +444,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 DescriptionRussian = DescriptionRussian,
                 DescriptionEnglish = DescriptionEnglish,
                 Guid = Guid,
-                Version = Version,
-                PreviewsPaths = Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
-                ModifiedFilesPaths = ModifiedFileGroups.SelectMany(it => it.ModifiedFiles).Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
+                Version = Version
             };
         }
 

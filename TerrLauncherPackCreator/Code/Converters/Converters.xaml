@@ -5,4 +5,5 @@
     <local:AnyToVisibleConverter x:Key="AnyToVisibleConverter"/>
     <local:StatusBarVisibilityConverter x:Key="StatusBarVisibilityConverter"/>
     <local:PathToFileNameConverter x:Key="PathToFileNameConverter"/>
+    <local:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
 </ResourceDictionary>

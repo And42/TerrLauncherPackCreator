@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.ViewModels;
@@ -10,21 +9,10 @@ namespace TerrLauncherPackCreator.Code.Models
     public class AuthorItemModel : ViewModelBase
     {
         [CanBeNull]
-        public Uri ImageUri
-        {
-            get => _imageUri;
-            private set => SetProperty(ref _imageUri, value);
-        }
-
-        [CanBeNull]
         public string ImagePath
         {
             get => _imagePath;
-            set
-            {
-                if (SetProperty(ref _imagePath, value))
-                    ImageUri = value != null ? new Uri(value) : null;
-            }
+            set => SetProperty(ref _imagePath, value);
         }
 
         [CanBeNull]
@@ -50,7 +38,6 @@ namespace TerrLauncherPackCreator.Code.Models
 
         public IActionCommand<AuthorItemModel> EditAuthorCommand { get; }
 
-        [CanBeNull] private Uri _imageUri;
         [CanBeNull] private string _imagePath;
         [CanBeNull] private string _name;
         [CanBeNull] private Color? _color;

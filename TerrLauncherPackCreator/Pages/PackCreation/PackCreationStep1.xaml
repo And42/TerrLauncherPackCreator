@@ -7,6 +7,7 @@
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
       xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+      xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -46,17 +47,11 @@
             </Style>
         </StackPanel.Resources>
 
-        <Grid Width="120" Height="120" Margin="3" AllowDrop="True" DragOver="Icon_OnDragOver" Drop="Icon_OnDrop">
-            <Grid Visibility="{Binding Icon, Mode=OneWay, Converter={StaticResource VisibleIfNullConverter}}">
-                <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
-                <TextBlock Text="{x:Static localizations:StringResources.DragIconHelpText}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
-            </Grid>
-            <Image Name="IconImage"
-                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                   gif:AnimationBehavior.SourceUri="{Binding Icon, Mode=OneWay}"
-                   RenderOptions.BitmapScalingMode="NearestNeighbor"
-                   ToolTip="{Binding IconFilePath}"/>
-        </Grid>
+        <controls:DragAndDropImage
+            Width="120" Height="120" Margin="3"
+            ImagePath="{Binding IconFilePath}"
+            DropImageCommand="{Binding DropIconCommand}"
+            ImageHelpText="{x:Static localizations:StringResources.DragIconHelpText}"/>
 
         <Grid>
             <xctk:IntegerUpDown Minimum="2" Value="{Binding TerrariaStructureVersion}"/>

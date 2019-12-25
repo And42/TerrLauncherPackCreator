@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Code\AttachedProperties\TextBoxAP.cs" />
+    <Compile Include="Code\Converters\ColorToBrushConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />
@@ -108,6 +109,9 @@
     <Compile Include="Code\ViewModels\AuthorEditorWindowViewModel.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
     <Compile Include="Code\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Controls\DragAndDropImage.xaml.cs">
+      <DependentUpon>DragAndDropImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PackCreation\PackCreationStep4.xaml.cs">
       <DependentUpon>PackCreationStep4.xaml</DependentUpon>
     </Compile>
@@ -120,6 +124,7 @@
     <Page Include="Code\Converters\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DragAndDropImage.xaml" />
     <Page Include="Controls\PageNavigationNumberButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
