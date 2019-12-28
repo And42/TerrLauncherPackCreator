@@ -175,7 +175,7 @@
     <value>Вперёд</value>
   </data>
   <data name="PackCreateNew" xml:space="preserve">
-    <value>НОВЫЙ</value>
+    <value>Новый</value>
   </data>
   <data name="PackDescriptionEnglish" xml:space="preserve">
     <value>Описание (на английском)</value>
@@ -193,7 +193,10 @@
     <value>Guid:</value>
   </data>
   <data name="PackLoadExisting" xml:space="preserve">
-    <value>СУЩЕСТВУЮЩИЙ</value>
+    <value>Существующий</value>
+  </data>
+  <data name="ResourcesConverter" xml:space="preserve">
+    <value>Конвертер</value>
   </data>
   <data name="PackLoadingFailed" xml:space="preserve">
     <value>Не удалось загрузить пак "{0}". Ошибка: "{1}"</value>
@@ -272,5 +275,8 @@
   </data>
   <data name="DeleteAuthorCaption" xml:space="preserve">
     <value>Удалить</value>
+  </data>
+  <data name="ConverterFileType" xml:space="preserve">
+    <value>Тип файла:</value>
   </data>
 </root>

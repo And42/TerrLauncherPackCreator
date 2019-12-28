@@ -96,6 +96,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         private byte[] PngToRGBA32([NotNull] string imageFile)
         {
             Bitmap bitmap = new Bitmap(imageFile);
+            bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
             int width = bitmap.Width;
             int height = bitmap.Height;
             var bitmapData = bitmap.LockBits(
@@ -129,13 +130,23 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private async Task<byte[]> PngToETC2_RGBA8([NotNull] string imageFile, [NotNull] string tempDir)
         {
+            string tempRotatedImage = Path.Combine(tempDir, Path.GetFileName(imageFile));
             string pkmImage = Path.Combine(tempDir, Path.GetFileNameWithoutExtension(imageFile) + ".pkm");
             try
             {
+                await Task.Run(() =>
+                {
+                    using (var bitmap = new Bitmap(imageFile))
+                    {
+                        bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                        bitmap.Save(tempRotatedImage, ImageFormat.Png);
+                    }
+                });
+                
                 var processInfo = new ProcessStartInfo
                 {
                     FileName = Paths.EtcPackExe,
-                    Arguments = $"\"{imageFile}\" \"{tempDir}\" -s slow -e perceptual -c etc2 -f RGBA8 -progress",
+                    Arguments = $"\"{tempRotatedImage}\" \"{tempDir}\" -s slow -e perceptual -c etc2 -f RGBA8 -progress",
                     WorkingDirectory = Path.GetDirectoryName(Paths.EtcPackExe)
                 };
                 if (_consoleLogger != null)
@@ -170,8 +181,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
             finally
             {
-                if (File.Exists(pkmImage))
-                    File.Delete(pkmImage);
+                SafeFileSystemUtils.DeleteFile(tempRotatedImage);
+                SafeFileSystemUtils.DeleteFile(pkmImage);
             }
         }
         
@@ -226,10 +237,10 @@ namespace TerrLauncherPackCreator.Code.Implementations
         
         private struct ARGB32
         {
-            public byte A;
-            public byte R;
-            public byte G;
             public byte B;
+            public byte G;
+            public byte R;
+            public byte A;
         }
         
         private enum TextureFormat

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using MVVM_Tools.Code.Commands;
+using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Controls
 {
@@ -49,36 +50,24 @@ namespace TerrLauncherPackCreator.Controls
         
         private void Icon_OnDragOver(object sender, DragEventArgs e)
         {
-            e.Handled = true;
-
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effects = DragDropEffects.None;
-                return;
-            }
-
-            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
-
-            if (files != null && files.Length == 1 && DropImageCommand.CanExecute(files[0]))
-                e.Effects = DragDropEffects.Copy;
-            else
-                e.Effects = DragDropEffects.None;
+            DragDropUtils.HandleDrag(
+                e, 
+                files => files.Length == 1 && DropImageCommand.CanExecute(files[0]),
+                DragDropEffects.Copy
+            );
         }
 
         private void Icon_OnDrop(object sender, DragEventArgs e)
         {
-            e.Handled = true;
-
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
-                return;
-
-            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
-
-            if (files != null && files.Length == 1)
-            {
-                ImagePath = files[0];
-                DropImageCommand.Execute(files[0]);
-            }
+            DragDropUtils.HandleDrop(
+                e,
+                files => files.Length == 1,
+                files =>
+                {
+                    ImagePath = files[0];
+                    DropImageCommand.Execute(files[0]);
+                }
+            );
         }
     }
 }

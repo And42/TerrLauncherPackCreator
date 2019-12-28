@@ -15,6 +15,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IActionCommand CreateNewPackCommand { get; }
         [NotNull]
         public IActionCommand ChooseExistingPackCommand { get; }
+        [NotNull]
+        public IActionCommand LaunchConverterCommand { get; }
 
         public PackStartupWindowViewModel([NotNull] IAttachedWindowManipulator attachedWindowManipulator)
         {
@@ -22,6 +24,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             CreateNewPackCommand = new ActionCommand(CreateNewPackCommand_Execute);
             ChooseExistingPackCommand = new ActionCommand(ChooseExistingPackCommand_Execute);
+            LaunchConverterCommand = new ActionCommand(LaunchConverterCommand_Execute);
         }
 
         private void CreateNewPackCommand_Execute()
@@ -65,6 +68,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 //            _attachedWindowManipulator.Close();
 //
 //            MessageBoxUtils.ShowInformation(StringResources.ChoosePackProcessStarted);
+        }
+
+        private void LaunchConverterCommand_Execute()
+        {
+            new ConverterWindow().Show();
+            _attachedWindowManipulator.Close();
         }
     }
 }

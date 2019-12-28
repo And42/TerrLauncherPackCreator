@@ -101,12 +101,14 @@
     <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
+    <Compile Include="Code\Utils\DragDropUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
     <Compile Include="Code\Utils\JsonUtils.cs" />
     <Compile Include="Code\Utils\Paths.cs" />
     <Compile Include="Code\Utils\ProcessUtils.cs" />
     <Compile Include="Code\Utils\SafeFileSystemUtils.cs" />
     <Compile Include="Code\ViewModels\AuthorEditorWindowViewModel.cs" />
+    <Compile Include="Code\ViewModels\ConverterWindowViewModel.cs" />
     <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
     <Compile Include="Code\ViewModels\ViewModelBase.cs" />
     <Compile Include="Controls\DragAndDropImage.xaml.cs">
@@ -117,6 +119,9 @@
     </Compile>
     <Compile Include="Windows\AuthorEditorWindow.xaml.cs">
       <DependentUpon>AuthorEditorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ConverterWindow.xaml.cs">
+      <DependentUpon>ConverterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PackStartupWindow.xaml.cs">
       <DependentUpon>PackStartupWindow.xaml</DependentUpon>
@@ -155,6 +160,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\ConverterWindow.xaml" />
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

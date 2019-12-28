@@ -115,6 +115,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Тип файла:.
+        /// </summary>
+        public static string ConverterFileType {
+            get {
+                return ResourceManager.GetString("ConverterFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Удалить.
         /// </summary>
         public static string DeleteAuthorCaption {
@@ -268,7 +277,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to НОВЫЙ.
+        ///   Looks up a localized string similar to Новый.
         /// </summary>
         public static string PackCreateNew {
             get {
@@ -322,7 +331,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to СУЩЕСТВУЮЩИЙ.
+        ///   Looks up a localized string similar to Существующий.
         /// </summary>
         public static string PackLoadExisting {
             get {
@@ -453,6 +462,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string PreviousStepCaption {
             get {
                 return ResourceManager.GetString("PreviousStepCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Конвертер.
+        /// </summary>
+        public static string ResourcesConverter {
+            get {
+                return ResourceManager.GetString("ResourcesConverter", resourceCulture);
             }
         }
         
