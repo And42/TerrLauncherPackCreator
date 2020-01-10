@@ -223,26 +223,39 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
             using (var zip = new ZipFile(filePath, Encoding.UTF8))
             {
+                zip.AddEntry(".nomedia", new byte[0]);
                 zip.AddEntry("Settings.json", JsonUtils.Serialize(packSettingsJson), Encoding.UTF8);
 
                 if (!string.IsNullOrEmpty(packModel.IconFilePath))
                     zip.AddFile(packModel.IconFilePath).FileName = $"Icon{Path.GetExtension(packModel.IconFilePath)}";
 
-                foreach (var (sourceFile, targetFile, _) in authorsMappings)
-                    if (sourceFile != null)
-                        zip.AddFile(sourceFile).FileName = $"Authors/{targetFile}";
+                if (authorsMappings.Any())
+                {
+                    zip.AddEntry("Authors/.nomedia", new byte[0]);
+                    foreach (var (sourceFile, targetFile, _) in authorsMappings)
+                        if (sourceFile != null)
+                            zip.AddFile(sourceFile).FileName = $"Authors/{targetFile}";
+                }
 
-                int previewIndex = 1;
-                foreach (string previewPath in packModel.PreviewsPaths)
-                    zip.AddFile(previewPath).FileName = $"Previews/{previewIndex++}{Path.GetExtension(previewPath)}";
+                if (packModel.PreviewsPaths.Any())
+                {
+                    zip.AddEntry("Previews/.nomedia", new byte[0]);
+                    int previewIndex = 1;
+                    foreach (string previewPath in packModel.PreviewsPaths)
+                        zip.AddFile(previewPath).FileName =
+                            $"Previews/{previewIndex++}{Path.GetExtension(previewPath)}";
+                }
 
+                int fileIndex = 1;
                 foreach (PackModel.ModifiedFileInfo modifiedFileInfo in packModel.ModifiedFiles)
                 {
-                    zip.AddFile(modifiedFileInfo.FilePath, "Modified");
+                    string fileName = fileIndex.ToString();
+                    fileIndex++;
+                    zip.AddFile(modifiedFileInfo.FilePath).FileName = $"Modified/{fileName}.texture";
                     if (modifiedFileInfo.TextureRedirectionKey != null)
                     {
                         zip.AddEntry(
-                            $"Modified/{Path.GetFileNameWithoutExtension(modifiedFileInfo.FilePath)}.json",
+                            $"Modified/{fileName}.json",
                             JsonConvert.SerializeObject(new TextureInfo
                             {
                                 EntryName = modifiedFileInfo.TextureRedirectionKey
