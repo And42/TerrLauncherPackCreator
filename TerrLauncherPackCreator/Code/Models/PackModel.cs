@@ -6,15 +6,29 @@ namespace TerrLauncherPackCreator.Code.Models
 {
     public class PackModel
     {
+        public class ModifiedFileInfo
+        {
+            [CanBeNull]
+            public string TextureRedirectionKey { get; set; }
+            
+            [NotNull]
+            public string FilePath { get; set; }
+            
+            public ModifiedFileInfo([NotNull] string filePath)
+            {
+                FilePath = filePath;
+            }
+        }
+        
         public PackModel(
             [NotNull] (string name, Color? color, string link, string iconPath)[] authors,
             [NotNull] string[] previewsPaths,
-            [NotNull] string[] modifiedFilesPaths
+            [NotNull] ModifiedFileInfo[] modifiedFiles
         )
         {
             Authors = authors;
             PreviewsPaths = previewsPaths;
-            ModifiedFilesPaths = modifiedFilesPaths;
+            ModifiedFiles = modifiedFiles;
         }
 
         public int TerrariaStructureVersion { get; set; }
@@ -38,6 +52,6 @@ namespace TerrLauncherPackCreator.Code.Models
         public string[] PreviewsPaths { get; set; }
 
         [NotNull]
-        public string[] ModifiedFilesPaths { get; set; }
+        public ModifiedFileInfo[] ModifiedFiles { get; set; }
     }
 }

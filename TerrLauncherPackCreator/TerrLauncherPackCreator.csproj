@@ -92,6 +92,7 @@
     </ApplicationDefinition>
     <Compile Include="Code\AttachedProperties\TextBoxAP.cs" />
     <Compile Include="Code\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Code\Converters\InMemoryImageSourceConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />
@@ -99,8 +100,10 @@
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IFileConverter.cs" />
     <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
+    <Compile Include="Code\Json\TextureInfo.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
+    <Compile Include="Code\Models\ModifiedTextureModel.cs" />
     <Compile Include="Code\Utils\DragDropUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
     <Compile Include="Code\Utils\JsonUtils.cs" />

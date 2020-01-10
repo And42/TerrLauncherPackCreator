@@ -8,6 +8,7 @@ using System.Windows.Media;
 using CommonLibrary.CommonUtils;
 using Ionic.Zip;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
@@ -235,8 +236,20 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 foreach (string previewPath in packModel.PreviewsPaths)
                     zip.AddFile(previewPath).FileName = $"Previews/{previewIndex++}{Path.GetExtension(previewPath)}";
 
-                foreach (string modifiedFilePath in packModel.ModifiedFilesPaths)
-                    zip.AddFile(modifiedFilePath, "Modified");
+                foreach (PackModel.ModifiedFileInfo modifiedFileInfo in packModel.ModifiedFiles)
+                {
+                    zip.AddFile(modifiedFileInfo.FilePath, "Modified");
+                    if (modifiedFileInfo.TextureRedirectionKey != null)
+                    {
+                        zip.AddEntry(
+                            $"Modified/{Path.GetFileNameWithoutExtension(modifiedFileInfo.FilePath)}.json",
+                            JsonConvert.SerializeObject(new TextureInfo
+                            {
+                                EntryName = modifiedFileInfo.TextureRedirectionKey
+                            }, Formatting.Indented)
+                        );
+                    }
+                }
 
                 zip.Save();
             }

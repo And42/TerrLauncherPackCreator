@@ -1,9 +1,10 @@
 ﻿using System.IO;
 using JetBrains.Annotations;
+using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
-    public class ModifiedFileModel
+    public class ModifiedFileModel : ViewModelBase
     {
         [NotNull]
         public string FilePath { get; }
@@ -16,11 +17,6 @@ namespace TerrLauncherPackCreator.Code.Models
             FilePath = filePath;
             FileExtension = Path.GetExtension(filePath);
             IsDragDropTarget = isDragDropTarget;
-        }
-
-        public static ModifiedFileModel FromFile(string filePath)
-        {
-            return new ModifiedFileModel(filePath, false);
         }
 
         public override string ToString()

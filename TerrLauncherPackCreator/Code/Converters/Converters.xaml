@@ -6,4 +6,5 @@
     <local:StatusBarVisibilityConverter x:Key="StatusBarVisibilityConverter"/>
     <local:PathToFileNameConverter x:Key="PathToFileNameConverter"/>
     <local:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+    <local:InMemoryImageSourceConverter x:Key="InMemoryImageSourceConverter"/>
 </ResourceDictionary>

@@ -15,10 +15,15 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
             var previewItem = (ModifiedFileModel) item;
             var containerUi = (FrameworkElement) container;
 
-            var imageTemplate = (DataTemplate) containerUi.FindResource("ModifiedFileDataTemplate");
-            var dropTargetTemplate = (DataTemplate) containerUi.FindResource("ModifiedFileDropTargetDataTemplate");
+            string resourceName;
+            if (previewItem.IsDragDropTarget)
+                resourceName = "ModifiedFileDropTargetDataTemplate";
+            else if (item is ModifiedTextureModel)
+                resourceName = "ModifiedTextureTemplate";
+            else
+                resourceName = "ModifiedFileDataTemplate";
 
-            return previewItem.IsDragDropTarget ? dropTargetTemplate : imageTemplate;
+            return (DataTemplate) containerUi.FindResource(resourceName);
         }
     }
 }

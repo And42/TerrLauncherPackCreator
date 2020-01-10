@@ -149,7 +149,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             _packProcessor = packProcessor;
             _packTempDir = tempDirsProvider.GetNewDir();
-            _fileConverter = new FileConverter(Paths.TextureDefinitionsFile, WriteToLog);
+            _fileConverter = new FileConverter();
 
             Guid = Guid.NewGuid();
             Version = 1;
@@ -239,25 +239,25 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Guid = packModel.Guid;
             Version = packModel.Version;
 
-            var previewItems = packModel.PreviewsPaths?.Select(PreviewItemModel.FromImageFile).ToArray();
-            var modifiedItems = packModel.ModifiedFilesPaths?.Select(ModifiedFileModel.FromFile).ToArray();
+            var previewItems = packModel.PreviewsPaths.Select(PreviewItemModel.FromImageFile).ToArray();
 
-            if (previewItems != null || modifiedItems != null)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                previewItems.ForEach(Previews.Add);
+                foreach (var modifiedFileInfo in packModel.ModifiedFiles)
                 {
-                    previewItems?.ForEach(Previews.Add);
-                    if (modifiedItems == null)
-                        return;
-                    foreach (var modifiedItem in modifiedItems)
+                    string itemExtension = Path.GetExtension(modifiedFileInfo.FilePath);
+                    var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesExtension == itemExtension);
+                    if (fileGroup != null)
                     {
-                        string itemExtension = Path.GetExtension(modifiedItem.FilePath);
-                        var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesExtension == itemExtension);
-                        if (fileGroup != null)
-                            fileGroup.ModifiedFiles.Add(modifiedItem);
+                        fileGroup.ModifiedFiles.Add(
+                            fileGroup.FilesType == FileType.Texture
+                                ? new ModifiedFileModel(modifiedFileInfo.FilePath, false)
+                                : new ModifiedTextureModel(modifiedFileInfo.FilePath, false)
+                        );
                     }
-                });
-            }
+                }
+            });
         }
         
 
@@ -343,7 +343,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     try
                     {
                         string convertedFile = await _fileConverter.ConvertToTarget(fileGroup.FilesType, file, _packTempDir);
-                        fileGroup.ModifiedFiles.Add(new ModifiedFileModel(convertedFile, false));
+                        fileGroup.ModifiedFiles.Add(
+                            fileGroup.FilesType == FileType.Texture
+                                ? new ModifiedTextureModel(convertedFile, false)
+                                : new ModifiedFileModel(convertedFile, false)
+                        );
                     }
                     catch (Exception ex)
                     {
@@ -383,22 +387,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             Authors.Remove(author);
         }
-        
-        private void WriteToLog([CanBeNull] string text)
-        {
-            if (string.IsNullOrEmpty(text))
-                return;
 
-            _log.Append(text);
-            if (_log.Length >= 15000)
-            {
-                int endLineIndex;
-                for (endLineIndex = 4000; endLineIndex < 6000 && _log[endLineIndex] != '\n'; endLineIndex++) {}
-                _log.Remove(0, endLineIndex + 1);
-            }
-            OnPropertyChanged(nameof(Log));
-        }
-        
         #endregion
 
         #region Step 4
@@ -435,7 +424,22 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             return new PackModel(
                 Authors.Select(author => (author.Name, author.Color, author.Link, author.ImagePath)).ToArray(),
                 Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
-                ModifiedFileGroups.SelectMany(it => it.ModifiedFiles).Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray()
+                ModifiedFileGroups.SelectMany(it => it.ModifiedFiles)
+                    .Where(it => !it.IsDragDropTarget)
+                    .Select(it =>
+                    {
+                        var info = new PackModel.ModifiedFileInfo(it.FilePath);
+                        var textureInfo = it as ModifiedTextureModel;
+                        if (textureInfo != null)
+                        {
+                            info.TextureRedirectionKey = textureInfo.Prefix != null
+                                ? $"{textureInfo.Prefix}/{textureInfo.Name}"
+                                : textureInfo.Name;
+                        }
+
+                        return info;
+                    })
+                    .ToArray()
             )
             {
                 TerrariaStructureVersion = TerrariaStructureVersion,

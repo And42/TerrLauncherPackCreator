@@ -25,7 +25,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public FileType[] FileTypes { get; } = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
 
         [NotNull]
-        private readonly IFileConverter _fileConverter = new FileConverter(Paths.TextureDefinitionsFile, null);
+        private readonly IFileConverter _fileConverter = new FileConverter();
         private FileType _currentFileType = FileType.Texture;
         
         [NotNull]
