@@ -249,15 +249,6 @@
     <Resource Include="Libraries\zzz_dependencies.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\etc2_conversion\convert.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="data\etc2_conversion\etcpack.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="data\texture_definitions.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="Libraries\MVVM_Tools.dll" />
     <Content Include="Libraries\MVVM_Tools.pdb" />
     <Content Include="Libraries\SettingsManager.dll" />
