@@ -96,7 +96,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         #region Backing fields
 
         // Step 1
-        private int _terrariaStructureVersion = 2;
+        private int _terrariaStructureVersion = 3;
         private string _iconFilePath;
         private string _title;
         private string _descriptionRussian;

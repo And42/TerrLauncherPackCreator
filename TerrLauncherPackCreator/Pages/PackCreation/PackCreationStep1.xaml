@@ -54,7 +54,7 @@
             ImageHelpText="{x:Static localizations:StringResources.DragIconHelpText}"/>
 
         <Grid>
-            <xctk:IntegerUpDown Minimum="2" Value="{Binding TerrariaStructureVersion}"/>
+            <xctk:IntegerUpDown Minimum="3" Value="{Binding TerrariaStructureVersion}"/>
             <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.TerrariaStructureVersion}"/>
         </Grid>
         
