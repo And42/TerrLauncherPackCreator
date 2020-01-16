@@ -16,7 +16,7 @@
         SourceInitialized="MainWindow_OnSourceInitialized">
     <Grid>
         <controls:CircleProgress 
-            Progress="{Binding CurrentProgress.Value}"
-            DownloadSpeedInBytes="{Binding SpeedInBytes.Value}"/>
+            Progress="{Binding CurrentProgress}"
+            DownloadSpeedInBytes="{Binding SpeedInBytes}"/>
     </Grid>
 </Window>
