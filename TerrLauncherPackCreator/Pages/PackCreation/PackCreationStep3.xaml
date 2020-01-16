@@ -65,7 +65,7 @@
                             Source="{Binding FilePath, Converter={StaticResource InMemoryImageSourceConverter}}"/>
                         <ComboBox
                             Grid.Column="1" Margin="8 0 0 0" ItemsSource="{Binding CommonPrefixes}"
-                            Text="{Binding Prefix}" Width="200" IsEditable="True" Padding="8 4"
+                            Text="{Binding Prefix}" Width="200" IsEditable="True" Padding="8 4" SelectedIndex="0"
                             VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <TextBox
                             Grid.Column="2" Margin="8 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"
