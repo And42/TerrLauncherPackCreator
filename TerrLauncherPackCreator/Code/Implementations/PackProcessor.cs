@@ -251,7 +251,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 {
                     string fileName = fileIndex.ToString();
                     fileIndex++;
-                    zip.AddFile(modifiedFileInfo.FilePath).FileName = $"Modified/{fileName}.texture";
+                    zip.AddFile(modifiedFileInfo.FilePath).FileName = $"Modified/{fileName}{Path.GetExtension(modifiedFileInfo.FilePath)}";
                     if (modifiedFileInfo.TextureRedirectionKey != null)
                     {
                         zip.AddEntry(
