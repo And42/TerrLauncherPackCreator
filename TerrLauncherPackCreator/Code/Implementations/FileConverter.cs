@@ -16,7 +16,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
         {
             {FileType.Texture, "textures"},
             {FileType.Map, "maps"},
-            {FileType.Character, "characters"}
+            {FileType.Character, "characters"},
+            {FileType.Gui, "gui"}
         };
 
         [NotNull]
