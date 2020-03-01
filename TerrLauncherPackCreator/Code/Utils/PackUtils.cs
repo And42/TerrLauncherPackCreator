@@ -17,10 +17,10 @@ namespace TerrLauncherPackCreator.Code.Utils
                 (FileType.Texture,    ".png", ".texture",   StringResources.PackTypeTextures),
                 (FileType.Map,        ".wld", ".world",     StringResources.PackTypeMaps),
                 (FileType.Character,  ".plr", ".character", StringResources.PackTypeCharacters),
+                (FileType.Gui,        ".png", ".gui",       StringResources.PackTypeGui),
                 // todo: add handling
 //                (PackTypes.Audio,        ".tla",  ".ogg", ".audio",       StringResources.PackTypeAudio),
 //                (PackTypes.Fonts,        ".tlf",  ".png", ".font",        StringResources.PackTypeFonts),
-//                (PackTypes.Gui,          ".tlg",  ".png", ".gui",         StringResources.PackTypeGui),
 //                (PackTypes.Translations, ".tltr", ".txt", ".translation", StringResources.PackTypeTranslations),
             };
         }

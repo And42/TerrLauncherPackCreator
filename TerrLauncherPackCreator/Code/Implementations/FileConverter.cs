@@ -37,23 +37,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
             switch (fileType)
             {
                 case FileType.Texture:
-                {
-                    string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile) + convertedFilesExt);
-                    File.Copy(sourceFile, targetFile, overwrite: true);
-                    return targetFile;
-                }
                 case FileType.Map:
-                {
-                    string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile) + convertedFilesExt);
-                    File.Copy(sourceFile, targetFile, overwrite: true);
-                    return targetFile;
-                }
                 case FileType.Character:
-                {
+                case FileType.Gui:
                     string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile) + convertedFilesExt);
                     File.Copy(sourceFile, targetFile, overwrite: true);
                     return targetFile;
-                }
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }

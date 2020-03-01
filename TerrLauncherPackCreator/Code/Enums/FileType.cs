@@ -5,10 +5,10 @@
         Texture,
         Map,
         Character,
+        Gui,
         // todo: add
 //        Audio,
 //        Font,
-//        Gui,
 //        Translation
     }
 }
