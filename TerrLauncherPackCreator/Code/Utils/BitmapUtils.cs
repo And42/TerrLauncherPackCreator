@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using JetBrains.Annotations;
 using Point = System.Drawing.Point;
 
 namespace TerrLauncherPackCreator.Code.Utils
@@ -20,13 +22,28 @@ namespace TerrLauncherPackCreator.Code.Utils
             return bmp;
         }
 
-        public static BitmapSource ToBitmapSource(this Bitmap source)
+        [NotNull]
+        public static BitmapSource ToBitmapSource([NotNull] this Bitmap bitmap)
         {
-            return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                source.GetHbitmap(),
-                IntPtr.Zero,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions()).FreezeIfCan();
+            using (var stream = new MemoryStream())
+            {
+                bitmap.Save(stream, ImageFormat.Bmp);
+                return stream.ToBitmapSource();
+            }
+        }
+        
+        [NotNull]
+        public static BitmapSource ToBitmapSource([NotNull] this Stream stream) {
+            stream.Position = 0;
+            BitmapImage result = new BitmapImage();
+            result.BeginInit();
+            // According to MSDN, "The default OnDemand cache option retains access to the stream until the image is needed."
+            // Force the bitmap to load right now so we can dispose the stream.
+            result.CacheOption = BitmapCacheOption.OnLoad;
+            result.StreamSource = stream;
+            result.EndInit();
+            result.Freeze();
+            return result;
         }
 
         public static Bitmap ToBitmap(this byte[] imageBytes)

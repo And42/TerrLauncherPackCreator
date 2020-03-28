@@ -18,6 +18,12 @@ namespace TerrLauncherPackCreator.Code.Utils
 #endif
 
         [NotNull]
+        public static readonly string DataDir = Path.Combine(ExeDir, "data");
+        
+        [NotNull]
         public static readonly string TempDir = Path.Combine(ExeDir, "temp");
+
+        [NotNull]
+        public static readonly string AuthorsFile = Path.Combine(DataDir, "authors.json");
     }
 }

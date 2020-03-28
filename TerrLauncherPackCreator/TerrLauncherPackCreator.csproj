@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Code\AttachedProperties\TextBoxAP.cs" />
+    <Compile Include="Code\Converters\BytesToStream.cs" />
     <Compile Include="Code\Converters\ColorToBrushConverter.cs" />
     <Compile Include="Code\Converters\InMemoryImageSourceConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IFileConverter.cs" />
     <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
+    <Compile Include="Code\Json\AuthorsJson.cs" />
     <Compile Include="Code\Json\TextureInfo.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
@@ -117,6 +119,9 @@
     <Compile Include="Controls\DragAndDropImage.xaml.cs">
       <DependentUpon>DragAndDropImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DragAndDropImageBytes.xaml.cs">
+      <DependentUpon>DragAndDropImageBytes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PackCreation\PackCreationStep4.xaml.cs">
       <DependentUpon>PackCreationStep4.xaml</DependentUpon>
     </Compile>
@@ -133,6 +138,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DragAndDropImage.xaml" />
+    <Page Include="Controls\DragAndDropImageBytes.xaml" />
     <Page Include="Controls\PageNavigationNumberButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

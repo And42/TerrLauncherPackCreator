@@ -7,6 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
         xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
+        xmlns:windows="clr-namespace:TerrLauncherPackCreator.Windows"
         mc:Ignorable="d"
         Title="AuthorEditor"
         Height="450" Width="800"
@@ -42,6 +43,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -52,20 +57,39 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <controls:DragAndDropImage
+        <controls:DragAndDropImageBytes
             VerticalAlignment="Top"
-            Grid.RowSpan="6" Width="120" Height="120"
-            ImagePath="{Binding AuthorModel.ImagePath}"
+            Grid.RowSpan="10" Width="120" Height="120"
+            ImageBytes="{Binding EditableAuthor.ImageBytes}"
             DropImageCommand="{Binding DropAuthorImageCommand}"
             ImageHelpText="{x:Static localizations:StringResources.DragAuthorImageHelpText}"/>
 
-        <TextBlock Grid.Column="2" Text="Имя:"/>
-        <TextBox Grid.Column="4" Text="{Binding AuthorModel.Name}"/>
+        <TextBlock Grid.Column="2" Text="Сохранённый автор:"/>
+        <ComboBox Grid.Column="4" ItemsSource="{Binding SavedAuthors}" SelectedItem="{Binding SelectedSavedAuthor}" HorizontalContentAlignment="Stretch">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                        <Button Grid.Column="1" Margin="8 2 0 2" Padding="7 3" Content="Удалить" Command="{Binding DataContext.DeleteSavedAuthor, RelativeSource={RelativeSource FindAncestor, AncestorType=windows:AuthorEditorWindow}}" CommandParameter="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-        <TextBlock Grid.Row="2" Grid.Column="2" Text="Цвет:"/>
-        <xctk:ColorPicker Grid.Row="2" Grid.Column="4" SelectedColor="{Binding AuthorModel.Color}"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Text="Имя:"/>
+        <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding EditableAuthor.Name}"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="Цвет:"/>
+        <xctk:ColorPicker Grid.Row="4" Grid.Column="4" SelectedColor="{Binding EditableAuthor.Color}"/>
         
-        <TextBlock Grid.Row="4" Grid.Column="2" Text="Ссылка:"/>
-        <TextBox Grid.Row="4" Grid.Column="4" Text="{Binding AuthorModel.Link}"/>
+        <TextBlock Grid.Row="6" Grid.Column="2" Text="Ссылка:"/>
+        <TextBox Grid.Row="6" Grid.Column="4" Text="{Binding EditableAuthor.Link}"/>
+        
+        <Button Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="3" Padding="7 3" Content="Сохранить в список" Command="{Binding SaveAuthor}"/>
     </Grid>
 </Window>

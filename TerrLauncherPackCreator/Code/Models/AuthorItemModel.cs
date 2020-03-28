@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.IO;
+using System.Windows.Media;
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.ViewModels;
@@ -9,10 +10,10 @@ namespace TerrLauncherPackCreator.Code.Models
     public class AuthorItemModel : ViewModelBase
     {
         [CanBeNull]
-        public string ImagePath
+        public byte[] ImageBytes
         {
-            get => _imagePath;
-            set => SetProperty(ref _imagePath, value);
+            get => _imageBytes;
+            set => SetProperty(ref _imageBytes, value);
         }
 
         [CanBeNull]
@@ -38,7 +39,7 @@ namespace TerrLauncherPackCreator.Code.Models
 
         public IActionCommand<AuthorItemModel> EditAuthorCommand { get; }
 
-        [CanBeNull] private string _imagePath;
+        [CanBeNull] private byte[] _imageBytes;
         [CanBeNull] private string _name;
         [CanBeNull] private Color? _color;
         [CanBeNull] private string _link;

@@ -201,12 +201,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private static void SavePackModelInternal(PackModel packModel, string filePath)
         {
-            var authorsMappings = new List<(string sourceFile, string targetFile, string json)>();
+            var authorsMappings = new List<(byte[] sourceFile, string targetFile, string json)>();
             int authorFileIndex = 1;
             foreach (var author in packModel.Authors)
             {
                 string json = AuthorModelToString(author, ref authorFileIndex, out bool copyIcon);
-                authorsMappings.Add((copyIcon ? author.iconPath : null, copyIcon ? $"{authorFileIndex - 1}.png" : null, json));
+                authorsMappings.Add((copyIcon ? author.iconBytes : null, copyIcon ? $"{authorFileIndex - 1}.png" : null, json));
             }
             var packSettingsJson = new PackSettings
             {
@@ -234,7 +234,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     zip.AddEntry("Authors/.nomedia", new byte[0]);
                     foreach (var (sourceFile, targetFile, _) in authorsMappings)
                         if (sourceFile != null)
-                            zip.AddFile(sourceFile).FileName = $"Authors/{targetFile}";
+                            zip.AddEntry($"Authors/{targetFile}", sourceFile);
                 }
 
                 if (packModel.PreviewsPaths.Any())
@@ -266,7 +266,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         }
 
         [NotNull]
-        private static string AuthorModelToString((string name, Color? color, string link, string iconPath) author, ref int authorFileIndex, out bool copyIcon)
+        private static string AuthorModelToString((string name, Color? color, string link, byte[] iconBytes) author, ref int authorFileIndex, out bool copyIcon)
         {
             var parts = new List<string>();
 
@@ -276,7 +276,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 parts.Add("color=" + author.color);
             if (!string.IsNullOrEmpty(author.link))
                 parts.Add("link=" + author.link);
-            if (!string.IsNullOrEmpty(author.iconPath) && File.Exists(author.iconPath))
+            if (author.iconBytes != null)
             {
                 parts.Add($"file={authorFileIndex.ToString()}.png");
                 authorFileIndex++;

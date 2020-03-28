@@ -277,6 +277,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удалось открыть ссылку в браузере: {0}.
+        /// </summary>
+        public static string OpenLinkInBrowserFailed {
+            get {
+                return ResourceManager.GetString("OpenLinkInBrowserFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Новый.
         /// </summary>
         public static string PackCreateNew {

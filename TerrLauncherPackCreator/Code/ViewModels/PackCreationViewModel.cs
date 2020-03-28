@@ -424,7 +424,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private PackModel GeneratePackModel()
         {
             return new PackModel(
-                Authors.Select(author => (author.Name, author.Color, author.Link, author.ImagePath)).ToArray(),
+                Authors.Select(author => (author.Name, author.Color, author.Link, author.ImageBytes)).ToArray(),
                 Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
                 ModifiedFileGroups.SelectMany(it => it.ModifiedFiles)
                     .Where(it => !it.IsDragDropTarget)

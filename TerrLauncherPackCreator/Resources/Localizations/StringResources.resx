@@ -279,4 +279,7 @@
   <data name="ConverterFileType" xml:space="preserve">
     <value>Тип файла:</value>
   </data>
+  <data name="OpenLinkInBrowserFailed" xml:space="preserve">
+    <value>Не удалось открыть ссылку в браузере: {0}</value>
+  </data>
 </root>

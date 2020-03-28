@@ -7,4 +7,5 @@
     <local:PathToFileNameConverter x:Key="PathToFileNameConverter"/>
     <local:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     <local:InMemoryImageSourceConverter x:Key="InMemoryImageSourceConverter"/>
+    <local:BytesToStream x:Key="BytesToStream"/>
 </ResourceDictionary>
