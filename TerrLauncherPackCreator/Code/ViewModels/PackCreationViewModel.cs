@@ -14,6 +14,7 @@ using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
+using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
@@ -24,6 +25,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     {
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
+        private static readonly ISet<FileType> TextureStructureTypes = new HashSet<FileType> {FileType.Texture, FileType.Gui};
         [NotNull]
         private readonly IPackProcessor _packProcessor;
         [NotNull]
@@ -251,7 +253,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     if (fileGroup != null)
                     {
                         fileGroup.ModifiedFiles.Add(
-                            fileGroup.FilesType == FileType.Texture
+                            TextureStructureTypes.Contains(fileGroup.FilesType)
                                 ? new ModifiedFileModel(modifiedFileInfo.FilePath, false)
                                 : new ModifiedTextureModel(modifiedFileInfo.FilePath, false)
                         );
@@ -344,7 +346,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     {
                         string convertedFile = await _fileConverter.ConvertToTarget(fileGroup.FilesType, file, _packTempDir);
                         fileGroup.ModifiedFiles.Add(
-                            fileGroup.FilesType == FileType.Texture
+                            TextureStructureTypes.Contains(fileGroup.FilesType)
                                 ? new ModifiedTextureModel(convertedFile, false)
                                 : new ModifiedFileModel(convertedFile, false)
                         );
@@ -432,9 +434,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         var textureInfo = it as ModifiedTextureModel;
                         if (textureInfo != null)
                         {
-                            info.TextureRedirectionKey = textureInfo.Prefix != null
-                                ? $"{textureInfo.Prefix}/{textureInfo.Name}"
-                                : textureInfo.Name;
+                            info.Config = new TextureInfo
+                            {
+                                EntryName = textureInfo.Prefix != null
+                                    ? $"{textureInfo.Prefix}/{textureInfo.Name}"
+                                    : textureInfo.Name
+                            };
                         }
 
                         return info;

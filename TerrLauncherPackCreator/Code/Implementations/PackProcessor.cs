@@ -252,14 +252,11 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     string fileName = fileIndex.ToString();
                     fileIndex++;
                     zip.AddFile(modifiedFileInfo.FilePath).FileName = $"Modified/{fileName}{Path.GetExtension(modifiedFileInfo.FilePath)}";
-                    if (modifiedFileInfo.TextureRedirectionKey != null)
+                    if (modifiedFileInfo.Config != null)
                     {
                         zip.AddEntry(
                             $"Modified/{fileName}.json",
-                            JsonConvert.SerializeObject(new TextureInfo
-                            {
-                                EntryName = modifiedFileInfo.TextureRedirectionKey
-                            }, Formatting.Indented)
+                            JsonConvert.SerializeObject(modifiedFileInfo.Config, Formatting.Indented)
                         );
                     }
                 }

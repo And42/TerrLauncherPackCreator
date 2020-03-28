@@ -9,7 +9,7 @@ namespace TerrLauncherPackCreator.Code.Models
         public class ModifiedFileInfo
         {
             [CanBeNull]
-            public string TextureRedirectionKey { get; set; }
+            public object Config { get; set; }
             
             [NotNull]
             public string FilePath { get; set; }
