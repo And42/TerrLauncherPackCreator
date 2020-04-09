@@ -102,9 +102,11 @@
     <Compile Include="Code\Interfaces\IFileConverter.cs" />
     <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
     <Compile Include="Code\Json\AuthorsJson.cs" />
+    <Compile Include="Code\Json\MapInfo.cs" />
     <Compile Include="Code\Json\TextureInfo.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
+    <Compile Include="Code\Models\ModifiedMapModel.cs" />
     <Compile Include="Code\Models\ModifiedTextureModel.cs" />
     <Compile Include="Code\Utils\DragDropUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />

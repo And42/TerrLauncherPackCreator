@@ -18,10 +18,18 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
             string resourceName;
             if (previewItem.IsDragDropTarget)
                 resourceName = "ModifiedFileDropTargetDataTemplate";
-            else if (item is ModifiedTextureModel)
-                resourceName = "ModifiedTextureTemplate";
-            else
-                resourceName = "ModifiedFileDataTemplate";
+            else switch (item)
+            {
+                case ModifiedTextureModel _:
+                    resourceName = "ModifiedTextureTemplate";
+                    break;
+                case ModifiedMapModel _:
+                    resourceName = "ModifiedMapTemplate";
+                    break;
+                default:
+                    resourceName = "ModifiedFileDataTemplate";
+                    break;
+            }
 
             return (DataTemplate) containerUi.FindResource(resourceName);
         }

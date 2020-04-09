@@ -14,6 +14,12 @@
       FontFamily="Century Gothic"
       
       d:DataContext="{d:DesignInstance viewModels:PackCreationViewModel, IsDesignTimeCreatable=True}">
+    <Page.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Padding" Value="7 3"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
 
     <Grid UseLayoutRounding="True">
         <Grid.RowDefinitions>
@@ -75,6 +81,24 @@
                             Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                             CommandParameter="{Binding}"
                             Margin="0 3" Padding="7 3" VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+                
+                <DataTemplate x:Key="ModifiedMapTemplate" DataType="{x:Type models:ModifiedMapModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox
+                            Text="{Binding ResultFileName}"
+                            ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"/>
+                        <Button
+                            Grid.Column="1" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
+                            Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
+                            CommandParameter="{Binding}"
+                            Margin="0 3" Padding="7 3"/>
                     </Grid>
                 </DataTemplate>
 

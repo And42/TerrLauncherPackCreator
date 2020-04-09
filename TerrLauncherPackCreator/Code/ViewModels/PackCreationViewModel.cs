@@ -25,7 +25,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     {
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
-        private static readonly ISet<FileType> TextureStructureTypes = new HashSet<FileType> {FileType.Texture, FileType.Gui};
         [NotNull]
         private readonly IPackProcessor _packProcessor;
         [NotNull]
@@ -252,11 +251,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesExtension == itemExtension);
                     if (fileGroup != null)
                     {
-                        fileGroup.ModifiedFiles.Add(
-                            TextureStructureTypes.Contains(fileGroup.FilesType)
-                                ? new ModifiedFileModel(modifiedFileInfo.FilePath, false)
-                                : new ModifiedTextureModel(modifiedFileInfo.FilePath, false)
-                        );
+                        fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, modifiedFileInfo.FilePath));
                     }
                 }
             });
@@ -345,11 +340,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     try
                     {
                         string convertedFile = await _fileConverter.ConvertToTarget(fileGroup.FilesType, file, _packTempDir);
-                        fileGroup.ModifiedFiles.Add(
-                            TextureStructureTypes.Contains(fileGroup.FilesType)
-                                ? new ModifiedTextureModel(convertedFile, false)
-                                : new ModifiedFileModel(convertedFile, false)
-                        );
+                        fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, convertedFile));
                     }
                     catch (Exception ex)
                     {
@@ -431,15 +422,22 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     .Select(it =>
                     {
                         var info = new PackModel.ModifiedFileInfo(it.FilePath);
-                        var textureInfo = it as ModifiedTextureModel;
-                        if (textureInfo != null)
+                        switch (it)
                         {
-                            info.Config = new TextureInfo
-                            {
-                                EntryName = textureInfo.Prefix != null
-                                    ? $"{textureInfo.Prefix}/{textureInfo.Name}"
-                                    : textureInfo.Name
-                            };
+                            case ModifiedTextureModel textureModel:
+                                info.Config = new TextureInfo
+                                {
+                                    EntryName = textureModel.Prefix != null
+                                        ? $"{textureModel.Prefix}/{textureModel.Name}"
+                                        : textureModel.Name
+                                };
+                                break;
+                            case ModifiedMapModel mapModel:
+                                info.Config = new MapInfo
+                                {
+                                    ResultFileName = mapModel.ResultFileName
+                                };
+                                break;
                         }
 
                         return info;
@@ -490,6 +488,22 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     // Step 5
                     ExportPackCommand.RaiseCanExecuteChanged();
                     break;
+            }
+        }
+        
+        private static ModifiedFileModel FileToModel(FileType fileType, string filePath)
+        {
+            switch (fileType)
+            {
+                case FileType.Texture:
+                case FileType.Gui:
+                    return new ModifiedTextureModel(filePath, false);
+                case FileType.Map:
+                    return new ModifiedMapModel(filePath, false);
+                case FileType.Character:
+                    return new ModifiedFileModel(filePath, false);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }
         }
     }
