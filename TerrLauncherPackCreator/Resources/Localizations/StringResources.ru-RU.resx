@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddAuthorCaption" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Authors" xml:space="preserve">
+    <value>Авторы</value>
+  </data>
+  <data name="ChoosePackDialogFailed" xml:space="preserve">
+    <value>Пак не выбран!</value>
+  </data>
+  <data name="ChoosePackDialogFilter" xml:space="preserve">
+    <value>Паки TerrLauncher</value>
+  </data>
+  <data name="ChoosePackDialogTitle" xml:space="preserve">
+    <value>Выберите пак:</value>
+  </data>
+  <data name="ChoosePackProcessStarted" xml:space="preserve">
+    <value>Загрузка пака началась</value>
+  </data>
+  <data name="ConverterFileType" xml:space="preserve">
+    <value>Тип файла:</value>
+  </data>
+  <data name="DeleteAuthorCaption" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeletePreviewCaption" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DragAuthorImageHelpText" xml:space="preserve">
+    <value>Перетащите иконку сюда (.png)</value>
+  </data>
+  <data name="DragIconHelpText" xml:space="preserve">
+    <value>Перетащите иконку сюда (.png|.gif)</value>
+  </data>
+  <data name="DragModifiedFilesHelpText" xml:space="preserve">
+    <value>Перетащите файлы сюда</value>
+  </data>
+  <data name="DragPreviewsHelpText" xml:space="preserve">
+    <value>Перетащите изображения сюда (.jpg|.png|.gif)</value>
+  </data>
+  <data name="EditAuthorCaption" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="ErrorLower" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>Обнаружена ошибка: {0}</value>
+  </data>
+  <data name="InformationLower" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="LoadIconFromFileFailed" xml:space="preserve">
+    <value>Не удалось загрузить иконку из файла. Ошибка: "{0}"</value>
+  </data>
+  <data name="LoadImageFromFileFailed" xml:space="preserve">
+    <value>Не удалось загрузить изображение из файла: "{0}". Ошибка: "{1}"</value>
+  </data>
+  <data name="LoadingProgressStep" xml:space="preserve">
+    <value>Загрузка паков</value>
+  </data>
+  <data name="Log" xml:space="preserve">
+    <value>Лог</value>
+  </data>
+  <data name="ModifiedFiles" xml:space="preserve">
+    <value>Изменённые файлы</value>
+  </data>
+  <data name="NewGuidCaption" xml:space="preserve">
+    <value>Новый</value>
+  </data>
+  <data name="NextStepCaption" xml:space="preserve">
+    <value>Вперёд</value>
+  </data>
+  <data name="OpenLinkInBrowserFailed" xml:space="preserve">
+    <value>Не удалось открыть ссылку в браузере: {0}</value>
+  </data>
+  <data name="PackCreateNew" xml:space="preserve">
+    <value>Новый</value>
+  </data>
+  <data name="PackDescriptionEnglish" xml:space="preserve">
+    <value>Описание (на английском)</value>
+  </data>
+  <data name="PackDescriptionRussian" xml:space="preserve">
+    <value>Описание (на русском)</value>
+  </data>
+  <data name="PackExport" xml:space="preserve">
+    <value>СОХРАНИТЬ ГОТОВЫЙ</value>
+  </data>
+  <data name="PackExported" xml:space="preserve">
+    <value>Пак "{0}" сохранён. Показать в проводнике?</value>
+  </data>
+  <data name="PackGuid" xml:space="preserve">
+    <value>Guid:</value>
+  </data>
+  <data name="PackLoadExisting" xml:space="preserve">
+    <value>Существующий</value>
+  </data>
+  <data name="PackLoadingFailed" xml:space="preserve">
+    <value>Не удалось загрузить пак "{0}". Ошибка: "{1}"</value>
+  </data>
+  <data name="PackTitle" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="PackTypeAudio" xml:space="preserve">
+    <value>Аудио</value>
+  </data>
+  <data name="PackTypeCharacters" xml:space="preserve">
+    <value>Персонажи</value>
+  </data>
+  <data name="PackTypeFonts" xml:space="preserve">
+    <value>Шрифты</value>
+  </data>
+  <data name="PackTypeGui" xml:space="preserve">
+    <value>Gui</value>
+  </data>
+  <data name="PackTypeHelpText" xml:space="preserve">
+    <value>Тип пака</value>
+  </data>
+  <data name="PackTypeMaps" xml:space="preserve">
+    <value>Карты</value>
+  </data>
+  <data name="PackTypeNotSelected" xml:space="preserve">
+    <value>Тип пака не выбран!</value>
+  </data>
+  <data name="PackTypeTextures" xml:space="preserve">
+    <value>Текстуры</value>
+  </data>
+  <data name="PackTypeTranslations" xml:space="preserve">
+    <value>Переводы</value>
+  </data>
+  <data name="PackVersion" xml:space="preserve">
+    <value>Версия:</value>
+  </data>
+  <data name="Previews" xml:space="preserve">
+    <value>Превью</value>
+  </data>
+  <data name="PreviousStepCaption" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="ResourcesConverter" xml:space="preserve">
+    <value>Конвертер</value>
+  </data>
+  <data name="SavePackDialogFailed" xml:space="preserve">
+    <value>Путь не выбран!</value>
+  </data>
+  <data name="SavePackDialogFilter" xml:space="preserve">
+    <value>Паки TerrLauncher</value>
+  </data>
+  <data name="SavePackDialogTitle" xml:space="preserve">
+    <value>Выберите путь к готовому паку:</value>
+  </data>
+  <data name="SavingPackFailed" xml:space="preserve">
+    <value>Не удалось сохранить пак: "{0}". Ошибка: "{1}"</value>
+  </data>
+  <data name="SavingProcessRemaining" xml:space="preserve">
+    <value>Осталось</value>
+  </data>
+  <data name="SavingProcessStep" xml:space="preserve">
+    <value>Сохранение паков</value>
+  </data>
+  <data name="TerrariaStructureVersion" xml:space="preserve">
+    <value>Версия структуры террарии:</value>
+  </data>
+  <data name="TlPacksFilter" xml:space="preserve">
+    <value>Пак TerLauncher</value>
+  </data>
+  <data name="PackStructureVersion" xml:space="preserve">
+    <value>Версия структуры пака:</value>
+  </data>
+</root>
