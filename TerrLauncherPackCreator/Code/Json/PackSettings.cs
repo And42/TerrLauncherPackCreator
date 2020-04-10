@@ -8,6 +8,9 @@ namespace TerrLauncherPackCreator.Code.Json
         [JsonProperty("terrariaStructureVersion")]
         public int TerrariaStructureVersion { get; set; }
 
+        [JsonProperty("packStructureVersion")]
+        public int PackStructureVersion { get; set; }
+        
         [JsonProperty("title")]
         public string Title { get; set; }
         

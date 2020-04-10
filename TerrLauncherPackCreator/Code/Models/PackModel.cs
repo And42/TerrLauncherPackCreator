@@ -32,6 +32,8 @@ namespace TerrLauncherPackCreator.Code.Models
         }
 
         public int TerrariaStructureVersion { get; set; }
+
+        public int PackStructureVersion { get; set; }
         
         public string IconFilePath { get; set; }
 

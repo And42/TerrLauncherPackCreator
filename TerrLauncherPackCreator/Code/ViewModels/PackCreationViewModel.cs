@@ -23,6 +23,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
+        private const int TerrariaStructureVersion = 3;
+        private const int PackStructureVersion = 2;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         [NotNull]
@@ -35,12 +37,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         #region Properties
 
         // Step 1
-        public int TerrariaStructureVersion
-        {
-            get => _terrariaStructureVersion;
-            set => SetProperty(ref _terrariaStructureVersion, value);
-        }
-
         public string IconFilePath
         {
             get => _iconFilePath;
@@ -97,7 +93,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         #region Backing fields
 
         // Step 1
-        private int _terrariaStructureVersion = 3;
         private string _iconFilePath;
         private string _title;
         private string _descriptionRussian;
@@ -446,6 +441,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             )
             {
                 TerrariaStructureVersion = TerrariaStructureVersion,
+                PackStructureVersion = PackStructureVersion,
                 IconFilePath = IconFilePath,
                 Title = Title,
                 DescriptionRussian = DescriptionRussian,

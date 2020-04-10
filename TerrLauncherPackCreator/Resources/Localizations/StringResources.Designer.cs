@@ -61,7 +61,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Добавить.
+        ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string AddAuthorCaption {
             get {
@@ -70,7 +70,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Авторы.
+        ///   Looks up a localized string similar to Authors.
         /// </summary>
         public static string Authors {
             get {
@@ -79,7 +79,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пак не выбран!.
+        ///   Looks up a localized string similar to Pack is not selected!.
         /// </summary>
         public static string ChoosePackDialogFailed {
             get {
@@ -88,7 +88,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Паки TerrLauncher.
+        ///   Looks up a localized string similar to TerrLauncher packs.
         /// </summary>
         public static string ChoosePackDialogFilter {
             get {
@@ -97,7 +97,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выберите пак:.
+        ///   Looks up a localized string similar to Choose a pack:.
         /// </summary>
         public static string ChoosePackDialogTitle {
             get {
@@ -106,7 +106,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Загрузка пака началась.
+        ///   Looks up a localized string similar to Pack download started.
         /// </summary>
         public static string ChoosePackProcessStarted {
             get {
@@ -115,7 +115,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип файла:.
+        ///   Looks up a localized string similar to File type:.
         /// </summary>
         public static string ConverterFileType {
             get {
@@ -124,7 +124,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить.
+        ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string DeleteAuthorCaption {
             get {
@@ -133,7 +133,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Удалить.
+        ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string DeletePreviewCaption {
             get {
@@ -142,7 +142,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перетащите иконку сюда (.png).
+        ///   Looks up a localized string similar to Drag an icon here (.png).
         /// </summary>
         public static string DragAuthorImageHelpText {
             get {
@@ -151,7 +151,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перетащите иконку сюда (.png|.gif).
+        ///   Looks up a localized string similar to Drag an icon here (.png|.gif).
         /// </summary>
         public static string DragIconHelpText {
             get {
@@ -160,7 +160,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перетащите файлы сюда.
+        ///   Looks up a localized string similar to Drag files here.
         /// </summary>
         public static string DragModifiedFilesHelpText {
             get {
@@ -169,7 +169,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Перетащите изображения сюда (.jpg|.png|.gif).
+        ///   Looks up a localized string similar to Drag images here (.jpg|.png|.gif).
         /// </summary>
         public static string DragPreviewsHelpText {
             get {
@@ -178,7 +178,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Изменить.
+        ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string EditAuthorCaption {
             get {
@@ -187,7 +187,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ошибка.
+        ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string ErrorLower {
             get {
@@ -196,7 +196,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Обнаружена ошибка: {0}.
+        ///   Looks up a localized string similar to Error encountered: {0}.
         /// </summary>
         public static string ErrorOccurred {
             get {
@@ -205,7 +205,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Информация.
+        ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string InformationLower {
             get {
@@ -214,7 +214,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось загрузить иконку из файла. Ошибка: &quot;{0}&quot;.
+        ///   Looks up a localized string similar to Can&apos;t load an icon from the file. Error: &quot;{0}&quot;.
         /// </summary>
         public static string LoadIconFromFileFailed {
             get {
@@ -223,7 +223,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось загрузить изображение из файла: &quot;{0}&quot;. Ошибка: &quot;{1}&quot;.
+        ///   Looks up a localized string similar to Can;t load an image from the file: &quot;{0}&quot;. Error: &quot;{1}&quot;.
         /// </summary>
         public static string LoadImageFromFileFailed {
             get {
@@ -232,7 +232,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Загрузка паков.
+        ///   Looks up a localized string similar to Loading packs.
         /// </summary>
         public static string LoadingProgressStep {
             get {
@@ -241,7 +241,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Лог.
+        ///   Looks up a localized string similar to Log.
         /// </summary>
         public static string Log {
             get {
@@ -250,7 +250,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Изменённые файлы.
+        ///   Looks up a localized string similar to Modified files.
         /// </summary>
         public static string ModifiedFiles {
             get {
@@ -259,7 +259,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новый.
+        ///   Looks up a localized string similar to New.
         /// </summary>
         public static string NewGuidCaption {
             get {
@@ -268,7 +268,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Вперёд.
+        ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string NextStepCaption {
             get {
@@ -277,7 +277,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось открыть ссылку в браузере: {0}.
+        ///   Looks up a localized string similar to Can&apos;t open the link in the browser: {0}.
         /// </summary>
         public static string OpenLinkInBrowserFailed {
             get {
@@ -286,7 +286,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Новый.
+        ///   Looks up a localized string similar to New.
         /// </summary>
         public static string PackCreateNew {
             get {
@@ -295,7 +295,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Описание (на английском).
+        ///   Looks up a localized string similar to Description (in English).
         /// </summary>
         public static string PackDescriptionEnglish {
             get {
@@ -304,7 +304,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Описание (на русском).
+        ///   Looks up a localized string similar to Description (in Russian).
         /// </summary>
         public static string PackDescriptionRussian {
             get {
@@ -313,7 +313,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to СОХРАНИТЬ ГОТОВЫЙ.
+        ///   Looks up a localized string similar to SAVE RESULT.
         /// </summary>
         public static string PackExport {
             get {
@@ -322,7 +322,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пак &quot;{0}&quot; сохранён. Показать в проводнике?.
+        ///   Looks up a localized string similar to Pack &quot;{0}&quot; is saved. Show in explorer?.
         /// </summary>
         public static string PackExported {
             get {
@@ -340,7 +340,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Существующий.
+        ///   Looks up a localized string similar to Existing.
         /// </summary>
         public static string PackLoadExisting {
             get {
@@ -349,7 +349,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось загрузить пак &quot;{0}&quot;. Ошибка: &quot;{1}&quot;.
+        ///   Looks up a localized string similar to Can&apos;t load the pack &quot;{0}&quot;. Error: &quot;{1}&quot;.
         /// </summary>
         public static string PackLoadingFailed {
             get {
@@ -358,7 +358,16 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Название.
+        ///   Looks up a localized string similar to Pack structure version:.
+        /// </summary>
+        public static string PackStructureVersion {
+            get {
+                return ResourceManager.GetString("PackStructureVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string PackTitle {
             get {
@@ -367,7 +376,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Аудио.
+        ///   Looks up a localized string similar to Audio.
         /// </summary>
         public static string PackTypeAudio {
             get {
@@ -376,7 +385,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Персонажи.
+        ///   Looks up a localized string similar to Characters.
         /// </summary>
         public static string PackTypeCharacters {
             get {
@@ -385,7 +394,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Шрифты.
+        ///   Looks up a localized string similar to Fonts.
         /// </summary>
         public static string PackTypeFonts {
             get {
@@ -403,7 +412,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип пака.
+        ///   Looks up a localized string similar to Pack type.
         /// </summary>
         public static string PackTypeHelpText {
             get {
@@ -412,7 +421,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Карты.
+        ///   Looks up a localized string similar to Maps.
         /// </summary>
         public static string PackTypeMaps {
             get {
@@ -421,7 +430,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Тип пака не выбран!.
+        ///   Looks up a localized string similar to Pack type is not selected!.
         /// </summary>
         public static string PackTypeNotSelected {
             get {
@@ -430,7 +439,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Текстуры.
+        ///   Looks up a localized string similar to Textures.
         /// </summary>
         public static string PackTypeTextures {
             get {
@@ -439,7 +448,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Переводы.
+        ///   Looks up a localized string similar to Translations.
         /// </summary>
         public static string PackTypeTranslations {
             get {
@@ -448,7 +457,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Версия:.
+        ///   Looks up a localized string similar to Version:.
         /// </summary>
         public static string PackVersion {
             get {
@@ -457,7 +466,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Превью.
+        ///   Looks up a localized string similar to Previews.
         /// </summary>
         public static string Previews {
             get {
@@ -466,7 +475,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Назад.
+        ///   Looks up a localized string similar to Previous.
         /// </summary>
         public static string PreviousStepCaption {
             get {
@@ -475,7 +484,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Конвертер.
+        ///   Looks up a localized string similar to Converter.
         /// </summary>
         public static string ResourcesConverter {
             get {
@@ -484,7 +493,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Путь не выбран!.
+        ///   Looks up a localized string similar to Path is not selected!.
         /// </summary>
         public static string SavePackDialogFailed {
             get {
@@ -493,7 +502,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Паки TerrLauncher.
+        ///   Looks up a localized string similar to TerrLauncher packs.
         /// </summary>
         public static string SavePackDialogFilter {
             get {
@@ -502,7 +511,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Выберите путь к готовому паку:.
+        ///   Looks up a localized string similar to Choose result file path:.
         /// </summary>
         public static string SavePackDialogTitle {
             get {
@@ -511,7 +520,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось сохранить пак: &quot;{0}&quot;. Ошибка: &quot;{1}&quot;.
+        ///   Looks up a localized string similar to Can&apos;t save the pack: &quot;{0}&quot;. Error: &quot;{1}&quot;.
         /// </summary>
         public static string SavingPackFailed {
             get {
@@ -520,7 +529,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Осталось.
+        ///   Looks up a localized string similar to Remaining.
         /// </summary>
         public static string SavingProcessRemaining {
             get {
@@ -529,7 +538,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Сохранение паков.
+        ///   Looks up a localized string similar to Saving packs.
         /// </summary>
         public static string SavingProcessStep {
             get {
@@ -538,7 +547,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Версия структуры террарии:.
+        ///   Looks up a localized string similar to Terraria structure version:.
         /// </summary>
         public static string TerrariaStructureVersion {
             get {
@@ -547,7 +556,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Пак TerLauncher.
+        ///   Looks up a localized string similar to TerLauncher pack.
         /// </summary>
         public static string TlPacksFilter {
             get {

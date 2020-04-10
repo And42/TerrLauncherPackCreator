@@ -211,6 +211,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             var packSettingsJson = new PackSettings
             {
                 TerrariaStructureVersion = packModel.TerrariaStructureVersion,
+                PackStructureVersion = packModel.PackStructureVersion,
                 Title = packModel.Title,
                 DescriptionEnglish = packModel.DescriptionEnglish,
                 DescriptionRussian = packModel.DescriptionRussian,

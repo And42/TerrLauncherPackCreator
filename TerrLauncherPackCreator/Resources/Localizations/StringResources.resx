@@ -118,168 +118,171 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Authors" xml:space="preserve">
-    <value>Авторы</value>
+    <value>Authors</value>
   </data>
   <data name="ChoosePackDialogFailed" xml:space="preserve">
-    <value>Пак не выбран!</value>
+    <value>Pack is not selected!</value>
   </data>
   <data name="ChoosePackDialogFilter" xml:space="preserve">
-    <value>Паки TerrLauncher</value>
+    <value>TerrLauncher packs</value>
   </data>
   <data name="ChoosePackDialogTitle" xml:space="preserve">
-    <value>Выберите пак:</value>
+    <value>Choose a pack:</value>
   </data>
   <data name="ChoosePackProcessStarted" xml:space="preserve">
-    <value>Загрузка пака началась</value>
+    <value>Pack download started</value>
   </data>
   <data name="DeletePreviewCaption" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Remove</value>
   </data>
   <data name="DragIconHelpText" xml:space="preserve">
-    <value>Перетащите иконку сюда (.png|.gif)</value>
+    <value>Drag an icon here (.png|.gif)</value>
   </data>
   <data name="DragAuthorImageHelpText" xml:space="preserve">
-    <value>Перетащите иконку сюда (.png)</value>
+    <value>Drag an icon here (.png)</value>
   </data>
   <data name="DragModifiedFilesHelpText" xml:space="preserve">
-    <value>Перетащите файлы сюда</value>
+    <value>Drag files here</value>
   </data>
   <data name="DragPreviewsHelpText" xml:space="preserve">
-    <value>Перетащите изображения сюда (.jpg|.png|.gif)</value>
+    <value>Drag images here (.jpg|.png|.gif)</value>
   </data>
   <data name="ErrorLower" xml:space="preserve">
-    <value>Ошибка</value>
+    <value>Error</value>
   </data>
   <data name="ErrorOccurred" xml:space="preserve">
-    <value>Обнаружена ошибка: {0}</value>
+    <value>Error encountered: {0}</value>
   </data>
   <data name="InformationLower" xml:space="preserve">
-    <value>Информация</value>
+    <value>Information</value>
   </data>
   <data name="LoadIconFromFileFailed" xml:space="preserve">
-    <value>Не удалось загрузить иконку из файла. Ошибка: "{0}"</value>
+    <value>Can't load an icon from the file. Error: "{0}"</value>
   </data>
   <data name="LoadImageFromFileFailed" xml:space="preserve">
-    <value>Не удалось загрузить изображение из файла: "{0}". Ошибка: "{1}"</value>
+    <value>Can;t load an image from the file: "{0}". Error: "{1}"</value>
   </data>
   <data name="LoadingProgressStep" xml:space="preserve">
-    <value>Загрузка паков</value>
+    <value>Loading packs</value>
   </data>
   <data name="ModifiedFiles" xml:space="preserve">
-    <value>Изменённые файлы</value>
+    <value>Modified files</value>
   </data>
   <data name="NewGuidCaption" xml:space="preserve">
-    <value>Новый</value>
+    <value>New</value>
   </data>
   <data name="NextStepCaption" xml:space="preserve">
-    <value>Вперёд</value>
+    <value>Next</value>
   </data>
   <data name="PackCreateNew" xml:space="preserve">
-    <value>Новый</value>
+    <value>New</value>
   </data>
   <data name="PackDescriptionEnglish" xml:space="preserve">
-    <value>Описание (на английском)</value>
+    <value>Description (in English)</value>
   </data>
   <data name="PackDescriptionRussian" xml:space="preserve">
-    <value>Описание (на русском)</value>
+    <value>Description (in Russian)</value>
   </data>
   <data name="PackExport" xml:space="preserve">
-    <value>СОХРАНИТЬ ГОТОВЫЙ</value>
+    <value>SAVE RESULT</value>
   </data>
   <data name="PackExported" xml:space="preserve">
-    <value>Пак "{0}" сохранён. Показать в проводнике?</value>
+    <value>Pack "{0}" is saved. Show in explorer?</value>
   </data>
   <data name="PackGuid" xml:space="preserve">
     <value>Guid:</value>
   </data>
   <data name="PackLoadExisting" xml:space="preserve">
-    <value>Существующий</value>
+    <value>Existing</value>
   </data>
   <data name="ResourcesConverter" xml:space="preserve">
-    <value>Конвертер</value>
+    <value>Converter</value>
   </data>
   <data name="PackLoadingFailed" xml:space="preserve">
-    <value>Не удалось загрузить пак "{0}". Ошибка: "{1}"</value>
+    <value>Can't load the pack "{0}". Error: "{1}"</value>
   </data>
   <data name="PackTitle" xml:space="preserve">
-    <value>Название</value>
+    <value>Title</value>
   </data>
   <data name="PackTypeAudio" xml:space="preserve">
-    <value>Аудио</value>
+    <value>Audio</value>
   </data>
   <data name="PackTypeCharacters" xml:space="preserve">
-    <value>Персонажи</value>
+    <value>Characters</value>
   </data>
   <data name="PackTypeFonts" xml:space="preserve">
-    <value>Шрифты</value>
+    <value>Fonts</value>
   </data>
   <data name="PackTypeGui" xml:space="preserve">
     <value>Gui</value>
   </data>
   <data name="PackTypeHelpText" xml:space="preserve">
-    <value>Тип пака</value>
+    <value>Pack type</value>
   </data>
   <data name="PackTypeMaps" xml:space="preserve">
-    <value>Карты</value>
+    <value>Maps</value>
   </data>
   <data name="PackTypeNotSelected" xml:space="preserve">
-    <value>Тип пака не выбран!</value>
+    <value>Pack type is not selected!</value>
   </data>
   <data name="PackTypeTextures" xml:space="preserve">
-    <value>Текстуры</value>
+    <value>Textures</value>
   </data>
   <data name="PackTypeTranslations" xml:space="preserve">
-    <value>Переводы</value>
+    <value>Translations</value>
   </data>
   <data name="TerrariaStructureVersion" xml:space="preserve">
-    <value>Версия структуры террарии:</value>
+    <value>Terraria structure version:</value>
   </data>
   <data name="PackVersion" xml:space="preserve">
-    <value>Версия:</value>
+    <value>Version:</value>
   </data>
   <data name="Previews" xml:space="preserve">
-    <value>Превью</value>
+    <value>Previews</value>
   </data>
   <data name="PreviousStepCaption" xml:space="preserve">
-    <value>Назад</value>
+    <value>Previous</value>
   </data>
   <data name="SavePackDialogFailed" xml:space="preserve">
-    <value>Путь не выбран!</value>
+    <value>Path is not selected!</value>
   </data>
   <data name="SavePackDialogFilter" xml:space="preserve">
-    <value>Паки TerrLauncher</value>
+    <value>TerrLauncher packs</value>
   </data>
   <data name="SavePackDialogTitle" xml:space="preserve">
-    <value>Выберите путь к готовому паку:</value>
+    <value>Choose result file path:</value>
   </data>
   <data name="SavingPackFailed" xml:space="preserve">
-    <value>Не удалось сохранить пак: "{0}". Ошибка: "{1}"</value>
+    <value>Can't save the pack: "{0}". Error: "{1}"</value>
   </data>
   <data name="SavingProcessRemaining" xml:space="preserve">
-    <value>Осталось</value>
+    <value>Remaining</value>
   </data>
   <data name="SavingProcessStep" xml:space="preserve">
-    <value>Сохранение паков</value>
+    <value>Saving packs</value>
   </data>
   <data name="TlPacksFilter" xml:space="preserve">
-    <value>Пак TerLauncher</value>
+    <value>TerLauncher pack</value>
   </data>
   <data name="Log" xml:space="preserve">
-    <value>Лог</value>
+    <value>Log</value>
   </data>
   <data name="AddAuthorCaption" xml:space="preserve">
-    <value>Добавить</value>
+    <value>Add</value>
   </data>
   <data name="EditAuthorCaption" xml:space="preserve">
-    <value>Изменить</value>
+    <value>Edit</value>
   </data>
   <data name="DeleteAuthorCaption" xml:space="preserve">
-    <value>Удалить</value>
+    <value>Remove</value>
   </data>
   <data name="ConverterFileType" xml:space="preserve">
-    <value>Тип файла:</value>
+    <value>File type:</value>
   </data>
   <data name="OpenLinkInBrowserFailed" xml:space="preserve">
-    <value>Не удалось открыть ссылку в браузере: {0}</value>
+    <value>Can't open the link in the browser: {0}</value>
+  </data>
+  <data name="PackStructureVersion" xml:space="preserve">
+    <value>Pack structure version:</value>
   </data>
 </root>

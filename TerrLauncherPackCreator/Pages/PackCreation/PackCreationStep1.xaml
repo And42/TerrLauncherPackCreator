@@ -6,7 +6,6 @@
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
-      xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
       xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
       mc:Ignorable="d" 
 
@@ -52,11 +51,6 @@
             ImagePath="{Binding IconFilePath}"
             DropImageCommand="{Binding DropIconCommand}"
             ImageHelpText="{x:Static localizations:StringResources.DragIconHelpText}"/>
-
-        <Grid>
-            <xctk:IntegerUpDown Minimum="3" Value="{Binding TerrariaStructureVersion}"/>
-            <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.TerrariaStructureVersion}"/>
-        </Grid>
         
         <xctk:WatermarkTextBox Text="{Binding Title}" Watermark="{x:Static localizations:StringResources.PackTitle}"/>
 
