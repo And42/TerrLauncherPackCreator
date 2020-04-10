@@ -87,15 +87,23 @@
                 <DataTemplate x:Key="ModifiedMapTemplate" DataType="{x:Type models:ModifiedMapModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
+                        <TextBlock
+                            Text="{Binding FilePath, Converter={StaticResource PathToFileNameConverter}}"
+                            ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"
+                            TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Column="1" Text=">" VerticalAlignment="Center"/>
                         <TextBox
+                            Grid.Column="2"
                             Text="{Binding ResultFileName}"
                             ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"/>
                         <Button
-                            Grid.Column="1" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
+                            Grid.Column="3" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
                             Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                             CommandParameter="{Binding}"
                             Margin="0 3" Padding="7 3"/>
