@@ -226,8 +226,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             if (packModel == null)
                 throw new ArgumentNullException(nameof(packModel));
 
-            ResetCollections();
-
             IconFilePath = packModel.IconFilePath;
             Title = packModel.Title;
             DescriptionRussian = packModel.DescriptionRussian;
@@ -239,14 +237,22 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             Application.Current.Dispatcher.Invoke(() =>
             {
+                ResetCollections();
+
+                foreach (var author in packModel.Authors) {
+                    Authors.Add(new AuthorItemModel {
+                        Name = author.name,
+                        Color = author.color,
+                        ImageBytes = author.iconBytes,
+                        Link = author.link
+                    });
+                }
                 previewItems.ForEach(Previews.Add);
-                foreach (var modifiedFileInfo in packModel.ModifiedFiles)
+                foreach (var modifiedFile in packModel.ModifiedFiles)
                 {
-                    string itemExtension = Path.GetExtension(modifiedFileInfo.FilePath);
-                    var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesExtension == itemExtension);
-                    if (fileGroup != null)
-                    {
-                        fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, modifiedFileInfo.FilePath));
+                    var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesType == modifiedFile.FileType);
+                    if (fileGroup != null) {
+                        fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, modifiedFile.FilePath, modifiedFile.Config));
                     }
                 }
             });
@@ -309,7 +315,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             return !Working && parameter.files != null && parameter.files.All(File.Exists);
         }
 
-        private async void DropModifiedFileCommand_Execute((string[] files, ModifiedFileModel dropModel) parameter)
+        private void DropModifiedFileCommand_Execute((string[] files, ModifiedFileModel dropModel) parameter)
         {
             using (LaunchWork())
             {
@@ -332,19 +338,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         fileGroup.ModifiedFiles.Remove(existingFile);
                     }
 
-                    try
-                    {
-                        string convertedFile = await _fileConverter.ConvertToTarget(fileGroup.FilesType, file, _packTempDir);
-                        fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, convertedFile));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(
-                            string.Format(StringResources.ErrorOccurred, ex),
-                            StringResources.ErrorLower,
-                            MessageBoxButton.OK, MessageBoxImage.Warning
-                        );
-                    }
+                    fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, file, null));
                 }
             }
         }
@@ -412,28 +406,38 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             return new PackModel(
                 Authors.Select(author => (author.Name, author.Color, author.Link, author.ImageBytes)).ToArray(),
                 Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
-                ModifiedFileGroups.SelectMany(it => it.ModifiedFiles)
-                    .Where(it => !it.IsDragDropTarget)
-                    .Select(it =>
-                    {
-                        var info = new PackModel.ModifiedFileInfo(it.FilePath);
-                        switch (it)
-                        {
-                            case ModifiedTextureModel textureModel:
-                                info.Config = new TextureInfo
+                ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
+                    .Where(it => !it.modified.IsDragDropTarget)
+                    .Select(it => {
+                        IPackFileInfo fileInfo = null;
+                        switch (it.FilesType) {
+                            case FileType.Texture:
+                                var textureModel = (ModifiedTextureModel) it.modified;
+                                fileInfo = new TextureFileInfo
                                 {
-                                    EntryName = textureModel.Prefix != null
-                                        ? $"{textureModel.Prefix}/{textureModel.Name}"
-                                        : textureModel.Name
+                                    EntryName = string.IsNullOrEmpty(textureModel.Prefix)
+                                        ? textureModel.Name
+                                        : $"{textureModel.Prefix}/{textureModel.Name}"
                                 };
                                 break;
-                            case ModifiedMapModel mapModel:
-                                info.Config = new MapInfo
+                            case FileType.Map:
+                                var mapModel = (ModifiedMapModel) it.modified;
+                                fileInfo = new MapFileInfo
                                 {
                                     ResultFileName = mapModel.ResultFileName
                                 };
                                 break;
+                            case FileType.Character:
+                            case FileType.Gui:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
                         }
+
+                        var info = new PackModel.ModifiedFileInfo(it.modified.FilePath) {
+                            FileType = it.FilesType,
+                            Config = fileInfo
+                        };
 
                         return info;
                     })
@@ -455,6 +459,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             Previews.Clear();
             ModifiedFileGroups.Clear();
+            Authors.Clear();
 
             Previews.Add(new PreviewItemModel(filePath: null, isDragDropTarget: true));
             foreach ((FileType fileType, string initialFilesExt, string _, string title) in PackUtils.PacksInfo)
@@ -487,15 +492,31 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
         
-        private static ModifiedFileModel FileToModel(FileType fileType, string filePath)
+        [NotNull]
+        private static ModifiedFileModel FileToModel(FileType fileType, [NotNull] string filePath, [CanBeNull] IPackFileInfo fileInfo)
         {
             switch (fileType)
             {
                 case FileType.Texture:
-                case FileType.Gui:
-                    return new ModifiedTextureModel(filePath, false);
-                case FileType.Map:
-                    return new ModifiedMapModel(filePath, false);
+                case FileType.Gui: {
+                    var model = new ModifiedTextureModel(filePath, false);
+                    if (fileInfo != null) {
+                        var info = (TextureFileInfo) fileInfo;
+                        model.Prefix = null;
+                        model.Name = info.EntryName;
+                    }
+
+                    return model;
+                }
+                case FileType.Map: {
+                    var model = new ModifiedMapModel(filePath, false);
+                    if (fileInfo != null) {
+                        var info = (MapFileInfo) fileInfo;
+                        model.ResultFileName = info.ResultFileName;
+                    }
+                    
+                    return model;
+                }
                 case FileType.Character:
                     return new ModifiedFileModel(filePath, false);
                 default:

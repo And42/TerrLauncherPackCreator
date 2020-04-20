@@ -9,6 +9,7 @@ using CommonLibrary.CommonUtils;
 using Ionic.Zip;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
@@ -32,17 +33,20 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private readonly IProgressManager _loadProgressManager;
         private readonly IProgressManager _saveProgressManager;
+        private readonly IFileConverter _fileConverter;
 
         private readonly object _loadingLock = new object();
         private readonly object _savingLock = new object();
 
         public PackProcessor(
             IProgressManager loadProgressManager,
-            IProgressManager saveProgressManager
+            IProgressManager saveProgressManager,
+            IFileConverter fileConverter
         )
         {
             _loadProgressManager = loadProgressManager;
             _saveProgressManager = saveProgressManager;
+            _fileConverter = fileConverter;
 
             if (loadProgressManager != null)
             {
@@ -59,18 +63,15 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         public void LoadPackFromFile(string filePath)
         {
-            // todo: add loading existing packs
-            throw new NotSupportedException();
-            
             if (filePath == null)
                 throw new ArgumentNullException(nameof(filePath));
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
                     PackLoadingStarted?.Invoke(filePath);
-                    var packModel = LoadPackModelInternal(filePath);
+                    var packModel = await LoadPackModelInternal(filePath);
                     PackLoaded?.Invoke((filePath, packModel, null));
                 }
                 catch (Exception ex)
@@ -134,72 +135,74 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
         }
 
-        private static PackModel LoadPackModelInternal(string filePath)
+        private async Task<PackModel> LoadPackModelInternal(string filePath)
         {
-            // todo: add loading packs support
-            throw new NotSupportedException();
-            
-            // todo: implement the ability to process multiple packs with the same names simultaneously
+            string targetFolderPath = ApplicationDataUtils.GenerateNonExistentDirPath();
+            using (var zip = ZipFile.Read(filePath))
+                zip.ExtractAll(targetFolderPath);
 
-//            string packExt = Path.GetExtension(filePath);
-//
-//            Debug.Assert(PackUtils.PacksInfo.Select(it => it.packExt).Contains(packExt));
-//
-//            var packTypeInfo = PackUtils.PacksInfo.First(it => it.packExt == packExt);
-//
-//            string targetFolderPath = Path.Combine(
-//                ApplicationDataUtils.PathToTempFolder,
-//                Path.GetFileNameWithoutExtension(filePath) ?? "undefined"
-//            );
-//
-//            IOUtils.TryDeleteDirectory(targetFolderPath, PackProcessingTries, PackProcessingSleepMs);
-//
-//            using (var zip = ZipFile.Read(filePath))
-//            {
-//                zip.ExtractAll(targetFolderPath);
-//            }
-//
-//            string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
-//            string packIconGif = Path.Combine(targetFolderPath, "Icon.gif");
-//            string packIconPng = Path.Combine(targetFolderPath, "Icon.png");
-//            string packPreviewsFolder = Path.Combine(targetFolderPath, "Previews");
-//            string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
-//
-//            PackSettings packSettings = JsonConvert.DeserializeObject<PackSettings>(File.ReadAllText(packSettingsFile, Encoding.UTF8));
-//
-//            string packIconFile = null;
-//            if (File.Exists(packIconGif))
-//                packIconFile = packIconGif;
-//            else if (File.Exists(packIconPng))
-//                packIconFile = packIconPng;
-//
-//            string[] previewsPaths = 
-//                Directory.Exists(packPreviewsFolder)
-//                    ? Directory.EnumerateFiles(packPreviewsFolder).Where(it => PreviewExtensions.Contains(Path.GetExtension(it))).ToArray()
-//                    : null;
-//
-//            string[] modifiedFilesPaths =
-//                Directory.Exists(packModifiedFilesFolder)
-//                    ? Directory.GetFiles(packModifiedFilesFolder, "*" + packTypeInfo.packFilesExt)
-//                    : null;
-//
-//            var packModel = new PackModel
-//            {
-//                PackType = packTypeInfo.packType,
-//                IconFilePath = packIconFile,
-//                Title = packSettings.Title,
-//                DescriptionEnglish = packSettings.DescriptionEnglish,
-//                DescriptionRussian = packSettings.DescriptionRussian,
-//                Version = packSettings.Version,
-//                Guid = packSettings.Guid,
-//                PreviewsPaths = previewsPaths,
-//                ModifiedFilesPaths = modifiedFilesPaths
-//            };
-//
-//            return packModel;
+            string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
+            string packIconGif = Path.Combine(targetFolderPath, "Icon.gif");
+            string packIconPng = Path.Combine(targetFolderPath, "Icon.png");
+            string packPreviewsFolder = Path.Combine(targetFolderPath, "Previews");
+            string packAuthorsFolder = Path.Combine(targetFolderPath, "Authors");
+            string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
+
+            PackSettings packSettings = JsonConvert.DeserializeObject<PackSettings>(File.ReadAllText(packSettingsFile, Encoding.UTF8));
+
+            string packIconFile = null;
+            if (File.Exists(packIconGif))
+                packIconFile = packIconGif;
+            else if (File.Exists(packIconPng))
+                packIconFile = packIconPng;
+
+            string[] previewsPaths = 
+                Directory.Exists(packPreviewsFolder)
+                    ? Directory.EnumerateFiles(packPreviewsFolder).Where(it => PreviewExtensions.Contains(Path.GetExtension(it))).ToArray()
+                    : new string[0];
+
+            string[] modifiedFileExts = PackUtils.PacksInfo.Select(it => it.convertedFilesExt).ToArray();
+            string[] modifiedFilesPaths =
+                Directory.Exists(packModifiedFilesFolder)
+                    ? Directory.EnumerateFiles(packModifiedFilesFolder)
+                        .Where(it => modifiedFileExts.Contains(Path.GetExtension(it)))
+                        .ToArray()
+                    : new string[0];
+
+            var authors = packSettings.Authors.Split(new[] {"<->"}, StringSplitOptions.RemoveEmptyEntries)
+                .ConvertAll(it => StringToAuthorModel(it, packAuthorsFolder));
+
+            var modifiedFiles = new List<PackModel.ModifiedFileInfo>();
+            foreach (string modifiedFile in modifiedFilesPaths)
+            {
+                string configFile = Path.ChangeExtension(modifiedFile, PackUtils.PackFileConfigExtension);
+                if (!File.Exists(configFile)) {
+                    configFile = null;
+                }
+
+                string fileExt = Path.GetExtension(modifiedFile);
+                FileType fileType = PackUtils.PacksInfo.First(it => it.convertedFilesExt == fileExt).fileType;
+                var (sourceFile, fileInfo) = await _fileConverter.ConvertToSource(fileType, modifiedFile, configFile);
+                modifiedFiles.Add(new PackModel.ModifiedFileInfo(sourceFile) {
+                    FileType = fileType,
+                    Config = fileInfo
+                });
+            }
+
+            var packModel = new PackModel(authors, previewsPaths, modifiedFiles.ToArray())
+            {
+                IconFilePath = packIconFile,
+                Title = packSettings.Title,
+                DescriptionEnglish = packSettings.DescriptionEnglish,
+                DescriptionRussian = packSettings.DescriptionRussian,
+                Version = packSettings.Version,
+                Guid = packSettings.Guid,
+            };
+
+            return packModel;
         }
 
-        private static void SavePackModelInternal(PackModel packModel, string filePath)
+        private void SavePackModelInternal(PackModel packModel, string filePath)
         {
             var authorsMappings = new List<(byte[] sourceFile, string targetFile, string json)>();
             int authorFileIndex = 1;
@@ -248,17 +251,14 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 }
 
                 int fileIndex = 1;
-                foreach (PackModel.ModifiedFileInfo modifiedFileInfo in packModel.ModifiedFiles)
-                {
+                foreach (PackModel.ModifiedFileInfo modifiedFile in packModel.ModifiedFiles) {
+                    var (convertedFile, configFile) = _fileConverter.ConvertToTarget(modifiedFile.FileType, modifiedFile.FilePath, modifiedFile.Config).GetAwaiter().GetResult();
+                    string fileExt = PackUtils.GetConvertedFilesExt(modifiedFile.FileType);
                     string fileName = fileIndex.ToString();
                     fileIndex++;
-                    zip.AddFile(modifiedFileInfo.FilePath).FileName = $"Modified/{fileName}{Path.GetExtension(modifiedFileInfo.FilePath)}";
-                    if (modifiedFileInfo.Config != null)
-                    {
-                        zip.AddEntry(
-                            $"Modified/{fileName}.json",
-                            JsonConvert.SerializeObject(modifiedFileInfo.Config, Formatting.Indented)
-                        );
+                    zip.AddFile(convertedFile).FileName = $"Modified/{fileName}{fileExt}";
+                    if (configFile != null) {
+                        zip.AddFile(configFile).FileName = $"Modified/{fileName}.json";
                     }
                 }
 
@@ -274,7 +274,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             if (!string.IsNullOrEmpty(author.name))
                 parts.Add("name=" + author.name);
             if (author.color.HasValue)
-                parts.Add("color=" + author.color);
+                parts.Add("color=" + author.color); // #FF00FF00
             if (!string.IsNullOrEmpty(author.link))
                 parts.Add("link=" + author.link);
             if (author.iconBytes != null)
@@ -289,6 +289,43 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
 
             return string.Join("|", parts);
+        }
+
+        [NotNull]
+        private static (string name, Color? color, string link, byte[] iconBytes) StringToAuthorModel(string author, string authorIconsDir)
+        {
+            string[] parts = author.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            string name = null;
+            Color? color = null;
+            string link = null;
+            byte[] iconBytes = null;
+
+            foreach (string part in parts)
+            {
+                string[] keyValue = part.Split('=');
+                if (keyValue.Length != 2)
+                    continue;
+                
+                switch (keyValue[0])
+                {
+                    case "name":
+                        name = keyValue[1];
+                        break;
+                    case "color":
+                        color = (Color) ColorConverter.ConvertFromString(keyValue[1]);
+                        break;
+                    case "link":
+                        link = keyValue[1];
+                        break;
+                    case "file":
+                        string authorIcon = Path.Combine(authorIconsDir, keyValue[1]);
+                        if (File.Exists(authorIcon))
+                            iconBytes = File.ReadAllBytes(authorIcon);
+                        break;
+                }
+            }
+            
+            return (name, color, link, iconBytes);
         }
     }
 }

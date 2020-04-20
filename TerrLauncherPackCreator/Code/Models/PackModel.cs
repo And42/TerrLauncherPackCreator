@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Media;
 using JetBrains.Annotations;
+using TerrLauncherPackCreator.Code.Enums;
+using TerrLauncherPackCreator.Code.Interfaces;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
@@ -9,10 +11,12 @@ namespace TerrLauncherPackCreator.Code.Models
         public class ModifiedFileInfo
         {
             [CanBeNull]
-            public object Config { get; set; }
+            public IPackFileInfo Config { get; set; }
             
             [NotNull]
             public string FilePath { get; set; }
+
+            public FileType FileType { get; set; }
             
             public ModifiedFileInfo([NotNull] string filePath)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using JetBrains.Annotations;
 
 namespace CommonLibrary.CommonUtils
 {
@@ -9,7 +10,7 @@ namespace CommonLibrary.CommonUtils
 
         public static string PathToDataFolder { get; }
 
-        public static string PathToTempFolder { get; }
+        public static string PathToSessionTempFolder { get; }
 
         static ApplicationDataUtils()
         {
@@ -19,7 +20,31 @@ namespace CommonLibrary.CommonUtils
             );
 
             PathToDataFolder = Path.Combine(PathToRootFolder, "Data");
-            PathToTempFolder = Path.Combine(PathToRootFolder, "Temp");
+            PathToSessionTempFolder = Path.Combine(PathToRootFolder, "SessionTemp");
+        }
+
+        [NotNull]
+        public static string GenerateNonExistentFilePath()
+        {
+            string filePath;
+            do
+            {
+                filePath = Path.Combine(PathToSessionTempFolder, Guid.NewGuid().ToString());
+            } while (File.Exists(filePath));
+
+            return filePath;
+        }
+
+        [NotNull]
+        public static string GenerateNonExistentDirPath()
+        {
+            string dirPath;
+            do
+            {
+                dirPath = Path.Combine(PathToSessionTempFolder, Guid.NewGuid().ToString());
+            } while (Directory.Exists(dirPath));
+
+            return dirPath;
         }
     }
 }

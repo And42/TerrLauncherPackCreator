@@ -29,10 +29,10 @@
             Command="{Binding CreateNewPackCommand}"
             VerticalAlignment="Top"/>
 
-        <!-- <Button -->
-        <!--     Style="{StaticResource ActionButtonMarginStyle}" -->
-        <!--     Content="{x:Static localizations:StringResources.PackLoadExisting}" -->
-        <!--     Command="{Binding ChooseExistingPackCommand}"/> -->
+        <Button
+            Style="{StaticResource ActionButtonMarginStyle}"
+            Content="{x:Static localizations:StringResources.PackLoadExisting}"
+            Command="{Binding ChooseExistingPackCommand}"/>
         
         <Button
             Style="{StaticResource ActionButtonMarginStyle}"

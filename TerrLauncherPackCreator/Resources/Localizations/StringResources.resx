@@ -129,9 +129,6 @@
   <data name="ChoosePackDialogTitle" xml:space="preserve">
     <value>Choose a pack:</value>
   </data>
-  <data name="ChoosePackProcessStarted" xml:space="preserve">
-    <value>Pack download started</value>
-  </data>
   <data name="DeletePreviewCaption" xml:space="preserve">
     <value>Remove</value>
   </data>

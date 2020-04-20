@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Enums;
@@ -56,8 +57,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     foreach (string file in files)
                     {
                         string resultsDir = Path.Combine(Path.GetDirectoryName(file), "converted_files");
-                        Directory.CreateDirectory(resultsDir);
-                        await _fileConverter.ConvertToTarget(CurrentFileType, file, resultsDir);
+                        IOUtils.EnsureDirExists(resultsDir);
+                        
+                        var (convertedFile, _) = await _fileConverter.ConvertToTarget(CurrentFileType, file, null);
+                        string resultFileExt = PackUtils.GetConvertedFilesExt(CurrentFileType);
+                        string resultFile = Path.Combine(resultsDir, Path.GetFileNameWithoutExtension(file) + resultFileExt);
+                        File.Copy(convertedFile, resultFile, overwrite: true);
+                        File.Delete(convertedFile);
                     }
                 }
                 catch (Exception ex)

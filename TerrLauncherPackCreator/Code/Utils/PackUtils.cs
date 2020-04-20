@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Resources.Localizations;
 
@@ -7,6 +9,7 @@ namespace TerrLauncherPackCreator.Code.Utils
     public static class PackUtils
     {
         public const string PacksExtension = ".tl";
+        public const string PackFileConfigExtension = ".json";
         
         public static IReadOnlyList<(FileType fileType, string initialFilesExt, string convertedFilesExt, string title)> PacksInfo { get; }
 
@@ -23,6 +26,18 @@ namespace TerrLauncherPackCreator.Code.Utils
 //                (PackTypes.Fonts,        ".tlf",  ".png", ".font",        StringResources.PackTypeFonts),
 //                (PackTypes.Translations, ".tltr", ".txt", ".translation", StringResources.PackTypeTranslations),
             };
+        }
+
+        [NotNull]
+        public static string GetInitialFilesExt(FileType fileType)
+        {
+            return PacksInfo.First(it => it.fileType == fileType).initialFilesExt;
+        }
+        
+        [NotNull]
+        public static string GetConvertedFilesExt(FileType fileType)
+        {
+            return PacksInfo.First(it => it.fileType == fileType).convertedFilesExt;
         }
     }
 }

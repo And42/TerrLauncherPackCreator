@@ -13,7 +13,7 @@
             <TextBlock Text="{Binding ImageHelpText, RelativeSource={RelativeSource FindAncestor, AncestorType=local:DragAndDropImage}}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
         </Grid>
         <Image VerticalAlignment="Center" HorizontalAlignment="Center"
-               gif:AnimationBehavior.SourceUri="{Binding ImagePath, RelativeSource={RelativeSource FindAncestor, AncestorType=local:DragAndDropImage}, Mode=OneWay}"
+               gif:AnimationBehavior.SourceStream="{Binding ImagePath, RelativeSource={RelativeSource FindAncestor, AncestorType=local:DragAndDropImage}, Mode=OneWay, Converter={StaticResource FileToMemoryStreamConverter}}"
                RenderOptions.BitmapScalingMode="NearestNeighbor"
                ToolTip="{Binding ImagePath, RelativeSource={RelativeSource FindAncestor, AncestorType=local:DragAndDropImage}}"/>
     </Grid>

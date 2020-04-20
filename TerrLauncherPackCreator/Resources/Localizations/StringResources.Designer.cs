@@ -106,15 +106,6 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pack download started.
-        /// </summary>
-        public static string ChoosePackProcessStarted {
-            get {
-                return ResourceManager.GetString("ChoosePackProcessStarted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to File type:.
         /// </summary>
         public static string ConverterFileType {

@@ -102,6 +102,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public IProgressManager LoadProgressManager { get; }
         public IProgressManager SaveProgressManager { get; }
+        public IFileConverter FileConverter { get; }
 
         public ObservableCollection<IProgressManager> ProgressManagers { get; }
         public IPackProcessor PackProcessor { get; }
@@ -130,10 +131,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             LoadProgressManager = new ProgressManager {Text = StringResources.LoadingProgressStep};
             SaveProgressManager = new ProgressManager {Text = StringResources.SavingProcessStep};
+            FileConverter = new FileConverter();
 
             PackProcessor = new PackProcessor(
                 LoadProgressManager,
-                SaveProgressManager
+                SaveProgressManager,
+                FileConverter
             );
             TempDirsProvider = new TempDirsProvider(Paths.TempDir);
             TempDirsProvider.DeleteAll();

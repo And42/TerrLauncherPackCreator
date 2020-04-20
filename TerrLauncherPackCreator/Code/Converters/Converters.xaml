@@ -8,4 +8,6 @@
     <local:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     <local:InMemoryImageSourceConverter x:Key="InMemoryImageSourceConverter"/>
     <local:BytesToStream x:Key="BytesToStream"/>
+    <local:FileToMemoryStreamConverter x:Key="FileToMemoryStreamConverter"/>
+    
 </ResourceDictionary>

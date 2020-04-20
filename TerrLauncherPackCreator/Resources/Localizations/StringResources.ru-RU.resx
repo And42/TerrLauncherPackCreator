@@ -132,9 +132,6 @@
   <data name="ChoosePackDialogTitle" xml:space="preserve">
     <value>Выберите пак:</value>
   </data>
-  <data name="ChoosePackProcessStarted" xml:space="preserve">
-    <value>Загрузка пака началась</value>
-  </data>
   <data name="ConverterFileType" xml:space="preserve">
     <value>Тип файла:</value>
   </data>

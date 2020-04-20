@@ -30,8 +30,10 @@ namespace TerrLauncherPackCreator.Code.Models
             _name = Path.GetFileNameWithoutExtension(filePath);
             CommonPrefixes = new ObservableCollection<string>
             {
+                "",
                 "Content/Images"
             };
+            Prefix = CommonPrefixes[1];
         }
     }
 }

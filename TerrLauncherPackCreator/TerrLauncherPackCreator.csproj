@@ -93,6 +93,7 @@
     <Compile Include="Code\AttachedProperties\TextBoxAP.cs" />
     <Compile Include="Code\Converters\BytesToStream.cs" />
     <Compile Include="Code\Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Code\Converters\FileToMemoryStreamConverter.cs" />
     <Compile Include="Code\Converters\InMemoryImageSourceConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
@@ -100,10 +101,11 @@
     <Compile Include="Code\Implementations\TempDirsProvider.cs" />
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IFileConverter.cs" />
+    <Compile Include="Code\Interfaces\IPackFileInfo.cs" />
     <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
     <Compile Include="Code\Json\AuthorsJson.cs" />
-    <Compile Include="Code\Json\MapInfo.cs" />
-    <Compile Include="Code\Json\TextureInfo.cs" />
+    <Compile Include="Code\Json\MapFileInfo.cs" />
+    <Compile Include="Code\Json\TextureFileInfo.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
     <Compile Include="Code\Models\ModifiedMapModel.cs" />

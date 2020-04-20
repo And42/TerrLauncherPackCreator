@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using JetBrains.Annotations;
 
 namespace CommonLibrary.CommonUtils
 {
@@ -31,6 +32,19 @@ namespace CommonLibrary.CommonUtils
                 return;
 
             TryAction(() => Directory.Delete(dirPath, true), triesCount, triesSleepMs);
+        }
+
+        public static void EnsureDirExists([NotNull] string dir)
+        {
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+        }
+        
+        public static void EnsureParentDirExists([NotNull] string filePath)
+        {
+            string parentDir = Path.GetDirectoryName(filePath);
+            if (parentDir != null)
+                EnsureDirExists(parentDir);
         }
 
         private static void TryAction(Action action, int triesCount, int triesSleepMs)

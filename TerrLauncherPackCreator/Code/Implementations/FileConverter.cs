@@ -1,52 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Utils;
+using TerrLauncherPackCreator.Code.Json;
 
 namespace TerrLauncherPackCreator.Code.Implementations
 {
     public class FileConverter : IFileConverter
     {
-        private static readonly Dictionary<FileType, string> TempFilesDir = new Dictionary<FileType, string>
-        {
-            {FileType.Texture, "textures"},
-            {FileType.Map, "maps"},
-            {FileType.Character, "characters"},
-            {FileType.Gui, "gui"}
-        };
-
         [NotNull]
-        public async Task<string> ConvertToTarget(FileType fileType, [NotNull] string sourceFile, [NotNull] string packTempDir)
+        public async Task<(string convertedFile, string configFile)> ConvertToTarget(FileType fileType, [NotNull] string sourceFile, [CanBeNull] IPackFileInfo fileInfo)
         {
             if (!File.Exists(sourceFile))
                 throw new FileNotFoundException("File not found", sourceFile);
-            if (!Directory.Exists(packTempDir))
-                Directory.CreateDirectory(packTempDir);
 
-            var (_, initialFilesExt, convertedFilesExt, _) = PackUtils.PacksInfo.First(it => it.fileType == fileType);
-            if (Path.GetExtension(sourceFile) != initialFilesExt)
-                throw new ArgumentException($"`sourceFile` (`{sourceFile}`) has invalid extension");
+            string targetFile = ApplicationDataUtils.GenerateNonExistentFilePath();
+            IOUtils.EnsureParentDirExists(targetFile);
 
-            string tempFilesDir = Path.Combine(packTempDir, TempFilesDir[fileType]);
-            Directory.CreateDirectory(tempFilesDir);
+            // config
+            string configFile = null;
+            if (fileInfo != null) {
+                configFile = ApplicationDataUtils.GenerateNonExistentFilePath();
+                File.WriteAllText(configFile, JsonConvert.SerializeObject(fileInfo, Formatting.Indented));
+            }
 
+            // file
+            File.Copy(sourceFile, targetFile, overwrite: false);
+    
+            return (targetFile, configFile);
+        }
+
+        public async Task<(string sourceFile, IPackFileInfo fileInfo)> ConvertToSource(FileType fileType, [NotNull] string targetFile, [CanBeNull] string configFile)
+        {
+            if (!File.Exists(targetFile))
+                throw new FileNotFoundException("File not found", targetFile);
+
+            // config
+            IPackFileInfo fileInfo = null;
+            if (configFile != null && File.Exists(configFile)) {
+                switch (fileType) {
+                    case FileType.Texture:
+                        fileInfo = JsonConvert.DeserializeObject<TextureFileInfo>(File.ReadAllText(configFile));
+                        break;
+                    case FileType.Map:
+                        fileInfo = JsonConvert.DeserializeObject<MapFileInfo>(File.ReadAllText(configFile));
+                        break;
+                    case FileType.Character:
+                        break;
+                    case FileType.Gui:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            // file
+            string sourceFile;
             switch (fileType)
             {
                 case FileType.Texture:
                 case FileType.Map:
                 case FileType.Character:
                 case FileType.Gui:
-                    string targetFile = Path.Combine(tempFilesDir, Path.GetFileNameWithoutExtension(sourceFile) + convertedFilesExt);
-                    File.Copy(sourceFile, targetFile, overwrite: true);
-                    return targetFile;
+                    string uniqueFile = ApplicationDataUtils.GenerateNonExistentFilePath();
+                    IOUtils.EnsureParentDirExists(uniqueFile);
+                    File.Copy(targetFile, uniqueFile, overwrite: false);
+                    sourceFile = uniqueFile;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }
+
+            return (sourceFile, fileInfo);
         }
     }
 }

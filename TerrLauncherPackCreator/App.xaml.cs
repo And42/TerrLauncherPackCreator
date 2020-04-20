@@ -42,5 +42,12 @@ namespace TerrLauncherPackCreator
 
             new PackStartupWindow().Show();
         }
+
+        protected override void OnExit(ExitEventArgs e) {
+            base.OnExit(e);
+            
+            if (Directory.Exists(ApplicationDataUtils.PathToSessionTempFolder))
+                Directory.Delete(ApplicationDataUtils.PathToSessionTempFolder, true);
+        }
     }
 }
