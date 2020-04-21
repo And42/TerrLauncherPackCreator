@@ -1,17 +1,20 @@
-﻿using System.Windows;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
+using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Windows
 {
-    public partial class AuthorEditorWindow : Window
+    public partial class AuthorEditorWindow
     {
-        public AuthorEditorWindow([NotNull] AuthorItemModel authorModel)
+        public AuthorEditorWindow(
+            [NotNull] AuthorItemModel authorModel,
+            [NotNull] AuthorsFileProcessor authorsFileProcessor
+        )
         {
             InitializeComponent();
 
-            ViewModel = new AuthorEditorWindowViewModel(authorModel);
+            ViewModel = new AuthorEditorWindowViewModel(authorModel, authorsFileProcessor);
         }
 
         public AuthorEditorWindowViewModel ViewModel

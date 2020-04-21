@@ -204,12 +204,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private void SavePackModelInternal(PackModel packModel, string filePath)
         {
-            var authorsMappings = new List<(byte[] sourceFile, string targetFile, string json)>();
+            var authorsMappings = new List<(ImageInfo sourceFile, string targetFile, string json)>();
             int authorFileIndex = 1;
-            foreach (var author in packModel.Authors)
-            {
-                string json = AuthorModelToString(author, ref authorFileIndex, out bool copyIcon);
-                authorsMappings.Add((copyIcon ? author.iconBytes : null, copyIcon ? $"{authorFileIndex - 1}.png" : null, json));
+            foreach (var author in packModel.Authors) {
+                string fileExtension;
+                string json = AuthorModelToString(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
+                authorsMappings.Add((copyIcon ? author.icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
             }
             var packSettingsJson = new PackSettings
             {
@@ -238,7 +238,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     zip.AddEntry("Authors/.nomedia", new byte[0]);
                     foreach (var (sourceFile, targetFile, _) in authorsMappings)
                         if (sourceFile != null)
-                            zip.AddEntry($"Authors/{targetFile}", sourceFile);
+                            zip.AddEntry($"Authors/{targetFile}", sourceFile.Bytes);
                 }
 
                 if (packModel.PreviewsPaths.Any())
@@ -267,8 +267,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
         }
 
         [NotNull]
-        private static string AuthorModelToString((string name, Color? color, string link, byte[] iconBytes) author, ref int authorFileIndex, out bool copyIcon)
-        {
+        private static string AuthorModelToString((string name, Color? color, string link, ImageInfo icon) author, ref int authorFileIndex, out bool copyIcon, [CanBeNull] out string fileExtension) {
+            fileExtension = null;
             var parts = new List<string>();
 
             if (!string.IsNullOrEmpty(author.name))
@@ -277,9 +277,21 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 parts.Add("color=" + author.color); // #FF00FF00
             if (!string.IsNullOrEmpty(author.link))
                 parts.Add("link=" + author.link);
-            if (author.iconBytes != null)
-            {
-                parts.Add($"file={authorFileIndex.ToString()}.png");
+            if (author.icon != null) {
+                string extension;
+                switch (author.icon.Type) {
+                    case ImageInfo.ImageType.Png:
+                        extension = ".png";
+                        break;
+                    case ImageInfo.ImageType.Gif:
+                        extension = ".gif";
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(author.icon.Type), author.icon.Type, @"Unknown type");
+                }
+
+                fileExtension = extension;
+                parts.Add($"file={authorFileIndex.ToString()}{extension}");
                 authorFileIndex++;
                 copyIcon = true;
             }
@@ -292,13 +304,13 @@ namespace TerrLauncherPackCreator.Code.Implementations
         }
 
         [NotNull]
-        private static (string name, Color? color, string link, byte[] iconBytes) StringToAuthorModel(string author, string authorIconsDir)
+        private static (string name, Color? color, string link, ImageInfo icon) StringToAuthorModel(string author, string authorIconsDir)
         {
             string[] parts = author.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             string name = null;
             Color? color = null;
             string link = null;
-            byte[] iconBytes = null;
+            ImageInfo icon = null;
 
             foreach (string part in parts)
             {
@@ -319,13 +331,26 @@ namespace TerrLauncherPackCreator.Code.Implementations
                         break;
                     case "file":
                         string authorIcon = Path.Combine(authorIconsDir, keyValue[1]);
-                        if (File.Exists(authorIcon))
-                            iconBytes = File.ReadAllBytes(authorIcon);
+                        if (File.Exists(authorIcon)) {
+                            ImageInfo.ImageType iconType;
+                            switch (Path.GetExtension(authorIcon)) {
+                                case ".png":
+                                    iconType = ImageInfo.ImageType.Png;
+                                    break;
+                                case ".gif":
+                                    iconType = ImageInfo.ImageType.Gif;
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException(nameof(authorIcon), authorIcon, @"Unknown extension");
+                            }
+                            icon = new ImageInfo(File.ReadAllBytes(authorIcon), iconType);
+                        }
+
                         break;
                 }
             }
             
-            return (name, color, link, iconBytes);
+            return (name, color, link, icon);
         }
     }
 }

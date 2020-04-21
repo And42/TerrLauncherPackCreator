@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Controls;
+using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
@@ -98,15 +99,24 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             get => _currentStep;
             set => SetProperty(ref _currentStep, value);
         }
+        [NotNull]
         public Page[] StepsPages { get; }
 
+        [NotNull]
         public IProgressManager LoadProgressManager { get; }
+        [NotNull]
         public IProgressManager SaveProgressManager { get; }
+        [NotNull]
         public IFileConverter FileConverter { get; }
 
+        [NotNull]
         public ObservableCollection<IProgressManager> ProgressManagers { get; }
+        [NotNull]
         public IPackProcessor PackProcessor { get; }
+        [NotNull]
         public ITempDirsProvider TempDirsProvider { get; }
+        [NotNull]
+        public AuthorsFileProcessor AuthorsFileProcessor { get; }
 
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
@@ -141,7 +151,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             TempDirsProvider = new TempDirsProvider(Paths.TempDir);
             TempDirsProvider.DeleteAll();
             
-            PackCreationViewModel = new PackCreationViewModel(PackProcessor, TempDirsProvider);
+            AuthorsFileProcessor = new AuthorsFileProcessor();
+            PackCreationViewModel = new PackCreationViewModel(PackProcessor, AuthorsFileProcessor);
 
             StepsPages = new Page[]
             {

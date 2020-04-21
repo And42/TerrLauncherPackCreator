@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
+using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
 
 namespace TerrLauncherPackCreator.Code.Models
@@ -25,7 +26,7 @@ namespace TerrLauncherPackCreator.Code.Models
         }
         
         public PackModel(
-            [NotNull] (string name, Color? color, string link, byte[] iconBytes)[] authors,
+            [NotNull] (string name, Color? color, string link, ImageInfo icon)[] authors,
             [NotNull] string[] previewsPaths,
             [NotNull] ModifiedFileInfo[] modifiedFiles
         )
@@ -52,7 +53,7 @@ namespace TerrLauncherPackCreator.Code.Models
         public int Version { get; set; }
 
         [NotNull]
-        public (string name, Color? color, string link, byte[] iconBytes)[] Authors { get; set; }
+        public (string name, Color? color, string link, ImageInfo icon)[] Authors { get; set; }
         
         [NotNull]
         public string[] PreviewsPaths { get; set; }

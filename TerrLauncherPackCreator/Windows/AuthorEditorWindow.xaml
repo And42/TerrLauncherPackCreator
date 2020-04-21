@@ -60,9 +60,10 @@
         <controls:DragAndDropImageBytes
             VerticalAlignment="Top"
             Grid.RowSpan="10" Width="120" Height="120"
-            ImageBytes="{Binding EditableAuthor.ImageBytes}"
+            ImageBytes="{Binding EditableAuthor.Image.Bytes, Mode=OneWay}"
             DropImageCommand="{Binding DropAuthorImageCommand}"
-            ImageHelpText="{x:Static localizations:StringResources.DragAuthorImageHelpText}"/>
+            ImageHelpText="{x:Static localizations:StringResources.DragAuthorImageHelpText}"
+            UpdateDataOnDrop="False"/>
 
         <TextBlock Grid.Column="2" Text="Сохранённый автор:"/>
         <ComboBox Grid.Column="4" ItemsSource="{Binding SavedAuthors}" SelectedItem="{Binding SelectedSavedAuthor}" HorizontalContentAlignment="Stretch">

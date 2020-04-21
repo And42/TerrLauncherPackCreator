@@ -142,7 +142,7 @@
     <value>Удалить</value>
   </data>
   <data name="DragAuthorImageHelpText" xml:space="preserve">
-    <value>Перетащите иконку сюда (.png)</value>
+    <value>Перетащите иконку сюда (.png|.gif)</value>
   </data>
   <data name="DragIconHelpText" xml:space="preserve">
     <value>Перетащите иконку сюда (.png|.gif)</value>

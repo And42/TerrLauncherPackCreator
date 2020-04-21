@@ -97,7 +97,9 @@
     <Compile Include="Code\Converters\InMemoryImageSourceConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
+    <Compile Include="Code\Implementations\AuthorsFileProcessor.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />
+    <Compile Include="Code\Implementations\ImageInfo.cs" />
     <Compile Include="Code\Implementations\TempDirsProvider.cs" />
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IFileConverter.cs" />

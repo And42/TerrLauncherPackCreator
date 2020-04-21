@@ -133,7 +133,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drag an icon here (.png).
+        ///   Looks up a localized string similar to Drag an icon here (.png|.gif).
         /// </summary>
         public static string DragAuthorImageHelpText {
             get {

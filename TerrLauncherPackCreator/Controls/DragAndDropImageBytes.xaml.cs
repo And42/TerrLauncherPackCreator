@@ -44,6 +44,14 @@ namespace TerrLauncherPackCreator.Controls
             get => (string) GetValue(ImageHelpTextProperty);
             set => SetValue(ImageHelpTextProperty, value);
         }
+
+        public static readonly DependencyProperty UpdateDataOnDropProperty = DependencyProperty.Register(
+            "UpdateDataOnDrop", typeof(bool), typeof(DragAndDropImageBytes), new PropertyMetadata(true));
+
+        public bool UpdateDataOnDrop {
+            get => (bool) GetValue(UpdateDataOnDropProperty);
+            set => SetValue(UpdateDataOnDropProperty, value);
+        }
         
         public DragAndDropImageBytes()
         {
@@ -66,7 +74,10 @@ namespace TerrLauncherPackCreator.Controls
                 files => files.Length == 1,
                 files =>
                 {
-                    ImageBytes = File.ReadAllBytes(files[0]);
+                    if (UpdateDataOnDrop) {
+                        ImageBytes = File.ReadAllBytes(files[0]);
+                    }
+
                     DropImageCommand.Execute(files[0]);
                 }
             );

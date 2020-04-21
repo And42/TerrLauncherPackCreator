@@ -74,7 +74,7 @@
 
                         <Image
                             Height="40" Width="40" VerticalAlignment="Center"
-                            gif:AnimationBehavior.SourceStream="{Binding ImageBytes, Mode=OneWay, Converter={StaticResource BytesToStream}}"
+                            gif:AnimationBehavior.SourceStream="{Binding Image.Bytes, Mode=OneWay, Converter={StaticResource BytesToStream}}"
                             RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
                         <Rectangle Grid.Column="2" Width="40" Height="40" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" VerticalAlignment="Center"/>

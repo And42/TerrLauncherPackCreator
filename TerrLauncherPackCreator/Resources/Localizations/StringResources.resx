@@ -136,7 +136,7 @@
     <value>Drag an icon here (.png|.gif)</value>
   </data>
   <data name="DragAuthorImageHelpText" xml:space="preserve">
-    <value>Drag an icon here (.png)</value>
+    <value>Drag an icon here (.png|.gif)</value>
   </data>
   <data name="DragModifiedFilesHelpText" xml:space="preserve">
     <value>Drag files here</value>

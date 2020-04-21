@@ -27,13 +27,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private const int PackStructureVersion = 2;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
+
         [NotNull]
         private readonly IPackProcessor _packProcessor;
         [NotNull]
-        private readonly string _packTempDir;
-        [NotNull]
-        private readonly IFileConverter _fileConverter;
-        
+        private readonly AuthorsFileProcessor _authorsFileProcessor;
+
         #region Properties
 
         // Step 1
@@ -140,12 +139,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public PackCreationViewModel(
             [NotNull] IPackProcessor packProcessor,
-            [NotNull] ITempDirsProvider tempDirsProvider
+            [NotNull] AuthorsFileProcessor authorsFileProcessor
         )
         {
             _packProcessor = packProcessor;
-            _packTempDir = tempDirsProvider.GetNewDir();
-            _fileConverter = new FileConverter();
+            _authorsFileProcessor = authorsFileProcessor;
 
             Guid = Guid.NewGuid();
             Version = 1;
@@ -240,10 +238,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 ResetCollections();
 
                 foreach (var author in packModel.Authors) {
-                    Authors.Add(new AuthorItemModel {
+                    Authors.Add(new AuthorItemModel(_authorsFileProcessor) {
                         Name = author.name,
                         Color = author.color,
-                        ImageBytes = author.iconBytes,
+                        Image = author.icon,
                         Link = author.link
                     });
                 }
@@ -362,7 +360,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void AddAuthorCommand_Execute()
         {
-            Authors.Add(new AuthorItemModel());
+            Authors.Add(new AuthorItemModel(_authorsFileProcessor));
         }
         
         private void DeleteAuthorCommand_Execute(AuthorItemModel author)
@@ -404,7 +402,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private PackModel GeneratePackModel()
         {
             return new PackModel(
-                Authors.Select(author => (author.Name, author.Color, author.Link, author.ImageBytes)).ToArray(),
+                Authors.Select(author => (author.Name, author.Color, author.Link, author.Image)).ToArray(),
                 Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
                 ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
                     .Where(it => !it.modified.IsDragDropTarget)

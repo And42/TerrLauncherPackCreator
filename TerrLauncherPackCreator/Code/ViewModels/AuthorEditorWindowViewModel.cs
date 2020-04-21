@@ -1,11 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
-using Newtonsoft.Json;
+using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
@@ -14,6 +15,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class AuthorEditorWindowViewModel : ViewModelBase
     {
+        [NotNull]
+        private readonly AuthorsFileProcessor _authorsFileProcessor;
+
         [NotNull]
         public AuthorItemModel EditableAuthor { get; }
         
@@ -38,8 +42,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         [CanBeNull]
         private AuthorJson _selectedSavedAuthor;
 
-        public AuthorEditorWindowViewModel([NotNull] AuthorItemModel editableAuthor)
+        public AuthorEditorWindowViewModel(
+            [NotNull] AuthorItemModel editableAuthor,
+            [NotNull] AuthorsFileProcessor authorsFileProcessor
+        )
         {
+            _authorsFileProcessor = authorsFileProcessor;
             EditableAuthor = editableAuthor;
             SavedAuthors = new ObservableCollection<AuthorJson>();
             DropAuthorImageCommand = new ActionCommand<string>(DropAuthorImage_Execute, DropAuthorImageCommand_CanExecute);
@@ -48,7 +56,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             if (File.Exists(Paths.AuthorsFile))
             {
-                var savedAuthors = JsonConvert.DeserializeObject<AuthorsJson>(File.ReadAllText(Paths.AuthorsFile));
+                AuthorsJson savedAuthors = _authorsFileProcessor.ModelFromFile(Paths.AuthorsFile);
                 savedAuthors.Authors?.Select(it => new AuthorJson
                 {
                     Name = it.Name,
@@ -67,15 +75,31 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             {
                 Name = EditableAuthor.Name,
                 Color = EditableAuthor.Color,
-                Icon = EditableAuthor.ImageBytes,
+                Icon = EditableAuthor.Image == null
+                    ? null
+                    : new AuthorJson.IconJson {
+                        Bytes = EditableAuthor.Image.Bytes,
+                        Type = EditableAuthor.Image.Type
+                    },
                 Link = EditableAuthor.Link
             });
             WriteAuthorsToFile();
         }
 
-        private void DropAuthorImage_Execute([NotNull] string iconPath)
-        {
-            EditableAuthor.ImageBytes = File.ReadAllBytes(iconPath);
+        private void DropAuthorImage_Execute([NotNull] string iconPath) {
+            ImageInfo.ImageType imageType;
+            switch (Path.GetExtension(iconPath)) {
+                case ".png":
+                    imageType = ImageInfo.ImageType.Png;
+                    break;
+                case ".gif":
+                    imageType = ImageInfo.ImageType.Gif;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension");
+            }
+            
+            EditableAuthor.Image = new ImageInfo(File.ReadAllBytes(iconPath), imageType);
         }
 
         private void DeleteSavedAuthor_Execute([CanBeNull] AuthorJson obj)
@@ -89,18 +113,18 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DropAuthorImageCommand_CanExecute(string filePath)
         {
-            return !Working && File.Exists(filePath) && Path.GetExtension(filePath) == ".png";
+            if (Working || !File.Exists(filePath)) {
+                return false;
+            }
+
+            string extension = Path.GetExtension(filePath);
+            return extension == ".png" || extension == ".gif";
         }
 
-        private void WriteAuthorsToFile()
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(Paths.AuthorsFile));
-            File.WriteAllText(Paths.AuthorsFile, JsonConvert.SerializeObject(
-                new AuthorsJson
-                {
-                    Authors = SavedAuthors.ToList()
-                }, Formatting.Indented
-            ));
+        private void WriteAuthorsToFile() {
+            var model = AuthorsJson.CreateLatest();
+            model.Authors = SavedAuthors.ToList();
+            _authorsFileProcessor.ModelToFile(model, Paths.AuthorsFile);
         }
         
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -114,8 +138,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     EditableAuthor.Name = SelectedSavedAuthor.Name;
                     EditableAuthor.Color = SelectedSavedAuthor.Color;
                     EditableAuthor.Link = SelectedSavedAuthor.Link;
-                    if (SelectedSavedAuthor.Icon != null)
-                        EditableAuthor.ImageBytes = SelectedSavedAuthor.Icon;
+                    if (SelectedSavedAuthor.Icon != null) {
+                        EditableAuthor.Image = new ImageInfo(
+                            SelectedSavedAuthor.Icon.Bytes, SelectedSavedAuthor.Icon.Type
+                        );
+                    }
+
                     break;
             }
         }
