@@ -337,7 +337,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     if (existingFile != null)
                     {
                         Debug.WriteLine($"File `{file}` already added; replacing");
-                        SafeFileSystemUtils.DeleteFile(existingFile.FilePath);
                         fileGroup.ModifiedFiles.Remove(existingFile);
                     }
 
@@ -355,7 +354,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             foreach (var fileGroup in ModifiedFileGroups)
             {
-                SafeFileSystemUtils.DeleteFile(file.FilePath);
                 if (fileGroup.ModifiedFiles.Remove(file))
                     return;
             }
