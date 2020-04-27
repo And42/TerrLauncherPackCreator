@@ -23,6 +23,9 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
                 case ModifiedTextureModel _:
                     resourceName = "ModifiedTextureTemplate";
                     break;
+                case ModifiedGuiModel _:
+                    resourceName = "ModifiedGuiTemplate";
+                    break;
                 case ModifiedMapModel _:
                     resourceName = "ModifiedMapTemplate";
                     break;

@@ -52,6 +52,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     case FileType.Character:
                         break;
                     case FileType.Gui:
+                        fileInfo = JsonConvert.DeserializeObject<GuiFileInfo>(File.ReadAllText(configFile));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

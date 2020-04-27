@@ -28,10 +28,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
 
-        [NotNull]
-        private readonly IPackProcessor _packProcessor;
-        [NotNull]
-        private readonly AuthorsFileProcessor _authorsFileProcessor;
+        [NotNull] private readonly IPackProcessor _packProcessor;
+        [NotNull] private readonly AuthorsFileProcessor _authorsFileProcessor;
 
         #region Properties
 
@@ -73,19 +71,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         // Step 2
-        [NotNull]
-        public ObservableCollection<PreviewItemModel> Previews { get; }
+        [NotNull] public ObservableCollection<PreviewItemModel> Previews { get; }
 
         // Step 3
-        [NotNull]
-        public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
+        [NotNull] public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
 
-        [NotNull]
-        public string Log => _log.ToString();
+        [NotNull] public string Log => _log.ToString();
 
         // Step 4
-        [NotNull]
-        public ObservableCollection<AuthorItemModel> Authors { get; }
+        [NotNull] public ObservableCollection<AuthorItemModel> Authors { get; }
 
         #endregion
 
@@ -100,9 +94,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private int _version;
 
         // Step 3
-        [NotNull]
-        private readonly StringBuilder _log = new StringBuilder();
-        
+        [NotNull] private readonly StringBuilder _log = new StringBuilder();
+
         #endregion
 
         #region Commands
@@ -122,7 +115,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         // Step 4
         public IActionCommand AddAuthorCommand { get; }
         public IActionCommand<AuthorItemModel> DeleteAuthorCommand { get; }
-        
+
         // Step 5
         public IActionCommand ExportPackCommand { get; }
 
@@ -153,20 +146,25 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             // Step 1
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute, CreateNewGuidCommand_CanExecute);
-            DropIconCommand = new ActionCommand<string>(file => {}, DropIconCommand_CanExecute);
-            
+            DropIconCommand = new ActionCommand<string>(file => { }, DropIconCommand_CanExecute);
+
             // Step 2
-            DropPreviewsCommand = new ActionCommand<string[]>(DropPreviewsCommand_Execute, DropPreviewsCommand_CanExecute);
-            DeletePreviewItemCommand = new ActionCommand<PreviewItemModel>(DeletePreviewItemCommand_Execute, DeletePreviewItemCommand_CanExecute);
+            DropPreviewsCommand =
+                new ActionCommand<string[]>(DropPreviewsCommand_Execute, DropPreviewsCommand_CanExecute);
+            DeletePreviewItemCommand = new ActionCommand<PreviewItemModel>(DeletePreviewItemCommand_Execute,
+                DeletePreviewItemCommand_CanExecute);
 
             // Step 3
-            DropModifiedFileCommand = new ActionCommand<(string[] files, ModifiedFileModel dropModel)>(DropModifiedFileCommand_Execute, DropModifiedFileCommand_CanExecute);
-            DeleteModifiedItemCommand = new ActionCommand<ModifiedFileModel>(DeleteModifiedItemCommand_Execute, DeleteModifiedItemCommand_CanExecute);
+            DropModifiedFileCommand =
+                new ActionCommand<(string[] files, ModifiedFileModel dropModel)>(DropModifiedFileCommand_Execute,
+                    DropModifiedFileCommand_CanExecute);
+            DeleteModifiedItemCommand = new ActionCommand<ModifiedFileModel>(DeleteModifiedItemCommand_Execute,
+                DeleteModifiedItemCommand_CanExecute);
 
             // Step 4
             AddAuthorCommand = new ActionCommand(AddAuthorCommand_Execute);
             DeleteAuthorCommand = new ActionCommand<AuthorItemModel>(DeleteAuthorCommand_Execute);
-            
+
             // Step 5
             ExportPackCommand = new ActionCommand(ExportPackCommand_Execute, ExportPackCommand_CanExecute);
 
@@ -237,25 +235,29 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             {
                 ResetCollections();
 
-                foreach (var author in packModel.Authors) {
-                    Authors.Add(new AuthorItemModel(_authorsFileProcessor) {
+                foreach (var author in packModel.Authors)
+                {
+                    Authors.Add(new AuthorItemModel(_authorsFileProcessor)
+                    {
                         Name = author.name,
                         Color = author.color,
                         Image = author.icon,
                         Link = author.link
                     });
                 }
+
                 previewItems.ForEach(Previews.Add);
                 foreach (var modifiedFile in packModel.ModifiedFiles)
                 {
                     var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesType == modifiedFile.FileType);
-                    if (fileGroup != null) {
+                    if (fileGroup != null)
+                    {
                         fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, modifiedFile.FilePath, modifiedFile.Config));
                     }
                 }
             });
         }
-        
+
 
         #region Step 1
 
@@ -268,7 +270,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             return !Working;
         }
-        
+
         private bool DropIconCommand_CanExecute(string filePath)
         {
             return !Working && File.Exists(filePath) && IconExtensions.Contains(Path.GetExtension(filePath));
@@ -280,7 +282,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private bool DropPreviewsCommand_CanExecute(string[] files)
         {
-            return !Working && files != null && files.All(it => File.Exists(it) && PreviewExtensions.Contains(Path.GetExtension(it)));
+            return !Working && files != null &&
+                   files.All(it => File.Exists(it) && PreviewExtensions.Contains(Path.GetExtension(it)));
         }
 
         private void DropPreviewsCommand_Execute(string[] files)
@@ -320,7 +323,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 foreach (string file in parameter.files)
                 {
                     string fileExtension = Path.GetExtension(file);
-                    var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.ModifiedFiles.First() == parameter.dropModel && it.FilesExtension == fileExtension);
+                    var fileGroup = ModifiedFileGroups.FirstOrDefault(it =>
+                        it.ModifiedFiles.First() == parameter.dropModel && it.FilesExtension == fileExtension);
                     if (fileGroup == null)
                     {
                         Debug.WriteLine($"Can't find a group for `{file}` with extension `{fileExtension}`");
@@ -328,7 +332,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     }
 
                     string fileName = Path.GetFileNameWithoutExtension(file);
-                    var existingFile = fileGroup.ModifiedFiles.FirstOrDefault(item => Path.GetFileNameWithoutExtension(item.FilePath) == fileName);
+                    var existingFile = fileGroup.ModifiedFiles.FirstOrDefault(item =>
+                        Path.GetFileNameWithoutExtension(item.FilePath) == fileName);
                     if (existingFile != null)
                     {
                         Debug.WriteLine($"File `{file}` already added; replacing");
@@ -354,7 +359,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 if (fileGroup.ModifiedFiles.Remove(file))
                     return;
             }
-            
+
             Debug.WriteLine($"Can't delete modified file: {file}");
         }
 
@@ -362,7 +367,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             Authors.Add(new AuthorItemModel(_authorsFileProcessor));
         }
-        
+
         private void DeleteAuthorCommand_Execute(AuthorItemModel author)
         {
             Authors.Remove(author);
@@ -396,7 +401,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             return !Working;
         }
-        
+
         #endregion
 
         private PackModel GeneratePackModel()
@@ -406,9 +411,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
                 ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
                     .Where(it => !it.modified.IsDragDropTarget)
-                    .Select(it => {
+                    .Select(it =>
+                    {
                         IPackFileInfo fileInfo = null;
-                        switch (it.FilesType) {
+                        switch (it.FilesType)
+                        {
                             case FileType.Texture:
                                 var textureModel = (ModifiedTextureModel) it.modified;
                                 fileInfo = new TextureFileInfo
@@ -426,13 +433,22 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 };
                                 break;
                             case FileType.Character:
+                                break;
                             case FileType.Gui:
+                                var guiModel = (ModifiedGuiModel) it.modified;
+                                fileInfo = new GuiFileInfo
+                                {
+                                    EntryName = string.IsNullOrEmpty(guiModel.Prefix)
+                                        ? guiModel.Name
+                                        : $"{guiModel.Prefix}/{guiModel.Name}"
+                                };
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }
 
-                        var info = new PackModel.ModifiedFileInfo(it.modified.FilePath) {
+                        var info = new PackModel.ModifiedFileInfo(it.modified.FilePath)
+                        {
                             FileType = it.FilesType,
                             Config = fileInfo
                         };
@@ -463,7 +479,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             foreach ((FileType fileType, string initialFilesExt, string _, string title) in PackUtils.PacksInfo)
             {
                 var group = new ModifiedFilesGroupModel(title, initialFilesExt, fileType);
-                group.ModifiedFiles.Add(new ModifiedFileModel(filePath: "drop_target" + initialFilesExt, isDragDropTarget: true));
+                group.ModifiedFiles.Add(new ModifiedFileModel(filePath: "drop_target" + initialFilesExt,
+                    isDragDropTarget: true));
                 ModifiedFileGroups.Add(group);
             }
         }
@@ -489,16 +506,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     break;
             }
         }
-        
+
         [NotNull]
         private static ModifiedFileModel FileToModel(FileType fileType, [NotNull] string filePath, [CanBeNull] IPackFileInfo fileInfo)
         {
             switch (fileType)
             {
                 case FileType.Texture:
-                case FileType.Gui: {
+                {
                     var model = new ModifiedTextureModel(filePath, false);
-                    if (fileInfo != null) {
+                    if (fileInfo != null)
+                    {
                         var info = (TextureFileInfo) fileInfo;
                         model.Prefix = null;
                         model.Name = info.EntryName;
@@ -506,13 +524,27 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
                     return model;
                 }
-                case FileType.Map: {
+                case FileType.Gui:
+                {
+                    var model = new ModifiedGuiModel(filePath, false);
+                    if (fileInfo != null)
+                    {
+                        var info = (GuiFileInfo) fileInfo;
+                        model.Prefix = null;
+                        model.Name = info.EntryName;
+                    }
+
+                    return model;
+                }
+                case FileType.Map:
+                {
                     var model = new ModifiedMapModel(filePath, false);
-                    if (fileInfo != null) {
+                    if (fileInfo != null)
+                    {
                         var info = (MapFileInfo) fileInfo;
                         model.ResultFileName = info.ResultFileName;
                     }
-                    
+
                     return model;
                 }
                 case FileType.Character:
