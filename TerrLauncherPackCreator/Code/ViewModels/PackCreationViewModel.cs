@@ -111,6 +111,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         // Step 3
         public IActionCommand<(string[] files, ModifiedFileModel dropModel)> DropModifiedFileCommand { get; }
         public IActionCommand<ModifiedFileModel> DeleteModifiedItemCommand { get; }
+        public IActionCommand<ModifiedFileModel> SaveResourceCommand { get; }
 
         // Step 4
         public IActionCommand AddAuthorCommand { get; }
@@ -160,6 +161,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     DropModifiedFileCommand_CanExecute);
             DeleteModifiedItemCommand = new ActionCommand<ModifiedFileModel>(DeleteModifiedItemCommand_Execute,
                 DeleteModifiedItemCommand_CanExecute);
+            SaveResourceCommand = new ActionCommand<ModifiedFileModel>(SaveResourceCommand_Execute, SaveResourceCommand_CanExecute);
 
             // Step 4
             AddAuthorCommand = new ActionCommand(AddAuthorCommand_Execute);
@@ -359,6 +361,38 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
 
             Debug.WriteLine($"Can't delete modified file: {file}");
+        }
+        
+        private bool SaveResourceCommand_CanExecute([NotNull] ModifiedFileModel file)
+        {
+            return !Working && !file.IsDragDropTarget && (file is ModifiedTextureModel || file is ModifiedGuiModel);
+        }
+
+        private void SaveResourceCommand_Execute([NotNull] ModifiedFileModel file)
+        {
+            if (string.IsNullOrEmpty(file.FilePath) || !File.Exists(file.FilePath))
+                return;
+            
+            string extension;
+            
+            switch (file)
+            {
+                case ModifiedTextureModel _:
+                    extension = PackUtils.GetInitialFilesExt(FileType.Texture);
+                    break;
+                case ModifiedGuiModel _:
+                    extension = PackUtils.GetInitialFilesExt(FileType.Gui);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(file));
+            }
+            
+            var dialog = new SaveFileDialog
+            {
+                Filter = $"{StringResources.SaveFileFilterTitle} (*{extension})|*{extension}"
+            };
+            if (dialog.ShowDialog() == true)
+                File.Copy(file.FilePath, dialog.FileName, true);
         }
 
         private void AddAuthorCommand_Execute()

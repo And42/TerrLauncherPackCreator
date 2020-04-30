@@ -63,6 +63,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <Image
@@ -80,6 +81,11 @@
                             Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                             CommandParameter="{Binding}"
                             Margin="8 3 0 3" Padding="7 3" VerticalAlignment="Center"/>
+                        <Button
+                            Grid.Column="4" Content="{x:Static localizations:StringResources.SaveResource}"
+                            Command="{Binding DataContext.SaveResourceCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
+                            CommandParameter="{Binding}"
+                            Margin="8 3 0 3" Padding="7 3" VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
                 
@@ -89,6 +95,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
@@ -105,6 +112,11 @@
                         <Button
                             Grid.Column="3" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
                             Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
+                            CommandParameter="{Binding}"
+                            Margin="8 3 0 3" Padding="7 3" VerticalAlignment="Center"/>
+                        <Button
+                            Grid.Column="4" Content="{x:Static localizations:StringResources.SaveResource}"
+                            Command="{Binding DataContext.SaveResourceCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                             CommandParameter="{Binding}"
                             Margin="8 3 0 3" Padding="7 3" VerticalAlignment="Center"/>
                     </Grid>

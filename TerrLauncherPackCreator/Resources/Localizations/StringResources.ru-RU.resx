@@ -282,4 +282,10 @@
   <data name="PackStructureVersion" xml:space="preserve">
     <value>Версия структуры пака:</value>
   </data>
+  <data name="SaveResource" xml:space="preserve">
+    <value>Сохранить ресурс</value>
+  </data>
+  <data name="SaveFileFilterTitle" xml:space="preserve">
+    <value>Файлы</value>
+  </data>
 </root>

@@ -484,6 +484,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Files.
+        /// </summary>
+        public static string SaveFileFilterTitle {
+            get {
+                return ResourceManager.GetString("SaveFileFilterTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Path is not selected!.
         /// </summary>
         public static string SavePackDialogFailed {
@@ -507,6 +516,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string SavePackDialogTitle {
             get {
                 return ResourceManager.GetString("SavePackDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save resource.
+        /// </summary>
+        public static string SaveResource {
+            get {
+                return ResourceManager.GetString("SaveResource", resourceCulture);
             }
         }
         
