@@ -533,6 +533,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     // Step 3
                     DropModifiedFileCommand.RaiseCanExecuteChanged();
                     DeleteModifiedItemCommand.RaiseCanExecuteChanged();
+                    SaveResourceCommand.RaiseCanExecuteChanged();
                     // Step 5
                     ExportPackCommand.RaiseCanExecuteChanged();
                     break;
