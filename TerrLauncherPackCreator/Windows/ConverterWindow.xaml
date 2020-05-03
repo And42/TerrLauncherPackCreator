@@ -7,34 +7,49 @@
         xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         mc:Ignorable="d"
         Title="{x:Static localizations:StringResources.ResourcesConverter}"
-        Height="350" Width="600"
-        MinHeight="350" MinWidth="600"
+        Height="350" Width="800"
+        MinHeight="350" MinWidth="800"
         WindowStartupLocation="CenterScreen"
         FontSize="14"
         d:DataContext="{d:DesignInstance viewModels:ConverterWindowViewModel}">
     <Grid Margin="8" VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="8"/>
+            <RowDefinition Height="24"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="16"/>
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
         
-        <TextBlock Text="{x:Static localizations:StringResources.ConverterFileType}" VerticalAlignment="Center"/>
-        <ComboBox Grid.Column="2" ItemsSource="{Binding FileTypes}" SelectedItem="{Binding CurrentFileType}"/>
+        <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{x:Static localizations:StringResources.ConverterFileType}" VerticalAlignment="Center"/>
+            <ComboBox Margin="8 0 0 0" ItemsSource="{Binding FileTypes}" SelectedItem="{Binding CurrentFileType}" MinWidth="150"/>
+        </StackPanel>
         
-        <Grid Grid.Row="2" Grid.ColumnSpan="3" Height="120" Margin="3" AllowDrop="True" DragOver="Files_OnDragOver" Drop="Files_OnDrop">
+        <Grid Grid.Row="2" Height="120" Margin="3" AllowDrop="True" DragOver="SourceFiles_OnDragOver" Drop="SourceFiles_OnDrop">
             <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
             <TextBlock TextWrapping="Wrap" FontSize="15"
                        HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} ({1})">
                         <Binding Source="{x:Static localizations:StringResources.DragModifiedFilesHelpText}"/>
-                        <Binding Path="CurrentFilesExtension"/>
+                        <Binding Path="SourceFilesExtension"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Grid>
+        
+        <Grid Grid.Row="2" Grid.Column="2" Height="120" Margin="3" AllowDrop="True" DragOver="ConvertedFiles_OnDragOver" Drop="ConvertedFiles_OnDrop">
+            <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
+            <TextBlock TextWrapping="Wrap" FontSize="15"
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} ({1})">
+                        <Binding Source="{x:Static localizations:StringResources.DragModifiedFilesHelpText}"/>
+                        <Binding Path="ConvertedFilesExtension"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
