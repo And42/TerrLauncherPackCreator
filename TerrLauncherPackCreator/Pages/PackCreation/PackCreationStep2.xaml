@@ -59,7 +59,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUri}" ToolTip="{Binding FilePath}" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                        <Image gif:AnimationBehavior.SourceUri="{Binding ImageUri}" ToolTip="{Binding FilePath}" RenderOptions.BitmapScalingMode="NearestNeighbor" MaxWidth="600" MaxHeight="600"/>
                         <Button Grid.Column="1" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
                                 Command="{Binding DataContext.DeletePreviewItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                                 CommandParameter="{Binding}"/>
