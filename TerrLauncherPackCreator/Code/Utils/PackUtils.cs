@@ -9,6 +9,7 @@ namespace TerrLauncherPackCreator.Code.Utils
     public static class PackUtils
     {
         public const string PacksExtension = ".tl";
+        public const string PacksActualExtension = ".zip";
         public const string PackFileConfigExtension = ".json";
         
         public static IReadOnlyList<(FileType fileType, string initialFilesExt, string convertedFilesExt, string title)> PacksInfo { get; }

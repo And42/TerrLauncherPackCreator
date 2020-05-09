@@ -43,7 +43,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ChooseExistingPackCommand_Execute()
         {
-            string filters = $"{StringResources.ChoosePackDialogFilter}|*{PackUtils.PacksExtension}";
+            string filters = $"{StringResources.ChoosePackDialogFilter}|*{PackUtils.PacksExtension};*{PackUtils.PacksActualExtension}";
 
             var dialog = new OpenFileDialog
             {
