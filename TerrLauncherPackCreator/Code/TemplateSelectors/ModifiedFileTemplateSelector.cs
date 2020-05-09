@@ -29,6 +29,9 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
                 case ModifiedMapModel _:
                     resourceName = "ModifiedMapTemplate";
                     break;
+                case ModifiedCharacterModel _:
+                    resourceName = "ModifiedCharacterTemplate";
+                    break;
                 default:
                     resourceName = "ModifiedFileDataTemplate";
                     break;

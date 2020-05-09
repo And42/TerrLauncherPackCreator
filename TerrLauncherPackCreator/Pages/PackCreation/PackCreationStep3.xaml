@@ -147,6 +147,32 @@
                             Margin="0 3" Padding="7 3"/>
                     </Grid>
                 </DataTemplate>
+                
+                <DataTemplate x:Key="ModifiedCharacterTemplate" DataType="{x:Type models:ModifiedCharacterModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Text="{Binding FilePath, Converter={StaticResource PathToFileNameConverter}}"
+                            ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"
+                            TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Column="1" Text=">" VerticalAlignment="Center"/>
+                        <TextBox
+                            Grid.Column="2"
+                            Text="{Binding ResultFileName}"
+                            ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"/>
+                        <Button
+                            Grid.Column="3" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
+                            Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
+                            CommandParameter="{Binding}"
+                            Margin="0 3" Padding="7 3"/>
+                    </Grid>
+                </DataTemplate>
 
                 <DataTemplate x:Key="ModifiedFileDropTargetDataTemplate" DataType="{x:Type models:ModifiedFileModel}">
                     <Grid Height="120" Margin="3" AllowDrop="True" DragOver="ModifiedFiles_OnDragOver" Drop="ModifiedFiles_OnDrop">

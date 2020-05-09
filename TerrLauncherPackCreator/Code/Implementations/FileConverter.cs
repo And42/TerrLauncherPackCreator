@@ -50,6 +50,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                         fileInfo = JsonConvert.DeserializeObject<MapFileInfo>(File.ReadAllText(configFile));
                         break;
                     case FileType.Character:
+                        fileInfo = JsonConvert.DeserializeObject<CharacterFileInfo>(File.ReadAllText(configFile));
                         break;
                     case FileType.Gui:
                         fileInfo = JsonConvert.DeserializeObject<GuiFileInfo>(File.ReadAllText(configFile));

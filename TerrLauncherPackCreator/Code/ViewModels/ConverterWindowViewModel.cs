@@ -121,6 +121,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     resultFileName = mapInfo.ResultFileName;
                                     break;
                                 case FileType.Character:
+                                    var characterInfo = (CharacterFileInfo) fileInfo;
+                                    resultFileName = characterInfo.ResultFileName;
                                     break;
                                 case FileType.Gui:
                                     var guiInfo = (GuiFileInfo) fileInfo;

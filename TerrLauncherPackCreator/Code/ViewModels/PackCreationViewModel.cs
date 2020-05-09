@@ -24,7 +24,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     public class PackCreationViewModel : ViewModelBase
     {
         private const int TerrariaStructureVersion = 3;
-        private const int PackStructureVersion = 2;
+        private const int PackStructureVersion = 3;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
 
@@ -465,6 +465,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 };
                                 break;
                             case FileType.Character:
+                                var characterModel = (ModifiedCharacterModel) it.modified;
+                                fileInfo = new CharacterFileInfo
+                                {
+                                    ResultFileName = characterModel.ResultFileName
+                                };
                                 break;
                             case FileType.Gui:
                                 var guiModel = (ModifiedGuiModel) it.modified;
@@ -581,7 +586,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     return model;
                 }
                 case FileType.Character:
-                    return new ModifiedFileModel(filePath, false);
+                {
+                    var model = new ModifiedCharacterModel(filePath, false);
+                    if (fileInfo != null)
+                    {
+                        var info = (CharacterFileInfo) fileInfo;
+                        model.ResultFileName = info.ResultFileName;
+                    }
+
+                    return model;
+                }
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }
