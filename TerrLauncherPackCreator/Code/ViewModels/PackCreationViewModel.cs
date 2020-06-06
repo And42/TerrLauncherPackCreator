@@ -24,7 +24,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     public class PackCreationViewModel : ViewModelBase
     {
         private const int TerrariaStructureVersion = 3;
-        private const int PackStructureVersion = 3;
+        private const int PackStructureVersion = 4;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
 
