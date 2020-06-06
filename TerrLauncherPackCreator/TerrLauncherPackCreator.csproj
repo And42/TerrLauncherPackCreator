@@ -96,6 +96,7 @@
     <Compile Include="Code\Converters\FileToMemoryStreamConverter.cs" />
     <Compile Include="Code\Converters\InMemoryImageSourceConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
+    <Compile Include="Code\Converters\TranslationShortToLongConverter.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Implementations\AuthorsFileProcessor.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />
@@ -110,12 +111,14 @@
     <Compile Include="Code\Json\GuiFileInfo.cs" />
     <Compile Include="Code\Json\MapFileInfo.cs" />
     <Compile Include="Code\Json\TextureFileInfo.cs" />
+    <Compile Include="Code\Json\TranslationFileInfo.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedCharacterModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
     <Compile Include="Code\Models\ModifiedGuiModel.cs" />
     <Compile Include="Code\Models\ModifiedMapModel.cs" />
     <Compile Include="Code\Models\ModifiedTextureModel.cs" />
+    <Compile Include="Code\Models\ModifiedTranslationModel.cs" />
     <Compile Include="Code\Utils\DragDropUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
     <Compile Include="Code\Utils\JsonUtils.cs" />

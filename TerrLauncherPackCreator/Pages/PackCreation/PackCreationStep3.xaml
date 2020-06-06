@@ -37,6 +37,14 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   VirtualizingStackPanel.ScrollUnit="Pixel">
             <ListView.Resources>
+                <Style x:Key="DeleteItemButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="Content" Value="{x:Static localizations:StringResources.DeletePreviewCaption}"/>
+                    <Setter Property="Command" Value="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"/>
+                    <Setter Property="CommandParameter" Value="{Binding}"/>
+                    <Setter Property="Padding" Value="7 3"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                
                 <DataTemplate x:Key="ModifiedFileDataTemplate" DataType="{x:Type models:ModifiedFileModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -100,7 +108,10 @@
                         </Grid.ColumnDefinitions>
 
                         <Image
-                            Margin="8" Width="50" Height="50" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                            Margin="8"
+                            Width="50"
+                            Height="50"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor"
                             Source="{Binding FilePath, Converter={StaticResource InMemoryImageSourceConverter}}"/>
                         <ComboBox
                             Grid.Column="1" Margin="8 0 0 0" ItemsSource="{Binding CommonPrefixes}"
@@ -110,15 +121,15 @@
                             Grid.Column="2" Margin="8 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"
                             Padding="8 4"/>
                         <Button
-                            Grid.Column="3" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
-                            Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
-                            CommandParameter="{Binding}"
-                            Margin="8 3 0 3" Padding="7 3" VerticalAlignment="Center"/>
+                            Grid.Column="3" Style="{StaticResource DeleteItemButton}" Margin="8 3 0 3" />
                         <Button
-                            Grid.Column="4" Content="{x:Static localizations:StringResources.SaveResource}"
+                            Grid.Column="4"
+                            Content="{x:Static localizations:StringResources.SaveResource}"
                             Command="{Binding DataContext.SaveResourceCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                             CommandParameter="{Binding}"
-                            Margin="8 3 0 3" Padding="7 3" VerticalAlignment="Center"/>
+                            Margin="8 3 0 3"
+                            Padding="7 3"
+                            VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
                 
@@ -141,10 +152,7 @@
                             Text="{Binding ResultFileName}"
                             ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"/>
                         <Button
-                            Grid.Column="3" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
-                            Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
-                            CommandParameter="{Binding}"
-                            Margin="0 3" Padding="7 3"/>
+                            Grid.Column="3" Style="{StaticResource DeleteItemButton}" Margin="0 3" />
                     </Grid>
                 </DataTemplate>
                 
@@ -167,10 +175,39 @@
                             Text="{Binding ResultFileName}"
                             ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"/>
                         <Button
-                            Grid.Column="3" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
-                            Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
-                            CommandParameter="{Binding}"
-                            Margin="0 3" Padding="7 3"/>
+                            Grid.Column="3" Style="{StaticResource DeleteItemButton}" Margin="0 3" />
+                    </Grid>
+                </DataTemplate>
+                
+                <DataTemplate x:Key="ModifiedTranslationTemplate" DataType="{x:Type models:ModifiedTranslationModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Text="{Binding FilePath, Converter={StaticResource PathToFileNameConverter}}"
+                            ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"
+                            TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Grid.Column="1" Text=">" VerticalAlignment="Center"/>
+                        <ComboBox
+                            Grid.Column="2"
+                            Text="{Binding CurrentLanguage}"
+                            ItemsSource="{Binding ShortLanguages}"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Margin="7 3">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource TranslationShortToLongConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button
+                            Grid.Column="3" Style="{StaticResource DeleteItemButton}" Margin="0 3" />
                     </Grid>
                 </DataTemplate>
 

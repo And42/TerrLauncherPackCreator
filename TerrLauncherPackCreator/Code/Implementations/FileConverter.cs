@@ -55,6 +55,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     case FileType.Gui:
                         fileInfo = JsonConvert.DeserializeObject<GuiFileInfo>(File.ReadAllText(configFile));
                         break;
+                    case FileType.Translation:
+                        fileInfo = JsonConvert.DeserializeObject<TranslationFileInfo>(File.ReadAllText(configFile));
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -68,6 +71,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 case FileType.Map:
                 case FileType.Character:
                 case FileType.Gui:
+                case FileType.Translation:
                     string uniqueFile = ApplicationDataUtils.GenerateNonExistentFilePath();
                     IOUtils.EnsureParentDirExists(uniqueFile);
                     File.Copy(targetFile, uniqueFile, overwrite: false);

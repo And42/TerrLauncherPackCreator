@@ -128,6 +128,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     var guiInfo = (GuiFileInfo) fileInfo;
                                     resultFileName = guiInfo.EntryName;
                                     break;
+                                case FileType.Translation:
+                                    var translationInfo = (TranslationFileInfo) fileInfo;
+                                    resultFileName = translationInfo.Language;
+                                    break;
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }

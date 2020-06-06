@@ -9,5 +9,6 @@
     <local:InMemoryImageSourceConverter x:Key="InMemoryImageSourceConverter"/>
     <local:BytesToStream x:Key="BytesToStream"/>
     <local:FileToMemoryStreamConverter x:Key="FileToMemoryStreamConverter"/>
+    <local:TranslationShortToLongConverter x:Key="TranslationShortToLongConverter"/>
     
 </ResourceDictionary>

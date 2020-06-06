@@ -6,9 +6,9 @@
         Map,
         Character,
         Gui,
+        Translation,
         // todo: add
 //        Audio,
 //        Font,
-//        Translation
     }
 }

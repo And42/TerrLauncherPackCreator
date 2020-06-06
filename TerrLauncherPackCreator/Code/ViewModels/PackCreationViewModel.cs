@@ -445,7 +445,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
                     {
-                        IPackFileInfo fileInfo = null;
+                        IPackFileInfo fileInfo;
                         switch (it.FilesType)
                         {
                             case FileType.Texture:
@@ -478,6 +478,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     EntryName = string.IsNullOrEmpty(guiModel.Prefix)
                                         ? guiModel.Name
                                         : $"{guiModel.Prefix}/{guiModel.Name}"
+                                };
+                                break;
+                            case FileType.Translation:
+                                var translationModel = (ModifiedTranslationModel) it.modified;
+                                fileInfo = new TranslationFileInfo
+                                {
+                                    Language = translationModel.CurrentLanguage
                                 };
                                 break;
                             default:
@@ -592,6 +599,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     {
                         var info = (CharacterFileInfo) fileInfo;
                         model.ResultFileName = info.ResultFileName;
+                    }
+
+                    return model;
+                }
+                case FileType.Translation:
+                {
+                    var model = new ModifiedTranslationModel(filePath, false);
+                    if (fileInfo != null)
+                    {
+                        var info = (TranslationFileInfo) fileInfo;
+                        model.CurrentLanguage = info.Language;
                     }
 
                     return model;
