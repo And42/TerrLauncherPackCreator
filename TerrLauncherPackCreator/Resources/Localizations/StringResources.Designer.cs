@@ -70,6 +70,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Animated.
+        /// </summary>
+        public static string AnimatedHint {
+            get {
+                return ResourceManager.GetString("AnimatedHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authors.
         /// </summary>
         public static string Authors {
@@ -178,6 +187,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Element id:.
+        /// </summary>
+        public static string ElementIdHint {
+            get {
+                return ResourceManager.GetString("ElementIdHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string ErrorLower {
@@ -241,6 +259,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Milliseconds per frame:.
+        /// </summary>
+        public static string MillisecondsPerFrameHint {
+            get {
+                return ResourceManager.GetString("MillisecondsPerFrameHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modified files.
         /// </summary>
         public static string ModifiedFiles {
@@ -264,6 +291,24 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string NextStepCaption {
             get {
                 return ResourceManager.GetString("NextStepCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of horizontal frames:.
+        /// </summary>
+        public static string NumberOfHorizontalFramesHint {
+            get {
+                return ResourceManager.GetString("NumberOfHorizontalFramesHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of vertical frames:.
+        /// </summary>
+        public static string NumberOfVerticalFramesHint {
+            get {
+                return ResourceManager.GetString("NumberOfVerticalFramesHint", resourceCulture);
             }
         }
         
@@ -561,6 +606,33 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string TerrariaStructureVersion {
             get {
                 return ResourceManager.GetString("TerrariaStructureVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string TextureTypeGeneral {
+            get {
+                return ResourceManager.GetString("TextureTypeGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item.
+        /// </summary>
+        public static string TextureTypeItem {
+            get {
+                return ResourceManager.GetString("TextureTypeItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Npc.
+        /// </summary>
+        public static string TextureTypeNpc {
+            get {
+                return ResourceManager.GetString("TextureTypeNpc", resourceCulture);
             }
         }
         

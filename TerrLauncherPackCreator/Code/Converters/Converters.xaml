@@ -1,6 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:TerrLauncherPackCreator.Code.Converters">
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TerrLauncherPackCreator.Code.Converters">
+
     <local:VisibleIfNullConverter x:Key="VisibleIfNullConverter"/>
     <local:AnyToVisibleConverter x:Key="AnyToVisibleConverter"/>
     <local:StatusBarVisibilityConverter x:Key="StatusBarVisibilityConverter"/>
@@ -10,5 +12,11 @@
     <local:BytesToStream x:Key="BytesToStream"/>
     <local:FileToMemoryStreamConverter x:Key="FileToMemoryStreamConverter"/>
     <local:TranslationShortToLongConverter x:Key="TranslationShortToLongConverter"/>
+    <local:VisibleIfEqualToParameterConverter x:Key="VisibleIfEqualToParameterConverter"/>
+    <local:CollapsedIfEqualToParameterConverter x:Key="CollapsedIfEqualToParameterConverter"/>
+    <local:TextureTypeToStringConverter x:Key="TextureTypeToStringConverter"/>
+    <local:TextureModelToFrameTimeVisibility x:Key="TextureModelToFrameTimeVisibility"/>
+    <local:TextureModelToVerticalFramesVisibility x:Key="TextureModelToVerticalFramesVisibility"/>
+    <local:TextureModelToHorizontalFramesVisibility x:Key="TextureModelToHorizontalFramesVisibility"/>
     
 </ResourceDictionary>

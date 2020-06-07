@@ -24,7 +24,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     public class PackCreationViewModel : ViewModelBase
     {
         private const int TerrariaStructureVersion = 3;
-        private const int PackStructureVersion = 4;
+        private const int PackStructureVersion = 5;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
 
@@ -372,21 +372,14 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             if (string.IsNullOrEmpty(file.FilePath) || !File.Exists(file.FilePath))
                 return;
-            
-            string extension;
-            
-            switch (file)
+
+            string extension = file switch
             {
-                case ModifiedTextureModel _:
-                    extension = PackUtils.GetInitialFilesExt(FileType.Texture);
-                    break;
-                case ModifiedGuiModel _:
-                    extension = PackUtils.GetInitialFilesExt(FileType.Gui);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(file));
-            }
-            
+                ModifiedTextureModel _ => PackUtils.GetInitialFilesExt(FileType.Texture),
+                ModifiedGuiModel _ => PackUtils.GetInitialFilesExt(FileType.Gui),
+                _ => throw new ArgumentOutOfRangeException(nameof(file))
+            };
+
             var dialog = new SaveFileDialog
             {
                 Filter = $"{StringResources.SaveFileFilterTitle} (*{extension})|*{extension}"
@@ -458,9 +451,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 var textureModel = (ModifiedTextureModel) it.modified;
                                 fileInfo = new TextureFileInfo
                                 {
+                                    Type = textureModel.CurrentTextureType,
+                                    Animated = textureModel.Animated,
                                     EntryName = string.IsNullOrEmpty(textureModel.Prefix)
                                         ? textureModel.Name
-                                        : $"{textureModel.Prefix}/{textureModel.Name}"
+                                        : $"{textureModel.Prefix}/{textureModel.Name}",
+                                    ElementId = textureModel.ElementId,
+                                    MillisecondsPerFrame = textureModel.MillisecondsPerFrame,
+                                    NumberOfVerticalFrames = textureModel.NumberOfVerticalFrames,
+                                    NumberOfHorizontalFrames = textureModel.NumberOfHorizontalFrames
                                 };
                                 break;
                             case FileType.Map:
@@ -578,6 +577,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         var info = (TextureFileInfo) fileInfo;
                         model.Prefix = null;
                         model.Name = info.EntryName;
+                        model.CurrentTextureType = info.Type;
+                        model.Animated = info.Animated;
+                        model.ElementId = info.ElementId;
+                        model.NumberOfVerticalFrames = info.NumberOfVerticalFrames;
+                        model.NumberOfHorizontalFrames = info.NumberOfHorizontalFrames;
+                        model.MillisecondsPerFrame = info.MillisecondsPerFrame;
                     }
 
                     return model;

@@ -7,6 +7,8 @@
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
       xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
       xmlns:attachedProperties="clr-namespace:TerrLauncherPackCreator.Code.AttachedProperties"
+      xmlns:json="clr-namespace:TerrLauncherPackCreator.Code.Json"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -44,6 +46,20 @@
                     <Setter Property="Padding" Value="7 3"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="8 4"/>
+                </Style>
+                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="8 4"/>
+                </Style>
+                <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
                 
                 <DataTemplate x:Key="ModifiedFileDataTemplate" DataType="{x:Type models:ModifiedFileModel}">
                     <Grid>
@@ -78,17 +94,162 @@
                             Margin="8" Width="50" Height="50" RenderOptions.BitmapScalingMode="NearestNeighbor"
                             Source="{Binding FilePath, Converter={StaticResource InMemoryImageSourceConverter}}"/>
                         <ComboBox
-                            Grid.Column="1" Margin="8 0 0 0" ItemsSource="{Binding CommonPrefixes}"
-                            Text="{Binding Prefix}" Width="200" IsEditable="True" Padding="8 4"
-                            VerticalAlignment="Center" VerticalContentAlignment="Center"/>
-                        <TextBox
-                            Grid.Column="2" Margin="8 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"
-                            Padding="8 4"/>
+                            Grid.Column="1"
+                            MinWidth="90"
+                            SelectedItem="{Binding CurrentTextureType}"
+                            ItemsSource="{Binding TextureTypes}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="json:TextureFileInfo+TextureType">
+                                    <TextBlock Text="{Binding Converter={StaticResource TextureTypeToStringConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <DockPanel
+                            Grid.Column="2"
+                            LastChildFill="True"
+                            Visibility="{
+                                Binding CurrentTextureType,
+                                Converter={StaticResource VisibleIfEqualToParameterConverter},
+                                ConverterParameter={x:Static json:TextureFileInfo+TextureType.General}
+                            }">
+                            
+                            <ComboBox
+                                Margin="8 0 0 0" ItemsSource="{Binding CommonPrefixes}"
+                                Text="{Binding Prefix}" Width="200" IsEditable="True" Padding="8 4"
+                                VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                            <TextBox
+                                DockPanel.Dock="Right" Margin="8 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"
+                                Padding="8 4"/>
+                            
+                        </DockPanel>
+                        
+                        <Grid
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            Margin="8 0 0 0"
+                            Visibility="{
+                                Binding CurrentTextureType,
+                                Converter={StaticResource CollapsedIfEqualToParameterConverter},
+                                ConverterParameter={x:Static json:TextureFileInfo+TextureType.General}
+                            }">
+                            <Grid.Resources>
+                                <Style TargetType="xctk:IntegerUpDown" BasedOn="{StaticResource {x:Type xctk:IntegerUpDown}}">
+                                    <Setter Property="MinWidth" Value="60"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <CheckBox
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Content="{x:Static localizations:StringResources.AnimatedHint}"
+                                MinHeight="{Binding ActualHeight, ElementName=ElementIdCounter}"
+                                IsChecked="{Binding Animated}"/>
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Text="{x:Static localizations:StringResources.ElementIdHint}"/>
+                            <xctk:IntegerUpDown
+                                x:Name="ElementIdCounter"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Minimum="0"
+                                Value="{Binding ElementId}"/>
+                            
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Text="{x:Static localizations:StringResources.NumberOfVerticalFramesHint}">
+                                <TextBlock.Visibility>
+                                    <MultiBinding Converter="{StaticResource TextureModelToVerticalFramesVisibility}">
+                                        <Binding Path="Animated"/>
+                                        <Binding Path="CurrentTextureType"/>
+                                    </MultiBinding>
+                                </TextBlock.Visibility>
+                            </TextBlock>
+                            <xctk:IntegerUpDown
+                                Grid.Row="0"
+                                Grid.Column="6"
+                                Value="{Binding NumberOfVerticalFrames}"
+                                Minimum="1">
+                                <xctk:IntegerUpDown.Visibility>
+                                    <MultiBinding Converter="{StaticResource TextureModelToVerticalFramesVisibility}">
+                                        <Binding Path="Animated"/>
+                                        <Binding Path="CurrentTextureType"/>
+                                    </MultiBinding>
+                                </xctk:IntegerUpDown.Visibility>
+                            </xctk:IntegerUpDown>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Text="{x:Static localizations:StringResources.NumberOfHorizontalFramesHint}">
+                                <TextBlock.Visibility>
+                                    <MultiBinding Converter="{StaticResource TextureModelToHorizontalFramesVisibility}">
+                                        <Binding Path="Animated"/>
+                                        <Binding Path="CurrentTextureType"/>
+                                    </MultiBinding>
+                                </TextBlock.Visibility>
+                            </TextBlock>
+                            <xctk:IntegerUpDown
+                                Grid.Row="0"
+                                Grid.Column="6"
+                                Value="{Binding NumberOfHorizontalFrames}"
+                                Minimum="1">
+                                <xctk:IntegerUpDown.Visibility>
+                                    <MultiBinding Converter="{StaticResource TextureModelToHorizontalFramesVisibility}">
+                                        <Binding Path="Animated"/>
+                                        <Binding Path="CurrentTextureType"/>
+                                    </MultiBinding>
+                                </xctk:IntegerUpDown.Visibility>
+                            </xctk:IntegerUpDown>
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                Text="{x:Static localizations:StringResources.MillisecondsPerFrameHint}">
+                                <TextBlock.Visibility>
+                                    <MultiBinding Converter="{StaticResource TextureModelToFrameTimeVisibility}">
+                                        <Binding Path="Animated"/>
+                                        <Binding Path="CurrentTextureType"/>
+                                    </MultiBinding>
+                                </TextBlock.Visibility>
+                            </TextBlock>
+                            <xctk:IntegerUpDown
+                                Grid.Row="2"
+                                Grid.Column="6"
+                                Minimum="1"
+                                Value="{Binding MillisecondsPerFrame}">
+                                <xctk:IntegerUpDown.Visibility>
+                                    <MultiBinding Converter="{StaticResource TextureModelToFrameTimeVisibility}">
+                                        <Binding Path="Animated"/>
+                                        <Binding Path="CurrentTextureType"/>
+                                    </MultiBinding>
+                                </xctk:IntegerUpDown.Visibility>
+                            </xctk:IntegerUpDown>
+
+                        </Grid>
+                        
                         <Button
-                            Grid.Column="3" Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
-                            Command="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
-                            CommandParameter="{Binding}"
-                            Margin="8 3 0 3" Padding="7 3" VerticalAlignment="Center"/>
+                            Grid.Column="3"
+                            Style="{StaticResource DeleteItemButton}"
+                            Margin="8 3 0 3" />
                         <Button
                             Grid.Column="4" Content="{x:Static localizations:StringResources.SaveResource}"
                             Command="{Binding DataContext.SaveResourceCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"

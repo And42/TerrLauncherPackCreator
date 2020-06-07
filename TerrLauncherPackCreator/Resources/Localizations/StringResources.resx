@@ -288,4 +288,28 @@
   <data name="SaveFileFilterTitle" xml:space="preserve">
     <value>Files</value>
   </data>
+  <data name="TextureTypeGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="TextureTypeItem" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="TextureTypeNpc" xml:space="preserve">
+    <value>Npc</value>
+  </data>
+  <data name="ElementIdHint" xml:space="preserve">
+    <value>Element id:</value>
+  </data>
+  <data name="MillisecondsPerFrameHint" xml:space="preserve">
+    <value>Milliseconds per frame:</value>
+  </data>
+  <data name="NumberOfVerticalFramesHint" xml:space="preserve">
+    <value>Number of vertical frames:</value>
+  </data>
+  <data name="NumberOfHorizontalFramesHint" xml:space="preserve">
+    <value>Number of horizontal frames:</value>
+  </data>
+  <data name="AnimatedHint" xml:space="preserve">
+    <value>Animated</value>
+  </data>
 </root>

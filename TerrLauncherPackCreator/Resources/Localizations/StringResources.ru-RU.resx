@@ -288,4 +288,28 @@
   <data name="SaveFileFilterTitle" xml:space="preserve">
     <value>Файлы</value>
   </data>
+  <data name="TextureTypeGeneral" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="TextureTypeItem" xml:space="preserve">
+    <value>Предмет</value>
+  </data>
+  <data name="TextureTypeNpc" xml:space="preserve">
+    <value>Моб</value>
+  </data>
+  <data name="ElementIdHint" xml:space="preserve">
+    <value>Id элемента:</value>
+  </data>
+  <data name="MillisecondsPerFrameHint" xml:space="preserve">
+    <value>Миллисекунд на кадр:</value>
+  </data>
+  <data name="NumberOfVerticalFramesHint" xml:space="preserve">
+    <value>Количество кадров по вертикали:</value>
+  </data>
+  <data name="NumberOfHorizontalFramesHint" xml:space="preserve">
+    <value>Количество кадров по горизонтали:</value>
+  </data>
+  <data name="AnimatedHint" xml:space="preserve">
+    <value>Анимированная</value>
+  </data>
 </root>
