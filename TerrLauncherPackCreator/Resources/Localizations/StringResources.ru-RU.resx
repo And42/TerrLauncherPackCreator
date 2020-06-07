@@ -309,4 +309,22 @@
   <data name="AnimatedHint" xml:space="preserve">
     <value>Анимированная</value>
   </data>
+  <data name="SavedAuthor" xml:space="preserve">
+    <value>Сохранённый автор:</value>
+  </data>
+  <data name="DeleteSavedAuthor" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="AuthorName" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="AuthorColor" xml:space="preserve">
+    <value>Цвет:</value>
+  </data>
+  <data name="AuthorLink" xml:space="preserve">
+    <value>Ссылка:</value>
+  </data>
+  <data name="SaveAuthor" xml:space="preserve">
+    <value>Сохранить в список</value>
+  </data>
 </root>

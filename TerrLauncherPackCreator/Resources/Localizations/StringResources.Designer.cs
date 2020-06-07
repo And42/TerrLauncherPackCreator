@@ -79,6 +79,33 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Color:.
+        /// </summary>
+        public static string AuthorColor {
+            get {
+                return ResourceManager.GetString("AuthorColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link:.
+        /// </summary>
+        public static string AuthorLink {
+            get {
+                return ResourceManager.GetString("AuthorLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name:.
+        /// </summary>
+        public static string AuthorName {
+            get {
+                return ResourceManager.GetString("AuthorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authors.
         /// </summary>
         public static string Authors {
@@ -138,6 +165,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string DeletePreviewCaption {
             get {
                 return ResourceManager.GetString("DeletePreviewCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string DeleteSavedAuthor {
+            get {
+                return ResourceManager.GetString("DeleteSavedAuthor", resourceCulture);
             }
         }
         
@@ -516,6 +552,24 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string ResourcesConverter {
             get {
                 return ResourceManager.GetString("ResourcesConverter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save author to the list.
+        /// </summary>
+        public static string SaveAuthor {
+            get {
+                return ResourceManager.GetString("SaveAuthor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saved author:.
+        /// </summary>
+        public static string SavedAuthor {
+            get {
+                return ResourceManager.GetString("SavedAuthor", resourceCulture);
             }
         }
         

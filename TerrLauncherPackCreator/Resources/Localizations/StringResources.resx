@@ -309,4 +309,22 @@
   <data name="AnimatedHint" xml:space="preserve">
     <value>Animated</value>
   </data>
+  <data name="SavedAuthor" xml:space="preserve">
+    <value>Saved author:</value>
+  </data>
+  <data name="DeleteSavedAuthor" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="AuthorName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="AuthorColor" xml:space="preserve">
+    <value>Color:</value>
+  </data>
+  <data name="AuthorLink" xml:space="preserve">
+    <value>Link:</value>
+  </data>
+  <data name="SaveAuthor" xml:space="preserve">
+    <value>Save author to the list</value>
+  </data>
 </root>
