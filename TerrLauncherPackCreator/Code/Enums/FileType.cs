@@ -12,3 +12,11 @@
 //        Font,
     }
 }
+
+namespace TerrLauncherPackCreator.Code.Utils
+{
+    public static partial class PackUtils
+    {
+        public const int TotalFileTypes = 5;
+    }
+}

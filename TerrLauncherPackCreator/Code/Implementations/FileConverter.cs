@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
+using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.Implementations
 {
@@ -39,6 +40,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
             if (!File.Exists(targetFile))
                 throw new FileNotFoundException("File not found", targetFile);
 
+            {
+                const int fileTypesHandled = 5;
+                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
+                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+            }
+
             // config
             IPackFileInfo fileInfo = null;
             if (configFile != null && File.Exists(configFile)) {
@@ -63,6 +70,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 }
             }
 
+            {
+                const int fileTypesHandled = 5;
+                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
+                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+            }
+            
             // file
             string sourceFile;
             switch (fileType)

@@ -445,6 +445,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
                     {
+                        {
+                            const int fileTypesHandled = 5;
+                            const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
+                                          1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+                        }
+                        
                         IPackFileInfo fileInfo;
                         switch (it.FilesType)
                         {
@@ -555,6 +561,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         [NotNull]
         private static ModifiedFileModel FileToModel(FileType fileType, [NotNull] string filePath, [CanBeNull] IPackFileInfo fileInfo)
         {
+            {
+                const int fileTypesHandled = 5;
+                // ReSharper disable once UnusedVariable
+                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
+                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+            }
+            
             switch (fileType)
             {
                 case FileType.Texture:

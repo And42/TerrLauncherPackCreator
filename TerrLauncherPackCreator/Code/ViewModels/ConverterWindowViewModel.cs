@@ -110,6 +110,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         string resultFileName = Path.GetFileNameWithoutExtension(file);
                         if (fileInfo != null)
                         {
+                            {
+                                const int fileTypesHandled = 5;
+                                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
+                                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+                            }
+                            
                             switch (CurrentFileType)
                             {
                                 case FileType.Texture:

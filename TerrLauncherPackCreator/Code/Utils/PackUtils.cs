@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
@@ -7,7 +6,7 @@ using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.Utils
 {
-    public static class PackUtils
+    public static partial class PackUtils
     {
         public const string PacksExtension = ".tl";
         public const string PacksActualExtension = ".zip";
@@ -22,6 +21,12 @@ namespace TerrLauncherPackCreator.Code.Utils
         
         static PackUtils()
         {
+            {
+                const int fileTypesHandled = 5;
+                const int _ = 1 / (fileTypesHandled / TotalFileTypes) +
+                              1 / (TotalFileTypes / fileTypesHandled);
+            }
+            
             PacksInfo = new[]
             {
                 (FileType.Texture,     ".png",  ".texture",     StringResources.PackTypeTextures),
