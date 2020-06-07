@@ -157,6 +157,7 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="3"
+                                UseLayoutRounding="True"
                                 Content="{x:Static localizations:StringResources.AnimatedHint}"
                                 MinHeight="{Binding ActualHeight, ElementName=ElementIdCounter}"
                                 IsChecked="{Binding Animated}"/>
