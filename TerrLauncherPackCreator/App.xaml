@@ -8,6 +8,8 @@
              <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Code/Converters/Converters.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
              </ResourceDictionary.MergedDictionaries>
 
              <templateSelectors:PreviewsTemplateSelector x:Key="PreviewsTemplateSelector"/>

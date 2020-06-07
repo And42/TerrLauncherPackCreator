@@ -38,6 +38,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdonisUI, Version=1.15.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\AdonisUI.1.15.0\lib\net45\AdonisUI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AdonisUI.ClassicTheme, Version=1.15.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\AdonisUI.ClassicTheme.1.15.0\lib\net45\AdonisUI.ClassicTheme.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Costura, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.3.1.0\lib\net46\Costura.dll</HintPath>
     </Reference>
