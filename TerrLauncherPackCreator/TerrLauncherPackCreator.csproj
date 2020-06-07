@@ -104,7 +104,6 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Compile Include="Code\AttachedProperties\TextBoxAP.cs" />
     <Compile Include="Code\Converters\BytesToStream.cs" />
     <Compile Include="Code\Converters\CollapsedIfEqualToParameterConverter.cs" />
     <Compile Include="Code\Converters\ColorToBrushConverter.cs" />

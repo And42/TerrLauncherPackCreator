@@ -261,9 +261,6 @@
   <data name="TlPacksFilter" xml:space="preserve">
     <value>TerLauncher pack</value>
   </data>
-  <data name="Log" xml:space="preserve">
-    <value>Log</value>
-  </data>
   <data name="AddAuthorCaption" xml:space="preserve">
     <value>Add</value>
   </data>

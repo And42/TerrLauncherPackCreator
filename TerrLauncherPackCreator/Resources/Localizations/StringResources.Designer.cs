@@ -250,15 +250,6 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log.
-        /// </summary>
-        public static string Log {
-            get {
-                return ResourceManager.GetString("Log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Milliseconds per frame:.
         /// </summary>
         public static string MillisecondsPerFrameHint {

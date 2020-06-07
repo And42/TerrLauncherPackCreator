@@ -174,9 +174,6 @@
   <data name="LoadingProgressStep" xml:space="preserve">
     <value>Загрузка паков</value>
   </data>
-  <data name="Log" xml:space="preserve">
-    <value>Лог</value>
-  </data>
   <data name="ModifiedFiles" xml:space="preserve">
     <value>Изменённые файлы</value>
   </data>

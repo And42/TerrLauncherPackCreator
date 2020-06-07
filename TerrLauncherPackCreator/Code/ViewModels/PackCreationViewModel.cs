@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
@@ -76,8 +75,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         // Step 3
         [NotNull] public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
 
-        [NotNull] public string Log => _log.ToString();
-
         // Step 4
         [NotNull] public ObservableCollection<AuthorItemModel> Authors { get; }
 
@@ -92,9 +89,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private string _descriptionEnglish;
         private Guid _guid;
         private int _version;
-
-        // Step 3
-        [NotNull] private readonly StringBuilder _log = new StringBuilder();
 
         #endregion
 
@@ -538,8 +532,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             switch (e.PropertyName)
             {
-                case nameof(Log):
-                    break;
                 case nameof(Working):
                     // Step 1
                     CreateNewGuidCommand.RaiseCanExecuteChanged();
