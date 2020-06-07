@@ -17,7 +17,6 @@
     
     WindowStartupLocation="CenterScreen"
     FontSize="14"
-    FontFamily="Century Gothic"
     
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
 

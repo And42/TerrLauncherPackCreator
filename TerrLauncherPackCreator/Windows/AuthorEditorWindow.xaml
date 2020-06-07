@@ -16,7 +16,6 @@
         
         WindowStartupLocation="CenterScreen"
         FontSize="14"
-        FontFamily="Century Gothic"
         
         d:DataContext="{d:DesignInstance viewModels:AuthorEditorWindowViewModel}">
     <Grid Margin="8" UseLayoutRounding="True">
