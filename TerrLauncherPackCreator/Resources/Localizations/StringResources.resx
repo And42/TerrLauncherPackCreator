@@ -327,4 +327,13 @@
   <data name="SaveAuthor" xml:space="preserve">
     <value>Save author to the list</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="CantLoadAppSettings" xml:space="preserve">
+    <value>Can't load application settings:</value>
+  </data>
+  <data name="CantSaveAppSettings" xml:space="preserve">
+    <value>Can't save application settings:</value>
+  </data>
 </root>

@@ -25,5 +25,8 @@ namespace TerrLauncherPackCreator.Code.Utils
 
         [NotNull]
         public static readonly string AuthorsFile = Path.Combine(DataDir, "authors.json");
+
+        [NotNull]
+        public static readonly string AppSettingsFile = Path.Combine(DataDir, "appSettings.json");
     }
 }

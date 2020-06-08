@@ -327,4 +327,13 @@
   <data name="SaveAuthor" xml:space="preserve">
     <value>Сохранить в список</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="CantLoadAppSettings" xml:space="preserve">
+    <value>Не удалось загрузить настройки:</value>
+  </data>
+  <data name="CantSaveAppSettings" xml:space="preserve">
+    <value>Не удалось сохранить настройки:</value>
+  </data>
 </root>

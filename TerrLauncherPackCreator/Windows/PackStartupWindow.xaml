@@ -16,27 +16,46 @@
         SourceInitialized="PackStartupWindow_OnSourceInitialized"
         
         d:DataContext="{d:DesignInstance viewModels:PackStartupWindowViewModel, IsDesignTimeCreatable=True}">
-    <StackPanel UseLayoutRounding="True" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <StackPanel.Resources>
-            <Style x:Key="ActionButtonMarginStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                <Setter Property="Margin" Value="3"/>
-            </Style>
-        </StackPanel.Resources>
-
-        <Button 
-            Style="{DynamicResource ActionButtonMarginStyle}"
-            Content="{x:Static localizations:StringResources.PackCreateNew}"
-            Command="{Binding CreateNewPackCommand}"
-            VerticalAlignment="Top"/>
-
-        <Button
-            Style="{StaticResource ActionButtonMarginStyle}"
-            Content="{x:Static localizations:StringResources.PackLoadExisting}"
-            Command="{Binding ChooseExistingPackCommand}"/>
+    <DockPanel UseLayoutRounding="True" LastChildFill="True">
+        <Menu DockPanel.Dock="Top" Background="WhiteSmoke">
+            <MenuItem Header="{x:Static localizations:StringResources.Language}" Padding="6 3">
+                <MenuItem
+                    Header="English"
+                    IsChecked="{Binding EnglishLanguageActive, Mode=OneWay}"
+                    Command="{Binding SwitchToEnglishCommand}"/>
+                <MenuItem
+                    Header="Русский"
+                    IsChecked="{Binding RussianLanguageActive, Mode=OneWay}"
+                    Command="{Binding SwitchToRussianCommand}"/>
+            </MenuItem>
+        </Menu>
         
-        <Button
-            Style="{StaticResource ActionButtonMarginStyle}"
-            Content="{x:Static localizations:StringResources.ResourcesConverter}"
-            Command="{Binding LaunchConverterCommand}"/>
-    </StackPanel>
+        <StackPanel 
+            DockPanel.Dock="Top"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel.Resources>
+                <Style x:Key="ActionButtonMarginStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button 
+                Style="{DynamicResource ActionButtonMarginStyle}"
+                Content="{x:Static localizations:StringResources.PackCreateNew}"
+                Command="{Binding CreateNewPackCommand}"
+                VerticalAlignment="Top"/>
+
+            <Button
+                Style="{StaticResource ActionButtonMarginStyle}"
+                Content="{x:Static localizations:StringResources.PackLoadExisting}"
+                Command="{Binding ChooseExistingPackCommand}"/>
+        
+            <Button
+                Style="{StaticResource ActionButtonMarginStyle}"
+                Content="{x:Static localizations:StringResources.ResourcesConverter}"
+                Command="{Binding LaunchConverterCommand}"/>
+        </StackPanel>
+    </DockPanel>
 </Window>

@@ -115,6 +115,24 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t load application settings:.
+        /// </summary>
+        public static string CantLoadAppSettings {
+            get {
+                return ResourceManager.GetString("CantLoadAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t save application settings:.
+        /// </summary>
+        public static string CantSaveAppSettings {
+            get {
+                return ResourceManager.GetString("CantSaveAppSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pack is not selected!.
         /// </summary>
         public static string ChoosePackDialogFailed {
@@ -255,6 +273,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string InformationLower {
             get {
                 return ResourceManager.GetString("InformationLower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         

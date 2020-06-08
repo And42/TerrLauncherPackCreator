@@ -99,6 +99,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             get => _currentStep;
             set => SetProperty(ref _currentStep, value);
         }
+        private int _currentStep;
+
         [NotNull]
         public Page[] StepsPages { get; }
 
@@ -120,10 +122,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
-
-        #region backing fields
-        private int _currentStep;
-        #endregion
 
         public MainWindowViewModel()
         {

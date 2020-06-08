@@ -21,12 +21,24 @@ namespace TerrLauncherPackCreator.Windows
         {
             InitializeComponent();
 
-            ViewModel = new PackStartupWindowViewModel(new AttachedWindowManipulator(this));
+            ViewModel = new PackStartupWindowViewModel(
+                new AttachedWindowManipulator(this),
+                ValuesProvider.AppSettings
+            )
+            {
+                RecreateWindow = RecreateWindow
+            };
         }
 
         private void PackStartupWindow_OnSourceInitialized(object sender, EventArgs e)
         {
             WindowUtils.RemoveIcon(this);
+        }
+        
+        private void RecreateWindow()
+        {
+            new PackStartupWindow().Show();
+            Close();
         }
     }
 }

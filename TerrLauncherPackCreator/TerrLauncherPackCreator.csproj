@@ -121,10 +121,12 @@
     <Compile Include="Code\Implementations\FileConverter.cs" />
     <Compile Include="Code\Implementations\ImageInfo.cs" />
     <Compile Include="Code\Implementations\TempDirsProvider.cs" />
+    <Compile Include="Code\Implementations\ValuesProvider.cs" />
     <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
     <Compile Include="Code\Interfaces\IFileConverter.cs" />
     <Compile Include="Code\Interfaces\IPackFileInfo.cs" />
     <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
+    <Compile Include="Code\Json\AppSettingsJson.cs" />
     <Compile Include="Code\Json\AuthorsJson.cs" />
     <Compile Include="Code\Json\CharacterFileInfo.cs" />
     <Compile Include="Code\Json\GuiFileInfo.cs" />

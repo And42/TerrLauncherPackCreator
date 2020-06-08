@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CommonLibrary.CommonUtils;
+using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Windows;
 
 namespace TerrLauncherPackCreator
@@ -40,6 +43,7 @@ namespace TerrLauncherPackCreator
                 }
             });
 
+            SetCurrentLanguage();
             new PackStartupWindow().Show();
         }
 
@@ -48,6 +52,13 @@ namespace TerrLauncherPackCreator
             
             if (Directory.Exists(ApplicationDataUtils.PathToSessionTempFolder))
                 Directory.Delete(ApplicationDataUtils.PathToSessionTempFolder, true);
+        }
+
+        private static void SetCurrentLanguage()
+        {
+            string appLanguage = ValuesProvider.AppSettings.AppLanguage;
+            if (!string.IsNullOrEmpty(appLanguage))
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(appLanguage);
         }
     }
 }
