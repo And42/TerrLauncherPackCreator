@@ -24,6 +24,9 @@ namespace TerrLauncherPackCreator.Code.Json
         [JsonProperty("animated")]
         public bool Animated { get; set; }
 
+        [JsonProperty("animate_in_gui")]
+        public bool AnimateInGui { get; set; } = true;
+
         [JsonProperty("number_of_vertical_frames")]
         public int NumberOfVerticalFrames { get; set; } = 1;
 

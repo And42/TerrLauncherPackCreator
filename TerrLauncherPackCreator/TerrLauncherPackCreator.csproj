@@ -112,6 +112,7 @@
     <Compile Include="Code\Converters\FileToMemoryStreamConverter.cs" />
     <Compile Include="Code\Converters\InMemoryImageSourceConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
+    <Compile Include="Code\Converters\TextureModelToAnimateInGuiVisibility.cs" />
     <Compile Include="Code\Converters\TextureModelToFrameTimeVisibility.cs" />
     <Compile Include="Code\Converters\TextureModelToHorizontalFramesVisibility.cs" />
     <Compile Include="Code\Converters\TextureModelToVerticalFramesVisibility.cs" />

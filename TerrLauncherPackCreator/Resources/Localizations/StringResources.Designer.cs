@@ -79,6 +79,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Animate in GUI.
+        /// </summary>
+        public static string AnimateInGuiHint {
+            get {
+                return ResourceManager.GetString("AnimateInGuiHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color:.
         /// </summary>
         public static string AuthorColor {

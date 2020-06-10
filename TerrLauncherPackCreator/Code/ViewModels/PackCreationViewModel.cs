@@ -23,7 +23,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     public class PackCreationViewModel : ViewModelBase
     {
         private const int TerrariaStructureVersion = 3;
-        private const int PackStructureVersion = 5;
+        private const int PackStructureVersion = 6;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
 
@@ -447,6 +447,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 {
                                     Type = textureModel.CurrentTextureType,
                                     Animated = textureModel.Animated,
+                                    AnimateInGui = textureModel.AnimateInGui,
                                     EntryName = string.IsNullOrEmpty(textureModel.Prefix)
                                         ? textureModel.Name
                                         : $"{textureModel.Prefix}/{textureModel.Name}",
@@ -571,6 +572,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         model.Name = info.EntryName;
                         model.CurrentTextureType = info.Type;
                         model.Animated = info.Animated;
+                        model.AnimateInGui = info.AnimateInGui;
                         model.ElementId = info.ElementId;
                         model.NumberOfVerticalFrames = info.NumberOfVerticalFrames;
                         model.NumberOfHorizontalFrames = info.NumberOfHorizontalFrames;

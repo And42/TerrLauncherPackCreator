@@ -18,5 +18,6 @@
     <local:TextureModelToFrameTimeVisibility x:Key="TextureModelToFrameTimeVisibility"/>
     <local:TextureModelToVerticalFramesVisibility x:Key="TextureModelToVerticalFramesVisibility"/>
     <local:TextureModelToHorizontalFramesVisibility x:Key="TextureModelToHorizontalFramesVisibility"/>
+    <local:TextureModelToAnimateInGuiVisibility x:Key="TextureModelToAnimateInGuiVisibility"/>
     
 </ResourceDictionary>

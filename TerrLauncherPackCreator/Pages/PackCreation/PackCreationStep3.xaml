@@ -153,6 +153,8 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="8"/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             
                             <CheckBox
@@ -246,6 +248,21 @@
                                     </MultiBinding>
                                 </xctk:IntegerUpDown.Visibility>
                             </xctk:IntegerUpDown>
+
+                            <CheckBox
+                                Grid.Row="0"
+                                Grid.Column="8"
+                                UseLayoutRounding="True"
+                                Content="{x:Static localizations:StringResources.AnimateInGuiHint}"
+                                MinHeight="{Binding ActualHeight, ElementName=ElementIdCounter}"
+                                IsChecked="{Binding AnimateInGui}">
+                                <CheckBox.Visibility>
+                                    <MultiBinding Converter="{StaticResource TextureModelToAnimateInGuiVisibility}">
+                                        <Binding Path="Animated"/>
+                                        <Binding Path="CurrentTextureType"/>
+                                    </MultiBinding>
+                                </CheckBox.Visibility>
+                            </CheckBox>
 
                         </Grid>
                         

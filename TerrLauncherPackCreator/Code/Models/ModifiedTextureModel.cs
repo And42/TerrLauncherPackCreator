@@ -45,6 +45,13 @@ namespace TerrLauncherPackCreator.Code.Models
         }
         private bool _animated;
 
+        public bool AnimateInGui
+        {
+            get => _animateInGui;
+            set => SetProperty(ref _animateInGui, value);
+        }
+        private bool _animateInGui;
+        
         public int NumberOfVerticalFrames
         {
             get => _numberOfVerticalFrames;
@@ -76,6 +83,7 @@ namespace TerrLauncherPackCreator.Code.Models
         {
             _name = Path.GetFileNameWithoutExtension(filePath);
             _currentTextureType = TextureFileInfo.TextureType.General;
+            _animateInGui = true;
             _millisecondsPerFrame = 100;
             _numberOfHorizontalFrames = 1;
             _numberOfVerticalFrames = 1;

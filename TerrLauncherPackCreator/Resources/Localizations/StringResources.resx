@@ -309,6 +309,9 @@
   <data name="AnimatedHint" xml:space="preserve">
     <value>Animated</value>
   </data>
+  <data name="AnimateInGuiHint" xml:space="preserve">
+    <value>Animate in GUI</value>
+  </data>
   <data name="SavedAuthor" xml:space="preserve">
     <value>Saved author:</value>
   </data>
