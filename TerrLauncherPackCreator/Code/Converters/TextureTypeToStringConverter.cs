@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Globalization;
-using MVVM_Tools.Code.Classes;
+using System.Windows.Data;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {
-    public class TextureTypeToStringConverter : ConverterBase<TextureFileInfo.TextureType, string>
+    public class TextureTypeToStringConverter : IValueConverter
     {
-        public override string ConvertInternal(TextureFileInfo.TextureType value, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value switch
+            if (!(value is TextureFileInfo.TextureType casted))
+                return null;
+            
+            return casted switch
             {
                 TextureFileInfo.TextureType.General => StringResources.TextureTypeGeneral,
                 TextureFileInfo.TextureType.Item => StringResources.TextureTypeItem,
@@ -19,15 +22,18 @@ namespace TerrLauncherPackCreator.Code.Converters
             };
         }
 
-        public override TextureFileInfo.TextureType ConvertBackInternal(string value, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == StringResources.TextureTypeGeneral)
+            if (!(value is string casted))
+                return null;
+            
+            if (casted == StringResources.TextureTypeGeneral)
                 return TextureFileInfo.TextureType.General;
-            if (value == StringResources.TextureTypeItem)
+            if (casted == StringResources.TextureTypeItem)
                 return TextureFileInfo.TextureType.Item;
-            if (value == StringResources.TextureTypeNpc)
+            if (casted == StringResources.TextureTypeNpc)
                 return TextureFileInfo.TextureType.Npc;
-            throw new ArgumentOutOfRangeException(nameof(value), value, null);
+            return null;
         }
     }
 }
