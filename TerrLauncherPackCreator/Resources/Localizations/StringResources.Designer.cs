@@ -70,6 +70,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add tag.
+        /// </summary>
+        public static string AddTag {
+            get {
+                return ResourceManager.GetString("AddTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Animated.
         /// </summary>
         public static string AnimatedHint {
@@ -565,6 +574,24 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Animated.
+        /// </summary>
+        public static string PredefinedPackTagAnimated {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagAnimated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Predefined tags:.
+        /// </summary>
+        public static string PredefinedTags {
+            get {
+                return ResourceManager.GetString("PredefinedTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Previews.
         /// </summary>
         public static string Previews {
@@ -579,6 +606,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string PreviousStepCaption {
             get {
                 return ResourceManager.GetString("PreviousStepCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string RemoveTag {
+            get {
+                return ResourceManager.GetString("RemoveTag", resourceCulture);
             }
         }
         

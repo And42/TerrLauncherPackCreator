@@ -197,6 +197,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 DescriptionRussian = packSettings.DescriptionRussian,
                 Version = packSettings.Version,
                 Guid = packSettings.Guid,
+                PredefinedTags = packSettings.PredefinedTags?.ToList() ?? new List<PredefinedPackTag>(0)
             };
 
             return packModel;
@@ -220,7 +221,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 DescriptionRussian = packModel.DescriptionRussian,
                 Version = packModel.Version,
                 Guid = packModel.Guid,
-                Authors = string.Join("<->", authorsMappings.Select(it => it.json))
+                Authors = string.Join("<->", authorsMappings.Select(it => it.json)),
+                PredefinedTags = packModel.PredefinedTags.ToList()
             };
 
             IOUtils.TryDeleteFile(filePath, PackProcessingTries, PackProcessingSleepMs);

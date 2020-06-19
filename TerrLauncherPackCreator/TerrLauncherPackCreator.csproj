@@ -111,7 +111,9 @@
     <Compile Include="Code\Converters\ColorToBrushConverter.cs" />
     <Compile Include="Code\Converters\FileToMemoryStreamConverter.cs" />
     <Compile Include="Code\Converters\InMemoryImageSourceConverter.cs" />
+    <Compile Include="Code\Converters\InvertBoolConverter.cs" />
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
+    <Compile Include="Code\Converters\PredefinedTagToStringConverter.cs" />
     <Compile Include="Code\Converters\TextureModelToAnimateInGuiVisibility.cs" />
     <Compile Include="Code\Converters\TextureModelToFrameTimeVisibility.cs" />
     <Compile Include="Code\Converters\TextureModelToHorizontalFramesVisibility.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Code\Converters\TextureTypeToStringConverter.cs" />
     <Compile Include="Code\Converters\TranslationShortToLongConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfEqualToParameterConverter.cs" />
+    <Compile Include="Code\Enums\PredefinedPackTag.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Implementations\AuthorsFileProcessor.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />

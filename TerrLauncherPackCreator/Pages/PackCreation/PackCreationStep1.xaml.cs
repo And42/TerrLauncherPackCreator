@@ -1,4 +1,7 @@
-﻿using TerrLauncherPackCreator.Code.ViewModels;
+﻿using System.Windows;
+using System.Windows.Input;
+using TerrLauncherPackCreator.Code.Enums;
+using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation
 {
@@ -15,6 +18,13 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
         {
             get => DataContext as PackCreationViewModel;
             set => DataContext = value;
+        }
+
+        private void PredefinedTag_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var selectedTag = (PredefinedPackTag) ((FrameworkElement) sender).DataContext;
+            if (ViewModel.AddSelectedTagCommand.CanExecute(selectedTag))
+                ViewModel.AddSelectedTagCommand.Execute(selectedTag);
         }
     }
 }

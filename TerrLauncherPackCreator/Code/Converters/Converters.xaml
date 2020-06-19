@@ -19,5 +19,7 @@
     <local:TextureModelToVerticalFramesVisibility x:Key="TextureModelToVerticalFramesVisibility"/>
     <local:TextureModelToHorizontalFramesVisibility x:Key="TextureModelToHorizontalFramesVisibility"/>
     <local:TextureModelToAnimateInGuiVisibility x:Key="TextureModelToAnimateInGuiVisibility"/>
+    <local:PredefinedTagToStringConverter x:Key="PredefinedTagToStringConverter"/>
+    <local:InvertBoolConverter x:Key="InvertBoolConverter"/>
     
 </ResourceDictionary>

@@ -339,4 +339,16 @@
   <data name="CantSaveAppSettings" xml:space="preserve">
     <value>Can't save application settings:</value>
   </data>
+  <data name="PredefinedPackTagAnimated" xml:space="preserve">
+    <value>Animated</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Add tag</value>
+  </data>
+  <data name="PredefinedTags" xml:space="preserve">
+    <value>Predefined tags:</value>
+  </data>
+  <data name="RemoveTag" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>

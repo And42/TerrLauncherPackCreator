@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -23,9 +24,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
     public class PackCreationViewModel : ViewModelBase
     {
         private const int TerrariaStructureVersion = 3;
-        private const int PackStructureVersion = 6;
+        private const int PackStructureVersion = 7;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
+        private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
+        {
+            PredefinedPackTag.Animated
+        };
 
         [NotNull] private readonly IPackProcessor _packProcessor;
         [NotNull] private readonly AuthorsFileProcessor _authorsFileProcessor;
@@ -69,6 +74,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             set => SetProperty(ref _version, value);
         }
 
+        public ObservableCollection<PredefinedPackTag> PredefinedTags { get; }
+
+        public IReadOnlyList<PredefinedPackTag> RemainedPredefinedTags => AllPredefinedTags.Except(PredefinedTags).ToList();
+        
+        public bool IsPredefindTagsPopupOpen
+        {
+            get => _isPredefindTagsPopupOpen;
+            set => SetProperty(ref _isPredefindTagsPopupOpen, value);
+        }
+
         // Step 2
         [NotNull] public ObservableCollection<PreviewItemModel> Previews { get; }
 
@@ -89,6 +104,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private string _descriptionEnglish;
         private Guid _guid;
         private int _version;
+        private bool _isPredefindTagsPopupOpen;
 
         #endregion
 
@@ -97,6 +113,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         // Step 1
         public IActionCommand CreateNewGuidCommand { get; }
         public IActionCommand<string> DropIconCommand { get; }
+        public IActionCommand AddPredefinedTagCommand { get; }
+        public IActionCommand<PredefinedPackTag> AddSelectedTagCommand { get; }
+        public IActionCommand<PredefinedPackTag> RemovePredefinedTag { get; }
 
         // Step 2
         public IActionCommand<string[]> DropPreviewsCommand { get; }
@@ -140,8 +159,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Authors = new ObservableCollection<AuthorItemModel>();
 
             // Step 1
+            PredefinedTags = new ObservableCollection<PredefinedPackTag>();
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute, CreateNewGuidCommand_CanExecute);
             DropIconCommand = new ActionCommand<string>(file => { }, DropIconCommand_CanExecute);
+            AddPredefinedTagCommand = new ActionCommand(AddPredefinedTagExecuted, AddPredefinedTagCanExecute);
+            AddSelectedTagCommand = new ActionCommand<PredefinedPackTag>(AddSelectedTagExecuted);
+            RemovePredefinedTag = new ActionCommand<PredefinedPackTag>(RemovePredefinedTagExecuted, RemovePredefinedTagCanExecute);
 
             // Step 2
             DropPreviewsCommand =
@@ -169,6 +192,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             _packProcessor.PackLoaded += PackProcessorOnPackLoaded;
             _packProcessor.PackSaved += PackProcessorOnPackSaved;
 
+            PredefinedTags.CollectionChanged += PredefinedTagsCollectionChanged;
             PropertyChanged += OnPropertyChanged;
         }
 
@@ -224,6 +248,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             DescriptionEnglish = packModel.DescriptionEnglish;
             Guid = packModel.Guid;
             Version = packModel.Version;
+            PredefinedTags.Clear();
+            packModel.PredefinedTags.ForEach(PredefinedTags.Add);
 
             var previewItems = packModel.PreviewsPaths.Select(PreviewItemModel.FromImageFile).ToArray();
 
@@ -271,6 +297,33 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             return !Working && File.Exists(filePath) && IconExtensions.Contains(Path.GetExtension(filePath));
         }
+        
+        private bool AddPredefinedTagCanExecute()
+        {
+            return !Working && RemainedPredefinedTags.Count != 0;
+        }
+
+        private void AddPredefinedTagExecuted()
+        {
+            IsPredefindTagsPopupOpen = true;
+        }
+
+        private void AddSelectedTagExecuted(PredefinedPackTag tag)
+        {
+            PredefinedTags.Add(tag);
+            IsPredefindTagsPopupOpen = false;
+        }
+        
+        private bool RemovePredefinedTagCanExecute(PredefinedPackTag _)
+        {
+            return !Working;
+        }
+
+        private void RemovePredefinedTagExecuted(PredefinedPackTag tag)
+        {
+            PredefinedTags.Remove(tag);
+        }
+
 
         #endregion
 
@@ -509,7 +562,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 DescriptionRussian = DescriptionRussian,
                 DescriptionEnglish = DescriptionEnglish,
                 Guid = Guid,
-                Version = Version
+                Version = Version,
+                PredefinedTags = PredefinedTags.ToList()
             };
         }
 
@@ -529,6 +583,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
 
+        private void PredefinedTagsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(RemainedPredefinedTags));
+        }
+        
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -546,6 +605,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     SaveResourceCommand.RaiseCanExecuteChanged();
                     // Step 5
                     ExportPackCommand.RaiseCanExecuteChanged();
+                    break;
+                case nameof(RemainedPredefinedTags):
+                    AddPredefinedTagCommand.RaiseCanExecuteChanged();
                     break;
             }
         }

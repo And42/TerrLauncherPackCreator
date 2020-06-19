@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
@@ -51,6 +52,9 @@ namespace TerrLauncherPackCreator.Code.Models
         public Guid Guid { get; set; }
 
         public int Version { get; set; }
+
+        [NotNull]
+        public List<PredefinedPackTag> PredefinedTags { get; set; }
 
         [NotNull]
         public (string name, Color? color, string link, ImageInfo icon)[] Authors { get; set; }

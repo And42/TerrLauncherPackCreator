@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
+using TerrLauncherPackCreator.Code.Enums;
 
 namespace TerrLauncherPackCreator.Code.Json
 {
@@ -28,5 +31,9 @@ namespace TerrLauncherPackCreator.Code.Json
         
         [JsonProperty("authors")]
         public string Authors { get; set; }
+
+        [CanBeNull]
+        [JsonProperty("predefined_tags")]
+        public List<PredefinedPackTag> PredefinedTags { get; set; }
     }
 }

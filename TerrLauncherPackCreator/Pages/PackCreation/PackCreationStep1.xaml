@@ -7,6 +7,8 @@
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
       xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
+      xmlns:enums="clr-namespace:TerrLauncherPackCreator.Code.Enums"
+      xmlns:packCreation="clr-namespace:TerrLauncherPackCreator.Pages.PackCreation"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -14,7 +16,7 @@
       
       d:DataContext="{d:DesignInstance viewModels:PackCreationViewModel, IsDesignTimeCreatable=True}">
 
-    <StackPanel UseLayoutRounding="True">
+    <StackPanel UseLayoutRounding="True" Margin="4 0">
         <StackPanel.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -22,19 +24,11 @@
             </Style>
 
             <Style TargetType="xctk:WatermarkTextBox" BasedOn="{StaticResource {x:Type xctk:WatermarkTextBox}}">
-                <Setter Property="Margin" Value="3"/>
-                <Setter Property="Padding" Value="7 3"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                <Setter Property="Margin" Value="3"/>
-                <Setter Property="Padding" Value="7 3"/>
+                <Setter Property="Padding" Value="7 4"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
 
             <Style TargetType="xctk:IntegerUpDown" BasedOn="{StaticResource {x:Type xctk:IntegerUpDown}}">
-                <Setter Property="Margin" Value="3"/>
                 <Setter Property="Padding" Value="7 2"/>
             </Style>
 
@@ -46,33 +40,141 @@
         </StackPanel.Resources>
 
         <controls:DragAndDropImage
-            Width="120" Height="120" Margin="3"
+            Width="120"
+            Height="120"
+            Margin="4 4 4 0"
             ImagePath="{Binding IconFilePath}"
             DropImageCommand="{Binding DropIconCommand}"
             ImageHelpText="{x:Static localizations:StringResources.DragIconHelpText}"/>
         
-        <xctk:WatermarkTextBox Text="{Binding Title}" Watermark="{x:Static localizations:StringResources.PackTitle}"/>
+        <xctk:WatermarkTextBox
+            Margin="0 8 0 0"
+            Text="{Binding Title}"
+            Watermark="{x:Static localizations:StringResources.PackTitle}"/>
 
-        <xctk:WatermarkTextBox Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionRussian}" Watermark="{x:Static localizations:StringResources.PackDescriptionRussian}"/>
+        <xctk:WatermarkTextBox
+            Margin="0 8 0 0"
+            Style="{StaticResource MultilineTextBox}"
+            Text="{Binding DescriptionRussian}"
+            Watermark="{x:Static localizations:StringResources.PackDescriptionRussian}"/>
 
-        <xctk:WatermarkTextBox Style="{StaticResource MultilineTextBox}" Text="{Binding DescriptionEnglish}" Watermark="{x:Static localizations:StringResources.PackDescriptionEnglish}"/>
+        <xctk:WatermarkTextBox
+            Margin="0 8 0 0"
+            Style="{StaticResource MultilineTextBox}"
+            Text="{Binding DescriptionEnglish}"
+            Watermark="{x:Static localizations:StringResources.PackDescriptionEnglish}"/>
 
-        <Grid>
+        <Grid Margin="0 8 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <xctk:WatermarkTextBox Text="{Binding Guid}" Padding="50 3 7 3"/>
-            <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackGuid}"/>
+            <xctk:WatermarkTextBox
+                Text="{Binding Guid}"
+                Padding="50 4 7 4"/>
+    
+            <TextBlock
+                Margin="10 0 0 1"
+                Text="{x:Static localizations:StringResources.PackGuid}"/>
 
-            <Button Grid.Column="1" Content="{x:Static localizations:StringResources.NewGuidCaption}"
-                    Command="{Binding CreateNewGuidCommand}"/>
+            <Button 
+                Grid.Column="1"
+                Margin="8 0 0 0"
+                Content="{x:Static localizations:StringResources.NewGuidCaption}"
+                Command="{Binding CreateNewGuidCommand}"/>
         </Grid>
 
-        <Grid>
-            <xctk:IntegerUpDown Minimum="1" Value="{Binding Version}"/>
-            <TextBlock Margin="10 0 0 1" Text="{x:Static localizations:StringResources.PackVersion}"/>
+        <Grid Margin="0 8 0 0">
+            <xctk:IntegerUpDown
+                Minimum="1"
+                Padding="7 4"
+                Value="{Binding Version}"/>
+
+            <TextBlock
+                Margin="10 0 0 1"
+                Text="{x:Static localizations:StringResources.PackVersion}"/>
+        </Grid>
+        
+        <Grid Margin="0 8 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Text="{x:Static localizations:StringResources.PredefinedTags}"/>
+            
+            <ItemsControl
+                Grid.Column="1"
+                ItemsSource="{Binding PredefinedTags}"
+                Margin="8 0 0 0">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type enums:PredefinedPackTag}">
+                        <Border
+                            BorderBrush="DarkGray"
+                            BorderThickness="1"
+                            Background="WhiteSmoke"
+                            Padding="8 4 4 4"
+                            Margin="4">
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource PredefinedTagToStringConverter}}"
+                                    VerticalAlignment="Center"/>
+                                
+                                <Button
+                                    Margin="8 0 0 0"
+                                    Content="{x:Static localizations:StringResources.RemoveTag}"
+                                    VerticalAlignment="Center"
+                                    Command="{
+                                        Binding DataContext.RemovePredefinedTag,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType=packCreation:PackCreationStep1}
+                                    }"
+                                    CommandParameter="{Binding}"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <Button
+                x:Name="AddTagButton"
+                Grid.Column="2"
+                Content="{x:Static localizations:StringResources.AddTag}"
+                Command="{Binding AddPredefinedTagCommand}"
+                VerticalAlignment="Center"/>
+            
+            <Popup
+                IsOpen="{Binding IsPredefindTagsPopupOpen}"
+                PlacementTarget="{Binding ElementName=AddTagButton}">
+                
+                <ListBox
+                    ItemsSource="{Binding RemainedPredefinedTags}"
+                    Background="White"
+                    BorderBrush="DarkGray"
+                    BorderThickness="1">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type enums:PredefinedPackTag}">
+                            <TextBlock
+                                Text="{Binding Converter={StaticResource PredefinedTagToStringConverter}}"
+                                IsEnabled="{
+                                    Binding DataContext.Working,
+                                    Converter={StaticResource InvertBoolConverter},
+                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=packCreation:PackCreationStep1}
+                                }"
+                                MouseLeftButtonUp="PredefinedTag_OnMouseLeftButtonUp"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Popup>
         </Grid>
     </StackPanel>
 </Page>

@@ -339,4 +339,16 @@
   <data name="CantSaveAppSettings" xml:space="preserve">
     <value>Не удалось сохранить настройки:</value>
   </data>
+  <data name="PredefinedPackTagAnimated" xml:space="preserve">
+    <value>Анимированный</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>Добавить тег</value>
+  </data>
+  <data name="PredefinedTags" xml:space="preserve">
+    <value>Предопределённые теги:</value>
+  </data>
+  <data name="RemoveTag" xml:space="preserve">
+    <value>Убрать</value>
+  </data>
 </root>
