@@ -9,7 +9,8 @@ namespace TerrLauncherPackCreator.Code.Json
         {
             General = 0,
             Item = 1,
-            Npc = 2
+            Npc = 2,
+            Buff = 3
         }
         
         [JsonProperty("type")]

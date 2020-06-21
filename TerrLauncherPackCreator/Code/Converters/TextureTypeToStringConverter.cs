@@ -18,6 +18,7 @@ namespace TerrLauncherPackCreator.Code.Converters
                 TextureFileInfo.TextureType.General => StringResources.TextureTypeGeneral,
                 TextureFileInfo.TextureType.Item => StringResources.TextureTypeItem,
                 TextureFileInfo.TextureType.Npc => StringResources.TextureTypeNpc,
+                TextureFileInfo.TextureType.Buff => StringResources.TextureTypeBuff,
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
             };
         }
@@ -33,6 +34,8 @@ namespace TerrLauncherPackCreator.Code.Converters
                 return TextureFileInfo.TextureType.Item;
             if (casted == StringResources.TextureTypeNpc)
                 return TextureFileInfo.TextureType.Npc;
+            if (casted == StringResources.TextureTypeBuff)
+                return TextureFileInfo.TextureType.Buff;
             return null;
         }
     }

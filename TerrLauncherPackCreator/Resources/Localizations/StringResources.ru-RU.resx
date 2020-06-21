@@ -294,6 +294,9 @@
   <data name="TextureTypeNpc" xml:space="preserve">
     <value>Моб</value>
   </data>
+  <data name="TextureTypeBuff" xml:space="preserve">
+    <value>Баф</value>
+  </data>
   <data name="ElementIdHint" xml:space="preserve">
     <value>Id элемента:</value>
   </data>

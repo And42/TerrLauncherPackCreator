@@ -96,7 +96,8 @@ namespace TerrLauncherPackCreator.Code.Models
             {
                 TextureFileInfo.TextureType.General,
                 TextureFileInfo.TextureType.Item,
-                TextureFileInfo.TextureType.Npc
+                TextureFileInfo.TextureType.Npc,
+                TextureFileInfo.TextureType.Buff
             };
             _prefix = CommonPrefixes[1];
         }

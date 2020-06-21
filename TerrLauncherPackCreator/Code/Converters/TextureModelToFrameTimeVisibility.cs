@@ -17,7 +17,8 @@ namespace TerrLauncherPackCreator.Code.Converters
             TextureFileInfo.TextureType currentTextureType = (TextureFileInfo.TextureType) values[1];
 
             return animated && (currentTextureType == TextureFileInfo.TextureType.Item ||
-                                currentTextureType == TextureFileInfo.TextureType.Npc)
+                                currentTextureType == TextureFileInfo.TextureType.Npc ||
+                                currentTextureType == TextureFileInfo.TextureType.Buff)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
         }

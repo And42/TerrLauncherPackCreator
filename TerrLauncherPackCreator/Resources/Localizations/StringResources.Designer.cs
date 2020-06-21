@@ -727,6 +727,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Buff.
+        /// </summary>
+        public static string TextureTypeBuff {
+            get {
+                return ResourceManager.GetString("TextureTypeBuff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string TextureTypeGeneral {
