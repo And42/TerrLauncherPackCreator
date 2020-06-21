@@ -8,8 +8,9 @@ namespace TerrLauncherPackCreator.Code.Json
 {
     public class PackSettings
     {
-        [JsonProperty("terrariaStructureVersion")]
-        public int TerrariaStructureVersion { get; set; }
+        // deprecated
+        // [JsonProperty("terrariaStructureVersion")]
+        // public int TerrariaStructureVersion { get; set; }
 
         [JsonProperty("packStructureVersion")]
         public int PackStructureVersion { get; set; }
