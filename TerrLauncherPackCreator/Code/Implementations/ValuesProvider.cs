@@ -20,7 +20,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         private static AppSettingsJson LoadAppSettings()
         {
             if (!File.Exists(Paths.AppSettingsFile))
-                return new AppSettingsJson();
+                return new AppSettingsJson(appLanguage: string.Empty);
             
             try
             {
@@ -31,7 +31,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             catch (Exception ex)
             {
                 MessageBoxUtils.ShowError($"{StringResources.CantLoadAppSettings} {ex.Message}");
-                return new AppSettingsJson();
+                return new AppSettingsJson(appLanguage: string.Empty);
             }
         }
     }

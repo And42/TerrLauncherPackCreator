@@ -519,17 +519,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 break;
                             case FileType.Map:
                                 var mapModel = (ModifiedMapModel) it.modified;
-                                fileInfo = new MapFileInfo
-                                {
-                                    ResultFileName = mapModel.ResultFileName
-                                };
+                                fileInfo = new MapFileInfo(
+                                    resultFileName: mapModel.ResultFileName ?? string.Empty
+                                );
                                 break;
                             case FileType.Character:
                                 var characterModel = (ModifiedCharacterModel) it.modified;
-                                fileInfo = new CharacterFileInfo
-                                {
-                                    ResultFileName = characterModel.ResultFileName
-                                };
+                                fileInfo = new CharacterFileInfo(
+                                    resultFileName: characterModel.ResultFileName
+                                );
                                 break;
                             case FileType.Gui:
                                 var guiModel = (ModifiedGuiModel) it.modified;
@@ -542,10 +540,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 break;
                             case FileType.Translation:
                                 var translationModel = (ModifiedTranslationModel) it.modified;
-                                fileInfo = new TranslationFileInfo
-                                {
-                                    Language = translationModel.CurrentLanguage
-                                };
+                                fileInfo = new TranslationFileInfo(
+                                    language: translationModel.CurrentLanguage
+                                );
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();

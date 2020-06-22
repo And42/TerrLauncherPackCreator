@@ -97,7 +97,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             _attachedWindowManipulator.Close();
         }
         
-        private void SwitchLanguageTo(string language)
+        private void SwitchLanguageTo([NotNull] string language)
         {
             if (Thread.CurrentThread.CurrentUICulture.Name == language)
                 return;
