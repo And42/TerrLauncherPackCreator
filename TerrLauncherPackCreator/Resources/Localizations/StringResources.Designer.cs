@@ -133,6 +133,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is bonus pack.
+        /// </summary>
+        public static string BonusPackHint {
+            get {
+                return ResourceManager.GetString("BonusPackHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t load application settings:.
         /// </summary>
         public static string CantLoadAppSettings {

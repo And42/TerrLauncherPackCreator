@@ -354,4 +354,7 @@
   <data name="RemoveTag" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="BonusPackHint" xml:space="preserve">
+    <value>Is bonus pack</value>
+  </data>
 </root>

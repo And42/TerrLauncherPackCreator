@@ -354,4 +354,7 @@
   <data name="RemoveTag" xml:space="preserve">
     <value>Убрать</value>
   </data>
+  <data name="BonusPackHint" xml:space="preserve">
+    <value>Бонусный пак</value>
+  </data>
 </root>

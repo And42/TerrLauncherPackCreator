@@ -121,6 +121,7 @@
     <Compile Include="Code\Converters\TextureTypeToStringConverter.cs" />
     <Compile Include="Code\Converters\TranslationShortToLongConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfEqualToParameterConverter.cs" />
+    <Compile Include="Code\Enums\BonusType.cs" />
     <Compile Include="Code\Enums\PredefinedPackTag.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
     <Compile Include="Code\Implementations\AuthorsFileProcessor.cs" />

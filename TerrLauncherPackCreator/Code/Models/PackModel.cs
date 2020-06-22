@@ -13,54 +13,80 @@ namespace TerrLauncherPackCreator.Code.Models
         public class ModifiedFileInfo
         {
             [CanBeNull]
-            public IPackFileInfo Config { get; set; }
+            public IPackFileInfo Config { get; }
             
             [NotNull]
-            public string FilePath { get; set; }
+            public string FilePath { get; }
 
-            public FileType FileType { get; set; }
+            public FileType FileType { get; }
             
-            public ModifiedFileInfo([NotNull] string filePath)
+            public ModifiedFileInfo(
+                [CanBeNull] IPackFileInfo config,
+                [NotNull] string filePath,
+                FileType fileType
+            )
             {
+                Config = config;
                 FilePath = filePath;
+                FileType = fileType;
             }
         }
         
         public PackModel(
             [NotNull] (string name, Color? color, string link, ImageInfo icon)[] authors,
             [NotNull] string[] previewsPaths,
-            [NotNull] ModifiedFileInfo[] modifiedFiles
+            [NotNull] ModifiedFileInfo[] modifiedFiles,
+            int packStructureVersion,
+            string iconFilePath,
+            string title,
+            string descriptionRussian,
+            string descriptionEnglish,
+            Guid guid,
+            int version,
+            bool isBonusPack,
+            [NotNull] List<PredefinedPackTag> predefinedTags
         )
         {
             Authors = authors;
             PreviewsPaths = previewsPaths;
             ModifiedFiles = modifiedFiles;
+            PackStructureVersion = packStructureVersion;
+            IconFilePath = iconFilePath;
+            Title = title;
+            DescriptionRussian = descriptionRussian;
+            DescriptionEnglish = descriptionEnglish;
+            Guid = guid;
+            Version = version;
+            IsBonusPack = isBonusPack;
+            PredefinedTags = predefinedTags;
         }
 
-        public int PackStructureVersion { get; set; }
+        public int PackStructureVersion { get; }
         
-        public string IconFilePath { get; set; }
+        public string IconFilePath { get; }
 
-        public string Title { get; set; }
+        public string Title { get; }
 
-        public string DescriptionRussian { get; set; }
+        public string DescriptionRussian { get; }
 
-        public string DescriptionEnglish { get; set; }
+        public string DescriptionEnglish { get; }
 
-        public Guid Guid { get; set; }
+        public Guid Guid { get; }
 
-        public int Version { get; set; }
+        public int Version { get; }
+
+        public bool IsBonusPack { get; }
 
         [NotNull]
-        public List<PredefinedPackTag> PredefinedTags { get; set; }
+        public List<PredefinedPackTag> PredefinedTags { get; }
 
         [NotNull]
-        public (string name, Color? color, string link, ImageInfo icon)[] Authors { get; set; }
+        public (string name, Color? color, string link, ImageInfo icon)[] Authors { get; }
         
         [NotNull]
-        public string[] PreviewsPaths { get; set; }
+        public string[] PreviewsPaths { get; }
 
         [NotNull]
-        public ModifiedFileInfo[] ModifiedFiles { get; set; }
+        public ModifiedFileInfo[] ModifiedFiles { get; }
     }
 }

@@ -83,6 +83,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             set => SetProperty(ref _isPredefindTagsPopupOpen, value);
         }
 
+        public bool IsBonusPack
+        {
+            get => _isBonusPack;
+            set => SetProperty(ref _isBonusPack, value);
+        }
+
         // Step 2
         [NotNull] public ObservableCollection<PreviewItemModel> Previews { get; }
 
@@ -104,6 +110,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private Guid _guid;
         private int _version;
         private bool _isPredefindTagsPopupOpen;
+        private bool _isBonusPack;
 
         #endregion
 
@@ -247,6 +254,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             DescriptionEnglish = packModel.DescriptionEnglish;
             Guid = packModel.Guid;
             Version = packModel.Version;
+            IsBonusPack = packModel.IsBonusPack;
             PredefinedTags.Clear();
             packModel.PredefinedTags.ForEach(PredefinedTags.Add);
 
@@ -478,9 +486,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private PackModel GeneratePackModel()
         {
             return new PackModel(
-                Authors.Select(author => (author.Name, author.Color, author.Link, author.Image)).ToArray(),
-                Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
-                ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
+                authors: Authors.Select(author => (author.Name, author.Color, author.Link, author.Image)).ToArray(),
+                previewsPaths: Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
+                modifiedFiles: ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
                     {
@@ -543,26 +551,25 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 throw new ArgumentOutOfRangeException();
                         }
 
-                        var info = new PackModel.ModifiedFileInfo(it.modified.FilePath)
-                        {
-                            FileType = it.FilesType,
-                            Config = fileInfo
-                        };
+                        var info = new PackModel.ModifiedFileInfo(
+                            config: fileInfo,
+                            filePath: it.modified.FilePath,
+                            fileType: it.FilesType
+                        );
 
                         return info;
                     })
-                    .ToArray()
-            )
-            {
-                PackStructureVersion = PackStructureVersion,
-                IconFilePath = IconFilePath,
-                Title = Title,
-                DescriptionRussian = DescriptionRussian,
-                DescriptionEnglish = DescriptionEnglish,
-                Guid = Guid,
-                Version = Version,
-                PredefinedTags = PredefinedTags.ToList()
-            };
+                    .ToArray(),
+                packStructureVersion: PackStructureVersion,
+                iconFilePath: IconFilePath,
+                title: Title,
+                descriptionRussian: DescriptionRussian,
+                descriptionEnglish: DescriptionEnglish,
+                guid: Guid,
+                version: Version,
+                isBonusPack: IsBonusPack,
+                predefinedTags: PredefinedTags.ToList()
+            );
         }
 
         private void ResetCollections()

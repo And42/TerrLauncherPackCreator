@@ -183,24 +183,27 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 string fileExt = Path.GetExtension(modifiedFile);
                 FileType fileType = PackUtils.PacksInfo.First(it => it.convertedFilesExt == fileExt).fileType;
                 var (sourceFile, fileInfo) = await _fileConverter.ConvertToSource(fileType, modifiedFile, configFile);
-                modifiedFiles.Add(new PackModel.ModifiedFileInfo(sourceFile) {
-                    FileType = fileType,
-                    Config = fileInfo
-                });
+                modifiedFiles.Add(new PackModel.ModifiedFileInfo(
+                    config: fileInfo,
+                    filePath: sourceFile,
+                    fileType: fileType
+                ));
             }
 
-            var packModel = new PackModel(authors, previewsPaths, modifiedFiles.ToArray())
-            {
-                IconFilePath = packIconFile,
-                Title = packSettings.Title,
-                DescriptionEnglish = packSettings.DescriptionEnglish,
-                DescriptionRussian = packSettings.DescriptionRussian,
-                Version = packSettings.Version,
-                Guid = packSettings.Guid,
-                PredefinedTags = packSettings.PredefinedTags?.ToList() ?? new List<PredefinedPackTag>(0)
-            };
-
-            return packModel;
+            return new PackModel(
+                authors: authors,
+                previewsPaths: previewsPaths,
+                modifiedFiles: modifiedFiles.ToArray(),
+                packStructureVersion: packSettings.PackStructureVersion,
+                iconFilePath: packIconFile,
+                title: packSettings.Title,
+                descriptionRussian: packSettings.DescriptionRussian,
+                descriptionEnglish: packSettings.DescriptionEnglish,
+                guid: packSettings.Guid,
+                version: packSettings.Version,
+                isBonusPack: packSettings.IsBonus,
+                predefinedTags: packSettings.PredefinedTags?.ToList() ?? new List<PredefinedPackTag>(0)
+            );
         }
 
         private void SavePackModelInternal(PackModel packModel, string filePath)
@@ -212,17 +215,19 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 string json = AuthorModelToString(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
                 authorsMappings.Add((copyIcon ? author.icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
             }
-            var packSettingsJson = new PackSettings
-            {
-                PackStructureVersion = packModel.PackStructureVersion,
-                Title = packModel.Title,
-                DescriptionEnglish = packModel.DescriptionEnglish,
-                DescriptionRussian = packModel.DescriptionRussian,
-                Version = packModel.Version,
-                Guid = packModel.Guid,
-                Authors = string.Join("<->", authorsMappings.Select(it => it.json)),
-                PredefinedTags = packModel.PredefinedTags.ToList()
-            };
+            var packSettingsJson = new PackSettings(
+                packStructureVersion: packModel.PackStructureVersion,
+                title: packModel.Title,
+                descriptionEnglish: packModel.DescriptionEnglish,
+                descriptionRussian: packModel.DescriptionRussian,
+                version: packModel.Version,
+                guid: packModel.Guid,
+                authors: string.Join("<->", authorsMappings.Select(it => it.json)),
+                predefinedTags: packModel.PredefinedTags.ToList(),
+                isBonus: packModel.IsBonusPack,
+                // todo: change when new types are available
+                bonusType: BonusType.OldVersionOwners
+            );
 
             IOUtils.TryDeleteFile(filePath, PackProcessingTries, PackProcessingSleepMs);
 
