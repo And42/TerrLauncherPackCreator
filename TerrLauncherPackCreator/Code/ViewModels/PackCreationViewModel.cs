@@ -255,8 +255,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Guid = packModel.Guid;
             Version = packModel.Version;
             IsBonusPack = packModel.IsBonusPack;
-            PredefinedTags.Clear();
-            packModel.PredefinedTags.ForEach(PredefinedTags.Add);
 
             var previewItems = packModel.PreviewsPaths.Select(PreviewItemModel.FromImageFile).ToArray();
 
@@ -284,6 +282,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         fileGroup.ModifiedFiles.Add(FileToModel(fileGroup.FilesType, modifiedFile.FilePath, modifiedFile.Config));
                     }
                 }
+
+                packModel.PredefinedTags.ForEach(PredefinedTags.Add);
             });
         }
 
@@ -574,6 +574,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Previews.Clear();
             ModifiedFileGroups.Clear();
             Authors.Clear();
+            PredefinedTags.Clear();
 
             Previews.Add(new PreviewItemModel(filePath: null, isDragDropTarget: true));
             foreach ((FileType fileType, string initialFilesExt, string _, string title) in PackUtils.PacksInfo)
