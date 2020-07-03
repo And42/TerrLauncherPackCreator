@@ -48,26 +48,18 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
             // config
             IPackFileInfo fileInfo = null;
-            if (configFile != null && File.Exists(configFile)) {
-                switch (fileType) {
-                    case FileType.Texture:
-                        fileInfo = JsonConvert.DeserializeObject<TextureFileInfo>(File.ReadAllText(configFile));
-                        break;
-                    case FileType.Map:
-                        fileInfo = JsonConvert.DeserializeObject<MapFileInfo>(File.ReadAllText(configFile));
-                        break;
-                    case FileType.Character:
-                        fileInfo = JsonConvert.DeserializeObject<CharacterFileInfo>(File.ReadAllText(configFile));
-                        break;
-                    case FileType.Gui:
-                        fileInfo = JsonConvert.DeserializeObject<GuiFileInfo>(File.ReadAllText(configFile));
-                        break;
-                    case FileType.Translation:
-                        fileInfo = JsonConvert.DeserializeObject<TranslationFileInfo>(File.ReadAllText(configFile));
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+            if (configFile != null && File.Exists(configFile))
+            {
+                string configText = File.ReadAllText(configFile);
+                fileInfo = fileType switch
+                {
+                    FileType.Texture => JsonConvert.DeserializeObject<TextureFileInfo>(configText),
+                    FileType.Map => JsonConvert.DeserializeObject<MapFileInfo>(configText),
+                    FileType.Character => JsonConvert.DeserializeObject<CharacterFileInfo>(configText),
+                    FileType.Gui => JsonConvert.DeserializeObject<GuiFileInfo>(configText),
+                    FileType.Translation => JsonConvert.DeserializeObject<TranslationFileInfo>(configText),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             }
 
             {
