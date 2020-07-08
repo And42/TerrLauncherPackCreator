@@ -27,14 +27,16 @@ namespace TerrLauncherPackCreator
 
                     for (int i = 0; i < 4; i++)
                     {
-                        if (appVersion[i] < latestVersion[i])
-                        {
-                            Process.Start(
-                                Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
-                                "disable_shortcut"
-                            );
-                            Environment.Exit(0);
-                        }
+                        if (appVersion[i] > latestVersion[i])
+                            break;
+                        if (appVersion[i] == latestVersion[i])
+                            continue;
+
+                        Process.Start(
+                            Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
+                            "disable_shortcut"
+                        );
+                        Environment.Exit(0);
                     }
                 }
                 catch (Exception ex)
