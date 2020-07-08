@@ -31,7 +31,10 @@ namespace TerrLauncherPackCreator.Code.Utils
 
         public static void SaveAppSettings([NotNull] AppSettingsJson settings)
         {
-            File.WriteAllText(Paths.AppSettingsFile, JsonConvert.SerializeObject(settings));
+            File.WriteAllText(
+                Paths.AppSettingsFile,
+                JsonConvert.SerializeObject(settings, Formatting.Indented)
+            );
         }
     }
 }
