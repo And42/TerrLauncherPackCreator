@@ -19,7 +19,7 @@ namespace TerrLauncherPackCreator.Windows
         {
             InitializeComponent();
 
-            ViewModel = new MainWindowViewModel();
+            ViewModel = new MainWindowViewModel(RestartApp);
             // setting window size does not work with xaml binding :(
             Width = ViewModel.InitialWindowWidth;
             Height = ViewModel.InitialWindowHeight;
@@ -98,6 +98,12 @@ namespace TerrLauncherPackCreator.Windows
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
             ViewModel.OnWindowClosed((int) ActualWidth, (int) ActualHeight);
+        }
+
+        private void RestartApp()
+        {
+            new PackStartupWindow().Show();
+            Close();
         }
     }
 }

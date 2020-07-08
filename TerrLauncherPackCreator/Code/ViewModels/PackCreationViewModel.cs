@@ -137,13 +137,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IActionCommand<AuthorItemModel> DeleteAuthorCommand { get; }
 
         // Step 5
+        [CanBeNull]
+        private readonly Action _restartApp;
         public IActionCommand ExportPackCommand { get; }
+        public IActionCommand RestartSequenceCommand { get; }
 
         #endregion
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable AssignNullToNotNullAttribute
-        public PackCreationViewModel() : this(null, null)
+        public PackCreationViewModel() : this(null, null, null)
         // ReSharper restore AssignNullToNotNullAttribute
         {
             if (!DesignerUtils.IsInDesignMode())
@@ -152,11 +155,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public PackCreationViewModel(
             [NotNull] IPackProcessor packProcessor,
-            [NotNull] AuthorsFileProcessor authorsFileProcessor
+            [NotNull] AuthorsFileProcessor authorsFileProcessor,
+            [CanBeNull] Action restartApp
         )
         {
             _packProcessor = packProcessor;
             _authorsFileProcessor = authorsFileProcessor;
+            _restartApp = restartApp;
 
             Guid = Guid.NewGuid();
             Version = 1;
@@ -192,6 +197,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             // Step 5
             ExportPackCommand = new ActionCommand(ExportPackCommand_Execute, ExportPackCommand_CanExecute);
+            RestartSequenceCommand = new ActionCommand(RestartSequenceCommand_Execute, RestartSequenceCommand_CanExecute);
 
             ResetCollections();
 
@@ -481,6 +487,25 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             return !Working;
         }
 
+        private void RestartSequenceCommand_Execute()
+        {
+            var result = MessageBox.Show(
+                StringResources.RestartSequenceConfirmation,
+                StringResources.InformationLower,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+            if (result != MessageBoxResult.Yes)
+                return;
+            
+            _restartApp?.Invoke();
+        }
+        
+        private bool RestartSequenceCommand_CanExecute()
+        {
+            return !Working;
+        }
+
         #endregion
 
         private PackModel GeneratePackModel()
@@ -608,6 +633,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     SaveResourceCommand.RaiseCanExecuteChanged();
                     // Step 5
                     ExportPackCommand.RaiseCanExecuteChanged();
+                    RestartSequenceCommand.RaiseCanExecuteChanged();
                     break;
                 case nameof(RemainedPredefinedTags):
                     AddPredefinedTagCommand.RaiseCanExecuteChanged();

@@ -128,7 +128,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(
+            [CanBeNull] Action restartApp
+        )
         {
             WindowTitle = Assembly.GetEntryAssembly().GetName().Name;
             _currentStep = 1;
@@ -157,7 +159,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             TempDirsProvider.DeleteAll();
             
             AuthorsFileProcessor = new AuthorsFileProcessor();
-            PackCreationViewModel = new PackCreationViewModel(PackProcessor, AuthorsFileProcessor);
+            PackCreationViewModel = new PackCreationViewModel(PackProcessor, AuthorsFileProcessor, restartApp);
 
             StepsPages = new Page[]
             {

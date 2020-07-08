@@ -196,7 +196,7 @@
     <value>Описание (на русском)</value>
   </data>
   <data name="PackExport" xml:space="preserve">
-    <value>СОХРАНИТЬ ГОТОВЫЙ</value>
+    <value>Сохранить готовый</value>
   </data>
   <data name="PackExported" xml:space="preserve">
     <value>Пак "{0}" сохранён. Показать в проводнике?</value>
@@ -356,5 +356,11 @@
   </data>
   <data name="BonusPackHint" xml:space="preserve">
     <value>Бонусный пак</value>
+  </data>
+  <data name="RestartSequence" xml:space="preserve">
+    <value>Снова</value>
+  </data>
+  <data name="RestartSequenceConfirmation" xml:space="preserve">
+    <value>Точно хотите?</value>
   </data>
 </root>

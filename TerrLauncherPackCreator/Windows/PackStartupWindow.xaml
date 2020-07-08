@@ -35,14 +35,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
 
-            <StackPanel.Resources>
-                <Style x:Key="ActionButtonMarginStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
-                    <Setter Property="Margin" Value="3"/>
-                </Style>
-            </StackPanel.Resources>
-
             <Button 
-                Style="{DynamicResource ActionButtonMarginStyle}"
+                Style="{StaticResource ActionButtonMarginStyle}"
                 Content="{x:Static localizations:StringResources.PackCreateNew}"
                 Command="{Binding CreateNewPackCommand}"
                 VerticalAlignment="Top"/>

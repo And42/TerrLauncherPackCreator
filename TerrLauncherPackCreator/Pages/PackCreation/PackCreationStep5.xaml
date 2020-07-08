@@ -11,9 +11,20 @@
       FontSize="17"
 
       d:DataContext="{d:DesignInstance viewModels:PackCreationViewModel, IsDesignTimeCreatable=True}">
-    <StackPanel UseLayoutRounding="True" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button Style="{DynamicResource ActionButtonStyle}"
-                Content="{x:Static localizations:StringResources.PackExport}"
-                Command="{Binding ExportPackCommand}"/>
+    <StackPanel
+        UseLayoutRounding="True"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+
+        <Button
+            Style="{StaticResource ActionButtonMarginStyle}"
+            Content="{x:Static localizations:StringResources.PackExport}"
+            Command="{Binding ExportPackCommand}"/>
+        
+        <Button
+            Style="{StaticResource ActionButtonMarginStyle}"
+            Content="{x:Static localizations:StringResources.RestartSequence}"
+            Command="{Binding RestartSequenceCommand}"/>
+        
     </StackPanel>
 </Page>

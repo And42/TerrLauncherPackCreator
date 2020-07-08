@@ -430,7 +430,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SAVE RESULT.
+        ///   Looks up a localized string similar to Save result.
         /// </summary>
         public static string PackExport {
             get {
@@ -633,6 +633,24 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string ResourcesConverter {
             get {
                 return ResourceManager.GetString("ResourcesConverter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Again.
+        /// </summary>
+        public static string RestartSequence {
+            get {
+                return ResourceManager.GetString("RestartSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string RestartSequenceConfirmation {
+            get {
+                return ResourceManager.GetString("RestartSequenceConfirmation", resourceCulture);
             }
         }
         

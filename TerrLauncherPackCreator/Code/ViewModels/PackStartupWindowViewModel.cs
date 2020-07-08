@@ -1,13 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Threading;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
-using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Utils;

@@ -34,4 +34,8 @@
         <Setter Property="Foreground" Value="#FF0277BD"/>
     </Style>
 
+    <Style x:Key="ActionButtonMarginStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+        <Setter Property="Margin" Value="3"/>
+    </Style>
+    
 </ResourceDictionary>
