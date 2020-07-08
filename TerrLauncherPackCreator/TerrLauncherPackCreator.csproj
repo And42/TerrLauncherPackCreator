@@ -147,6 +147,7 @@
     <Compile Include="Code\Models\ModifiedMapModel.cs" />
     <Compile Include="Code\Models\ModifiedTextureModel.cs" />
     <Compile Include="Code\Models\ModifiedTranslationModel.cs" />
+    <Compile Include="Code\Utils\AppUtils.cs" />
     <Compile Include="Code\Utils\DragDropUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
     <Compile Include="Code\Utils\JsonUtils.cs" />

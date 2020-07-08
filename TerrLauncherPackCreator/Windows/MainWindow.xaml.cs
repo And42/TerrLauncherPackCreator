@@ -20,6 +20,9 @@ namespace TerrLauncherPackCreator.Windows
             InitializeComponent();
 
             ViewModel = new MainWindowViewModel();
+            // setting window size does not work with xaml binding :(
+            Width = ViewModel.InitialWindowWidth;
+            Height = ViewModel.InitialWindowHeight;
 
             InitPagingButtons();
             UpdateStepPage();
@@ -90,6 +93,11 @@ namespace TerrLauncherPackCreator.Windows
                     UpdateStepPage();
                     break;
             }
+        }
+
+        private void MainWindow_OnClosed(object sender, EventArgs e)
+        {
+            ViewModel.OnWindowClosed((int) ActualWidth, (int) ActualHeight);
         }
     }
 }

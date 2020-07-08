@@ -9,16 +9,13 @@
     xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
     xmlns:interfaces="clr-namespace:TerrLauncherPackCreator.Code.Interfaces"
     mc:Ignorable="d"
-    
     Title="{Binding WindowTitle, Mode=OneWay}"
-    
-    Height="750" Width="1100"
-    MinHeight="450" MinWidth="600"
-    
+    MinWidth="600"
+    MinHeight="450"
     WindowStartupLocation="CenterScreen"
     FontSize="14"
-    
-    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}">
+    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}"
+    Closed="MainWindow_OnClosed">
 
     <Grid Margin="5" UseLayoutRounding="True">
         <Grid.RowDefinitions>

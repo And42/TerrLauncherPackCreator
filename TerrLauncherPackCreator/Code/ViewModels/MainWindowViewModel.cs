@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Controls;
+using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
@@ -101,6 +103,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
         private int _currentStep;
 
+        public double InitialWindowWidth { get; }
+        public double InitialWindowHeight { get; }
+
         [NotNull]
         public Page[] StepsPages { get; }
 
@@ -126,7 +131,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public MainWindowViewModel()
         {
             WindowTitle = Assembly.GetEntryAssembly().GetName().Name;
-            CurrentStep = 1;
+            _currentStep = 1;
+            InitialWindowWidth = ValuesProvider.AppSettings.MainWindowWidth;
+            InitialWindowHeight = ValuesProvider.AppSettings.MainWindowHeight;
 
             GoToPreviousStepCommand = new ActionCommand(
                 GoToPreviousStepCommand_Execute, 
@@ -190,6 +197,21 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             CurrentStep++;
         }
 
+        public void OnWindowClosed(int actualWidth, int actualHeight)
+        {
+            var appSettings = ValuesProvider.AppSettings;
+            appSettings.MainWindowWidth = actualWidth;
+            appSettings.MainWindowHeight = actualHeight;
+            try
+            {
+                AppUtils.SaveAppSettings(appSettings);
+            }
+            catch (Exception ex)
+            {
+                MessageBoxUtils.ShowError($"{StringResources.CantSaveAppSettings} {ex.Message}");
+            }
+        }
+        
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)

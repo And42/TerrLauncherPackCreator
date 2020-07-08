@@ -107,7 +107,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             _appSettings.AppLanguage = language;
             try
             {
-                File.WriteAllText(Paths.AppSettingsFile, JsonConvert.SerializeObject(_appSettings));
+                AppUtils.SaveAppSettings(_appSettings);
             }
             catch (Exception ex)
             {
