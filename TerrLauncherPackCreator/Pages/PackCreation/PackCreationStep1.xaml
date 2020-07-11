@@ -177,11 +177,12 @@
             </Popup>
         </Grid>
         
-        <CheckBox
-            Content="{x:Static localizations:StringResources.BonusPackHint}"
-            VerticalContentAlignment="Center"
-            Margin="0 8 0 0"
-            UseLayoutRounding="True"
-            IsChecked="{Binding IsBonusPack}"/>
+        <!-- todo: enable when support is added -->
+        <!-- <CheckBox -->
+        <!--     Content="{x:Static localizations:StringResources.BonusPackHint}" -->
+        <!--     VerticalContentAlignment="Center" -->
+        <!--     Margin="0 8 0 0" -->
+        <!--     UseLayoutRounding="True" -->
+        <!--     IsChecked="{Binding IsBonusPack}"/> -->
     </StackPanel>
 </Page>
