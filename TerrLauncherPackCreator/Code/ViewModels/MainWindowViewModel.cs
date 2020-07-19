@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Controls;
+using CommonLibrary;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
@@ -132,7 +133,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             [CanBeNull] Action restartApp
         )
         {
-            WindowTitle = Assembly.GetEntryAssembly().GetName().Name;
+            // ReSharper disable once UnreachableCode
+            WindowTitle = Assembly.GetEntryAssembly().GetName().Name + (CommonConstants.IsPreview ? " (Preview)" : "");
             _currentStep = 1;
             InitialWindowWidth = ValuesProvider.AppSettings.MainWindowWidth;
             InitialWindowHeight = ValuesProvider.AppSettings.MainWindowHeight;

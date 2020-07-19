@@ -2,7 +2,16 @@
 {
     public static class CommonConstants
     {
-        public const string VersionFileUrl = "https://terrlauncher.ams3.digitaloceanspaces.com/PC_TerrLauncherPackCreator_Version.txt";
-        public const string LatestVersionZipUrl = "https://terrlauncher.ams3.digitaloceanspaces.com/PC_TerrLauncherPackCreator.zip";
+        public const bool IsPreview = false;
+
+        public const string VersionFileUrl = IsPreview
+            // ReSharper disable once UnreachableCode
+            ? "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/prevew_version.txt"
+            : "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/master_version.txt";
+        
+        public const string LatestVersionZipUrl = IsPreview
+            // ReSharper disable once UnreachableCode
+            ? "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/prevew.zip"
+            : "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/master.zip";
     }
 }
