@@ -10,7 +10,7 @@ You need to have .Net Framework v4.6.1+ installed to run the app. You can find t
 
 The installation is pretty straightforward:
 1. You download the archive from the `Releases` page, extract it somewhere and launch the `installer.exe`
-2. The installer will copy all the needed files to `<system drive>:\Users\<current user>\AppData\Roaming\TerrLauncherPackCreator` and create a shortcut in the current folder
+2. The installer will copy all the needed files to `<system drive>:\Users\<current user>\AppData\Roaming\TerrLauncherPackCreator` for `Master` version and to `<system drive>:\Users\<current user>\AppData\Roaming\TerrLauncherPackCreator_preview` for `Preview` version and create a shortcut in the current folder
 3. You can then use the app by either launching it via the shortcut or by launching the `.exe` directly
 
 ## Usage
