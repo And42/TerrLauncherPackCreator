@@ -6,12 +6,12 @@
 
         public const string VersionFileUrl = IsPreview
             // ReSharper disable once UnreachableCode
-            ? "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/prevew_version.txt"
+            ? "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/preview_version.txt"
             : "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/master_version.txt";
         
         public const string LatestVersionZipUrl = IsPreview
             // ReSharper disable once UnreachableCode
-            ? "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/prevew.zip"
+            ? "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/preview.zip"
             : "https://terrlauncher.ams3.cdn.digitaloceanspaces.com/pc_pack_creator/master.zip";
     }
 }
