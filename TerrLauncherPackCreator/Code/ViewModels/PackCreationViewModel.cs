@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -23,7 +23,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        private const int PackStructureVersion = 9;
+        private const int PackStructureVersion = 10;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
