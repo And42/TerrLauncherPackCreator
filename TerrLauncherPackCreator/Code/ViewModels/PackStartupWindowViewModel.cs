@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Threading;
+using System.Windows.Media;
+using CommonLibrary;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using Microsoft.Win32;
@@ -25,6 +27,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public string CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name;
         public bool EnglishLanguageActive => CurrentLanguage == "en-US";
         public bool RussianLanguageActive => CurrentLanguage == "ru-RU";
+        public SolidColorBrush WindowBackground { get; } = new SolidColorBrush(
+            // ReSharper disable once PossibleNullReferenceException
+            // ReSharper disable once UnreachableCode
+            (Color) ColorConverter.ConvertFromString(CommonConstants.IsPreview ? "#fff176" : "#66bb6a")
+        );
         
         [CanBeNull]
         public Action RecreateWindow { get; set; }
