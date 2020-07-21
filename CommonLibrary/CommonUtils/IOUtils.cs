@@ -47,6 +47,16 @@ namespace CommonLibrary.CommonUtils
                 EnsureDirExists(parentDir);
         }
 
+        [NotNull]
+        public static string ChooseLighterFileAndDeleteSecond([NotNull] string first, [NotNull] string second)
+        {
+            if (new FileInfo(first).Length > new FileInfo(second).Length)
+                return second;
+            
+            File.Delete(second);
+            return first;
+        }
+
         private static void TryAction(Action action, int triesCount, int triesSleepMs)
         {
             int currentTry = 1;
