@@ -19,7 +19,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 {
     public class PackProcessor : IPackProcessor
     {
-        private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
+        private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif", ".webp"};
         private const int PackProcessingTries = 20;
         private const int PackProcessingSleepMs = 500;
 
@@ -144,6 +144,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
             string packIconGif = Path.Combine(targetFolderPath, "Icon.gif");
             string packIconPng = Path.Combine(targetFolderPath, "Icon.png");
+            string packIconWebP = Path.Combine(targetFolderPath, "Icon.webp");
             string packPreviewsFolder = Path.Combine(targetFolderPath, "Previews");
             string packAuthorsFolder = Path.Combine(targetFolderPath, "Authors");
             string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
@@ -155,10 +156,18 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 packIconFile = packIconGif;
             else if (File.Exists(packIconPng))
                 packIconFile = packIconPng;
+            else if (File.Exists(packIconWebP))
+                packIconFile = ImageUtils.ConvertWebPToTempPngFile(packIconWebP);
 
             string[] previewsPaths = 
                 Directory.Exists(packPreviewsFolder)
-                    ? Directory.EnumerateFiles(packPreviewsFolder).Where(it => PreviewExtensions.Contains(Path.GetExtension(it))).ToArray()
+                    ? Directory.EnumerateFiles(packPreviewsFolder)
+                        .Where(it => PreviewExtensions.Contains(Path.GetExtension(it)))
+                        .Select(it => Path.GetExtension(it) == ".webp"
+                            ? ImageUtils.ConvertWebPToTempPngFile(it)
+                            : it
+                        )
+                        .ToArray()
                     : new string[0];
 
             string[] modifiedFileExts = PackUtils.PacksInfo.Select(it => it.convertedFilesExt).ToArray();
@@ -237,14 +246,41 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 zip.AddEntry("Settings.json", JsonUtils.Serialize(packSettingsJson), Encoding.UTF8);
 
                 if (!string.IsNullOrEmpty(packModel.IconFilePath))
-                    zip.AddFile(packModel.IconFilePath).FileName = $"Icon{Path.GetExtension(packModel.IconFilePath)}";
+                {
+                    string targetPath = Path.GetExtension(packModel.IconFilePath) == ".gif"
+                        ? packModel.IconFilePath
+                        : IOUtils.ChooseLighterFileAndDeleteSecond(
+                            packModel.IconFilePath,
+                            ImageUtils.ConvertImageToTempWebPFile(packModel.IconFilePath, lossless: true)
+                        );
+                    zip.AddFile(targetPath).FileName = $"Icon{Path.GetExtension(targetPath)}";
+                }
 
                 if (authorsMappings.Any())
                 {
                     zip.AddEntry("Authors/.nomedia", new byte[0]);
                     foreach (var (sourceFile, targetFile, _) in authorsMappings)
                         if (sourceFile != null)
-                            zip.AddEntry($"Authors/{targetFile}", sourceFile.Bytes);
+                        {
+                            if (sourceFile.Type == ImageInfo.ImageType.Gif)
+                            {
+                                zip.AddEntry($"Authors/{targetFile}", sourceFile.Bytes);
+                            }
+                            else
+                            {
+                                string webPImage = ImageUtils.ConvertImageToTempWebPFile(sourceFile.Bytes, lossless: true);
+                                if (new FileInfo(webPImage).Length < sourceFile.Bytes.Length)
+                                {
+                                    string compressedFileName = $"Authors/{Path.ChangeExtension(targetFile, ".webp")}";
+                                    zip.AddFile(webPImage).FileName = compressedFileName;
+                                }
+                                else
+                                {
+                                    File.Delete(webPImage);
+                                    zip.AddEntry($"Authors/{targetFile}", sourceFile.Bytes);
+                                }
+                            }
+                        }
                 }
 
                 if (packModel.PreviewsPaths.Any())
@@ -252,8 +288,23 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     zip.AddEntry("Previews/.nomedia", new byte[0]);
                     int previewIndex = 1;
                     foreach (string previewPath in packModel.PreviewsPaths)
-                        zip.AddFile(previewPath).FileName =
-                            $"Previews/{previewIndex++}{Path.GetExtension(previewPath)}";
+                    {
+                        string targetPath;
+                        if (Path.GetExtension(previewPath) == ".gif")
+                        {
+                            targetPath = previewPath;
+                        }
+                        else
+                        {
+                            targetPath = IOUtils.ChooseLighterFileAndDeleteSecond(
+                                previewPath,
+                                ImageUtils.ConvertImageToTempWebPFile(previewPath, lossless: false)
+                            );
+                        }
+
+                        zip.AddFile(targetPath).FileName =
+                            $"Previews/{previewIndex++}{Path.GetExtension(targetPath)}";
+                    }
                 }
 
                 int fileIndex = 1;
@@ -345,6 +396,10 @@ namespace TerrLauncherPackCreator.Code.Implementations
                                     break;
                                 case ".gif":
                                     iconType = ImageInfo.ImageType.Gif;
+                                    break;
+                                case ".webp":
+                                    iconType = ImageInfo.ImageType.Png;
+                                    authorIcon = ImageUtils.ConvertWebPToTempPngFile(authorIcon);
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException(nameof(authorIcon), authorIcon, @"Unknown extension");
