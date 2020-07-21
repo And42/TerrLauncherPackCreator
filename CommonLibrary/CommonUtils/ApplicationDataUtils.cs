@@ -25,12 +25,12 @@ namespace CommonLibrary.CommonUtils
         }
 
         [NotNull]
-        public static string GenerateNonExistentFilePath()
+        public static string GenerateNonExistentFilePath([CanBeNull] string extension = null)
         {
             string filePath;
             do
             {
-                filePath = Path.Combine(PathToSessionTempFolder, Guid.NewGuid().ToString());
+                filePath = Path.Combine(PathToSessionTempFolder, $"{Guid.NewGuid().ToString()}{extension}");
             } while (File.Exists(filePath));
 
             return filePath;
