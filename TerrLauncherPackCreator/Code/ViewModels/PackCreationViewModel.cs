@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -242,11 +242,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 return;
             }
 
-            CrashUtils.HandleException(item.error);
-
             MessageBoxUtils.ShowError(
                 string.Format(StringResources.SavingPackFailed, item.pack.Title, item.error.Message)
             );
+            
+            CrashUtils.HandleException(item.error);
         }
 
         public void InitFromPackModel(PackModel packModel)
