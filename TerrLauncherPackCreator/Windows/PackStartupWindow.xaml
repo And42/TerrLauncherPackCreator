@@ -7,6 +7,7 @@
         xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         mc:Ignorable="d"
         Height="350" Width="500"
+        Background="{Binding WindowBackground}"
         
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
