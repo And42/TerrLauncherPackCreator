@@ -163,10 +163,6 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 Directory.Exists(packPreviewsFolder)
                     ? Directory.EnumerateFiles(packPreviewsFolder)
                         .Where(it => PreviewExtensions.Contains(Path.GetExtension(it)))
-                        .Select(it => Path.GetExtension(it) == ".webp"
-                            ? ImageUtils.ConvertWebPToTempPngFile(it)
-                            : it
-                        )
                         .ToArray()
                     : new string[0];
 
@@ -290,8 +286,10 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     foreach (string previewPath in packModel.PreviewsPaths)
                     {
                         string targetPath;
-                        if (Path.GetExtension(previewPath) == ".gif")
+                        string previewExtension = Path.GetExtension(previewPath);
+                        if (previewExtension == ".gif" || previewExtension == ".webp")
                         {
+                            // animated .webp is not supported and we do not want compress .webp once again
                             targetPath = previewPath;
                         }
                         else
