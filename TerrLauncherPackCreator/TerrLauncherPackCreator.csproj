@@ -140,6 +140,7 @@
     <Compile Include="Code\Json\MapFileInfo.cs" />
     <Compile Include="Code\Json\TextureFileInfo.cs" />
     <Compile Include="Code\Json\TranslationFileInfo.cs" />
+    <Compile Include="Code\MarkupExtensions\BooleanExtension.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedCharacterModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
