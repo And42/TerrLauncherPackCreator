@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows;
 using MVVM_Tools.Code.Classes;
-using TerrLauncherPackCreator.Code.Json;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {

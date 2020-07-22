@@ -9,6 +9,7 @@
     xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
     xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
     xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+    xmlns:mex="clr-namespace:TerrLauncherPackCreator.Code.MarkupExtensions"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
     FontSize="14"
@@ -64,23 +65,142 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image
-                            gif:AnimationBehavior.SourceUri="{Binding ImageUri}"
-                            ToolTip="{Binding FilePath}"
-                            RenderOptions.BitmapScalingMode="NearestNeighbor"
-                            MaxWidth="600"
-                            MaxHeight="600"/>
+                        <Grid>
+                            <Grid.Resources>
+                                <Style x:Key="CropInputStyle" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                                    <Setter Property="MinWidth" Value="60"/>
+                                    <Setter Property="Margin" Value="5"/>
+                                    <Setter
+                                        Property="Visibility"
+                                        Value="{
+                                            Binding IsCroppingEnabled,
+                                            Converter={StaticResource VisibleIfEqualToParameterConverter},
+                                            ConverterParameter={mex:Boolean True}
+                                        }"/>
+                                </Style>
+                            </Grid.Resources>
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBox
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Text="{
+                                    Binding CropTopPixels,
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    ValidatesOnExceptions=True
+                                }"
+                                Style="{StaticResource CropInputStyle}"/>
+                            
+                            <TextBox
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Text="{
+                                    Binding CropLeftPixels,
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    ValidatesOnExceptions=True
+                                }"
+                                Style="{StaticResource CropInputStyle}"/>
+                            
+                            <Grid
+                                Row="1"
+                                Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                                <Grid.Resources>
+                                    <Style x:Key="BorderFillStyle" TargetType="Rectangle">
+                                        <Setter Property="Fill" Value="#AA000000"/>
+                                    </Style>
+                                </Grid.Resources>
+
+                                <Image
+                                    gif:AnimationBehavior.SourceUri="{Binding ImageUri}"
+                                    ToolTip="{Binding FilePath}"
+                                    RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                    MaxWidth="600"
+                                    MaxHeight="600"
+                                    SizeChanged="PreviewImage_SizeChanged"/>
+
+                                <Rectangle
+                                    HorizontalAlignment="Left"
+                                    Width="{Binding CropLeftDp}"
+                                    Style="{StaticResource BorderFillStyle}"/>
+                                
+                                <Rectangle
+                                    VerticalAlignment="Top"
+                                    Height="{Binding CropTopDp}"
+                                    Style="{StaticResource BorderFillStyle}"/>
+                                
+                                <Rectangle
+                                    HorizontalAlignment="Right"
+                                    Width="{Binding CropRightDp}"
+                                    Style="{StaticResource BorderFillStyle}"/>
+                                
+                                <Rectangle
+                                    VerticalAlignment="Bottom"
+                                    Height="{Binding CropBottomDp}"
+                                    Style="{StaticResource BorderFillStyle}"/>
+                            </Grid>
+                            
+                            <TextBox
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                Text="{
+                                    Binding CropRightPixels,
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    ValidatesOnExceptions=True
+                                }"
+                                Style="{StaticResource CropInputStyle}"/>
+                            
+                            <TextBox
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Text="{
+                                    Binding CropBottomPixels,
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    ValidatesOnExceptions=True
+                                }"
+                                Style="{StaticResource CropInputStyle}"/>
+                        </Grid>
+                        
+                        <ToggleButton
+                            Grid.Column="1"
+                            Content="{x:Static localizations:StringResources.CropImage}"
+                            CommandParameter="{Binding}"
+                            VerticalAlignment="Center"
+                            MinHeight="100"
+                            MinWidth="100"
+                            IsChecked="{Binding IsCroppingEnabled}"
+                            IsEnabled="{Binding IsCroppingAvailable, Mode=OneWay}"/>
 
                         <Button
-                            Grid.Column="1"
+                            Grid.Column="2"
                             Content="{x:Static localizations:StringResources.DeletePreviewCaption}"
                             Command="{
                                 Binding DataContext.DeletePreviewItemCommand,
                                 RelativeSource={RelativeSource FindAncestor, AncestorType=Page}
                             }"
-                            CommandParameter="{Binding}"/>
+                            CommandParameter="{Binding}"
+                            VerticalAlignment="Center"
+                            MinHeight="100"
+                            MinWidth="100"/>
                     </Grid>
                 </DataTemplate>
 

@@ -363,4 +363,7 @@
   <data name="RestartSequenceConfirmation" xml:space="preserve">
     <value>Are you sure?</value>
   </data>
+  <data name="CropImage" xml:space="preserve">
+    <value>Crop</value>
+  </data>
 </root>

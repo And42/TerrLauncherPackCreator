@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation
@@ -47,6 +48,16 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
 
             if (files != null)
                 ViewModel.DropPreviewsCommand.Execute(files);
+        }
+
+        private void PreviewImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var model = ((FrameworkElement) sender).DataContext as PreviewItemModel;
+            if (model == null)
+                return;
+
+            model.ImageWidthDp = e.NewSize.Width;
+            model.ImageHeightDp = e.NewSize.Height;
         }
     }
 }

@@ -4,9 +4,12 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using Microsoft.Win32;
@@ -512,7 +515,34 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         {
             return new PackModel(
                 authors: Authors.Select(author => (author.Name, author.Color, author.Link, author.Image)).ToArray(),
-                previewsPaths: Previews.Where(it => !it.IsDragDropTarget).Select(it => it.FilePath).ToArray(),
+                previewsPaths: Previews.Where(it => !it.IsDragDropTarget)
+                    .Select(it =>
+                    {
+                        if (string.IsNullOrEmpty(it.FilePath))
+                            throw new ArgumentException();
+                        if (!it.IsCroppingAvailable || !it.IsCroppingEnabled)
+                            return it.FilePath;
+
+                        Bitmap cropped;
+                        using (var bmp = new Bitmap(it.FilePath))
+                        {
+                            var crop = new Int32Rect(
+                                it.CropLeftPixels,
+                                it.CropTopPixels,
+                                bmp.Width - it.CropLeftPixels - it.CropRightPixels,
+                                bmp.Height - it.CropTopPixels - it.CropBottomPixels
+                            );
+                            cropped = new CroppedBitmap(bmp.ToBitmapSource(), crop).ToBitmap();
+                        }
+
+                        using (cropped)
+                        {
+                            string tempFile = ApplicationDataUtils.GenerateNonExistentFilePath(extension: ".png");
+                            cropped.Save(tempFile, ImageFormat.Png);
+                            return tempFile;
+                        }
+                    })
+                    .ToArray(),
                 modifiedFiles: ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
