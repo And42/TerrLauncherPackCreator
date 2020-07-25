@@ -30,7 +30,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public SolidColorBrush WindowBackground { get; } = new SolidColorBrush(
             // ReSharper disable once PossibleNullReferenceException
             // ReSharper disable once UnreachableCode
-            (Color) ColorConverter.ConvertFromString(CommonConstants.IsPreview ? "#fff176" : "#66bb6a")
+            (Color) ColorConverter.ConvertFromString(CommonConstants.IsPreview ? "#ef5350" : "#66bb6a")
         );
         
         [CanBeNull]
