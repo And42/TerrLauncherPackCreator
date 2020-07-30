@@ -2,7 +2,7 @@
 {
     public static class CommonConstants
     {
-        public const bool IsPreview = true;
+        public const bool IsPreview = false;
 
         public const string VersionFileUrl = IsPreview
             // ReSharper disable once UnreachableCode
