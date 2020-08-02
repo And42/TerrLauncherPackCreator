@@ -775,7 +775,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     var model = new ModifiedFontModel(filePath, false);
                     if (fileInfo != null)
                     {
-                        var info = (TextureFileInfo) fileInfo;
+                        var info = (FontFileInfo) fileInfo;
                         model.Prefix = null;
                         model.Name = info.EntryName;
                     }
