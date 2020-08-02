@@ -314,6 +314,61 @@
                     </Grid>
                 </DataTemplate>
                 
+                <DataTemplate x:Key="ModifiedFontTemplate" DataType="{x:Type models:ModifiedFontModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Margin="8"
+                            Width="50"
+                            Height="50"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                            Source="{Binding FilePath, Converter={StaticResource InMemoryImageSourceConverter}}"/>
+                        
+                        <ComboBox
+                            Grid.Column="1"
+                            Margin="8 0 0 0"
+                            ItemsSource="{Binding CommonPrefixes}"
+                            Text="{Binding Prefix}"
+                            Width="200"
+                            IsEditable="True"
+                            Padding="8 4"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+    
+                        <TextBox
+                            Grid.Column="2"
+                            Margin="8 0 0 0"
+                            Text="{Binding Name}"
+                            VerticalAlignment="Center"
+                            Padding="8 4"/>
+                        
+                        <Button
+                            Grid.Column="3"
+                            Style="{StaticResource DeleteItemButton}"
+                            Margin="8 3 0 3" />
+
+                        <Button
+                            Grid.Column="4"
+                            Content="{x:Static localizations:StringResources.SaveResource}"
+                            Command="{
+                                Binding DataContext.SaveResourceCommand,
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Page}
+                            }"
+                            CommandParameter="{Binding}"
+                            Margin="8 3 0 3"
+                            Padding="7 3"
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+                
                 <DataTemplate x:Key="ModifiedMapTemplate" DataType="{x:Type models:ModifiedMapModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>

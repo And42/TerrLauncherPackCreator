@@ -136,6 +136,7 @@
     <Compile Include="Code\Json\AppSettingsJson.cs" />
     <Compile Include="Code\Json\AuthorsJson.cs" />
     <Compile Include="Code\Json\CharacterFileInfo.cs" />
+    <Compile Include="Code\Json\FontFileInfo.cs" />
     <Compile Include="Code\Json\GuiFileInfo.cs" />
     <Compile Include="Code\Json\MapFileInfo.cs" />
     <Compile Include="Code\Json\TextureFileInfo.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Code\Models\AuthorItemModel.cs" />
     <Compile Include="Code\Models\ModifiedCharacterModel.cs" />
     <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
+    <Compile Include="Code\Models\ModifiedFontModel.cs" />
     <Compile Include="Code\Models\ModifiedGuiModel.cs" />
     <Compile Include="Code\Models\ModifiedMapModel.cs" />
     <Compile Include="Code\Models\ModifiedTextureModel.cs" />
