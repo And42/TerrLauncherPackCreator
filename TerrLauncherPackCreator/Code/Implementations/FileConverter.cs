@@ -41,7 +41,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 throw new FileNotFoundException("File not found", targetFile);
 
             {
-                const int fileTypesHandled = 5;
+                const int fileTypesHandled = 6;
                 const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
                               1 / (PackUtils.TotalFileTypes / fileTypesHandled);
             }
@@ -58,12 +58,13 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     FileType.Character => JsonConvert.DeserializeObject<CharacterFileInfo>(configText),
                     FileType.Gui => JsonConvert.DeserializeObject<GuiFileInfo>(configText),
                     FileType.Translation => JsonConvert.DeserializeObject<TranslationFileInfo>(configText),
+                    FileType.Font => JsonConvert.DeserializeObject<FontFileInfo>(configText),
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
 
             {
-                const int fileTypesHandled = 5;
+                const int fileTypesHandled = 6;
                 const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
                               1 / (PackUtils.TotalFileTypes / fileTypesHandled);
             }
@@ -77,6 +78,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 case FileType.Character:
                 case FileType.Gui:
                 case FileType.Translation:
+                case FileType.Font:
                     string uniqueFile = ApplicationDataUtils.GenerateNonExistentFilePath();
                     IOUtils.EnsureParentDirExists(uniqueFile);
                     File.Copy(targetFile, uniqueFile, overwrite: false);
