@@ -772,6 +772,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extra.
+        /// </summary>
+        public static string TextureTypeExtra {
+            get {
+                return ResourceManager.GetString("TextureTypeExtra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string TextureTypeGeneral {

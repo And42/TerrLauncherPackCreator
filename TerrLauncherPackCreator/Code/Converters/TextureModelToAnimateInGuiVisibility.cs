@@ -9,6 +9,9 @@ namespace TerrLauncherPackCreator.Code.Converters
 {
     public class TextureModelToAnimateInGuiVisibility : IMultiValueConverter
     {
+        private static readonly object VisibleObject = Visibility.Visible;
+        private static readonly object CollapsedObject = Visibility.Collapsed;
+        
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             Debug.Assert(targetType == typeof(Visibility));
@@ -17,8 +20,8 @@ namespace TerrLauncherPackCreator.Code.Converters
             TextureFileInfo.TextureType currentTextureType = (TextureFileInfo.TextureType) values[1];
 
             return animated && currentTextureType == TextureFileInfo.TextureType.Item
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+                ? VisibleObject
+                : CollapsedObject;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

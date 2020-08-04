@@ -297,6 +297,9 @@
   <data name="TextureTypeBuff" xml:space="preserve">
     <value>Buff</value>
   </data>
+  <data name="TextureTypeExtra" xml:space="preserve">
+    <value>Extra</value>
+  </data>
   <data name="ElementIdHint" xml:space="preserve">
     <value>Element id:</value>
   </data>
