@@ -19,23 +19,26 @@ namespace TerrLauncherPackCreator.Code.Converters
                 TextureFileInfo.TextureType.Item => StringResources.TextureTypeItem,
                 TextureFileInfo.TextureType.Npc => StringResources.TextureTypeNpc,
                 TextureFileInfo.TextureType.Buff => StringResources.TextureTypeBuff,
+                TextureFileInfo.TextureType.Extra => StringResources.TextureTypeExtra,
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
             };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is string casted))
+            if (!(value is string cast))
                 return null;
             
-            if (casted == StringResources.TextureTypeGeneral)
+            if (cast == StringResources.TextureTypeGeneral)
                 return TextureFileInfo.TextureType.General;
-            if (casted == StringResources.TextureTypeItem)
+            if (cast == StringResources.TextureTypeItem)
                 return TextureFileInfo.TextureType.Item;
-            if (casted == StringResources.TextureTypeNpc)
+            if (cast == StringResources.TextureTypeNpc)
                 return TextureFileInfo.TextureType.Npc;
-            if (casted == StringResources.TextureTypeBuff)
+            if (cast == StringResources.TextureTypeBuff)
                 return TextureFileInfo.TextureType.Buff;
+            if (cast == StringResources.TextureTypeExtra)
+                return TextureFileInfo.TextureType.Extra;
             return null;
         }
     }
