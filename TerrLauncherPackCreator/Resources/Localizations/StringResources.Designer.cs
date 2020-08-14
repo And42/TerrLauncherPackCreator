@@ -97,6 +97,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply original size.
+        /// </summary>
+        public static string ApplyOriginalSize {
+            get {
+                return ResourceManager.GetString("ApplyOriginalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color:.
         /// </summary>
         public static string AuthorColor {

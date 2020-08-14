@@ -37,5 +37,8 @@ namespace TerrLauncherPackCreator.Code.Json
 
         [JsonProperty("milliseconds_per_frame")]
         public int MillisecondsPerFrame { get; set; } = 100;
+
+        [JsonProperty("apply_original_size")]
+        public bool ApplyOriginalSize { get; set; } = true;
     }
 }

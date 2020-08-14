@@ -26,7 +26,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        private const int PackStructureVersion = 13;
+        private const int PackStructureVersion = 14;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
@@ -588,7 +588,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     ElementId = textureModel.ElementId,
                                     MillisecondsPerFrame = textureModel.MillisecondsPerFrame,
                                     NumberOfVerticalFrames = textureModel.NumberOfVerticalFrames,
-                                    NumberOfHorizontalFrames = textureModel.NumberOfHorizontalFrames
+                                    NumberOfHorizontalFrames = textureModel.NumberOfHorizontalFrames,
+                                    ApplyOriginalSize = textureModel.ApplyOriginalSize
                                 };
                                 break;
                             case FileType.Map:
@@ -733,6 +734,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         model.NumberOfVerticalFrames = info.NumberOfVerticalFrames;
                         model.NumberOfHorizontalFrames = info.NumberOfHorizontalFrames;
                         model.MillisecondsPerFrame = info.MillisecondsPerFrame;
+                        model.ApplyOriginalSize = info.ApplyOriginalSize;
                     }
 
                     return model;
