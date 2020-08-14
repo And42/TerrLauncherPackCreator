@@ -369,4 +369,7 @@
   <data name="CropImage" xml:space="preserve">
     <value>Обрезать</value>
   </data>
+  <data name="ApplyOriginalSize" xml:space="preserve">
+    <value>Применить исходные размеры</value>
+  </data>
 </root>

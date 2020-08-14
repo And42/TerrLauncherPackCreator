@@ -9,6 +9,7 @@
     xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
     xmlns:json="clr-namespace:TerrLauncherPackCreator.Code.Json"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:me="clr-namespace:TerrLauncherPackCreator.Code.MarkupExtensions"
     mc:Ignorable="d" 
 
     d:DesignHeight="450" d:DesignWidth="800"
@@ -59,6 +60,7 @@
                     <Setter Property="Padding" Value="8 4"/>
                 </Style>
                 <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="UseLayoutRounding" Value="True"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>
@@ -107,24 +109,42 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <DockPanel
+                        <Grid
                             Grid.Column="2"
-                            LastChildFill="True"
                             Visibility="{
                                 Binding CurrentTextureType,
                                 Converter={StaticResource VisibleIfEqualToParameterConverter},
                                 ConverterParameter={x:Static json:TextureFileInfo+TextureType.General}
                             }">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
                             
                             <ComboBox
-                                Margin="8 0 0 0" ItemsSource="{Binding CommonPrefixes}"
-                                Text="{Binding Prefix}" Width="200" IsEditable="True" Padding="8 4"
-                                VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                Margin="8 0 0 0"
+                                ItemsSource="{Binding CommonPrefixes}"
+                                Text="{Binding Prefix}"
+                                Width="200"
+                                IsEditable="True"
+                                Padding="8 4"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"/>
                             <TextBox
-                                DockPanel.Dock="Right" Margin="8 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"
+                                Grid.Column="1"
+                                Margin="8 0 0 0"
+                                Text="{Binding Name}"
+                                VerticalAlignment="Center"
                                 Padding="8 4"/>
+                            <CheckBox
+                                Grid.Column="2"
+                                Margin="8 0 0 0"
+                                Content="{x:Static localizations:StringResources.ApplyOriginalSize}"
+                                IsChecked="{Binding ApplyOriginalSize}"/>
                             
-                        </DockPanel>
+                        </Grid>
                         
                         <Grid
                             Grid.Column="2"
@@ -200,6 +220,17 @@
                                     </MultiBinding>
                                 </xctk:IntegerUpDown.Visibility>
                             </xctk:IntegerUpDown>
+
+                            <CheckBox
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Content="{x:Static localizations:StringResources.ApplyOriginalSize}"
+                                IsChecked="{Binding ApplyOriginalSize}"
+                                Visibility="{
+                                    Binding Animated,
+                                    Converter={StaticResource VisibleIfEqualToParameterConverter},
+                                    ConverterParameter={me:Boolean False}
+                                }"/>
 
                             <TextBlock
                                 Grid.Row="0"
