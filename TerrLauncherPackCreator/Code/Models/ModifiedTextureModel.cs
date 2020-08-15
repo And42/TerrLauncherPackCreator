@@ -94,7 +94,7 @@ namespace TerrLauncherPackCreator.Code.Models
             _millisecondsPerFrame = 100;
             _numberOfHorizontalFrames = 1;
             _numberOfVerticalFrames = 1;
-            _applyOriginalSize = false;
+            _applyOriginalSize = true;
             CommonPrefixes = new ObservableCollection<string>
             {
                 "",
