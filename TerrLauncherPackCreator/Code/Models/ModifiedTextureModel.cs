@@ -2,18 +2,18 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using JetBrains.Annotations;
-using TerrLauncherPackCreator.Code.Json;
+using TextureType = TerrLauncherPackCreator.Code.Json.TextureFileInfo.TextureType;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
     public class ModifiedTextureModel : ModifiedFileModel
     {
-        public TextureFileInfo.TextureType CurrentTextureType
+        public TextureType CurrentTextureType
         {
             get => _currentTextureType;
             set => SetProperty(ref _currentTextureType, value);
         }
-        private TextureFileInfo.TextureType _currentTextureType;
+        private TextureType _currentTextureType;
         
         [CanBeNull]
         public string Prefix
@@ -84,12 +84,12 @@ namespace TerrLauncherPackCreator.Code.Models
         public ObservableCollection<string> CommonPrefixes { get; }
 
         [NotNull]
-        public IReadOnlyList<TextureFileInfo.TextureType> TextureTypes { get; }
+        public IReadOnlyList<TextureType> TextureTypes { get; }
         
         public ModifiedTextureModel([NotNull] string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
         {
             _name = Path.GetFileNameWithoutExtension(filePath);
-            _currentTextureType = TextureFileInfo.TextureType.General;
+            _currentTextureType = TextureType.General;
             _animateInGui = true;
             _millisecondsPerFrame = 100;
             _numberOfHorizontalFrames = 1;
@@ -102,11 +102,11 @@ namespace TerrLauncherPackCreator.Code.Models
             };
             TextureTypes = new[]
             {
-                TextureFileInfo.TextureType.General,
-                TextureFileInfo.TextureType.Item,
-                TextureFileInfo.TextureType.Npc,
-                TextureFileInfo.TextureType.Buff,
-                TextureFileInfo.TextureType.Extra
+                TextureType.General,
+                TextureType.Item,
+                TextureType.Npc,
+                TextureType.Buff,
+                TextureType.Extra
             };
             _prefix = CommonPrefixes[1];
         }

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using TerrLauncherPackCreator.Code.Json;
+using TextureType = TerrLauncherPackCreator.Code.Json.TextureFileInfo.TextureType;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {
@@ -17,11 +17,9 @@ namespace TerrLauncherPackCreator.Code.Converters
             Debug.Assert(targetType == typeof(Visibility));
 
             bool animated = (bool) values[0];
-            TextureFileInfo.TextureType currentTextureType = (TextureFileInfo.TextureType) values[1];
+            TextureType currentTextureType = (TextureType) values[1];
 
-            return animated && currentTextureType == TextureFileInfo.TextureType.Item
-                ? VisibleObject
-                : CollapsedObject;
+            return animated && currentTextureType == TextureType.Item ? VisibleObject : CollapsedObject;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
