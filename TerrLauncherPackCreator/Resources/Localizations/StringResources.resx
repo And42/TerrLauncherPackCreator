@@ -288,17 +288,20 @@
   <data name="TextureTypeGeneral" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="TextureTypeItemDeprecated" xml:space="preserve">
+    <value>Item (old)</value>
+  </data>
+  <data name="TextureTypeNpcDeprecated" xml:space="preserve">
+    <value>Npc (old)</value>
+  </data>
+  <data name="TextureTypeBuffDeprecated" xml:space="preserve">
+    <value>Buff (old)</value>
+  </data>
+  <data name="TextureTypeExtraDeprecated" xml:space="preserve">
+    <value>Extra (old)</value>
+  </data>
   <data name="TextureTypeItem" xml:space="preserve">
     <value>Item</value>
-  </data>
-  <data name="TextureTypeNpc" xml:space="preserve">
-    <value>Npc</value>
-  </data>
-  <data name="TextureTypeBuff" xml:space="preserve">
-    <value>Buff</value>
-  </data>
-  <data name="TextureTypeExtra" xml:space="preserve">
-    <value>Extra</value>
   </data>
   <data name="ElementIdHint" xml:space="preserve">
     <value>Element id:</value>

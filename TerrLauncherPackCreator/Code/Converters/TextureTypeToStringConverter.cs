@@ -16,10 +16,11 @@ namespace TerrLauncherPackCreator.Code.Converters
             return casted switch
             {
                 TextureType.General => StringResources.TextureTypeGeneral,
+                TextureType.ItemDeprecated => StringResources.TextureTypeItemDeprecated,
+                TextureType.NpcDeprecated => StringResources.TextureTypeNpcDeprecated,
+                TextureType.BuffDeprecated => StringResources.TextureTypeBuffDeprecated,
+                TextureType.ExtraDeprecated => StringResources.TextureTypeExtraDeprecated,
                 TextureType.Item => StringResources.TextureTypeItem,
-                TextureType.Npc => StringResources.TextureTypeNpc,
-                TextureType.Buff => StringResources.TextureTypeBuff,
-                TextureType.Extra => StringResources.TextureTypeExtra,
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
             };
         }
@@ -31,14 +32,16 @@ namespace TerrLauncherPackCreator.Code.Converters
             
             if (cast == StringResources.TextureTypeGeneral)
                 return TextureType.General;
+            if (cast == StringResources.TextureTypeItemDeprecated)
+                return TextureType.ItemDeprecated;
+            if (cast == StringResources.TextureTypeNpcDeprecated)
+                return TextureType.NpcDeprecated;
+            if (cast == StringResources.TextureTypeBuffDeprecated)
+                return TextureType.BuffDeprecated;
+            if (cast == StringResources.TextureTypeExtraDeprecated)
+                return TextureType.ExtraDeprecated;
             if (cast == StringResources.TextureTypeItem)
                 return TextureType.Item;
-            if (cast == StringResources.TextureTypeNpc)
-                return TextureType.Npc;
-            if (cast == StringResources.TextureTypeBuff)
-                return TextureType.Buff;
-            if (cast == StringResources.TextureTypeExtra)
-                return TextureType.Extra;
             return null;
         }
     }

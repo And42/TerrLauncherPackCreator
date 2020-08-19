@@ -98,15 +98,20 @@ namespace TerrLauncherPackCreator.Code.Models
             CommonPrefixes = new ObservableCollection<string>
             {
                 "",
-                "Content/Images"
+                "Content/Images",
+                "Content/Images/Item_",
+                "Content/Images/NPC_",
+                "Content/Images/Buff_",
+                "Content/Images/Extra_",
             };
             TextureTypes = new[]
             {
                 TextureType.General,
                 TextureType.Item,
-                TextureType.Npc,
-                TextureType.Buff,
-                TextureType.Extra
+                TextureType.ItemDeprecated,
+                TextureType.NpcDeprecated,
+                TextureType.BuffDeprecated,
+                TextureType.ExtraDeprecated
             };
             _prefix = CommonPrefixes[1];
         }

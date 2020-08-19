@@ -187,7 +187,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
                 string fileExt = Path.GetExtension(modifiedFile);
                 FileType fileType = PackUtils.PacksInfo.First(it => it.convertedFilesExt == fileExt).fileType;
-                var (sourceFile, fileInfo) = await _fileConverter.ConvertToSource(fileType, modifiedFile, configFile);
+                var (sourceFile, fileInfo) = await _fileConverter.ConvertToSource(
+                    packStructureVersion: packSettings.PackStructureVersion,
+                    fileType: fileType,
+                    targetFile: modifiedFile,
+                    configFile: configFile
+                );
                 modifiedFiles.Add(new PackModel.ModifiedFileInfo(
                     config: fileInfo,
                     filePath: sourceFile,

@@ -115,9 +115,9 @@
     <Compile Include="Code\Converters\PathToFileNameConverter.cs" />
     <Compile Include="Code\Converters\PredefinedTagToStringConverter.cs" />
     <Compile Include="Code\Converters\TextureModelToAnimateInGuiVisibility.cs" />
-    <Compile Include="Code\Converters\TextureModelToFrameTimeVisibility.cs" />
     <Compile Include="Code\Converters\TextureModelToHorizontalFramesVisibility.cs" />
     <Compile Include="Code\Converters\TextureModelToVerticalFramesVisibility.cs" />
+    <Compile Include="Code\Converters\TextureModeToEditingPanelEnabledConverter.cs" />
     <Compile Include="Code\Converters\TextureTypeToStringConverter.cs" />
     <Compile Include="Code\Converters\TranslationShortToLongConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfEqualToParameterConverter.cs" />
