@@ -26,7 +26,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        private const int PackStructureVersion = 14;
+        public const int LatestPackStructureVersion = 15;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
@@ -648,7 +648,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         return info;
                     })
                     .ToArray(),
-                packStructureVersion: PackStructureVersion,
+                packStructureVersion: LatestPackStructureVersion,
                 iconFilePath: IconFilePath,
                 title: Title,
                 descriptionRussian: DescriptionRussian,

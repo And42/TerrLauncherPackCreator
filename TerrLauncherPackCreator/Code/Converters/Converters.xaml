@@ -15,11 +15,11 @@
     <local:VisibleIfEqualToParameterConverter x:Key="VisibleIfEqualToParameterConverter"/>
     <local:CollapsedIfEqualToParameterConverter x:Key="CollapsedIfEqualToParameterConverter"/>
     <local:TextureTypeToStringConverter x:Key="TextureTypeToStringConverter"/>
-    <local:TextureModelToFrameTimeVisibility x:Key="TextureModelToFrameTimeVisibility"/>
     <local:TextureModelToVerticalFramesVisibility x:Key="TextureModelToVerticalFramesVisibility"/>
     <local:TextureModelToHorizontalFramesVisibility x:Key="TextureModelToHorizontalFramesVisibility"/>
     <local:TextureModelToAnimateInGuiVisibility x:Key="TextureModelToAnimateInGuiVisibility"/>
     <local:PredefinedTagToStringConverter x:Key="PredefinedTagToStringConverter"/>
     <local:InvertBoolConverter x:Key="InvertBoolConverter"/>
+    <local:TextureModeToEditingPanelEnabledConverter x:Key="TextureModeToEditingPanelEnabledConverter"/>
     
 </ResourceDictionary>

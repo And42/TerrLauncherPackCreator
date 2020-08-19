@@ -772,20 +772,20 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Buff.
+        ///   Looks up a localized string similar to Buff (old).
         /// </summary>
-        public static string TextureTypeBuff {
+        public static string TextureTypeBuffDeprecated {
             get {
-                return ResourceManager.GetString("TextureTypeBuff", resourceCulture);
+                return ResourceManager.GetString("TextureTypeBuffDeprecated", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Extra.
+        ///   Looks up a localized string similar to Extra (old).
         /// </summary>
-        public static string TextureTypeExtra {
+        public static string TextureTypeExtraDeprecated {
             get {
-                return ResourceManager.GetString("TextureTypeExtra", resourceCulture);
+                return ResourceManager.GetString("TextureTypeExtraDeprecated", resourceCulture);
             }
         }
         
@@ -808,11 +808,20 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Npc.
+        ///   Looks up a localized string similar to Item (old).
         /// </summary>
-        public static string TextureTypeNpc {
+        public static string TextureTypeItemDeprecated {
             get {
-                return ResourceManager.GetString("TextureTypeNpc", resourceCulture);
+                return ResourceManager.GetString("TextureTypeItemDeprecated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Npc (old).
+        /// </summary>
+        public static string TextureTypeNpcDeprecated {
+            get {
+                return ResourceManager.GetString("TextureTypeNpcDeprecated", resourceCulture);
             }
         }
         

@@ -64,6 +64,83 @@
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>
+                <Style
+                    x:Key="NumberOfHorizontalFramesHintStyle"
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource {x:Type TextBlock}}"
+                    d:DataContext="{d:DesignInstance models:ModifiedTextureModel}">
+    
+                    <Setter Property="Text" Value="{x:Static localizations:StringResources.NumberOfHorizontalFramesHint}"/>
+                    <Setter Property="Visibility">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource TextureModelToHorizontalFramesVisibility}">
+                                <Binding Path="Animated"/>
+                                <Binding Path="CurrentTextureType"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style
+                    x:Key="NumberOfHorizontalFramesStyle"
+                    TargetType="xctk:IntegerUpDown"
+                    d:DataContext="{d:DesignInstance models:ModifiedTextureModel}">
+    
+                    <Setter Property="Text" Value="{Binding NumberOfHorizontalFrames}"/>
+                    <Setter Property="Minimum" Value="1"/>
+                    <Setter Property="MinWidth" Value="50"/>
+                    <Setter Property="Visibility">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource TextureModelToHorizontalFramesVisibility}">
+                                <Binding Path="Animated"/>
+                                <Binding Path="CurrentTextureType"/>
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style
+                    x:Key="ApplyOriginalSizeStyle"
+                    TargetType="CheckBox"
+                    BasedOn="{StaticResource {x:Type CheckBox}}"
+                    d:DataContext="{d:DesignInstance models:ModifiedTextureModel}">
+                    
+                    <Setter Property="Content" Value="{x:Static localizations:StringResources.ApplyOriginalSize}"/>
+                    <Setter Property="IsChecked" Value="{Binding ApplyOriginalSize}"></Setter>
+                    <Setter Property="Visibility" Value="{
+                        Binding Animated,
+                        Converter={StaticResource VisibleIfEqualToParameterConverter},
+                        ConverterParameter={me:Boolean False}
+                    }"/>
+
+                </Style>
+                <Style
+                    x:Key="MillisecondsPerFrameHintStyle"
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource {x:Type TextBlock}}"
+                    d:DataContext="{d:DesignInstance models:ModifiedTextureModel}">
+                    
+                    <Setter Property="Text" Value="{x:Static localizations:StringResources.MillisecondsPerFrameHint}"/>
+                    <Setter Property="Visibility" Value="{
+                        Binding Animated,
+                        Converter={StaticResource VisibleIfEqualToParameterConverter},
+                        ConverterParameter={me:Boolean True}
+                    }"/>
+                    
+                </Style>
+                <Style
+                    x:Key="MillisecondsPerFrameStyle"
+                    TargetType="xctk:IntegerUpDown"
+                    d:DataContext="{d:DesignInstance models:ModifiedTextureModel}">
+                    
+                    <Setter Property="Minimum" Value="1"/>
+                    <Setter Property="Value" Value="{Binding MillisecondsPerFrame}"/>
+                    <Setter Property="MinWidth" Value="50"/>
+                    <Setter Property="Visibility" Value="{
+                        Binding Animated,
+                        Converter={StaticResource VisibleIfEqualToParameterConverter},
+                        ConverterParameter={me:Boolean True}
+                    }"/>
+                    
+                </Style>
                 
                 <DataTemplate x:Key="ModifiedFileDataTemplate" DataType="{x:Type models:ModifiedFileModel}">
                     <Grid>
@@ -92,11 +169,18 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <Image
-                            Margin="8" Width="50" Height="50" RenderOptions.BitmapScalingMode="NearestNeighbor"
-                            Source="{Binding FilePath, Converter={StaticResource InMemoryImageSourceConverter}}"/>
+                            Margin="8"
+                            Width="50"
+                            Height="50"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                            Source="{
+                                Binding FilePath,
+                                Converter={StaticResource InMemoryImageSourceConverter}
+                            }"/>
                         <ComboBox
                             Grid.Column="1"
                             MinWidth="90"
@@ -121,6 +205,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             
                             <ComboBox
@@ -132,18 +217,68 @@
                                 Padding="8 4"
                                 VerticalAlignment="Center"
                                 VerticalContentAlignment="Center"/>
+
                             <TextBox
                                 Grid.Column="1"
                                 Margin="8 0 0 0"
                                 Text="{Binding Name}"
                                 VerticalAlignment="Center"
                                 Padding="8 4"/>
-                            <CheckBox
+
+                            <StackPanel
                                 Grid.Column="2"
-                                Margin="8 0 0 0"
-                                Content="{x:Static localizations:StringResources.ApplyOriginalSize}"
-                                IsChecked="{Binding ApplyOriginalSize}"/>
+                                Margin="8 8 0 8"
+                                VerticalAlignment="Center">
+                                
+                                <CheckBox
+                                    UseLayoutRounding="True"
+                                    Content="{x:Static localizations:StringResources.AnimatedHint}"
+                                    IsChecked="{Binding Animated}"/>
+                                
+                                <CheckBox
+                                    Margin="0 8 0 0"
+                                    Style="{StaticResource ApplyOriginalSizeStyle}"/>
+
+                            </StackPanel>
                             
+                            <Grid
+                                Grid.Column="3"
+                                Margin="8 0 0 0"
+                                VerticalAlignment="Center"
+                                Visibility="{
+                                    Binding Animated,
+                                    Converter={StaticResource VisibleIfEqualToParameterConverter},
+                                    ConverterParameter={me:Boolean True}
+                                }">
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock
+                                    Style="{StaticResource NumberOfHorizontalFramesHintStyle}"/>
+                                <xctk:IntegerUpDown
+                                    Grid.Column="2"
+                                    Style="{StaticResource NumberOfHorizontalFramesStyle}">
+                                </xctk:IntegerUpDown>
+                                
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Style="{StaticResource MillisecondsPerFrameHintStyle}"/>
+                                <xctk:IntegerUpDown
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    Style="{StaticResource MillisecondsPerFrameStyle}"/>
+                                
+                            </Grid>
+
                         </Grid>
                         
                         <Grid
@@ -154,6 +289,10 @@
                                 Binding CurrentTextureType,
                                 Converter={StaticResource CollapsedIfEqualToParameterConverter},
                                 ConverterParameter={x:Static json:TextureFileInfo+TextureType.General}
+                            }"
+                            IsEnabled="{
+                                Binding CurrentTextureType,
+                                Converter={StaticResource TextureModeToEditingPanelEnabledConverter}
                             }">
                             <Grid.Resources>
                                 <Style TargetType="xctk:IntegerUpDown" BasedOn="{StaticResource {x:Type xctk:IntegerUpDown}}">
@@ -224,61 +363,25 @@
                             <CheckBox
                                 Grid.Row="0"
                                 Grid.Column="4"
-                                Content="{x:Static localizations:StringResources.ApplyOriginalSize}"
-                                IsChecked="{Binding ApplyOriginalSize}"
-                                Visibility="{
-                                    Binding Animated,
-                                    Converter={StaticResource VisibleIfEqualToParameterConverter},
-                                    ConverterParameter={me:Boolean False}
-                                }"/>
+                                Style="{StaticResource ApplyOriginalSizeStyle}"/>
 
                             <TextBlock
                                 Grid.Row="0"
                                 Grid.Column="4"
-                                Text="{x:Static localizations:StringResources.NumberOfHorizontalFramesHint}">
-                                <TextBlock.Visibility>
-                                    <MultiBinding Converter="{StaticResource TextureModelToHorizontalFramesVisibility}">
-                                        <Binding Path="Animated"/>
-                                        <Binding Path="CurrentTextureType"/>
-                                    </MultiBinding>
-                                </TextBlock.Visibility>
-                            </TextBlock>
+                                Style="{StaticResource NumberOfHorizontalFramesHintStyle}"/>
                             <xctk:IntegerUpDown
                                 Grid.Row="0"
                                 Grid.Column="6"
-                                Value="{Binding NumberOfHorizontalFrames}"
-                                Minimum="1">
-                                <xctk:IntegerUpDown.Visibility>
-                                    <MultiBinding Converter="{StaticResource TextureModelToHorizontalFramesVisibility}">
-                                        <Binding Path="Animated"/>
-                                        <Binding Path="CurrentTextureType"/>
-                                    </MultiBinding>
-                                </xctk:IntegerUpDown.Visibility>
-                            </xctk:IntegerUpDown>
+                                Style="{StaticResource NumberOfHorizontalFramesStyle}"/>
 
                             <TextBlock
                                 Grid.Row="2"
                                 Grid.Column="4"
-                                Text="{x:Static localizations:StringResources.MillisecondsPerFrameHint}">
-                                <TextBlock.Visibility>
-                                    <MultiBinding Converter="{StaticResource TextureModelToFrameTimeVisibility}">
-                                        <Binding Path="Animated"/>
-                                        <Binding Path="CurrentTextureType"/>
-                                    </MultiBinding>
-                                </TextBlock.Visibility>
-                            </TextBlock>
+                                Style="{StaticResource MillisecondsPerFrameHintStyle}"/>
                             <xctk:IntegerUpDown
                                 Grid.Row="2"
                                 Grid.Column="6"
-                                Minimum="1"
-                                Value="{Binding MillisecondsPerFrame}">
-                                <xctk:IntegerUpDown.Visibility>
-                                    <MultiBinding Converter="{StaticResource TextureModelToFrameTimeVisibility}">
-                                        <Binding Path="Animated"/>
-                                        <Binding Path="CurrentTextureType"/>
-                                    </MultiBinding>
-                                </xctk:IntegerUpDown.Visibility>
-                            </xctk:IntegerUpDown>
+                                Style="{StaticResource MillisecondsPerFrameStyle}"/>
 
                             <CheckBox
                                 Grid.Row="0"

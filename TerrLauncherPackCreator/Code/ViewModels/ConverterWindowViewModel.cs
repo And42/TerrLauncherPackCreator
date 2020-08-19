@@ -104,7 +104,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         if (!File.Exists(config))
                             config = null;
         
-                        var (convertedFile, fileInfo) = await _fileConverter.ConvertToSource(CurrentFileType, file, config);
+                        var (convertedFile, fileInfo) = await _fileConverter.ConvertToSource(
+                            packStructureVersion: PackCreationViewModel.LatestPackStructureVersion,
+                            fileType: CurrentFileType,
+                            targetFile: file,
+                            configFile: config
+                        );
                         string resultFileExt = PackUtils.GetInitialFilesExt(CurrentFileType);
 
                         string resultFileName = Path.GetFileNameWithoutExtension(file);

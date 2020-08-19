@@ -11,9 +11,9 @@ namespace TerrLauncherPackCreator.Code.Converters
     public class TextureModelToVerticalFramesVisibility : IMultiValueConverter
     {
         private static readonly IList<TextureType> VerticalFramesVisibleTypes = new List<TextureType> {
-            TextureType.Item,
-            TextureType.Buff,
-            TextureType.Extra
+            TextureType.ItemDeprecated,
+            TextureType.BuffDeprecated,
+            TextureType.ExtraDeprecated
         };
         private static readonly object VisibleObject = Visibility.Visible;
         private static readonly object CollapsedObject = Visibility.Collapsed;

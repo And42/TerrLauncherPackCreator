@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Resources.Localizations;
+using TextureType = TerrLauncherPackCreator.Code.Json.TextureFileInfo.TextureType;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {
@@ -10,16 +10,17 @@ namespace TerrLauncherPackCreator.Code.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is TextureFileInfo.TextureType casted))
+            if (!(value is TextureType casted))
                 return null;
             
             return casted switch
             {
-                TextureFileInfo.TextureType.General => StringResources.TextureTypeGeneral,
-                TextureFileInfo.TextureType.Item => StringResources.TextureTypeItem,
-                TextureFileInfo.TextureType.Npc => StringResources.TextureTypeNpc,
-                TextureFileInfo.TextureType.Buff => StringResources.TextureTypeBuff,
-                TextureFileInfo.TextureType.Extra => StringResources.TextureTypeExtra,
+                TextureType.General => StringResources.TextureTypeGeneral,
+                TextureType.ItemDeprecated => StringResources.TextureTypeItemDeprecated,
+                TextureType.NpcDeprecated => StringResources.TextureTypeNpcDeprecated,
+                TextureType.BuffDeprecated => StringResources.TextureTypeBuffDeprecated,
+                TextureType.ExtraDeprecated => StringResources.TextureTypeExtraDeprecated,
+                TextureType.Item => StringResources.TextureTypeItem,
                 _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
             };
         }
@@ -30,15 +31,17 @@ namespace TerrLauncherPackCreator.Code.Converters
                 return null;
             
             if (cast == StringResources.TextureTypeGeneral)
-                return TextureFileInfo.TextureType.General;
+                return TextureType.General;
+            if (cast == StringResources.TextureTypeItemDeprecated)
+                return TextureType.ItemDeprecated;
+            if (cast == StringResources.TextureTypeNpcDeprecated)
+                return TextureType.NpcDeprecated;
+            if (cast == StringResources.TextureTypeBuffDeprecated)
+                return TextureType.BuffDeprecated;
+            if (cast == StringResources.TextureTypeExtraDeprecated)
+                return TextureType.ExtraDeprecated;
             if (cast == StringResources.TextureTypeItem)
-                return TextureFileInfo.TextureType.Item;
-            if (cast == StringResources.TextureTypeNpc)
-                return TextureFileInfo.TextureType.Npc;
-            if (cast == StringResources.TextureTypeBuff)
-                return TextureFileInfo.TextureType.Buff;
-            if (cast == StringResources.TextureTypeExtra)
-                return TextureFileInfo.TextureType.Extra;
+                return TextureType.Item;
             return null;
         }
     }

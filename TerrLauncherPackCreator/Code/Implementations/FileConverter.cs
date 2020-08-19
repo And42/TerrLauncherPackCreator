@@ -14,7 +14,11 @@ namespace TerrLauncherPackCreator.Code.Implementations
     public class FileConverter : IFileConverter
     {
         [NotNull]
-        public async Task<(string convertedFile, string configFile)> ConvertToTarget(FileType fileType, [NotNull] string sourceFile, [CanBeNull] IPackFileInfo fileInfo)
+        public async Task<(string convertedFile, string configFile)> ConvertToTarget(
+            FileType fileType,
+            [NotNull] string sourceFile,
+            [CanBeNull] IPackFileInfo fileInfo
+        )
         {
             if (!File.Exists(sourceFile))
                 throw new FileNotFoundException("File not found", sourceFile);
@@ -35,7 +39,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
             return (targetFile, configFile);
         }
 
-        public async Task<(string sourceFile, IPackFileInfo fileInfo)> ConvertToSource(FileType fileType, [NotNull] string targetFile, [CanBeNull] string configFile)
+        public async Task<(string sourceFile, IPackFileInfo fileInfo)> ConvertToSource(
+            int packStructureVersion,
+            FileType fileType,
+            [NotNull] string targetFile,
+            [CanBeNull] string configFile
+        )
         {
             if (!File.Exists(targetFile))
                 throw new FileNotFoundException("File not found", targetFile);
@@ -62,6 +71,12 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     FileType.Audio => JsonConvert.DeserializeObject<AudioFileInfo>(configText),
                     _ => throw new ArgumentOutOfRangeException()
                 };
+                if (fileType == FileType.Texture && packStructureVersion < 15)
+                {
+                    var textureConfig = (TextureFileInfo) fileInfo;
+                    if (textureConfig.Type == TextureFileInfo.TextureType.General)
+                        textureConfig.Animated = false;
+                }
             }
 
             {

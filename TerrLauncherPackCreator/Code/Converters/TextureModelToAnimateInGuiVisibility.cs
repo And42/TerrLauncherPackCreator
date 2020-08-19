@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using TerrLauncherPackCreator.Code.Json;
+using TextureType = TerrLauncherPackCreator.Code.Json.TextureFileInfo.TextureType;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {
     public class TextureModelToAnimateInGuiVisibility : IMultiValueConverter
     {
+        private static readonly IList<TextureType> AnimateInGuiVisibleTypes = new List<TextureType> {
+            TextureType.ItemDeprecated,
+            TextureType.Item
+        };
         private static readonly object VisibleObject = Visibility.Visible;
         private static readonly object CollapsedObject = Visibility.Collapsed;
         
@@ -16,12 +21,13 @@ namespace TerrLauncherPackCreator.Code.Converters
         {
             Debug.Assert(targetType == typeof(Visibility));
 
-            bool animated = (bool) values[0];
-            TextureFileInfo.TextureType currentTextureType = (TextureFileInfo.TextureType) values[1];
+            // todo: remove when animate in gui is supported
+            return CollapsedObject;
 
-            return animated && currentTextureType == TextureFileInfo.TextureType.Item
-                ? VisibleObject
-                : CollapsedObject;
+            bool animated = (bool) values[0];
+            TextureType currentTextureType = (TextureType) values[1];
+
+            return animated && AnimateInGuiVisibleTypes.Contains(currentTextureType) ? VisibleObject : CollapsedObject;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
