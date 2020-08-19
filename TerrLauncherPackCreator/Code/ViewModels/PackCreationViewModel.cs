@@ -26,7 +26,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        private const int PackStructureVersion = 10;
+        private const int PackStructureVersion = 14;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
@@ -428,7 +428,18 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         
         private bool SaveResourceCommand_CanExecute([NotNull] ModifiedFileModel file)
         {
-            return !Working && !file.IsDragDropTarget && (file is ModifiedTextureModel || file is ModifiedGuiModel);
+            {
+                const int fileTypesHandled = 7;
+                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
+                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+            }
+            
+            return !Working && !file.IsDragDropTarget && (
+                file is ModifiedTextureModel ||
+                file is ModifiedGuiModel ||
+                file is ModifiedFontModel ||
+                file is ModifiedAudioModel
+            );
         }
 
         private void SaveResourceCommand_Execute([NotNull] ModifiedFileModel file)
@@ -436,10 +447,18 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             if (string.IsNullOrEmpty(file.FilePath) || !File.Exists(file.FilePath))
                 return;
 
+            {
+                const int fileTypesHandled = 7;
+                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
+                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+            }
+            
             string extension = file switch
             {
                 ModifiedTextureModel _ => PackUtils.GetInitialFilesExt(FileType.Texture),
                 ModifiedGuiModel _ => PackUtils.GetInitialFilesExt(FileType.Gui),
+                ModifiedFontModel _ => PackUtils.GetInitialFilesExt(FileType.Font),
+                ModifiedAudioModel _ => PackUtils.GetInitialFilesExt(FileType.Audio),
                 _ => throw new ArgumentOutOfRangeException(nameof(file))
             };
 
@@ -548,7 +567,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     .Select(it =>
                     {
                         {
-                            const int fileTypesHandled = 5;
+                            const int fileTypesHandled = 7;
                             const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
                                           1 / (PackUtils.TotalFileTypes / fileTypesHandled);
                         }
@@ -569,7 +588,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     ElementId = textureModel.ElementId,
                                     MillisecondsPerFrame = textureModel.MillisecondsPerFrame,
                                     NumberOfVerticalFrames = textureModel.NumberOfVerticalFrames,
-                                    NumberOfHorizontalFrames = textureModel.NumberOfHorizontalFrames
+                                    NumberOfHorizontalFrames = textureModel.NumberOfHorizontalFrames,
+                                    ApplyOriginalSize = textureModel.ApplyOriginalSize
                                 };
                                 break;
                             case FileType.Map:
@@ -597,6 +617,22 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 var translationModel = (ModifiedTranslationModel) it.modified;
                                 fileInfo = new TranslationFileInfo(
                                     language: translationModel.CurrentLanguage
+                                );
+                                break;
+                            case FileType.Font:
+                                var fontModel = (ModifiedFontModel) it.modified;
+                                fileInfo = new FontFileInfo(
+                                    entryName: string.IsNullOrEmpty(fontModel.Prefix)
+                                        ? fontModel.Name
+                                        : $"{fontModel.Prefix}/{fontModel.Name}"
+                                );
+                                break;
+                            case FileType.Audio:
+                                var audioModel = (ModifiedAudioModel) it.modified;
+                                fileInfo = new AudioFileInfo(
+                                    entryName: string.IsNullOrEmpty(audioModel.Prefix)
+                                        ? audioModel.Name
+                                        : $"{audioModel.Prefix}/{audioModel.Name}"
                                 );
                                 break;
                             default:
@@ -675,7 +711,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private static ModifiedFileModel FileToModel(FileType fileType, [NotNull] string filePath, [CanBeNull] IPackFileInfo fileInfo)
         {
             {
-                const int fileTypesHandled = 5;
+                const int fileTypesHandled = 7;
                 // ReSharper disable once UnusedVariable
                 const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
                               1 / (PackUtils.TotalFileTypes / fileTypesHandled);
@@ -698,6 +734,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         model.NumberOfVerticalFrames = info.NumberOfVerticalFrames;
                         model.NumberOfHorizontalFrames = info.NumberOfHorizontalFrames;
                         model.MillisecondsPerFrame = info.MillisecondsPerFrame;
+                        model.ApplyOriginalSize = info.ApplyOriginalSize;
                     }
 
                     return model;
@@ -743,6 +780,30 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     {
                         var info = (TranslationFileInfo) fileInfo;
                         model.CurrentLanguage = info.Language;
+                    }
+
+                    return model;
+                }
+                case FileType.Font:
+                {
+                    var model = new ModifiedFontModel(filePath, false);
+                    if (fileInfo != null)
+                    {
+                        var info = (FontFileInfo) fileInfo;
+                        model.Prefix = null;
+                        model.Name = info.EntryName;
+                    }
+
+                    return model;
+                }
+                case FileType.Audio:
+                {
+                    var model = new ModifiedAudioModel(filePath, false);
+                    if (fileInfo != null)
+                    {
+                        var info = (AudioFileInfo) fileInfo;
+                        model.Prefix = null;
+                        model.Name = info.EntryName;
                     }
 
                     return model;

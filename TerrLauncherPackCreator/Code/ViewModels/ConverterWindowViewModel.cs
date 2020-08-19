@@ -111,7 +111,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         if (fileInfo != null)
                         {
                             {
-                                const int fileTypesHandled = 5;
+                                const int fileTypesHandled = 7;
                                 const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
                                               1 / (PackUtils.TotalFileTypes / fileTypesHandled);
                             }
@@ -137,6 +137,14 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 case FileType.Translation:
                                     var translationInfo = (TranslationFileInfo) fileInfo;
                                     resultFileName = translationInfo.Language;
+                                    break;
+                                case FileType.Font:
+                                    var fontInfo = (FontFileInfo) fileInfo;
+                                    resultFileName = fontInfo.EntryName;
+                                    break;
+                                case FileType.Audio:
+                                    var audioInfo = (AudioFileInfo) fileInfo;
+                                    resultFileName = audioInfo.EntryName;
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException();

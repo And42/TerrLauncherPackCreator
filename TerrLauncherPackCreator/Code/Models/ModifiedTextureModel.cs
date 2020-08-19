@@ -72,6 +72,13 @@ namespace TerrLauncherPackCreator.Code.Models
             set => SetProperty(ref _millisecondsPerFrame, value);
         }
         private int _millisecondsPerFrame;
+
+        public bool ApplyOriginalSize
+        {
+            get => _applyOriginalSize;
+            set => SetProperty(ref _applyOriginalSize, value);
+        }
+        private bool _applyOriginalSize;
         
         [NotNull]
         public ObservableCollection<string> CommonPrefixes { get; }
@@ -87,6 +94,7 @@ namespace TerrLauncherPackCreator.Code.Models
             _millisecondsPerFrame = 100;
             _numberOfHorizontalFrames = 1;
             _numberOfVerticalFrames = 1;
+            _applyOriginalSize = true;
             CommonPrefixes = new ObservableCollection<string>
             {
                 "",
@@ -97,7 +105,8 @@ namespace TerrLauncherPackCreator.Code.Models
                 TextureFileInfo.TextureType.General,
                 TextureFileInfo.TextureType.Item,
                 TextureFileInfo.TextureType.Npc,
-                TextureFileInfo.TextureType.Buff
+                TextureFileInfo.TextureType.Buff,
+                TextureFileInfo.TextureType.Extra
             };
             _prefix = CommonPrefixes[1];
         }

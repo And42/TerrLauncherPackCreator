@@ -9,6 +9,7 @@
     xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
     xmlns:json="clr-namespace:TerrLauncherPackCreator.Code.Json"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:me="clr-namespace:TerrLauncherPackCreator.Code.MarkupExtensions"
     mc:Ignorable="d" 
 
     d:DesignHeight="450" d:DesignWidth="800"
@@ -59,6 +60,7 @@
                     <Setter Property="Padding" Value="8 4"/>
                 </Style>
                 <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                    <Setter Property="UseLayoutRounding" Value="True"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>
@@ -107,24 +109,42 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <DockPanel
+                        <Grid
                             Grid.Column="2"
-                            LastChildFill="True"
                             Visibility="{
                                 Binding CurrentTextureType,
                                 Converter={StaticResource VisibleIfEqualToParameterConverter},
                                 ConverterParameter={x:Static json:TextureFileInfo+TextureType.General}
                             }">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
                             
                             <ComboBox
-                                Margin="8 0 0 0" ItemsSource="{Binding CommonPrefixes}"
-                                Text="{Binding Prefix}" Width="200" IsEditable="True" Padding="8 4"
-                                VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                Margin="8 0 0 0"
+                                ItemsSource="{Binding CommonPrefixes}"
+                                Text="{Binding Prefix}"
+                                Width="200"
+                                IsEditable="True"
+                                Padding="8 4"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"/>
                             <TextBox
-                                DockPanel.Dock="Right" Margin="8 0 0 0" Text="{Binding Name}" VerticalAlignment="Center"
+                                Grid.Column="1"
+                                Margin="8 0 0 0"
+                                Text="{Binding Name}"
+                                VerticalAlignment="Center"
                                 Padding="8 4"/>
+                            <CheckBox
+                                Grid.Column="2"
+                                Margin="8 0 0 0"
+                                Content="{x:Static localizations:StringResources.ApplyOriginalSize}"
+                                IsChecked="{Binding ApplyOriginalSize}"/>
                             
-                        </DockPanel>
+                        </Grid>
                         
                         <Grid
                             Grid.Column="2"
@@ -200,6 +220,17 @@
                                     </MultiBinding>
                                 </xctk:IntegerUpDown.Visibility>
                             </xctk:IntegerUpDown>
+
+                            <CheckBox
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Content="{x:Static localizations:StringResources.ApplyOriginalSize}"
+                                IsChecked="{Binding ApplyOriginalSize}"
+                                Visibility="{
+                                    Binding Animated,
+                                    Converter={StaticResource VisibleIfEqualToParameterConverter},
+                                    ConverterParameter={me:Boolean False}
+                                }"/>
 
                             <TextBlock
                                 Grid.Row="0"
@@ -314,6 +345,61 @@
                     </Grid>
                 </DataTemplate>
                 
+                <DataTemplate x:Key="ModifiedFontTemplate" DataType="{x:Type models:ModifiedFontModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Margin="8"
+                            Width="50"
+                            Height="50"
+                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                            Source="{Binding FilePath, Converter={StaticResource InMemoryImageSourceConverter}}"/>
+                        
+                        <ComboBox
+                            Grid.Column="1"
+                            Margin="8 0 0 0"
+                            ItemsSource="{Binding CommonPrefixes}"
+                            Text="{Binding Prefix}"
+                            Width="200"
+                            IsEditable="True"
+                            Padding="8 4"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+    
+                        <TextBox
+                            Grid.Column="2"
+                            Margin="8 0 0 0"
+                            Text="{Binding Name}"
+                            VerticalAlignment="Center"
+                            Padding="8 4"/>
+                        
+                        <Button
+                            Grid.Column="3"
+                            Style="{StaticResource DeleteItemButton}"
+                            Margin="8 3 0 3" />
+
+                        <Button
+                            Grid.Column="4"
+                            Content="{x:Static localizations:StringResources.SaveResource}"
+                            Command="{
+                                Binding DataContext.SaveResourceCommand,
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Page}
+                            }"
+                            CommandParameter="{Binding}"
+                            Margin="8 3 0 3"
+                            Padding="7 3"
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+                
                 <DataTemplate x:Key="ModifiedMapTemplate" DataType="{x:Type models:ModifiedMapModel}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -389,6 +475,47 @@
                         </ComboBox>
                         <Button
                             Grid.Column="3" Style="{StaticResource DeleteItemButton}" Margin="0 3" />
+                    </Grid>
+                </DataTemplate>
+                
+                <DataTemplate x:Key="ModifiedAudioTemplate" DataType="{x:Type models:ModifiedAudioModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ComboBox
+                            ItemsSource="{Binding CommonPrefixes}"
+                            Text="{Binding Prefix}"
+                            Width="200"
+                            IsEditable="True"
+                            Padding="8 4"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"/>
+                        <TextBox
+                            Grid.Column="1"
+                            Margin="8 0 0 0"
+                            Text="{Binding Name}"
+                            VerticalAlignment="Center"
+                            Padding="8 4"/>
+                        <Button
+                            Grid.Column="2"
+                            Style="{StaticResource DeleteItemButton}"
+                            Margin="8 3 0 3" />
+                        <Button
+                            Grid.Column="3"
+                            Content="{x:Static localizations:StringResources.SaveResource}"
+                            Command="{
+                                Binding DataContext.SaveResourceCommand,
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Page}
+                            }"
+                            CommandParameter="{Binding}"
+                            Margin="8 3 0 3"
+                            Padding="7 3"
+                            VerticalAlignment="Center"/>
                     </Grid>
                 </DataTemplate>
 

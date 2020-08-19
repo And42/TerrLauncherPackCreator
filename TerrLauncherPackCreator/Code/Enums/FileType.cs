@@ -6,10 +6,9 @@
         Map,
         Character,
         Gui,
-        Translation
-        // todo: add
-//        Audio,
-//        Font,
+        Translation,
+        Font,
+        Audio
     }
 }
 
@@ -17,6 +16,6 @@ namespace TerrLauncherPackCreator.Code.Utils
 {
     public static partial class PackUtils
     {
-        public const int TotalFileTypes = 5;
+        public const int TotalFileTypes = 7;
     }
 }

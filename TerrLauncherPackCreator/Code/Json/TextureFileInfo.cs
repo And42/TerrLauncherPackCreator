@@ -10,7 +10,8 @@ namespace TerrLauncherPackCreator.Code.Json
             General = 0,
             Item = 1,
             Npc = 2,
-            Buff = 3
+            Buff = 3,
+            Extra = 4
         }
         
         [JsonProperty("type")]
@@ -36,5 +37,8 @@ namespace TerrLauncherPackCreator.Code.Json
 
         [JsonProperty("milliseconds_per_frame")]
         public int MillisecondsPerFrame { get; set; } = 100;
+
+        [JsonProperty("apply_original_size")]
+        public bool ApplyOriginalSize { get; set; } = true;
     }
 }

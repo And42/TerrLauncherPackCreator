@@ -22,7 +22,7 @@ namespace TerrLauncherPackCreator.Code.Utils
         static PackUtils()
         {
             {
-                const int fileTypesHandled = 5;
+                const int fileTypesHandled = 7;
                 const int _ = 1 / (fileTypesHandled / TotalFileTypes) +
                               1 / (TotalFileTypes / fileTypesHandled);
             }
@@ -34,9 +34,8 @@ namespace TerrLauncherPackCreator.Code.Utils
                 (FileType.Character,   ".plr",  ".character",   StringResources.PackTypeCharacters),
                 (FileType.Gui,         ".png",  ".gui",         StringResources.PackTypeGui),
                 (FileType.Translation, ".json", ".translation", StringResources.PackTypeTranslations),
-                // todo: add handling
-//                (PackTypes.Audio,        ".tla",  ".ogg", ".audio",       StringResources.PackTypeAudio),
-//                (PackTypes.Fonts,        ".tlf",  ".png", ".font",        StringResources.PackTypeFonts),
+                (FileType.Font,        ".png",  ".font",        StringResources.PackTypeFonts),
+                (FileType.Audio,       ".mp3",  ".audio",       StringResources.PackTypeAudio)
             };
             TranslationLanguages = new[] { "en-US", "de-DE", "it-IT", "fr-FR", "es-ES", "ru-RU", "pt-BR", /*"zh-Hans", "pl-PL", "ja-JP"*/ };
             TranslationLanguageTitles = new[] { "English", "Deutsch", "Italiano", "Français", "Español", "Русский", "Português brasileiro" };

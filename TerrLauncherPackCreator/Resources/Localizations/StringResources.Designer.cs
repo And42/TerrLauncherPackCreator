@@ -97,6 +97,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply original size.
+        /// </summary>
+        public static string ApplyOriginalSize {
+            get {
+                return ResourceManager.GetString("ApplyOriginalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color:.
         /// </summary>
         public static string AuthorColor {
@@ -768,6 +777,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         public static string TextureTypeBuff {
             get {
                 return ResourceManager.GetString("TextureTypeBuff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extra.
+        /// </summary>
+        public static string TextureTypeExtra {
+            get {
+                return ResourceManager.GetString("TextureTypeExtra", resourceCulture);
             }
         }
         

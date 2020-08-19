@@ -17,7 +17,7 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
             var containerUi = (FrameworkElement) container;
 
             {
-                const int fileTypesHandled = 5;
+                const int fileTypesHandled = 7;
                 const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
                               1 / (PackUtils.TotalFileTypes / fileTypesHandled);
             }
@@ -33,6 +33,9 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
                 case ModifiedGuiModel _:
                     resourceName = "ModifiedGuiTemplate";
                     break;
+                case ModifiedFontModel _:
+                    resourceName = "ModifiedFontTemplate";
+                    break;
                 case ModifiedMapModel _:
                     resourceName = "ModifiedMapTemplate";
                     break;
@@ -41,6 +44,9 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
                     break;
                 case ModifiedTranslationModel _:
                     resourceName = "ModifiedTranslationTemplate";
+                    break;
+                case ModifiedAudioModel _:
+                    resourceName = "ModifiedAudioTemplate";
                     break;
                 default:
                     resourceName = "ModifiedFileDataTemplate";
