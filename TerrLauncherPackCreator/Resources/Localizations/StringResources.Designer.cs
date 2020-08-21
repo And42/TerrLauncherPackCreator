@@ -115,6 +115,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Icon height:.
+        /// </summary>
+        public static string AuthorIconHeight {
+            get {
+                return ResourceManager.GetString("AuthorIconHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Link:.
         /// </summary>
         public static string AuthorLink {

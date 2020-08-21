@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using CommonLibrary.CommonUtils;
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
@@ -15,9 +16,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class AuthorEditorWindowViewModel : ViewModelBase
     {
-        [NotNull]
-        private readonly AuthorsFileProcessor _authorsFileProcessor;
-
         [NotNull]
         public AuthorItemModel EditableAuthor { get; }
         
@@ -43,11 +41,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private AuthorJson _selectedSavedAuthor;
 
         public AuthorEditorWindowViewModel(
-            [NotNull] AuthorItemModel editableAuthor,
-            [NotNull] AuthorsFileProcessor authorsFileProcessor
+            [NotNull] AuthorItemModel editableAuthor
         )
         {
-            _authorsFileProcessor = authorsFileProcessor;
             EditableAuthor = editableAuthor;
             SavedAuthors = new ObservableCollection<AuthorJson>();
             DropAuthorImageCommand = new ActionCommand<string>(DropAuthorImage_Execute, DropAuthorImageCommand_CanExecute);
@@ -56,14 +52,14 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             if (File.Exists(Paths.AuthorsFile))
             {
-                AuthorsJson savedAuthors = _authorsFileProcessor.ModelFromFile(Paths.AuthorsFile);
-                savedAuthors.Authors?.Select(it => new AuthorJson
-                {
-                    Name = it.Name,
-                    Color = it.Color,
-                    Link = it.Link,
-                    Icon = it.Icon
-                }).ForEach(SavedAuthors.Add);
+                AuthorsJson savedAuthors = AuthorsJson.Processor.Deserialize(File.ReadAllText(Paths.AuthorsFile));
+                savedAuthors.Authors?.Select(it => new AuthorJson(
+                    name: it.Name,
+                    color: it.Color,
+                    link: it.Link,
+                    icon: it.Icon,
+                    iconHeight: it.IconHeight
+                )).ForEach(SavedAuthors.Add);
             }
             
             PropertyChanged += OnPropertyChanged;
@@ -71,18 +67,18 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void SaveAuthor_Execute()
         {
-            SavedAuthors.Add(new AuthorJson
-            {
-                Name = EditableAuthor.Name,
-                Color = EditableAuthor.Color,
-                Icon = EditableAuthor.Image == null
+            SavedAuthors.Add(new AuthorJson(
+                name: EditableAuthor.Name,
+                color: EditableAuthor.Color,
+                icon: EditableAuthor.Image == null
                     ? null
                     : new AuthorJson.IconJson {
                         Bytes = EditableAuthor.Image.Bytes,
                         Type = EditableAuthor.Image.Type
                     },
-                Link = EditableAuthor.Link
-            });
+                link: EditableAuthor.Link,
+                iconHeight: EditableAuthor.IconHeight
+            ));
             WriteAuthorsToFile();
         }
 
@@ -124,7 +120,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private void WriteAuthorsToFile() {
             var model = AuthorsJson.CreateLatest();
             model.Authors = SavedAuthors.ToList();
-            _authorsFileProcessor.ModelToFile(model, Paths.AuthorsFile);
+            IOUtils.EnsureParentDirExists(Paths.AuthorsFile);
+            File.WriteAllText(Paths.AuthorsFile, AuthorsJson.Processor.Serialize(model), Encoding.UTF8);
         }
         
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -138,6 +135,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     EditableAuthor.Name = SelectedSavedAuthor.Name;
                     EditableAuthor.Color = SelectedSavedAuthor.Color;
                     EditableAuthor.Link = SelectedSavedAuthor.Link;
+                    EditableAuthor.IconHeight = SelectedSavedAuthor.IconHeight;
                     if (SelectedSavedAuthor.Icon != null) {
                         EditableAuthor.Image = new ImageInfo(
                             SelectedSavedAuthor.Icon.Bytes, SelectedSavedAuthor.Icon.Type

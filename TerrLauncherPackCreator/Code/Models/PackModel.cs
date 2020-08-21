@@ -33,7 +33,7 @@ namespace TerrLauncherPackCreator.Code.Models
         }
         
         public PackModel(
-            [NotNull] (string name, Color? color, string link, ImageInfo icon)[] authors,
+            [NotNull] (string name, Color? color, string link, ImageInfo icon, int iconHeight)[] authors,
             [NotNull] string[] previewsPaths,
             [NotNull] ModifiedFileInfo[] modifiedFiles,
             int packStructureVersion,
@@ -81,7 +81,7 @@ namespace TerrLauncherPackCreator.Code.Models
         public List<PredefinedPackTag> PredefinedTags { get; }
 
         [NotNull]
-        public (string name, Color? color, string link, ImageInfo icon)[] Authors { get; }
+        public (string name, Color? color, string link, ImageInfo icon, int iconHeight)[] Authors { get; }
         
         [NotNull]
         public string[] PreviewsPaths { get; }

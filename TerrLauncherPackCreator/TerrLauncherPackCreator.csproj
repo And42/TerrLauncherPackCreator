@@ -124,7 +124,6 @@
     <Compile Include="Code\Enums\BonusType.cs" />
     <Compile Include="Code\Enums\PredefinedPackTag.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
-    <Compile Include="Code\Implementations\AuthorsFileProcessor.cs" />
     <Compile Include="Code\Implementations\FileConverter.cs" />
     <Compile Include="Code\Implementations\ImageInfo.cs" />
     <Compile Include="Code\Implementations\TempDirsProvider.cs" />
@@ -141,6 +140,8 @@
     <Compile Include="Code\Json\GuiFileInfo.cs" />
     <Compile Include="Code\Json\MapFileInfo.cs" />
     <Compile Include="Code\Json\TextureFileInfo.cs" />
+    <Compile Include="Code\Json\TL\AuthorJson.cs" />
+    <Compile Include="Code\Json\TL\PackSettings.cs" />
     <Compile Include="Code\Json\TranslationFileInfo.cs" />
     <Compile Include="Code\MarkupExtensions\BooleanExtension.cs" />
     <Compile Include="Code\Models\AuthorItemModel.cs" />
@@ -234,7 +235,6 @@
     <Compile Include="Code\Implementations\PackProcessor.cs" />
     <Compile Include="Code\Interfaces\IPackProcessor.cs" />
     <Compile Include="Code\Interfaces\IProgressManager.cs" />
-    <Compile Include="Code\Json\PackSettings.cs" />
     <Compile Include="Code\Models\ModifiedFileModel.cs" />
     <Compile Include="Code\Models\PackModel.cs" />
     <Compile Include="Code\Models\PreviewItemModel.cs" />

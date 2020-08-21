@@ -8,12 +8,12 @@ using System.Windows.Media;
 using CommonLibrary.CommonUtils;
 using Ionic.Zip;
 using JetBrains.Annotations;
-using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Json;
+using TerrLauncherPackCreator.Code.Json.TL;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
+using AuthorJson = TerrLauncherPackCreator.Code.Json.TL.AuthorJson;
 
 namespace TerrLauncherPackCreator.Code.Implementations
 {
@@ -149,7 +149,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
             string packAuthorsFolder = Path.Combine(targetFolderPath, "Authors");
             string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
 
-            PackSettings packSettings = JsonConvert.DeserializeObject<PackSettings>(File.ReadAllText(packSettingsFile, Encoding.UTF8));
+            string packSettingsText = File.ReadAllText(packSettingsFile, Encoding.UTF8);
+            PackSettings packSettings = PackSettings.Processor.Deserialize(packSettingsText);
 
             string packIconFile = null;
             if (File.Exists(packIconGif))
@@ -174,8 +175,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
                         .ToArray()
                     : new string[0];
 
-            var authors = packSettings.Authors.Split(new[] {"<->"}, StringSplitOptions.RemoveEmptyEntries)
-                .ConvertAll(it => StringToAuthorModel(it, packAuthorsFolder));
+            var authors = packSettings.Authors?
+                .ConvertAll(it => JsonToAuthorModel(it, packAuthorsFolder))
+                .ToArray();
 
             var modifiedFiles = new List<PackModel.ModifiedFileInfo>();
             foreach (string modifiedFile in modifiedFilesPaths)
@@ -201,7 +203,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
 
             return new PackModel(
-                authors: authors,
+                authors: authors ?? Array.Empty<(string name, Color? color, string link, ImageInfo icon, int iconHeight)>(),
                 previewsPaths: previewsPaths,
                 modifiedFiles: modifiedFiles.ToArray(),
                 packStructureVersion: packSettings.PackStructureVersion,
@@ -218,11 +220,11 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private void SavePackModelInternal(PackModel packModel, string filePath)
         {
-            var authorsMappings = new List<(ImageInfo sourceFile, string targetFile, string json)>();
+            var authorsMappings = new List<(ImageInfo sourceFile, string targetFile, AuthorJson json)>();
             int authorFileIndex = 1;
             foreach (var author in packModel.Authors) {
                 string fileExtension;
-                string json = AuthorModelToString(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
+                AuthorJson json = AuthorModelToJson(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
                 authorsMappings.Add((copyIcon ? author.icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
             }
             var packSettingsJson = new PackSettings(
@@ -232,7 +234,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 descriptionRussian: packModel.DescriptionRussian,
                 version: packModel.Version,
                 guid: packModel.Guid,
-                authors: string.Join("<->", authorsMappings.Select(it => it.json)),
+                authors: authorsMappings.ConvertAll(it => it.json),
                 predefinedTags: packModel.PredefinedTags.ToList(),
                 isBonus: packModel.IsBonusPack,
                 // todo: change when new types are available
@@ -244,7 +246,6 @@ namespace TerrLauncherPackCreator.Code.Implementations
             using (var zip = new ZipFile(filePath, Encoding.UTF8))
             {
                 zip.AddEntry(".nomedia", new byte[0]);
-                zip.AddEntry("Settings.json", JsonUtils.Serialize(packSettingsJson), Encoding.UTF8);
 
                 if (!string.IsNullOrEmpty(packModel.IconFilePath))
                 {
@@ -260,7 +261,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 if (authorsMappings.Any())
                 {
                     zip.AddEntry("Authors/.nomedia", new byte[0]);
-                    foreach (var (sourceFile, targetFile, _) in authorsMappings)
+                    foreach (var (sourceFile, targetFile, json) in authorsMappings)
                         if (sourceFile != null)
                         {
                             if (sourceFile.Type == ImageInfo.ImageType.Gif)
@@ -272,7 +273,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
                                 string webPImage = ImageUtils.ConvertImageToTempWebPFile(sourceFile.Bytes, lossless: true);
                                 if (new FileInfo(webPImage).Length < sourceFile.Bytes.Length)
                                 {
-                                    string compressedFileName = $"Authors/{Path.ChangeExtension(targetFile, ".webp")}";
+                                    json.File = Path.ChangeExtension(targetFile, ".webp");
+                                    string compressedFileName = $"Authors/{json.File}";
                                     zip.AddFile(webPImage).FileName = compressedFileName;
                                 }
                                 else
@@ -283,6 +285,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
                             }
                         }
                 }
+                
+                // add after authors as author mappings can change due to image compression
+                zip.AddEntry("Settings.json", PackSettings.Processor.Serialize(packSettingsJson), Encoding.UTF8);
 
                 if (packModel.PreviewsPaths.Any())
                 {
@@ -327,31 +332,29 @@ namespace TerrLauncherPackCreator.Code.Implementations
         }
 
         [NotNull]
-        private static string AuthorModelToString((string name, Color? color, string link, ImageInfo icon) author, ref int authorFileIndex, out bool copyIcon, [CanBeNull] out string fileExtension) {
+        private static AuthorJson AuthorModelToJson(
+            (string name, Color? color, string link, ImageInfo icon, int iconHeight) author,
+            ref int authorFileIndex,
+            out bool copyIcon,
+            [CanBeNull] out string fileExtension
+        )
+        {
+            string name = author.name ?? string.Empty;
+            string color = author.color?.ToString();
+            string link = author.link ?? string.Empty;
+            
+            string icon = null;
             fileExtension = null;
-            var parts = new List<string>();
-
-            if (!string.IsNullOrEmpty(author.name))
-                parts.Add("name=" + author.name);
-            if (author.color.HasValue)
-                parts.Add("color=" + author.color); // #FF00FF00
-            if (!string.IsNullOrEmpty(author.link))
-                parts.Add("link=" + author.link);
             if (author.icon != null) {
-                string extension;
-                switch (author.icon.Type) {
-                    case ImageInfo.ImageType.Png:
-                        extension = ".png";
-                        break;
-                    case ImageInfo.ImageType.Gif:
-                        extension = ".gif";
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(author.icon.Type), author.icon.Type, @"Unknown type");
-                }
+                string extension = author.icon.Type switch
+                {
+                    ImageInfo.ImageType.Png => ".png",
+                    ImageInfo.ImageType.Gif => ".gif",
+                    _ => throw new ArgumentOutOfRangeException(nameof(author.icon.Type), author.icon.Type, @"Unknown type")
+                };
 
                 fileExtension = extension;
-                parts.Add($"file={authorFileIndex.ToString()}{extension}");
+                icon = authorFileIndex + extension;
                 authorFileIndex++;
                 copyIcon = true;
             }
@@ -359,12 +362,17 @@ namespace TerrLauncherPackCreator.Code.Implementations
             {
                 copyIcon = false;
             }
-
-            return string.Join("|", parts);
+            
+            return new AuthorJson(
+                name: name,
+                color: color,
+                file: icon,
+                link: link,
+                iconHeight: author.iconHeight
+            );
         }
 
-        [NotNull]
-        private static (string name, Color? color, string link, ImageInfo icon) StringToAuthorModel(string author, string authorIconsDir)
+        private static (string name, Color? color, string link, ImageInfo icon, int iconHeight) StringToAuthorModel(string author, string authorIconsDir)
         {
             string[] parts = author.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
             string name = null;
@@ -384,37 +392,59 @@ namespace TerrLauncherPackCreator.Code.Implementations
                         name = keyValue[1];
                         break;
                     case "color":
-                        color = (Color) ColorConverter.ConvertFromString(keyValue[1]);
+                        color = ParseAuthorColor(keyValue[1]);
                         break;
                     case "link":
                         link = keyValue[1];
                         break;
                     case "file":
-                        string authorIcon = Path.Combine(authorIconsDir, keyValue[1]);
-                        if (File.Exists(authorIcon)) {
-                            ImageInfo.ImageType iconType;
-                            switch (Path.GetExtension(authorIcon)) {
-                                case ".png":
-                                    iconType = ImageInfo.ImageType.Png;
-                                    break;
-                                case ".gif":
-                                    iconType = ImageInfo.ImageType.Gif;
-                                    break;
-                                case ".webp":
-                                    iconType = ImageInfo.ImageType.Png;
-                                    authorIcon = ImageUtils.ConvertWebPToTempPngFile(authorIcon);
-                                    break;
-                                default:
-                                    throw new ArgumentOutOfRangeException(nameof(authorIcon), authorIcon, @"Unknown extension");
-                            }
-                            icon = new ImageInfo(File.ReadAllBytes(authorIcon), iconType);
-                        }
-
+                        icon = ParseAuthorIcon(Path.Combine(authorIconsDir, keyValue[1]));
                         break;
                 }
             }
             
-            return (name, color, link, icon);
+            return (name, color, link, icon, PackUtils.DefaultAuthorIconHeight);
+        }
+        
+        private static (string name, Color? color, string link, ImageInfo icon, int iconHeight) JsonToAuthorModel(AuthorJson author, string authorIconsDir)
+        {
+            return (
+                author.Name,
+                ParseAuthorColor(author.Color),
+                author.Link,
+                author.File == null ? null : ParseAuthorIcon(Path.Combine(authorIconsDir, author.File)),
+                author.IconHeight
+            );
+        }
+
+        private static Color ParseAuthorColor([NotNull] string color)
+        {
+            // ReSharper disable once PossibleNullReferenceException
+            return (Color) ColorConverter.ConvertFromString(color);
+        }
+        
+        [CanBeNull]
+        private static ImageInfo ParseAuthorIcon([NotNull] string iconPath)
+        {
+            if (!File.Exists(iconPath))
+                return null;
+            
+            ImageInfo.ImageType iconType;
+            switch (Path.GetExtension(iconPath)) {
+                case ".png":
+                    iconType = ImageInfo.ImageType.Png;
+                    break;
+                case ".gif":
+                    iconType = ImageInfo.ImageType.Gif;
+                    break;
+                case ".webp":
+                    iconType = ImageInfo.ImageType.Png;
+                    iconPath = ImageUtils.ConvertWebPToTempPngFile(iconPath);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension");
+            }
+            return new ImageInfo(File.ReadAllBytes(iconPath), iconType);
         }
     }
 }

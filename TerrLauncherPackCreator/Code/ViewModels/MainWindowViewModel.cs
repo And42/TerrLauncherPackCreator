@@ -123,9 +123,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IPackProcessor PackProcessor { get; }
         [NotNull]
         public ITempDirsProvider TempDirsProvider { get; }
-        [NotNull]
-        public AuthorsFileProcessor AuthorsFileProcessor { get; }
-
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
 
@@ -160,8 +157,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             TempDirsProvider = new TempDirsProvider(Paths.TempDir);
             TempDirsProvider.DeleteAll();
             
-            AuthorsFileProcessor = new AuthorsFileProcessor();
-            PackCreationViewModel = new PackCreationViewModel(PackProcessor, AuthorsFileProcessor, restartApp);
+            PackCreationViewModel = new PackCreationViewModel(PackProcessor, restartApp);
 
             StepsPages = new Page[]
             {
