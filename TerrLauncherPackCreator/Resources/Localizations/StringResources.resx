@@ -336,6 +336,9 @@
   <data name="AuthorLink" xml:space="preserve">
     <value>Link:</value>
   </data>
+  <data name="AuthorIconHeight" xml:space="preserve">
+    <value>Icon height:</value>
+  </data>
   <data name="SaveAuthor" xml:space="preserve">
     <value>Save author to the list</value>
   </data>

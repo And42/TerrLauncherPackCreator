@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
+using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Code.ViewModels;
 using TerrLauncherPackCreator.Windows;
 
@@ -9,9 +10,6 @@ namespace TerrLauncherPackCreator.Code.Models
 {
     public class AuthorItemModel : ViewModelBase
     {
-        [NotNull]
-        private readonly AuthorsFileProcessor _authorsFileProcessor;
-
         [CanBeNull]
         public ImageInfo Image
         {
@@ -40,21 +38,48 @@ namespace TerrLauncherPackCreator.Code.Models
             set => SetProperty(ref _link, value);
         }
 
+        public int IconHeight
+        {
+            get => _iconHeight;
+            set => SetProperty(ref _iconHeight, value);
+        }
+
         public IActionCommand<AuthorItemModel> EditAuthorCommand { get; }
 
         [CanBeNull] private ImageInfo _image;
         [CanBeNull] private string _name;
         [CanBeNull] private Color? _color;
         [CanBeNull] private string _link;
+        private int _iconHeight;
 
-        public AuthorItemModel([NotNull] AuthorsFileProcessor authorsFileProcessor) {
-            _authorsFileProcessor = authorsFileProcessor;
+        public AuthorItemModel(): this(
+            name: null,
+            color: null,
+            image: null,
+            link: null,
+            iconHeight: PackUtils.DefaultAuthorIconHeight
+        ) {}
+        
+        public AuthorItemModel(
+            [CanBeNull] string name,
+            [CanBeNull] Color? color,
+            [CanBeNull] ImageInfo image,
+            [CanBeNull] string link,
+            int iconHeight
+        )
+        {
+            _name = name;
+            _color = color;
+            _image = image;
+            _link = link;
+            _iconHeight = iconHeight;
+            
             EditAuthorCommand = new ActionCommand<AuthorItemModel>(EditAuthorCommand_Execute);
         }
 
         private void EditAuthorCommand_Execute(AuthorItemModel authorModel)
         {
-            new AuthorEditorWindow(authorModel, _authorsFileProcessor).ShowDialog();
+            new AuthorEditorWindow(authorModel).ShowDialog();
         }
     }
 }

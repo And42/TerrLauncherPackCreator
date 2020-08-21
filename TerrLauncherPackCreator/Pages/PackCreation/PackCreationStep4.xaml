@@ -72,6 +72,8 @@
                             <ColumnDefinition Width="8"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
                             <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup"/>
                             <ColumnDefinition Width="8"/>
                             <ColumnDefinition/>
@@ -88,20 +90,67 @@
                             gif:AnimationBehavior.SourceStream="{Binding Image.Bytes, Mode=OneWay, Converter={StaticResource BytesToStream}}"
                             RenderOptions.BitmapScalingMode="NearestNeighbor"/>
 
-                        <Rectangle
+                        <Grid
+                            Name="HeightPanel"
                             Grid.Column="2"
+                            Height="40">
+                            
+                            <Grid.Resources>
+                                <Style x:Key="LineStyle" TargetType="Line">
+                                    <Setter Property="Stroke" Value="#FF0277BD"/>
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                </Style>
+                            </Grid.Resources>
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Line
+                                X1="0"
+                                X2="10"
+                                Y1="0"
+                                Y2="0"
+                                Style="{StaticResource LineStyle}"/>
+                            
+                            <Line
+                                X1="5"
+                                X2="5"
+                                Y1="0"
+                                Y2="{Binding ActualHeight, ElementName=HeightPanel, Mode=OneWay}"
+                                Style="{StaticResource LineStyle}"/>
+                            
+                            <Line
+                                X1="0"
+                                X2="10"
+                                Y1="{Binding ActualHeight, ElementName=HeightPanel, Mode=OneWay}"
+                                Y2="{Binding ActualHeight, ElementName=HeightPanel, Mode=OneWay}"
+                                Style="{StaticResource LineStyle}"/>
+                            
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Margin="4 0 0 0"
+                                MinWidth="24"
+                                Text="{Binding IconHeight}"/>
+                            
+                        </Grid>
+                        
+                        <Rectangle
+                            Grid.Column="4"
                             Width="40"
                             Height="40"
                             Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
                             VerticalAlignment="Center"/>
                         
                         <TextBlock
-                            Grid.Column="4"
+                            Grid.Column="6"
                             Text="{Binding Name}"
                             VerticalAlignment="Center"/>
 
                         <TextBlock
-                            Grid.Column="6"
+                            Grid.Column="8"
                             VerticalAlignment="Center">
                             
                             <Hyperlink NavigateUri="{Binding Link}" RequestNavigate="AuthorLink_OnRequestNavigate">
@@ -110,13 +159,13 @@
                         </TextBlock>
 
                         <Button
-                            Grid.Column="8"
+                            Grid.Column="10"
                             Content="{x:Static localizations:StringResources.EditAuthorCaption}"
                             Command="{Binding EditAuthorCommand}"
                             CommandParameter="{Binding}"/>
                         
                         <Button
-                            Grid.Column="10"
+                            Grid.Column="12"
                             Content="{x:Static localizations:StringResources.DeleteAuthorCaption}"
                             Command="{Binding DataContext.DeleteAuthorCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"
                             CommandParameter="{Binding}"/>

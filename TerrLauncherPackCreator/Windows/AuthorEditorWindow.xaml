@@ -48,6 +48,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="8"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -128,8 +130,19 @@
             Grid.Column="4"
             Text="{Binding EditableAuthor.Link}"/>
         
-        <Button
+        <TextBlock
             Grid.Row="8"
+            Grid.Column="2"
+            Text="{x:Static localizations:StringResources.AuthorIconHeight}"/>
+        <xctk:IntegerUpDown
+            Grid.Row="8"
+            Grid.Column="4"
+            Minimum="70"
+            Maximum="110"
+            Value="{Binding EditableAuthor.IconHeight}"/>
+        
+        <Button
+            Grid.Row="10"
             Grid.Column="2"
             Grid.ColumnSpan="3"
             Padding="7 3"
