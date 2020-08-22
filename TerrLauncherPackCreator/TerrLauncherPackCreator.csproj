@@ -39,6 +39,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Images\app.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdonisUI, Version=1.15.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\AdonisUI.1.15.0\lib\net45\AdonisUI.dll</HintPath>
@@ -317,6 +320,7 @@
     <Content Include="Libraries\MVVM_Tools.pdb" />
     <Content Include="Libraries\SettingsManager.dll" />
     <Content Include="Libraries\SettingsManager.pdb" />
+    <Resource Include="Resources\Images\app.ico" />
     <Resource Include="Libraries\SettingsManager.xml" />
     <Content Include="Libraries\System.IO.dll" />
     <Resource Include="Libraries\System.IO.xml" />
@@ -325,6 +329,7 @@
     <Content Include="Libraries\System.Threading.Tasks.dll" />
     <Resource Include="Libraries\System.Threading.Tasks.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
