@@ -8,6 +8,7 @@ namespace TerrLauncherPackCreator.Code.Utils
 {
     public static partial class PackUtils
     {
+        public const int DefaultAuthorIconHeight = 70;
         public const string PacksExtension = ".tl";
         public const string PacksActualExtension = ".zip";
         public const string PackFileConfigExtension = ".json";

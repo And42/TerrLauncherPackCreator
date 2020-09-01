@@ -15,7 +15,6 @@ using JetBrains.Annotations;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Enums;
-using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
@@ -26,7 +25,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        private const int PackStructureVersion = 14;
+        public const int LatestPackStructureVersion = 16;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
@@ -35,7 +34,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         };
 
         [NotNull] private readonly IPackProcessor _packProcessor;
-        [NotNull] private readonly AuthorsFileProcessor _authorsFileProcessor;
 
         #region Properties
 
@@ -149,7 +147,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable AssignNullToNotNullAttribute
-        public PackCreationViewModel() : this(null, null, null)
+        public PackCreationViewModel() : this(null, null)
         // ReSharper restore AssignNullToNotNullAttribute
         {
             if (!DesignerUtils.IsInDesignMode())
@@ -158,12 +156,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public PackCreationViewModel(
             [NotNull] IPackProcessor packProcessor,
-            [NotNull] AuthorsFileProcessor authorsFileProcessor,
             [CanBeNull] Action restartApp
         )
         {
             _packProcessor = packProcessor;
-            _authorsFileProcessor = authorsFileProcessor;
             _restartApp = restartApp;
 
             Guid = Guid.NewGuid();
@@ -273,13 +269,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
                 foreach (var author in packModel.Authors)
                 {
-                    Authors.Add(new AuthorItemModel(_authorsFileProcessor)
-                    {
-                        Name = author.name,
-                        Color = author.color,
-                        Image = author.icon,
-                        Link = author.link
-                    });
+                    Authors.Add(new AuthorItemModel(
+                        name: author.name,
+                        color: author.color,
+                        image: author.icon,
+                        link: author.link,
+                        iconHeight: author.iconHeight
+                    ));
                 }
 
                 previewItems.ForEach(Previews.Add);
@@ -472,7 +468,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void AddAuthorCommand_Execute()
         {
-            Authors.Add(new AuthorItemModel(_authorsFileProcessor));
+            Authors.Add(new AuthorItemModel());
         }
 
         private void DeleteAuthorCommand_Execute(AuthorItemModel author)
@@ -533,7 +529,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private PackModel GeneratePackModel()
         {
             return new PackModel(
-                authors: Authors.Select(author => (author.Name, author.Color, author.Link, author.Image)).ToArray(),
+                authors: Authors.Select(author => (author.Name, author.Color, author.Link, author.Image, author.IconHeight)).ToArray(),
                 previewsPaths: Previews.Where(it => !it.IsDragDropTarget)
                     .Select(it =>
                     {
@@ -648,7 +644,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         return info;
                     })
                     .ToArray(),
-                packStructureVersion: PackStructureVersion,
+                packStructureVersion: LatestPackStructureVersion,
                 iconFilePath: IconFilePath,
                 title: Title,
                 descriptionRussian: DescriptionRussian,

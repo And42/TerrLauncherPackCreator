@@ -1,24 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using TerrLauncherPackCreator.Code.Json;
+using TextureType = TerrLauncherPackCreator.Code.Json.TextureFileInfo.TextureType;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {
     public class TextureModelToHorizontalFramesVisibility : IMultiValueConverter
     {
+        private static readonly IList<TextureType> HorizontalFramesVisibleTypes = new List<TextureType> {
+            TextureType.General,
+            TextureType.NpcDeprecated,
+            TextureType.Item
+        };
+        private static readonly object VisibleObject = Visibility.Visible;
+        private static readonly object CollapsedObject = Visibility.Collapsed;
+        
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             Debug.Assert(targetType == typeof(Visibility));
 
             bool animated = (bool) values[0];
-            TextureFileInfo.TextureType currentTextureType = (TextureFileInfo.TextureType) values[1];
+            TextureType currentTextureType = (TextureType) values[1];
 
-            return animated && currentTextureType == TextureFileInfo.TextureType.Npc
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            return animated && HorizontalFramesVisibleTypes.Contains(currentTextureType) ? VisibleObject : CollapsedObject;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

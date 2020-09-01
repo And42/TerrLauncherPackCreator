@@ -288,17 +288,17 @@
   <data name="TextureTypeGeneral" xml:space="preserve">
     <value>Общее</value>
   </data>
-  <data name="TextureTypeItem" xml:space="preserve">
-    <value>Предмет</value>
+  <data name="TextureTypeItemDeprecated" xml:space="preserve">
+    <value>Предмет (устаревший)</value>
   </data>
-  <data name="TextureTypeNpc" xml:space="preserve">
-    <value>Моб</value>
+  <data name="TextureTypeNpcDeprecated" xml:space="preserve">
+    <value>Моб (устаревший)</value>
   </data>
-  <data name="TextureTypeBuff" xml:space="preserve">
-    <value>Баф</value>
+  <data name="TextureTypeBuffDeprecated" xml:space="preserve">
+    <value>Баф (устаревший)</value>
   </data>
-  <data name="TextureTypeExtra" xml:space="preserve">
-    <value>Экстра</value>
+  <data name="TextureTypeExtraDeprecated" xml:space="preserve">
+    <value>Экстра (устаревший)</value>
   </data>
   <data name="ElementIdHint" xml:space="preserve">
     <value>Id элемента:</value>
@@ -371,5 +371,11 @@
   </data>
   <data name="ApplyOriginalSize" xml:space="preserve">
     <value>Применить исходные размеры</value>
+  </data>
+  <data name="TextureTypeItem" xml:space="preserve">
+    <value>Предмет</value>
+  </data>
+  <data name="AuthorIconHeight" xml:space="preserve">
+    <value>Высота иконки:</value>
   </data>
 </root>

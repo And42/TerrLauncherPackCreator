@@ -8,10 +8,11 @@ namespace TerrLauncherPackCreator.Code.Json
         public enum TextureType
         {
             General = 0,
-            Item = 1,
-            Npc = 2,
-            Buff = 3,
-            Extra = 4
+            ItemDeprecated = 1,
+            NpcDeprecated = 2,
+            BuffDeprecated = 3,
+            ExtraDeprecated = 4,
+            Item = 5
         }
         
         [JsonProperty("type")]
