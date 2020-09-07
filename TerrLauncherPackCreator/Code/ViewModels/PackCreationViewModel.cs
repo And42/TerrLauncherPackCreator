@@ -25,7 +25,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        public const int LatestPackStructureVersion = 16;
+        public const int LatestPackStructureVersion = 17;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         // ReSharper disable once UnusedMember.Local
