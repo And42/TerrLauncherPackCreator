@@ -152,7 +152,7 @@
                 VerticalAlignment="Center"/>
             
             <Popup
-                IsOpen="{Binding IsPredefindTagsPopupOpen}"
+                IsOpen="{Binding IsPredefinedTagsPopupOpen}"
                 PlacementTarget="{Binding ElementName=AddTagButton}">
                 
                 <ListBox

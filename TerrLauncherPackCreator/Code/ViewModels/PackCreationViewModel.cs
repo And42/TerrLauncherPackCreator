@@ -28,9 +28,39 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public const int LatestPackStructureVersion = 16;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
-        private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
+        // ReSharper disable once UnusedMember.Local
+        private const int _ = 1 / (29 / (int) PredefinedPackTag.LastEnumElement);
+        private static readonly IReadOnlyList<PredefinedPackTag> AllPredefinedTags = new []
         {
-            PredefinedPackTag.Animated
+            PredefinedPackTag.TexturesAnimated,
+            PredefinedPackTag.TexturesWeapons,
+            PredefinedPackTag.TexturesTools,
+            PredefinedPackTag.TexturesVanity,
+            PredefinedPackTag.TexturesArmor,
+            PredefinedPackTag.TexturesPets,
+            PredefinedPackTag.TexturesBosses,
+            PredefinedPackTag.TexturesMobs,
+            PredefinedPackTag.TexturesNpc,
+            PredefinedPackTag.TexturesBlocks,
+            PredefinedPackTag.TexturesOther,
+            PredefinedPackTag.MapsBuildings,
+            PredefinedPackTag.MapsAdventure,
+            PredefinedPackTag.MapsSurvival,
+            PredefinedPackTag.MapsOther,
+            PredefinedPackTag.CharactersCombat,
+            PredefinedPackTag.CharactersAppearance,
+            PredefinedPackTag.CharactersOther,
+            PredefinedPackTag.GuiAnimated,
+            PredefinedPackTag.GuiInventory,
+            PredefinedPackTag.GuiHealthOrMana,
+            PredefinedPackTag.GuiGeneral,
+            PredefinedPackTag.GuiOther,
+            PredefinedPackTag.AudioBiomsOrLocation,
+            PredefinedPackTag.AudioBosses,
+            PredefinedPackTag.AudioEvents,
+            PredefinedPackTag.AudioSounds,
+            PredefinedPackTag.AudioOther,
+            PredefinedPackTag.FontsAnimated,
         };
 
         [NotNull] private readonly IPackProcessor _packProcessor;
@@ -78,10 +108,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public IReadOnlyList<PredefinedPackTag> RemainedPredefinedTags => AllPredefinedTags.Except(PredefinedTags).ToList();
         
-        public bool IsPredefindTagsPopupOpen
+        public bool IsPredefinedTagsPopupOpen
         {
-            get => _isPredefindTagsPopupOpen;
-            set => SetProperty(ref _isPredefindTagsPopupOpen, value);
+            get => _isPredefinedTagsPopupOpen;
+            set => SetProperty(ref _isPredefinedTagsPopupOpen, value);
         }
 
         public bool IsBonusPack
@@ -110,7 +140,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private string _descriptionEnglish;
         private Guid _guid;
         private int _version;
-        private bool _isPredefindTagsPopupOpen;
+        private bool _isPredefinedTagsPopupOpen;
         private bool _isBonusPack;
 
         #endregion
@@ -317,13 +347,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void AddPredefinedTagExecuted()
         {
-            IsPredefindTagsPopupOpen = true;
+            IsPredefinedTagsPopupOpen = !IsPredefinedTagsPopupOpen;
         }
 
         private void AddSelectedTagExecuted(PredefinedPackTag tag)
         {
             PredefinedTags.Add(tag);
-            IsPredefindTagsPopupOpen = false;
+            IsPredefinedTagsPopupOpen = false;
         }
         
         private bool RemovePredefinedTagCanExecute(PredefinedPackTag _)
@@ -424,12 +454,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         
         private bool SaveResourceCommand_CanExecute([NotNull] ModifiedFileModel file)
         {
+#pragma warning disable 219
             {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
             }
-            
+#pragma warning restore 219
+
             return !Working && !file.IsDragDropTarget && (
                 file is ModifiedTextureModel ||
                 file is ModifiedGuiModel ||
@@ -443,11 +473,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             if (string.IsNullOrEmpty(file.FilePath) || !File.Exists(file.FilePath))
                 return;
 
+#pragma warning disable 219
             {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
             }
+#pragma warning restore 219
             
             string extension = file switch
             {
@@ -562,12 +592,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
                     {
-                        {
-                            const int fileTypesHandled = 7;
-                            const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                                          1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-                        }
-                        
                         IPackFileInfo fileInfo;
                         switch (it.FilesType)
                         {
@@ -631,6 +655,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                         : $"{audioModel.Prefix}/{audioModel.Name}"
                                 );
                                 break;
+                            case FileType.LastEnumElement:
+                                throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }
@@ -706,13 +732,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         [NotNull]
         private static ModifiedFileModel FileToModel(FileType fileType, [NotNull] string filePath, [CanBeNull] IPackFileInfo fileInfo)
         {
-            {
-                const int fileTypesHandled = 7;
-                // ReSharper disable once UnusedVariable
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-            }
-            
             switch (fileType)
             {
                 case FileType.Texture:
@@ -804,6 +823,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
                     return model;
                 }
+                case FileType.LastEnumElement:
+                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }

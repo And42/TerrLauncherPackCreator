@@ -49,12 +49,6 @@ namespace TerrLauncherPackCreator.Code.Implementations
             if (!File.Exists(targetFile))
                 throw new FileNotFoundException("File not found", targetFile);
 
-            {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-            }
-
             // config
             IPackFileInfo fileInfo = null;
             if (configFile != null && File.Exists(configFile))
@@ -69,6 +63,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     FileType.Translation => JsonConvert.DeserializeObject<TranslationFileInfo>(configText),
                     FileType.Font => JsonConvert.DeserializeObject<FontFileInfo>(configText),
                     FileType.Audio => JsonConvert.DeserializeObject<AudioFileInfo>(configText),
+                    FileType.LastEnumElement => throw new ArgumentException(
+                        (1 / (7 / (int) FileType.LastEnumElement)).ToString()
+                    ),
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 if (fileType == FileType.Texture && packStructureVersion < 15)
@@ -79,12 +76,6 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 }
             }
 
-            {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-            }
-            
             // file
             string sourceFile;
             switch (fileType)
@@ -101,6 +92,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     File.Copy(targetFile, uniqueFile, overwrite: false);
                     sourceFile = uniqueFile;
                     break;
+                case FileType.LastEnumElement:
+                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }

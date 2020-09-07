@@ -2,6 +2,7 @@
 {
     public enum BonusType
     {
-        OldVersionOwners = 0
+        OldVersionOwners = 0,
+        LastEnumElement
     }
 }

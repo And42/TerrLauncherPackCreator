@@ -227,6 +227,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 AuthorJson json = AuthorModelToJson(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
                 authorsMappings.Add((copyIcon ? author.icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
             }
+#pragma warning disable 219
+            const int _ = 1 / (1 / (int) BonusType.LastEnumElement);
+#pragma warning restore 219
             var packSettingsJson = new PackSettings(
                 packStructureVersion: packModel.PackStructureVersion,
                 title: packModel.Title,
