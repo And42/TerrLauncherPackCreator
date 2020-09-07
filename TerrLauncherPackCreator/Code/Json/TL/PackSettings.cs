@@ -21,7 +21,7 @@ namespace TerrLauncherPackCreator.Code.Json.TL
                 int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
                 while (packStructureVersion < PackCreationViewModel.LatestPackStructureVersion)
                 {
-                    if (packStructureVersion < 15)
+                    if (packStructureVersion <= 15)
                     {
                         var authors = jsonObject["authors"]?.ToObject<string>();
                         if (authors != null)
