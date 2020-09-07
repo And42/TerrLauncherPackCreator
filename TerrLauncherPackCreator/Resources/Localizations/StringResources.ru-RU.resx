@@ -345,8 +345,8 @@
   <data name="CantSaveAppSettings" xml:space="preserve">
     <value>Не удалось сохранить настройки:</value>
   </data>
-  <data name="PredefinedPackTagAnimated" xml:space="preserve">
-    <value>Анимированный</value>
+  <data name="PredefinedPackTagTexturesAnimated" xml:space="preserve">
+    <value>Текстуры: Анимированные</value>
   </data>
   <data name="AddTag" xml:space="preserve">
     <value>Добавить тег</value>
@@ -377,5 +377,89 @@
   </data>
   <data name="AuthorIconHeight" xml:space="preserve">
     <value>Высота иконки:</value>
+  </data>
+  <data name="PredefinedPackTagAudioBiomsOrLocations" xml:space="preserve">
+    <value>Аудио: Биомы или локации</value>
+  </data>
+  <data name="PredefinedPackTagAudioBosses" xml:space="preserve">
+    <value>Аудио: Боссы</value>
+  </data>
+  <data name="PredefinedPackTagAudioEvents" xml:space="preserve">
+    <value>Аудио: События</value>
+  </data>
+  <data name="PredefinedPackTagAudioOther" xml:space="preserve">
+    <value>Аудио: Другое</value>
+  </data>
+  <data name="PredefinedPackTagAudioSounds" xml:space="preserve">
+    <value>Аудио: Звуки</value>
+  </data>
+  <data name="PredefinedPackTagCharactersAppearance" xml:space="preserve">
+    <value>Персонажи: Внешний вид</value>
+  </data>
+  <data name="PredefinedPackTagCharactersCombat" xml:space="preserve">
+    <value>Персонажи: Боевые</value>
+  </data>
+  <data name="PredefinedPackTagCharactersOther" xml:space="preserve">
+    <value>Персонажи: Другое</value>
+  </data>
+  <data name="PredefinedPackTagFontsAnimated" xml:space="preserve">
+    <value>Шрифты: Анимированные</value>
+  </data>
+  <data name="PredefinedPackTagGuiAnimated" xml:space="preserve">
+    <value>Интерфейс: Анимированный</value>
+  </data>
+  <data name="PredefinedPackTagGuiGeneral" xml:space="preserve">
+    <value>Интерфейс: Общее</value>
+  </data>
+  <data name="PredefinedPackTagGuiHealthOrMana" xml:space="preserve">
+    <value>Интерфейс: Жизни или мана</value>
+  </data>
+  <data name="PredefinedPackTagGuiInventory" xml:space="preserve">
+    <value>Интерфейс: Инвентарь</value>
+  </data>
+  <data name="PredefinedPackTagGuiOther" xml:space="preserve">
+    <value>Интерфейс: Другое</value>
+  </data>
+  <data name="PredefinedPackTagMapsAdventure" xml:space="preserve">
+    <value>Карты: Прохождение</value>
+  </data>
+  <data name="PredefinedPackTagMapsBuildings" xml:space="preserve">
+    <value>Карты: Постройки</value>
+  </data>
+  <data name="PredefinedPackTagMapsOther" xml:space="preserve">
+    <value>Карты: Другое</value>
+  </data>
+  <data name="PredefinedPackTagMapsSurvival" xml:space="preserve">
+    <value>Карты: Выживание</value>
+  </data>
+  <data name="PredefinedPackTagTexturesArmor" xml:space="preserve">
+    <value>Текстуры: Броня</value>
+  </data>
+  <data name="PredefinedPackTagTexturesBlocks" xml:space="preserve">
+    <value>Текстуры: Блоки</value>
+  </data>
+  <data name="PredefinedPackTagTexturesBosses" xml:space="preserve">
+    <value>Текстуры: Боссы</value>
+  </data>
+  <data name="PredefinedPackTagTexturesMobs" xml:space="preserve">
+    <value>Текстуры: Мобы</value>
+  </data>
+  <data name="PredefinedPackTagTexturesNpc" xml:space="preserve">
+    <value>Текстуры: Нпс</value>
+  </data>
+  <data name="PredefinedPackTagTexturesOther" xml:space="preserve">
+    <value>Текстуры: Другое</value>
+  </data>
+  <data name="PredefinedPackTagTexturesPets" xml:space="preserve">
+    <value>Текстуры: Питомцы</value>
+  </data>
+  <data name="PredefinedPackTagTexturesTools" xml:space="preserve">
+    <value>Текстуры: Инструменты</value>
+  </data>
+  <data name="PredefinedPackTagTexturesVanity" xml:space="preserve">
+    <value>Текстуры: Костюмы</value>
+  </data>
+  <data name="PredefinedPackTagTexturesWeapons" xml:space="preserve">
+    <value>Текстуры: Оружие</value>
   </data>
 </root>

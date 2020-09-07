@@ -2,20 +2,13 @@
 {
     public enum FileType
     {
-        Texture,
-        Map,
-        Character,
-        Gui,
-        Translation,
-        Font,
-        Audio
-    }
-}
-
-namespace TerrLauncherPackCreator.Code.Utils
-{
-    public static partial class PackUtils
-    {
-        public const int TotalFileTypes = 7;
+        Texture = 0,
+        Map = 1,
+        Character = 2,
+        Gui = 3,
+        Translation = 4,
+        Font = 5,
+        Audio = 6,
+        LastEnumElement
     }
 }

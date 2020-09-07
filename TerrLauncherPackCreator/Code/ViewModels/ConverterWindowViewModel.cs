@@ -115,12 +115,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         string resultFileName = Path.GetFileNameWithoutExtension(file);
                         if (fileInfo != null)
                         {
-                            {
-                                const int fileTypesHandled = 7;
-                                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-                            }
-                            
                             switch (CurrentFileType)
                             {
                                 case FileType.Texture:
@@ -151,6 +145,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     var audioInfo = (AudioFileInfo) fileInfo;
                                     resultFileName = audioInfo.EntryName;
                                     break;
+                                case FileType.LastEnumElement:
+                                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }

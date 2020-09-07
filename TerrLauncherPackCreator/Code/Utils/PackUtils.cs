@@ -6,7 +6,7 @@ using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.Utils
 {
-    public static partial class PackUtils
+    public static class PackUtils
     {
         public const int DefaultAuthorIconHeight = 70;
         public const string PacksExtension = ".tl";
@@ -22,11 +22,9 @@ namespace TerrLauncherPackCreator.Code.Utils
         
         static PackUtils()
         {
-            {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / TotalFileTypes) +
-                              1 / (TotalFileTypes / fileTypesHandled);
-            }
+#pragma warning disable 219
+            const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+#pragma warning restore 219
             
             PacksInfo = new[]
             {

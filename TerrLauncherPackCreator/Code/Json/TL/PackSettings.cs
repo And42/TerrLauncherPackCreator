@@ -19,9 +19,10 @@ namespace TerrLauncherPackCreator.Code.Json.TL
             {
                 JObject jsonObject = JObject.Parse(json);
                 int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
+                const int _ = 1 / (17 / PackCreationViewModel.LatestPackStructureVersion);
                 while (packStructureVersion < PackCreationViewModel.LatestPackStructureVersion)
                 {
-                    if (packStructureVersion < 15)
+                    if (packStructureVersion <= 15)
                     {
                         var authors = jsonObject["authors"]?.ToObject<string>();
                         if (authors != null)
@@ -36,7 +37,7 @@ namespace TerrLauncherPackCreator.Code.Json.TL
                     }
                     else
                     {
-                        throw new Exception("Can't handle structure version: " + packStructureVersion);
+                        packStructureVersion = 17;
                     }
                 }
 
