@@ -30,8 +30,8 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
 
         private readonly TaskbarItemInfo _taskbarItemInfo;
 
-        private DownloadSpeedEvaluator _downloadSpeedEvaluator;
-        private WebClient _webClient;
+        private readonly DownloadSpeedEvaluator _downloadSpeedEvaluator;
+        private readonly WebClient _webClient;
         private bool _started;
 
         #region backing fields
@@ -42,8 +42,17 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
         public UpdaterWindowViewModel(TaskbarItemInfo taskbarItemInfo)
         {
             _taskbarItemInfo = taskbarItemInfo ?? throw new ArgumentNullException(nameof(taskbarItemInfo));
-
             _taskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            
+            _webClient = new WebClient();
+            _webClient.DownloadProgressChanged += WebClientOnDownloadProgressChanged;
+            _webClient.DownloadDataCompleted += WebClientOnDownloadDataCompleted;
+            
+            _downloadSpeedEvaluator = new DownloadSpeedEvaluator(
+                webClient: _webClient,
+                updatePeriodMs: 1000,
+                onSpeedMeasured: speed => SpeedInBytes = speed
+            );
             
             PropertyChanged += OnPropertyChanged;
         }
@@ -54,13 +63,6 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
                 return;
 
             _started = true;
-
-            _webClient = new WebClient();
-
-            _webClient.DownloadProgressChanged += WebClientOnDownloadProgressChanged;
-            _webClient.DownloadDataCompleted += WebClientOnDownloadDataCompleted;
-
-            _downloadSpeedEvaluator = new DownloadSpeedEvaluator(_webClient, 1000, speed => SpeedInBytes = speed);
 
             _webClient.DownloadDataAsync(new Uri(CommonConstants.LatestVersionZipUrl));
         }
@@ -95,9 +97,6 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             _webClient.DownloadDataCompleted -= WebClientOnDownloadDataCompleted;
             _webClient.Dispose();
 
-            _downloadSpeedEvaluator = null;
-            _webClient = null;
-
             using (var memoryStream = new MemoryStream(e.Result))
             using (var zip = ZipFile.Read(memoryStream))
             {
@@ -112,7 +111,7 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
             Environment.Exit(0);
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
