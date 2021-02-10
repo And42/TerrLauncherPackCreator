@@ -174,7 +174,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable AssignNullToNotNullAttribute
-        public PackCreationViewModel() : this(null, null)
+        public PackCreationViewModel() : this(null!, null)
         // ReSharper restore AssignNullToNotNullAttribute
         {
             if (!DesignerUtils.IsInDesignMode())
@@ -604,61 +604,67 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         {
                             case FileType.Texture:
                                 var textureModel = (ModifiedTextureModel) it.modified;
-                                fileInfo = new TextureFileInfo
-                                {
-                                    Type = textureModel.CurrentTextureType,
-                                    Animated = textureModel.Animated,
-                                    AnimateInGui = textureModel.AnimateInGui,
-                                    EntryName = string.IsNullOrEmpty(textureModel.Prefix)
-                                        ? textureModel.Name
+                                fileInfo = new TextureFileInfo(
+                                    Type: textureModel.CurrentTextureType,
+                                    Animated: textureModel.Animated,
+                                    AnimateInGui: textureModel.AnimateInGui,
+                                    EntryName: string.IsNullOrEmpty(textureModel.Prefix)
+                                        ? textureModel.Name ?? string.Empty
                                         : $"{textureModel.Prefix}/{textureModel.Name}",
-                                    ElementId = textureModel.ElementId,
-                                    MillisecondsPerFrame = textureModel.MillisecondsPerFrame,
-                                    NumberOfVerticalFrames = textureModel.NumberOfVerticalFrames,
-                                    NumberOfHorizontalFrames = textureModel.NumberOfHorizontalFrames,
-                                    ApplyOriginalSize = textureModel.ApplyOriginalSize
-                                };
+                                    ElementId: textureModel.ElementId,
+                                    MillisecondsPerFrame: textureModel.MillisecondsPerFrame,
+                                    NumberOfVerticalFrames: textureModel.NumberOfVerticalFrames,
+                                    NumberOfHorizontalFrames: textureModel.NumberOfHorizontalFrames,
+                                    ApplyOriginalSize: textureModel.ApplyOriginalSize
+                                );
                                 break;
                             case FileType.Map:
                                 var mapModel = (ModifiedMapModel) it.modified;
                                 fileInfo = new MapFileInfo(
-                                    resultFileName: mapModel.ResultFileName ?? string.Empty
+                                    ResultFileName: mapModel.ResultFileName ?? string.Empty
                                 );
                                 break;
                             case FileType.Character:
                                 var characterModel = (ModifiedCharacterModel) it.modified;
                                 fileInfo = new CharacterFileInfo(
-                                    resultFileName: characterModel.ResultFileName
+                                    ResultFileName: characterModel.ResultFileName
                                 );
                                 break;
                             case FileType.Gui:
                                 var guiModel = (ModifiedGuiModel) it.modified;
-                                fileInfo = new GuiFileInfo
-                                {
-                                    EntryName = string.IsNullOrEmpty(guiModel.Prefix)
-                                        ? guiModel.Name
-                                        : $"{guiModel.Prefix}/{guiModel.Name}"
-                                };
+                                fileInfo = new GuiFileInfo(
+                                    Type: TextureFileInfo.TextureType.General,
+                                    EntryName: string.IsNullOrEmpty(guiModel.Prefix)
+                                        ? guiModel.Name ?? string.Empty
+                                        : $"{guiModel.Prefix}/{guiModel.Name}",
+                                    ElementId: 0,
+                                    Animated: false,
+                                    AnimateInGui: false,
+                                    NumberOfVerticalFrames: 1,
+                                    NumberOfHorizontalFrames: 1,
+                                    MillisecondsPerFrame: 0,
+                                    ApplyOriginalSize: true
+                                );
                                 break;
                             case FileType.Translation:
                                 var translationModel = (ModifiedTranslationModel) it.modified;
                                 fileInfo = new TranslationFileInfo(
-                                    language: translationModel.CurrentLanguage
+                                    Language: translationModel.CurrentLanguage
                                 );
                                 break;
                             case FileType.Font:
                                 var fontModel = (ModifiedFontModel) it.modified;
                                 fileInfo = new FontFileInfo(
-                                    entryName: string.IsNullOrEmpty(fontModel.Prefix)
-                                        ? fontModel.Name
+                                    EntryName: string.IsNullOrEmpty(fontModel.Prefix)
+                                        ? fontModel.Name ?? string.Empty
                                         : $"{fontModel.Prefix}/{fontModel.Name}"
                                 );
                                 break;
                             case FileType.Audio:
                                 var audioModel = (ModifiedAudioModel) it.modified;
                                 fileInfo = new AudioFileInfo(
-                                    entryName: string.IsNullOrEmpty(audioModel.Prefix)
-                                        ? audioModel.Name
+                                    EntryName: string.IsNullOrEmpty(audioModel.Prefix)
+                                        ? audioModel.Name ?? string.Empty
                                         : $"{audioModel.Prefix}/{audioModel.Name}"
                                 );
                                 break;

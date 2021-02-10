@@ -139,13 +139,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             LoadProgressManager = new ProgressManager {Text = StringResources.LoadingProgressStep};
             SaveProgressManager = new ProgressManager {Text = StringResources.SavingProcessStep};
-            FileConverter = new FileConverter();
+            FileConverter = new FileConverter(SessionHelper.Instance);
 
             PackProcessor = new PackProcessor(
                 LoadProgressManager,
                 SaveProgressManager,
                 FileConverter,
-                new SessionHelper(),
+                SessionHelper.Instance,
                 new ImageConverter()
             );
             TempDirsProvider = new TempDirsProvider(Paths.TempDir);
