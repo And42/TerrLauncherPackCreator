@@ -24,5 +24,10 @@ namespace CrossPlatform.Code.Utils
 
             return sw.ToString();
         }
+
+        public static T? Deserialize<T>(string value)
+        {
+            return JsonConvert.DeserializeObject<T>(value);
+        }
     }
 }

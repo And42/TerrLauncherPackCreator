@@ -6,7 +6,6 @@ using CrossPlatform.Code.FileInfos;
 using CrossPlatform.Code.Interfaces;
 using CrossPlatform.Code.Json.FileInfos;
 using CrossPlatform.Code.Utils;
-using Newtonsoft.Json;
 using AudioFileInfo = CrossPlatform.Code.FileInfos.AudioFileInfo;
 
 namespace CrossPlatform.Code.Implementations
@@ -124,7 +123,7 @@ namespace CrossPlatform.Code.Implementations
 
         private static TextureFileInfo DeserializeTextureFileInfo(string text)
         {
-            var json = JsonConvert.DeserializeObject<TextureFileInfoJson>(text);
+            var json = JsonUtils.Deserialize<TextureFileInfoJson>(text) ?? throw new InvalidOperationException();;
             return new TextureFileInfo(
                 Type: json.Type,
                 EntryName: json.EntryName ?? string.Empty,
@@ -140,7 +139,7 @@ namespace CrossPlatform.Code.Implementations
 
         private static MapFileInfo DeserializeMapFileInfo(string text)
         {
-            var json = JsonConvert.DeserializeObject<MapFileInfoJson>(text);
+            var json = JsonUtils.Deserialize<MapFileInfoJson>(text) ?? throw new InvalidOperationException();;
             return new MapFileInfo(
                 ResultFileName: json.ResultFileName
             );
@@ -148,7 +147,7 @@ namespace CrossPlatform.Code.Implementations
         
         private static CharacterFileInfo DeserializeCharacterFileInfo(string text)
         {
-            var json = JsonConvert.DeserializeObject<CharacterFileInfoJson>(text);
+            var json = JsonUtils.Deserialize<CharacterFileInfoJson>(text) ?? throw new InvalidOperationException();;
             return new CharacterFileInfo(
                 ResultFileName: json.ResultFileName
             );
@@ -156,7 +155,7 @@ namespace CrossPlatform.Code.Implementations
 
         private static TextureFileInfo DeserializeGuiFileInfo(string text)
         {
-            var json = JsonConvert.DeserializeObject<GuiFileInfoJson>(text);
+            var json = JsonUtils.Deserialize<GuiFileInfoJson>(text) ?? throw new InvalidOperationException();;
             return new GuiFileInfo(
                 Type: json.Type,
                 EntryName: json.EntryName ?? string.Empty,
@@ -172,7 +171,7 @@ namespace CrossPlatform.Code.Implementations
         
         private static TranslationFileInfo DeserializeTranslationFileInfo(string text)
         {
-            var json = JsonConvert.DeserializeObject<TranslationFileInfoJson>(text);
+            var json = JsonUtils.Deserialize<TranslationFileInfoJson>(text) ?? throw new InvalidOperationException();;
             return new TranslationFileInfo(
                 Language: json.Language
             );
@@ -180,7 +179,7 @@ namespace CrossPlatform.Code.Implementations
         
         private static FontFileInfo DeserializeFontFileInfo(string text)
         {
-            var json = JsonConvert.DeserializeObject<FontFileInfoJson>(text);
+            var json = JsonUtils.Deserialize<FontFileInfoJson>(text) ?? throw new InvalidOperationException();;
             return new FontFileInfo(
                 EntryName: json.EntryName ?? string.Empty
             );
@@ -188,15 +187,15 @@ namespace CrossPlatform.Code.Implementations
         
         private static AudioFileInfo DeserializeAudioFileInfo(string text)
         {
-            var json = JsonConvert.DeserializeObject<AudioFileInfoJson>(text);
+            var json = JsonUtils.Deserialize<AudioFileInfoJson>(text) ?? throw new InvalidOperationException();
             return new AudioFileInfo(
-                EntryName: json.EntryName
+                EntryName: json.EntryName ?? throw new InvalidOperationException()
             );
         }
 
         public static string SerializeFileInfo(TextureFileInfo fileInfo)
         {
-            return JsonConvert.SerializeObject(
+            return JsonUtils.Serialize(
                 new TextureFileInfoJson
                 {
                     Type = fileInfo.Type,
@@ -208,36 +207,33 @@ namespace CrossPlatform.Code.Implementations
                     NumberOfHorizontalFrames = fileInfo.NumberOfHorizontalFrames,
                     MillisecondsPerFrame = fileInfo.MillisecondsPerFrame,
                     ApplyOriginalSize = fileInfo.ApplyOriginalSize
-                },
-                Formatting.Indented
+                }
             );
         }
         
         public static string SerializeFileInfo(MapFileInfo fileInfo)
         {
-            return JsonConvert.SerializeObject(
+            return JsonUtils.Serialize(
                 new MapFileInfoJson
                 {
                     ResultFileName = fileInfo.ResultFileName
-                },
-                Formatting.Indented
+                }
             );
         }
         
         public static string SerializeFileInfo(CharacterFileInfo fileInfo)
         {
-            return JsonConvert.SerializeObject(
+            return JsonUtils.Serialize(
                 new CharacterFileInfoJson
                 {
                     ResultFileName = fileInfo.ResultFileName
-                },
-                Formatting.Indented
+                }
             );
         }
         
         public static string SerializeFileInfo(GuiFileInfo fileInfo)
         {
-            return JsonConvert.SerializeObject(
+            return JsonUtils.Serialize(
                 new GuiFileInfoJson
                 {
                     Type = fileInfo.Type,
@@ -249,41 +245,37 @@ namespace CrossPlatform.Code.Implementations
                     NumberOfHorizontalFrames = fileInfo.NumberOfHorizontalFrames,
                     MillisecondsPerFrame = fileInfo.MillisecondsPerFrame,
                     ApplyOriginalSize = fileInfo.ApplyOriginalSize
-                },
-                Formatting.Indented
+                }
             );
         }
         
         public static string SerializeFileInfo(TranslationFileInfo fileInfo)
         {
-            return JsonConvert.SerializeObject(
+            return JsonUtils.Serialize(
                 new TranslationFileInfoJson
                 {
                     Language = fileInfo.Language
-                },
-                Formatting.Indented
+                }
             );
         }
         
         public static string SerializeFileInfo(FontFileInfo fileInfo)
         {
-            return JsonConvert.SerializeObject(
+            return JsonUtils.Serialize(
                 new FontFileInfoJson
                 {
                     EntryName = fileInfo.EntryName
-                },
-                Formatting.Indented
+                }
             );
         }
         
         public static string SerializeFileInfo(AudioFileInfo fileInfo)
         {
-            return JsonConvert.SerializeObject(
+            return JsonUtils.Serialize(
                 new AudioFileInfoJson
                 {
                     EntryName = fileInfo.EntryName
-                },
-                Formatting.Indented
+                }
             );
         }
     }
