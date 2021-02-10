@@ -204,11 +204,13 @@ namespace CrossPlatform.Code.Implementations
                     targetFile: modifiedFile,
                     configFile: configFile
                 );
-                modifiedFiles.Add(new PackModel.ModifiedFile(
-                    Config: fileInfo,
-                    FilePath: sourceFile,
-                    FileType: fileType
-                ));
+                modifiedFiles.Add(
+                    new PackModel.ModifiedFile(
+                        Config: fileInfo,
+                        FilePath: sourceFile,
+                        FileType: fileType
+                    )
+                );
             }
     
             return new PackModel(

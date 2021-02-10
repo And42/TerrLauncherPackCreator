@@ -1,17 +1,12 @@
 ﻿namespace CrossPlatform.Code.Implementations {
 
-    public class ImageInfo {
+    public record ImageInfo(
+        byte[] Bytes,
+        ImageInfo.ImageType Type
+    ) {
         public enum ImageType {
             Png = 0,
             Gif = 1
-        }
-        
-        public byte[] Bytes { get; }
-        public ImageType Type { get; }
-        
-        public ImageInfo(byte[] bytes, ImageType type) {
-            Bytes = bytes;
-            Type = type;
         }
     }
 }
