@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using TerrLauncherPackCreator.Code.Enums;
-using TerrLauncherPackCreator.Code.Implementations;
-using TerrLauncherPackCreator.Code.Interfaces;
+using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.Implementations;
+using CrossPlatform.Code.Interfaces;
 
-namespace TerrLauncherPackCreator.Code.Models
+namespace CrossPlatform.Code.Models
 {
     public record PackModel(
         int PackStructureVersion,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using CommonLibrary.CommonUtils;
+using CrossPlatform.Code.Utils;
 using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Resources.Localizations;

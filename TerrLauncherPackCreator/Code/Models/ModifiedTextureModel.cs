@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using TextureType = TerrLauncherPackCreator.Code.Json.TextureFileInfo.TextureType;
+using TextureType = CrossPlatform.Code.FileInfos.TextureFileInfo.TextureType;
 
 namespace TerrLauncherPackCreator.Code.Models
 {

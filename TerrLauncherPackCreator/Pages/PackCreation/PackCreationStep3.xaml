@@ -10,6 +10,7 @@
     xmlns:json="clr-namespace:TerrLauncherPackCreator.Code.Json;assembly=CrossPlatform"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:me="clr-namespace:TerrLauncherPackCreator.Code.MarkupExtensions"
+    xmlns:fileInfos="clr-namespace:CrossPlatform.Code.FileInfos;assembly=CrossPlatform"
     mc:Ignorable="d" 
 
     d:DesignHeight="450" d:DesignWidth="800"
@@ -187,7 +188,7 @@
                             SelectedItem="{Binding CurrentTextureType}"
                             ItemsSource="{Binding TextureTypes}">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="json:TextureFileInfo+TextureType">
+                                <DataTemplate DataType="fileInfos:TextureFileInfo+TextureType">
                                     <TextBlock Text="{Binding Converter={StaticResource TextureTypeToStringConverter}}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
@@ -198,7 +199,7 @@
                             Visibility="{
                                 Binding CurrentTextureType,
                                 Converter={StaticResource VisibleIfEqualToParameterConverter},
-                                ConverterParameter={x:Static json:TextureFileInfo+TextureType.General}
+                                ConverterParameter={x:Static fileInfos:TextureFileInfo+TextureType.General}
                             }">
 
                             <Grid.ColumnDefinitions>
@@ -288,7 +289,7 @@
                             Visibility="{
                                 Binding CurrentTextureType,
                                 Converter={StaticResource CollapsedIfEqualToParameterConverter},
-                                ConverterParameter={x:Static json:TextureFileInfo+TextureType.General}
+                                ConverterParameter={x:Static fileInfos:TextureFileInfo+TextureType.General}
                             }"
                             IsEnabled="{
                                 Binding CurrentTextureType,

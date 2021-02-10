@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using CommonLibrary.CommonUtils;
+using CrossPlatform.Code.Utils;
 using IWshRuntimeLibrary;
 using TerrLauncherPackCreatorUpdater.Resources.Localizations;
 using TerrLauncherPackCreatorUpdater.Windows;

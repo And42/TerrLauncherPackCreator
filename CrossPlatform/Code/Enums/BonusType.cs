@@ -1,4 +1,4 @@
-﻿namespace TerrLauncherPackCreator.Code.Enums
+﻿namespace CrossPlatform.Code.Enums
 {
     public enum BonusType
     {

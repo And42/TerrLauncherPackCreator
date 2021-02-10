@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Media;
 using CommonLibrary;
 using CommonLibrary.CommonUtils;
+using CrossPlatform.Code.Utils;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Interfaces;

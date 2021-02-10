@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using CommonLibrary.CommonUtils;
+using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.FileInfos;
+using CrossPlatform.Code.Interfaces;
 using CrossPlatform.Code.Json.FileInfos;
+using CrossPlatform.Code.Utils;
 using Newtonsoft.Json;
-using TerrLauncherPackCreator.Code.Enums;
-using TerrLauncherPackCreator.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Json;
-using AudioFileInfo = TerrLauncherPackCreator.Code.Json.AudioFileInfo;
+using AudioFileInfo = CrossPlatform.Code.FileInfos.AudioFileInfo;
 
-namespace TerrLauncherPackCreator.Code.Implementations
+namespace CrossPlatform.Code.Implementations
 {
     public class FileConverter : IFileConverter
     {

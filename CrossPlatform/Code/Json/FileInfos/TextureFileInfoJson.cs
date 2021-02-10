@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using TerrLauncherPackCreator.Code.Json;
+﻿using CrossPlatform.Code.FileInfos;
+using Newtonsoft.Json;
 
 namespace CrossPlatform.Code.Json.FileInfos
 {

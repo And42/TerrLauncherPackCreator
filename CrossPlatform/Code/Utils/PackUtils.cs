@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TerrLauncherPackCreator.Code.Enums;
+using CrossPlatform.Code.Enums;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace CrossPlatform.Code.Utils
 {
     public static class PackUtils
     {

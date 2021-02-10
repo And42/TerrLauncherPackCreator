@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using TerrLauncherPackCreator.Code.Utils;
+﻿using CrossPlatform.Code.Utils;
+using Newtonsoft.Json;
 
-namespace TerrLauncherPackCreator.Code.Json.TL
+namespace CrossPlatform.Code.Json.TL
 {
     public class AuthorJson
     {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using CrossPlatform.Code.Implementations;
+using CrossPlatform.Code.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TerrLauncherPackCreator.Code.Implementations;

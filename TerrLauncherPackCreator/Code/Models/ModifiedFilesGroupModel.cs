@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using TerrLauncherPackCreator.Code.Enums;
+using CrossPlatform.Code.Enums;
 using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Code.Models

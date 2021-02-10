@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using TerrLauncherPackCreator.Code.Enums;
+using CrossPlatform.Code.Enums;
 using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.Converters

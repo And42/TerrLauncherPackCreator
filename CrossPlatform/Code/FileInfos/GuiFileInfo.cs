@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace TerrLauncherPackCreator.Code.Json {
+namespace CrossPlatform.Code.FileInfos {
 
     public record GuiFileInfo : TextureFileInfo
     {

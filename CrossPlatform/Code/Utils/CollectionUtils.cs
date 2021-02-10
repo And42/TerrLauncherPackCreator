@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CommonLibrary.CommonUtils
+namespace CrossPlatform.Code.Utils
 {
     public static class CollectionUtils
     {

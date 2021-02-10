@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using TerrLauncherPackCreator.Code.Enums;
+using CrossPlatform.Code.Enums;
 
-namespace TerrLauncherPackCreator.Code.Interfaces
+namespace CrossPlatform.Code.Interfaces
 {
     public interface IFileConverter
     {

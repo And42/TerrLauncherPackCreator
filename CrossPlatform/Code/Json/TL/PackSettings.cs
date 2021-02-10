@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using CommonLibrary.CommonUtils;
+using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TerrLauncherPackCreator.Code.Enums;
-using TerrLauncherPackCreator.Code.Utils;
 
-namespace TerrLauncherPackCreator.Code.Json.TL
+namespace CrossPlatform.Code.Json.TL
 {
     public class PackSettings
     {

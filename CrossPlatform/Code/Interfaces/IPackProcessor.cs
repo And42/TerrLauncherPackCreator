@@ -1,7 +1,7 @@
 ﻿using System;
-using TerrLauncherPackCreator.Code.Models;
+using CrossPlatform.Code.Models;
 
-namespace TerrLauncherPackCreator.Code.Interfaces
+namespace CrossPlatform.Code.Interfaces
 {
     public interface IPackProcessor
     {

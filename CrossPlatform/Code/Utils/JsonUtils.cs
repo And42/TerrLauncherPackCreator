@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace CrossPlatform.Code.Utils
 {
     public static class JsonUtils
     {

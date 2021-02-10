@@ -1,6 +1,6 @@
-﻿using TerrLauncherPackCreator.Code.Interfaces;
+﻿using CrossPlatform.Code.Interfaces;
 
-namespace TerrLauncherPackCreator.Code.Json
+namespace CrossPlatform.Code.FileInfos
 {
     public record MapFileInfo(
         string ResultFileName

@@ -1,4 +1,4 @@
-﻿namespace TerrLauncherPackCreator.Code.Interfaces
+﻿namespace CrossPlatform.Code.Interfaces
 {
     public interface ISessionHelper
     {

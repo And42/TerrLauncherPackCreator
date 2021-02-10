@@ -1,4 +1,4 @@
-﻿namespace TerrLauncherPackCreator.Code.Implementations {
+﻿namespace CrossPlatform.Code.Implementations {
 
     public class ImageInfo {
         public enum ImageType {

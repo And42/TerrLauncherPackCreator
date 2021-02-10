@@ -6,16 +6,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CommonLibrary.CommonUtils;
+using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.Interfaces;
+using CrossPlatform.Code.Json.TL;
+using CrossPlatform.Code.Models;
+using CrossPlatform.Code.Utils;
 using Ionic.Zip;
-using TerrLauncherPackCreator.Code.Enums;
-using TerrLauncherPackCreator.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Json.TL;
-using TerrLauncherPackCreator.Code.Models;
-using TerrLauncherPackCreator.Code.Utils;
-using AuthorJson = TerrLauncherPackCreator.Code.Json.TL.AuthorJson;
+using AuthorJson = CrossPlatform.Code.Json.TL.AuthorJson;
 
-namespace TerrLauncherPackCreator.Code.Implementations
+namespace CrossPlatform.Code.Implementations
 {
     public class PackProcessor : IPackProcessor
     {

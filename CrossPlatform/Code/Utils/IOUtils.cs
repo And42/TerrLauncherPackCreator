@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 
-namespace CommonLibrary.CommonUtils
+namespace CrossPlatform.Code.Utils
 {
     // ReSharper disable once InconsistentNaming
     public static class IOUtils
