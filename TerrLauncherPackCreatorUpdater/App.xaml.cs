@@ -85,7 +85,7 @@ namespace TerrLauncherPackCreatorUpdater
         {
             var shell = new WshShell();
 
-            IWshShortcut shortcut = shell.CreateShortcut(
+            IWshShortcut shortcut = (IWshShortcut) shell.CreateShortcut(
                 Path.Combine(
                     Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty,
                     "TerrLauncherPackCreator.lnk"
