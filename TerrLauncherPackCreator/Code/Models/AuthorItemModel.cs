@@ -15,7 +15,7 @@ namespace TerrLauncherPackCreator.Code.Models
             set => SetProperty(ref _image, value);
         }
 
-        public string? Name
+        public string Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
@@ -27,7 +27,7 @@ namespace TerrLauncherPackCreator.Code.Models
             set => SetProperty(ref _color, value);
         }
 
-        public string? Link
+        public string Link
         {
             get => _link;
             set => SetProperty(ref _link, value);
@@ -42,24 +42,24 @@ namespace TerrLauncherPackCreator.Code.Models
         public IActionCommand<AuthorItemModel> EditAuthorCommand { get; }
 
         private ImageInfo? _image;
-        private string? _name;
+        private string _name;
         private Color? _color;
-        private string? _link;
+        private string _link;
         private int _iconHeight;
 
         public AuthorItemModel(): this(
-            name: null,
+            name: string.Empty,
             color: null,
             image: null,
-            link: null,
+            link: string.Empty,
             iconHeight: PackUtils.DefaultAuthorIconHeight
         ) {}
         
         public AuthorItemModel(
-            string? name,
+            string name,
             Color? color,
             ImageInfo? image,
-            string? link,
+            string link,
             int iconHeight
         )
         {

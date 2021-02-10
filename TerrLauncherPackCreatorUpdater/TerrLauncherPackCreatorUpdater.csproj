@@ -51,6 +51,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj" />
+      <ProjectReference Include="..\CrossPlatform\CrossPlatform.csproj" />
     </ItemGroup>
 
     <ItemGroup>

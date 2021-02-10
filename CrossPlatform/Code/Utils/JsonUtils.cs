@@ -9,11 +9,11 @@ namespace TerrLauncherPackCreator.Code.Utils
     {
         public static string Serialize<T>(T value)
         {
-            StringBuilder sb = new StringBuilder(256);
-            StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+            StringBuilder sb = new(256);
+            StringWriter sw = new(sb, CultureInfo.InvariantCulture);
 
             var jsonSerializer = JsonSerializer.CreateDefault();
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(sw))
+            using (JsonTextWriter jsonWriter = new(sw))
             {
                 jsonWriter.Formatting = Formatting.Indented;
                 jsonWriter.IndentChar = ' ';

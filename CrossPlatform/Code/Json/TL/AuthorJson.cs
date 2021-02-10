@@ -6,16 +6,16 @@ namespace TerrLauncherPackCreator.Code.Json.TL
     public class AuthorJson
     {
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         [JsonProperty("color")]
-        public string Color { get; set; }
+        public string? Color { get; set; }
         
         [JsonProperty("file")]
-        public string File { get; set; }
+        public string? File { get; set; }
         
         [JsonProperty("link")]
-        public string Link { get; set; }
+        public string? Link { get; set; }
         
         [JsonProperty("icon_height")]
         public int IconHeight { get; set; } = PackUtils.DefaultAuthorIconHeight;
@@ -23,10 +23,10 @@ namespace TerrLauncherPackCreator.Code.Json.TL
         public AuthorJson() {}
 
         public AuthorJson(
-            string name,
-            string color,
-            string file,
-            string link,
+            string? name,
+            string? color,
+            string? file,
+            string? link,
             int iconHeight
         )
         {

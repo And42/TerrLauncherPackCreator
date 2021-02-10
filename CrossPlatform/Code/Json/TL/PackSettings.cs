@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Utils;
-using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Code.Json.TL
 {
@@ -17,8 +16,8 @@ namespace TerrLauncherPackCreator.Code.Json.TL
             {
                 JObject jsonObject = JObject.Parse(json);
                 int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
-                const int _ = 1 / (17 / PackCreationViewModel.LatestPackStructureVersion);
-                while (packStructureVersion < PackCreationViewModel.LatestPackStructureVersion)
+                const int _ = 1 / (17 / PackUtils.LatestPackStructureVersion);
+                while (packStructureVersion < PackUtils.LatestPackStructureVersion)
                 {
                     if (packStructureVersion <= 15)
                     {
@@ -96,8 +95,8 @@ namespace TerrLauncherPackCreator.Code.Json.TL
         public int PackStructureVersion { get; set; }
 
         [JsonProperty("title")]
-        public string Title { get; set; }
-        
+        public string Title { get; set; } = null!;
+
         [JsonProperty("descriptionEnglish")]
         public string? DescriptionEnglish { get; set; }
         

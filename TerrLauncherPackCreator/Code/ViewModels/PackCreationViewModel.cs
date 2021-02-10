@@ -24,7 +24,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        public const int LatestPackStructureVersion = 17;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         // ReSharper disable once UnusedMember.Local
@@ -297,13 +296,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
                 foreach (var author in packModel.Authors)
                 {
-                    Authors.Add(new AuthorItemModel(
-                        name: author.Name,
-                        color: author.Color,
-                        image: author.Icon,
-                        link: author.Link,
-                        iconHeight: author.IconHeight
-                    ));
+                    Authors.Add(
+                        new AuthorItemModel(
+                            name: author.Name,
+                            color: author.Color?.ToMediaColor(),
+                            image: author.Icon,
+                            link: author.Link,
+                            iconHeight: author.IconHeight
+                        )
+                    );
                 }
 
                 previewItems.ForEach(Previews.Add);
@@ -560,7 +561,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 Authors: Authors.Select(author => 
                     new PackModel.Author(
                         Name: author.Name,
-                        Color: author.Color,
+                        Color: author.Color?.ToDrawingColor(),
                         Link: author.Link,
                         Icon: author.Image,
                         IconHeight: author.IconHeight
@@ -676,7 +677,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         return info;
                     })
                     .ToArray(),
-                PackStructureVersion: LatestPackStructureVersion,
+                PackStructureVersion: PackUtils.LatestPackStructureVersion,
                 IconFilePath: IconFilePath,
                 Title: Title,
                 DescriptionRussian: DescriptionRussian,
@@ -696,8 +697,21 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             PredefinedTags.Clear();
 
             Previews.Add(new PreviewItemModel(filePath: null, isDragDropTarget: true));
-            foreach ((FileType fileType, string initialFilesExt, string _, string title) in PackUtils.PacksInfo)
+            foreach ((FileType fileType, string initialFilesExt, string _) in PackUtils.PacksInfo)
             {
+                // ReSharper disable once LocalVariableHidesMember
+                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+                
+                string title = fileType switch {
+                    FileType.Texture => StringResources.PackTypeTextures,
+                    FileType.Map => StringResources.PackTypeMaps,
+                    FileType.Character => StringResources.PackTypeCharacters,
+                    FileType.Gui => StringResources.PackTypeGui,
+                    FileType.Translation => StringResources.PackTypeTranslations,
+                    FileType.Font => StringResources.PackTypeFonts,
+                    FileType.Audio => StringResources.PackTypeAudio,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
                 var group = new ModifiedFilesGroupModel(title, initialFilesExt, fileType);
                 group.ModifiedFiles.Add(new ModifiedFileModel(filePath: "drop_target" + initialFilesExt,
                     isDragDropTarget: true));

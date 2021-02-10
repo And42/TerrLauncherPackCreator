@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using CommonLibrary.CommonUtils;
 using Ionic.Zip;
 using TerrLauncherPackCreator.Code.Enums;
@@ -34,6 +34,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
         private readonly IProgressManager? _loadProgressManager;
         private readonly IProgressManager? _saveProgressManager;
         private readonly IFileConverter _fileConverter;
+        private readonly ISessionHelper _sessionHelper;
+        private readonly IImageConverter _imageConverter;
 
         private readonly object _loadingLock = new();
         private readonly object _savingLock = new();
@@ -41,12 +43,16 @@ namespace TerrLauncherPackCreator.Code.Implementations
         public PackProcessor(
             IProgressManager? loadProgressManager,
             IProgressManager? saveProgressManager,
-            IFileConverter fileConverter
+            IFileConverter fileConverter,
+            ISessionHelper sessionHelper,
+            IImageConverter imageConverter
         )
         {
             _loadProgressManager = loadProgressManager;
             _saveProgressManager = saveProgressManager;
             _fileConverter = fileConverter;
+            _sessionHelper = sessionHelper;
+            _imageConverter = imageConverter;
 
             if (loadProgressManager != null)
             {
@@ -141,7 +147,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private async Task<PackModel> LoadPackModelInternal(string filePath)
         {
-            string targetFolderPath = ApplicationDataUtils.GenerateNonExistentDirPath();
+            string targetFolderPath = _sessionHelper.GenerateNonExistentDirPath();
             using (var zip = ZipFile.Read(filePath))
                 zip.ExtractAll(targetFolderPath);
 
@@ -162,7 +168,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             else if (File.Exists(packIconPng))
                 packIconFile = packIconPng;
             else if (File.Exists(packIconWebP))
-                packIconFile = ImageUtils.ConvertWebPToTempPngFile(packIconWebP);
+                packIconFile = _imageConverter.ConvertWebPToTempPngFile(packIconWebP);
 
             string[] previewsPaths = 
                 Directory.Exists(packPreviewsFolder)
@@ -171,7 +177,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                         .ToArray()
                     : Array.Empty<string>();
 
-            string[] modifiedFileExts = PackUtils.PacksInfo.Select(it => it.convertedFilesExt).ToArray();
+            string[] modifiedFileExts = PackUtils.PacksInfo.Select(it => it.ConvertedFilesExt).ToArray();
             string[] modifiedFilesPaths =
                 Directory.Exists(packModifiedFilesFolder)
                     ? Directory.EnumerateFiles(packModifiedFilesFolder)
@@ -192,7 +198,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 }
 
                 string fileExt = Path.GetExtension(modifiedFile);
-                FileType fileType = PackUtils.PacksInfo.First(it => it.convertedFilesExt == fileExt).fileType;
+                FileType fileType = PackUtils.PacksInfo.First(it => it.ConvertedFilesExt == fileExt).FileType;
                 var (sourceFile, fileInfo) = await _fileConverter.ConvertToSource(
                     packStructureVersion: packSettings.PackStructureVersion,
                     fileType: fileType,
@@ -211,10 +217,10 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 PreviewsPaths: previewsPaths,
                 ModifiedFiles: modifiedFiles.ToArray(),
                 PackStructureVersion: packSettings.PackStructureVersion,
-                IconFilePath: packIconFile,
+                IconFilePath: packIconFile ?? string.Empty,
                 Title: packSettings.Title,
-                DescriptionRussian: packSettings.DescriptionRussian,
-                DescriptionEnglish: packSettings.DescriptionEnglish,
+                DescriptionRussian: packSettings.DescriptionRussian ?? string.Empty,
+                DescriptionEnglish: packSettings.DescriptionEnglish ?? string.Empty,
                 Guid: packSettings.Guid,
                 Version: packSettings.Version,
                 IsBonusPack: packSettings.IsBonus,
@@ -227,7 +233,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             var authorsMappings = new List<(ImageInfo? sourceFile, string? targetFile, AuthorJson json)>();
             int authorFileIndex = 1;
             foreach (var author in packModel.Authors) {
-                string fileExtension;
+                string? fileExtension;
                 AuthorJson json = AuthorModelToJson(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
                 authorsMappings.Add((copyIcon ? author.Icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
             }
@@ -260,7 +266,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                         ? packModel.IconFilePath
                         : IOUtils.ChooseLighterFileAndDeleteSecond(
                             packModel.IconFilePath,
-                            ImageUtils.ConvertImageToTempWebPFile(packModel.IconFilePath, lossless: true)
+                            _imageConverter.ConvertImageToTempWebPFile(packModel.IconFilePath, lossless: true)
                         );
                     zip.AddFile(targetPath).FileName = $"Icon{Path.GetExtension(targetPath)}";
                 }
@@ -277,7 +283,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                             }
                             else
                             {
-                                string webPImage = ImageUtils.ConvertImageToTempWebPFile(sourceFile.Bytes, lossless: true);
+                                string webPImage = _imageConverter.ConvertImageToTempWebPFile(sourceFile.Bytes, lossless: true);
                                 if (new FileInfo(webPImage).Length < sourceFile.Bytes.Length)
                                 {
                                     json.File = Path.ChangeExtension(targetFile, ".webp");
@@ -313,7 +319,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                         {
                             targetPath = IOUtils.ChooseLighterFileAndDeleteSecond(
                                 previewPath,
-                                ImageUtils.ConvertImageToTempWebPFile(previewPath, lossless: false)
+                                _imageConverter.ConvertImageToTempWebPFile(previewPath, lossless: false)
                             );
                         }
 
@@ -345,9 +351,9 @@ namespace TerrLauncherPackCreator.Code.Implementations
             out string? fileExtension
         )
         {
-            string name = author.Name ?? string.Empty;
-            string color = author.Color?.ToString();
-            string link = author.Link ?? string.Empty;
+            string name = author.Name;
+            string? color = author.Color == null ? null : AuthorColorToString(author.Color.Value);
+            string link = author.Link;
             
             string? icon = null;
             fileExtension = null;
@@ -378,58 +384,28 @@ namespace TerrLauncherPackCreator.Code.Implementations
             );
         }
 
-        private static (string? name, Color? color, string? link, ImageInfo? icon, int iconHeight) StringToAuthorModel(string author, string authorIconsDir)
-        {
-            string[] parts = author.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-            string? name = null;
-            Color? color = null;
-            string? link = null;
-            ImageInfo? icon = null;
-
-            foreach (string part in parts)
-            {
-                string[] keyValue = part.Split('=');
-                if (keyValue.Length != 2)
-                    continue;
-                
-                switch (keyValue[0])
-                {
-                    case "name":
-                        name = keyValue[1];
-                        break;
-                    case "color":
-                        color = ParseAuthorColor(keyValue[1]);
-                        break;
-                    case "link":
-                        link = keyValue[1];
-                        break;
-                    case "file":
-                        icon = ParseAuthorIcon(Path.Combine(authorIconsDir, keyValue[1]));
-                        break;
-                }
-            }
-            
-            return (name, color, link, icon, PackUtils.DefaultAuthorIconHeight);
-        }
-        
-        private static PackModel.Author JsonToAuthorModel(AuthorJson author, string authorIconsDir)
+        private PackModel.Author JsonToAuthorModel(AuthorJson author, string authorIconsDir)
         {
             return new(
-                Name: author.Name,
-                Color: ParseAuthorColor(author.Color),
-                Link: author.Link,
+                Name: author.Name ?? string.Empty,
+                Color: author.Color == null ? null : AuthorColorFromString(author.Color),
+                Link: author.Link ?? string.Empty,
                 Icon: author.File == null ? null : ParseAuthorIcon(Path.Combine(authorIconsDir, author.File)),
                 IconHeight: author.IconHeight
             );
         }
 
-        private static Color ParseAuthorColor(string color)
+        private static Color AuthorColorFromString(string color)
         {
-            // ReSharper disable once PossibleNullReferenceException
-            return (Color) ColorConverter.ConvertFromString(color);
+            return ColorTranslator.FromHtml(color);
+        }
+
+        private static string AuthorColorToString(Color color)
+        {
+            return ColorTranslator.ToHtml(color);
         }
         
-        private static ImageInfo? ParseAuthorIcon(string iconPath)
+        private ImageInfo? ParseAuthorIcon(string iconPath)
         {
             if (!File.Exists(iconPath))
                 return null;
@@ -444,7 +420,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     break;
                 case ".webp":
                     iconType = ImageInfo.ImageType.Png;
-                    iconPath = ImageUtils.ConvertWebPToTempPngFile(iconPath);
+                    iconPath = _imageConverter.ConvertWebPToTempPngFile(iconPath);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension");

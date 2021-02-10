@@ -24,7 +24,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public string SourceFilesExtension => PackUtils.GetInitialFilesExt(CurrentFileType);
         public string ConvertedFilesExtension => PackUtils.GetConvertedFilesExt(CurrentFileType);
 
-        public FileType[] FileTypes { get; } = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
+        public FileType[] FileTypes { get; } = PackUtils.PacksInfo.Select(it => it.FileType).ToArray();
 
         private readonly IFileConverter _fileConverter = new FileConverter();
         private FileType _currentFileType = FileType.Texture;
@@ -99,7 +99,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                             config = null;
         
                         var (convertedFile, fileInfo) = await _fileConverter.ConvertToSource(
-                            packStructureVersion: PackCreationViewModel.LatestPackStructureVersion,
+                            packStructureVersion: PackUtils.LatestPackStructureVersion,
                             fileType: CurrentFileType,
                             targetFile: file,
                             configFile: config

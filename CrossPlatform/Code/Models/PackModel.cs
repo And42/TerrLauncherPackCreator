@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Media;
+using System.Drawing;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
@@ -26,7 +26,7 @@ namespace TerrLauncherPackCreator.Code.Models
             string Name,
             Color? Color,
             string Link,
-            ImageInfo Icon,
+            ImageInfo? Icon,
             int IconHeight
         );
         

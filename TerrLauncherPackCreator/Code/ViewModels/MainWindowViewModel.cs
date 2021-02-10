@@ -123,7 +123,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         )
         {
             // ReSharper disable once UnreachableCode
-            WindowTitle = Assembly.GetEntryAssembly().GetName().Name + (CommonConstants.IsPreview ? " (Preview)" : "");
+            WindowTitle = Assembly.GetEntryAssembly()?.GetName().Name + (CommonConstants.IsPreview ? " (Preview)" : "");
             _currentStep = 1;
             InitialWindowWidth = ValuesProvider.AppSettings.MainWindowWidth;
             InitialWindowHeight = ValuesProvider.AppSettings.MainWindowHeight;
@@ -144,7 +144,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             PackProcessor = new PackProcessor(
                 LoadProgressManager,
                 SaveProgressManager,
-                FileConverter
+                FileConverter,
+                new SessionHelper(),
+                new ImageConverter()
             );
             TempDirsProvider = new TempDirsProvider(Paths.TempDir);
             TempDirsProvider.DeleteAll();
