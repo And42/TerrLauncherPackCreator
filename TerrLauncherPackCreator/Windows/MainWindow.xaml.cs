@@ -4,8 +4,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Code.ViewModels;
 using TerrLauncherPackCreator.Controls;
+using TerrLauncherPackCreator.Pages.PackCreation;
 
 namespace TerrLauncherPackCreator.Windows
 {
@@ -19,7 +21,20 @@ namespace TerrLauncherPackCreator.Windows
         {
             InitializeComponent();
 
-            ViewModel = new MainWindowViewModel(RestartApp);
+            ViewModel = new MainWindowViewModel<Page>(
+                restartApp: RestartApp,
+                createPages: model => new Page[]
+                {
+                    new PackCreationStep1(model), 
+                    new PackCreationStep2(model), 
+                    new PackCreationStep3(model), 
+                    new PackCreationStep4(model), 
+                    new PackCreationStep5(model) 
+                },
+                ConvertWebPToTempPngFile: ImageUtils.ConvertWebPToTempPngFile,
+                ConvertImageToTempWebPFile: ImageUtils.ConvertImageToTempWebPFile,
+                ConvertImageToTempWebPFile2: ImageUtils.ConvertImageToTempWebPFile
+            );
             // setting window size does not work with xaml binding :(
             Width = ViewModel.InitialWindowWidth;
             Height = ViewModel.InitialWindowHeight;
@@ -30,9 +45,9 @@ namespace TerrLauncherPackCreator.Windows
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
         }
 
-        public MainWindowViewModel ViewModel
+        public MainWindowViewModel<Page> ViewModel
         {
-            get => DataContext as MainWindowViewModel;
+            get => DataContext as MainWindowViewModel<Page>;
             set => DataContext = value;
         }
 

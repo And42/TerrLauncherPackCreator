@@ -4,17 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
-    xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
+    xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations;assembly=CrossPlatform"
+    xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels;assembly=CrossPlatform"
     xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
-    xmlns:interfaces="clr-namespace:TerrLauncherPackCreator.Code.Interfaces"
+    xmlns:interfaces="clr-namespace:TerrLauncherPackCreator.Code.Interfaces;assembly=CrossPlatform"
     mc:Ignorable="d"
     Title="{Binding WindowTitle, Mode=OneWay}"
     MinWidth="600"
     MinHeight="450"
     WindowStartupLocation="CenterScreen"
     FontSize="14"
-    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}"
+    d:DataContext="{d:DesignInstance d:Type={x:Type viewModels:MainWindowViewModel`1}, IsDesignTimeCreatable=True}"
     Closed="MainWindow_OnClosed">
 
     <Grid Margin="5" UseLayoutRounding="True">

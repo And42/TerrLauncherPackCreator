@@ -107,6 +107,10 @@
       <Project>{c963037d-1c4b-4387-bf22-5e15444df3f5}</Project>
       <Name>CommonLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrossPlatform\CrossPlatform.csproj">
+      <Project>{29838ebc-7788-459b-bc5d-3900473a818b}</Project>
+      <Name>CrossPlatform</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\MVVM_Tools.dll" />

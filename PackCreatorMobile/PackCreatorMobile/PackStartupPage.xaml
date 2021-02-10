@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d ="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations;assembly=CrossPlatform"
+    xmlns:viewModels="clr-namespace:PackCreatorMobile.Code.ViewModels;assembly=PackCreatorMobile"
+    mc:Ignorable="d"   
+    x:Class="PackCreatorMobile.PackStartupPage"
+    d:DataContext="{d:DesignInstance viewModels:XamarinPackStartupWindowViewModel}"
+    BackgroundColor="{Binding PageBackground}">
+
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Center">
+            <Button
+                Text="{x:Static localizations:StringResources.PackCreateNew}"
+                HorizontalOptions="CenterAndExpand"
+                Command="{Binding CreateNewPackCommand}"/>
+            
+            <Button
+                Text="{x:Static localizations:StringResources.PackLoadExisting}"
+                HorizontalOptions="CenterAndExpand"
+                Command="{Binding ChooseExistingPackCommand}"/>
+            
+            <Button
+                Text="{x:Static localizations:StringResources.ResourcesConverter}"
+                HorizontalOptions="CenterAndExpand"
+                Command="{Binding LaunchConverterCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

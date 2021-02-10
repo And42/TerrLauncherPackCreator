@@ -11,9 +11,9 @@ namespace TerrLauncherPackCreator.Windows
 {
     public partial class PackStartupWindow
     {
-        public PackStartupWindowViewModel ViewModel
+        public WindowsPackStartupWindowViewModel ViewModel
         {
-            get => DataContext as PackStartupWindowViewModel;
+            get => DataContext as WindowsPackStartupWindowViewModel;
             set => DataContext = value;
         }
 
@@ -21,7 +21,7 @@ namespace TerrLauncherPackCreator.Windows
         {
             InitializeComponent();
 
-            ViewModel = new PackStartupWindowViewModel(
+            ViewModel = new WindowsPackStartupWindowViewModel(
                 new AttachedWindowManipulator(this),
                 ValuesProvider.AppSettings
             )

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
+        xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations;assembly=CrossPlatform"
         xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         mc:Ignorable="d"
         Height="350" Width="500"
@@ -16,7 +16,7 @@
         
         SourceInitialized="PackStartupWindow_OnSourceInitialized"
         
-        d:DataContext="{d:DesignInstance viewModels:PackStartupWindowViewModel, IsDesignTimeCreatable=True}">
+        d:DataContext="{d:DesignInstance viewModels:WindowsPackStartupWindowViewModel, IsDesignTimeCreatable=True}">
     <DockPanel UseLayoutRounding="True" LastChildFill="True">
         <Menu DockPanel.Dock="Top" Background="WhiteSmoke">
             <MenuItem Header="{x:Static localizations:StringResources.Language}" Padding="6 3">

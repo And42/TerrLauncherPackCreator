@@ -4,10 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-      xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
-      xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
+      xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations;assembly=CrossPlatform"
+      xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels;assembly=CrossPlatform"
       xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
-      xmlns:enums="clr-namespace:TerrLauncherPackCreator.Code.Enums"
+      xmlns:enums="clr-namespace:TerrLauncherPackCreator.Code.Enums;assembly=CrossPlatform"
       xmlns:packCreation="clr-namespace:TerrLauncherPackCreator.Pages.PackCreation"
       mc:Ignorable="d" 
 

@@ -43,10 +43,6 @@
   <ItemGroup>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
-    <Reference Include="MVVM_Tools, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\MVVM_Tools.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Core" />
@@ -61,6 +57,8 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Code\Classes\ConverterBase.cs" />
+    <Compile Include="Code\Classes\ConverterBase.Parametrized.cs" />
     <Compile Include="Code\Converters\BytesToStream.cs" />
     <Compile Include="Code\Converters\CollapsedIfEqualToParameterConverter.cs" />
     <Compile Include="Code\Converters\ColorToBrushConverter.cs" />
@@ -76,50 +74,14 @@
     <Compile Include="Code\Converters\TextureTypeToStringConverter.cs" />
     <Compile Include="Code\Converters\TranslationShortToLongConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfEqualToParameterConverter.cs" />
-    <Compile Include="Code\Enums\BonusType.cs" />
-    <Compile Include="Code\Enums\PredefinedPackTag.cs" />
     <Compile Include="Code\Implementations\AttachedWindowManipulator.cs" />
-    <Compile Include="Code\Implementations\FileConverter.cs" />
-    <Compile Include="Code\Implementations\ImageInfo.cs" />
-    <Compile Include="Code\Implementations\TempDirsProvider.cs" />
-    <Compile Include="Code\Implementations\ValuesProvider.cs" />
-    <Compile Include="Code\Interfaces\IAttachedWindowManipulator.cs" />
-    <Compile Include="Code\Interfaces\IFileConverter.cs" />
-    <Compile Include="Code\Interfaces\IPackFileInfo.cs" />
-    <Compile Include="Code\Interfaces\ITempDirsProvider.cs" />
-    <Compile Include="Code\Json\AppSettingsJson.cs" />
-    <Compile Include="Code\Json\AudioFileInfo.cs" />
-    <Compile Include="Code\Json\AuthorsJson.cs" />
-    <Compile Include="Code\Json\CharacterFileInfo.cs" />
-    <Compile Include="Code\Json\FontFileInfo.cs" />
-    <Compile Include="Code\Json\GuiFileInfo.cs" />
-    <Compile Include="Code\Json\MapFileInfo.cs" />
-    <Compile Include="Code\Json\TextureFileInfo.cs" />
-    <Compile Include="Code\Json\TL\AuthorJson.cs" />
-    <Compile Include="Code\Json\TL\PackSettings.cs" />
-    <Compile Include="Code\Json\TranslationFileInfo.cs" />
     <Compile Include="Code\MarkupExtensions\BooleanExtension.cs" />
-    <Compile Include="Code\Models\AuthorItemModel.cs" />
-    <Compile Include="Code\Models\ModifiedAudioModel.cs" />
-    <Compile Include="Code\Models\ModifiedCharacterModel.cs" />
-    <Compile Include="Code\Models\ModifiedFilesGroupModel.cs" />
-    <Compile Include="Code\Models\ModifiedFontModel.cs" />
-    <Compile Include="Code\Models\ModifiedGuiModel.cs" />
-    <Compile Include="Code\Models\ModifiedMapModel.cs" />
-    <Compile Include="Code\Models\ModifiedTextureModel.cs" />
-    <Compile Include="Code\Models\ModifiedTranslationModel.cs" />
-    <Compile Include="Code\Utils\AppUtils.cs" />
     <Compile Include="Code\Utils\DragDropUtils.cs" />
     <Compile Include="Code\Utils\FreezableUtils.cs" />
     <Compile Include="Code\Utils\ImageUtils.cs" />
-    <Compile Include="Code\Utils\JsonUtils.cs" />
-    <Compile Include="Code\Utils\Paths.cs" />
     <Compile Include="Code\Utils\ProcessUtils.cs" />
     <Compile Include="Code\Utils\SafeFileSystemUtils.cs" />
-    <Compile Include="Code\ViewModels\AuthorEditorWindowViewModel.cs" />
-    <Compile Include="Code\ViewModels\ConverterWindowViewModel.cs" />
-    <Compile Include="Code\ViewModels\PackStartupWindowViewModel.cs" />
-    <Compile Include="Code\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Code\ViewModels\WindowsPackStartupWindowViewModel.cs" />
     <Compile Include="Code\WebP\WebPWrapper.cs" />
     <Compile Include="Controls\DragAndDropImage.xaml.cs">
       <DependentUpon>DragAndDropImage.xaml</DependentUpon>
@@ -186,18 +148,10 @@
     <Compile Include="Code\Converters\AnyToVisibleConverter.cs" />
     <Compile Include="Code\Converters\StatusBarVisibilityConverter.cs" />
     <Compile Include="Code\Converters\VisibleIfNullConverter.cs" />
-    <Compile Include="Code\Enums\FileType.cs" />
-    <Compile Include="Code\Implementations\PackProcessor.cs" />
-    <Compile Include="Code\Interfaces\IPackProcessor.cs" />
-    <Compile Include="Code\Interfaces\IProgressManager.cs" />
-    <Compile Include="Code\Models\ModifiedFileModel.cs" />
-    <Compile Include="Code\Models\PackModel.cs" />
-    <Compile Include="Code\Models\PreviewItemModel.cs" />
     <Compile Include="Code\TemplateSelectors\ModifiedFileTemplateSelector.cs" />
     <Compile Include="Code\TemplateSelectors\PreviewsTemplateSelector.cs" />
     <Compile Include="Code\Utils\BitmapUtils.cs" />
     <Compile Include="Code\Utils\DesignerUtils.cs" />
-    <Compile Include="Code\Utils\PackUtils.cs" />
     <Compile Include="Controls\PageNavigationNumberButton.xaml.cs">
       <DependentUpon>PageNavigationNumberButton.xaml</DependentUpon>
     </Compile>
@@ -213,13 +167,6 @@
     <Compile Include="Pages\PackCreation\PackCreationStep1.xaml.cs">
       <DependentUpon>PackCreationStep1.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Localizations\StringResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>StringResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Code\ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Code\ViewModels\PackCreationViewModel.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -249,19 +196,14 @@
       <Project>{c963037d-1c4b-4387-bf22-5e15444df3f5}</Project>
       <Name>CommonLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Localizations\StringResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Localizations\StringResources.ru-RU.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
+    <ProjectReference Include="..\CrossPlatform\CrossPlatform.csproj">
+      <Project>{29838ebc-7788-459b-bc5d-3900473a818b}</Project>
+      <Name>CrossPlatform</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVVM-Tools\MVVM-Tools.csproj">
+      <Project>{c3dfc8fd-f0f6-4b5a-8682-eca4da33b02d}</Project>
+      <Name>MVVM-Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Libraries\zzz_dependencies.txt" />
@@ -273,19 +215,10 @@
     <Content Include="Libraries\SettingsManager.pdb" />
     <Resource Include="Resources\Images\app.ico" />
     <Resource Include="Libraries\SettingsManager.xml" />
-    <Content Include="Libraries\System.IO.dll" />
-    <Resource Include="Libraries\System.IO.xml" />
-    <Content Include="Libraries\System.Runtime.dll" />
-    <Resource Include="Libraries\System.Runtime.xml" />
-    <Content Include="Libraries\System.Threading.Tasks.dll" />
-    <Resource Include="Libraries\System.Threading.Tasks.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AdonisUI.ClassicTheme">
       <Version>1.15.0</Version>
-    </PackageReference>
-    <PackageReference Include="Costura.Fody">
-      <Version>4.1.0</Version>
     </PackageReference>
     <PackageReference Include="DotNetZip">
       <Version>1.13.8</Version>
@@ -298,9 +231,6 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Resource.Embedder">
-      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="System.ValueTuple">
       <Version>4.5.0</Version>

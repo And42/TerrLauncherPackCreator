@@ -45,6 +45,10 @@
     <Compile Include="Tests\Code\Utils\PackUtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrossPlatform\CrossPlatform.csproj">
+      <Project>{29838ebc-7788-459b-bc5d-3900473a818b}</Project>
+      <Name>CrossPlatform</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TerrLauncherPackCreator\TerrLauncherPackCreator.csproj">
       <Project>{7645e727-d062-4e3e-a1d9-1c13bbdfd80b}</Project>
       <Name>TerrLauncherPackCreator</Name>

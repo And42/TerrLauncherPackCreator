@@ -11,6 +11,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrLauncherPackCreatorUpda
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{C963037D-1C4B-4387-BF22-5E15444DF3F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackCreatorMobile", "PackCreatorMobile\PackCreatorMobile\PackCreatorMobile.csproj", "{609653FF-6668-4FFD-973C-CB99D2B5E859}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackCreatorMobile.Android", "PackCreatorMobile\PackCreatorMobile.Android\PackCreatorMobile.Android.csproj", "{0FEC914E-DBDA-431B-8B06-EAEB31996D69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackCreatorMobile.iOS", "PackCreatorMobile\PackCreatorMobile.iOS\PackCreatorMobile.iOS.csproj", "{581D29FF-3B9C-4C93-8281-A49B94ED38CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM-Tools", "MVVM-Tools\MVVM-Tools.csproj", "{C3DFC8FD-F0F6-4B5A-8682-ECA4DA33B02D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossPlatform", "CrossPlatform\CrossPlatform.csproj", "{29838EBC-7788-459B-BC5D-3900473A818B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +43,26 @@ Global
 		{C963037D-1C4B-4387-BF22-5E15444DF3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C963037D-1C4B-4387-BF22-5E15444DF3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C963037D-1C4B-4387-BF22-5E15444DF3F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{609653FF-6668-4FFD-973C-CB99D2B5E859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{609653FF-6668-4FFD-973C-CB99D2B5E859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{609653FF-6668-4FFD-973C-CB99D2B5E859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{609653FF-6668-4FFD-973C-CB99D2B5E859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FEC914E-DBDA-431B-8B06-EAEB31996D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FEC914E-DBDA-431B-8B06-EAEB31996D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FEC914E-DBDA-431B-8B06-EAEB31996D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FEC914E-DBDA-431B-8B06-EAEB31996D69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{581D29FF-3B9C-4C93-8281-A49B94ED38CB}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{581D29FF-3B9C-4C93-8281-A49B94ED38CB}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{581D29FF-3B9C-4C93-8281-A49B94ED38CB}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{581D29FF-3B9C-4C93-8281-A49B94ED38CB}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{C3DFC8FD-F0F6-4B5A-8682-ECA4DA33B02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3DFC8FD-F0F6-4B5A-8682-ECA4DA33B02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3DFC8FD-F0F6-4B5A-8682-ECA4DA33B02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3DFC8FD-F0F6-4B5A-8682-ECA4DA33B02D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29838EBC-7788-459B-BC5D-3900473A818B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29838EBC-7788-459B-BC5D-3900473A818B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29838EBC-7788-459B-BC5D-3900473A818B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29838EBC-7788-459B-BC5D-3900473A818B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
