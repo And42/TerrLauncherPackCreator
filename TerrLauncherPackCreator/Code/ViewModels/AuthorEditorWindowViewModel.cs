@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Json;
@@ -16,32 +15,25 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class AuthorEditorWindowViewModel : ViewModelBase
     {
-        [NotNull]
         public AuthorItemModel EditableAuthor { get; }
         
-        [NotNull]
         public IActionCommand<string> DropAuthorImageCommand { get; }
         
-        [NotNull]
         public IActionCommand<AuthorJson> DeleteSavedAuthor { get; }
         
-        [NotNull]
         public IActionCommand SaveAuthor { get; }
         
-        [NotNull]
         public ObservableCollection<AuthorJson> SavedAuthors { get; }
 
-        [CanBeNull]
-        public AuthorJson SelectedSavedAuthor
+        public AuthorJson? SelectedSavedAuthor
         {
             get => _selectedSavedAuthor;
             set => SetProperty(ref _selectedSavedAuthor, value);
         }
-        [CanBeNull]
-        private AuthorJson _selectedSavedAuthor;
+        private AuthorJson? _selectedSavedAuthor;
 
         public AuthorEditorWindowViewModel(
-            [NotNull] AuthorItemModel editableAuthor
+            AuthorItemModel editableAuthor
         )
         {
             EditableAuthor = editableAuthor;
@@ -82,7 +74,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             WriteAuthorsToFile();
         }
 
-        private void DropAuthorImage_Execute([NotNull] string iconPath) {
+        private void DropAuthorImage_Execute(string iconPath) {
             ImageInfo.ImageType imageType;
             switch (Path.GetExtension(iconPath)) {
                 case ".png":
@@ -98,7 +90,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             EditableAuthor.Image = new ImageInfo(File.ReadAllBytes(iconPath), imageType);
         }
 
-        private void DeleteSavedAuthor_Execute([CanBeNull] AuthorJson obj)
+        private void DeleteSavedAuthor_Execute(AuthorJson? obj)
         {
             if (obj == null)
                 return;

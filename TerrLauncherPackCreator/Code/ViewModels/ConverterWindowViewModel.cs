@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Implementations;
@@ -22,20 +21,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             set => SetProperty(ref _currentFileType, value);
         }
 
-        [NotNull]
         public string SourceFilesExtension => PackUtils.GetInitialFilesExt(CurrentFileType);
-        [NotNull]
         public string ConvertedFilesExtension => PackUtils.GetConvertedFilesExt(CurrentFileType);
 
         public FileType[] FileTypes { get; } = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
 
-        [NotNull]
         private readonly IFileConverter _fileConverter = new FileConverter();
         private FileType _currentFileType = FileType.Texture;
         
-        [NotNull]
         public IActionCommand<string[]> DropSourceFilesCommand { get; }
-        [NotNull]
         public IActionCommand<string[]> DropConvertedFiledCommand { get; }
 
         public ConverterWindowViewModel()
@@ -100,7 +94,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         string resultsDir = Path.Combine(Path.GetDirectoryName(file), "source_files");
                         IOUtils.EnsureDirExists(resultsDir);
 
-                        string config = Path.ChangeExtension(file, PackUtils.PackFileConfigExtension);
+                        string? config = Path.ChangeExtension(file, PackUtils.PackFileConfigExtension);
                         if (!File.Exists(config))
                             config = null;
         

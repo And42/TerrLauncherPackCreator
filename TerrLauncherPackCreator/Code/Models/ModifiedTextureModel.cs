@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using JetBrains.Annotations;
 using TextureType = TerrLauncherPackCreator.Code.Json.TextureFileInfo.TextureType;
 
 namespace TerrLauncherPackCreator.Code.Models
@@ -15,21 +14,19 @@ namespace TerrLauncherPackCreator.Code.Models
         }
         private TextureType _currentTextureType;
         
-        [CanBeNull]
-        public string Prefix
+        public string? Prefix
         {
             get => _prefix;
             set => SetProperty(ref _prefix, value);
         }
-        private string _prefix;
+        private string? _prefix;
         
-        [CanBeNull]
-        public string Name
+        public string? Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
         }
-        private string _name;
+        private string? _name;
 
         public int ElementId
         {
@@ -80,13 +77,11 @@ namespace TerrLauncherPackCreator.Code.Models
         }
         private bool _applyOriginalSize;
         
-        [NotNull]
         public ObservableCollection<string> CommonPrefixes { get; }
 
-        [NotNull]
         public IReadOnlyList<TextureType> TextureTypes { get; }
         
-        public ModifiedTextureModel([NotNull] string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
+        public ModifiedTextureModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
         {
             _name = Path.GetFileNameWithoutExtension(filePath);
             _currentTextureType = TextureType.General;

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Resources.Localizations;
 
@@ -13,11 +12,8 @@ namespace TerrLauncherPackCreator.Code.Utils
         public const string PacksActualExtension = ".zip";
         public const string PackFileConfigExtension = ".json";
 
-        [NotNull]
         public static IReadOnlyList<(FileType fileType, string initialFilesExt, string convertedFilesExt, string title)> PacksInfo { get; }
-        [NotNull]
         public static IReadOnlyList<string> TranslationLanguages { get; }
-        [NotNull]
         public static IReadOnlyList<string> TranslationLanguageTitles { get; }
         
         static PackUtils()
@@ -40,13 +36,11 @@ namespace TerrLauncherPackCreator.Code.Utils
             TranslationLanguageTitles = new[] { "English", "Deutsch", "Italiano", "Français", "Español", "Русский", "Português brasileiro" };
         }
 
-        [NotNull]
         public static string GetInitialFilesExt(FileType fileType)
         {
             return PacksInfo.First(it => it.fileType == fileType).initialFilesExt;
         }
         
-        [NotNull]
         public static string GetConvertedFilesExt(FileType fileType)
         {
             return PacksInfo.First(it => it.fileType == fileType).convertedFilesExt;

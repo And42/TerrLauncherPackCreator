@@ -2,13 +2,12 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace TerrLauncherPackCreator.Code.Utils
 {
     public static class ProcessUtils
     {
-        public static async Task WaitForExitAsync([NotNull] this Process process, CancellationToken cancellationToken = default)
+        public static async Task WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
         {
             var tcs = new TaskCompletionSource<bool>();
 

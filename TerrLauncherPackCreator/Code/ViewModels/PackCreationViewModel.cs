@@ -11,7 +11,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Enums;
@@ -63,7 +62,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             PredefinedPackTag.FontsAnimated,
         };
 
-        [NotNull] private readonly IPackProcessor _packProcessor;
+        private readonly IPackProcessor _packProcessor;
 
         #region Properties
 
@@ -121,13 +120,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         // Step 2
-        [NotNull] public ObservableCollection<PreviewItemModel> Previews { get; }
+        public ObservableCollection<PreviewItemModel> Previews { get; }
 
         // Step 3
-        [NotNull] public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
+        public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
 
         // Step 4
-        [NotNull] public ObservableCollection<AuthorItemModel> Authors { get; }
+        public ObservableCollection<AuthorItemModel> Authors { get; }
 
         #endregion
 
@@ -168,8 +167,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IActionCommand<AuthorItemModel> DeleteAuthorCommand { get; }
 
         // Step 5
-        [CanBeNull]
-        private readonly Action _restartApp;
+        private readonly Action? _restartApp;
         public IActionCommand ExportPackCommand { get; }
         public IActionCommand RestartSequenceCommand { get; }
 
@@ -185,8 +183,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         public PackCreationViewModel(
-            [NotNull] IPackProcessor packProcessor,
-            [CanBeNull] Action restartApp
+            IPackProcessor packProcessor,
+            Action? restartApp
         )
         {
             _packProcessor = packProcessor;
@@ -452,7 +450,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Debug.WriteLine($"Can't delete modified file: {file}");
         }
         
-        private bool SaveResourceCommand_CanExecute([NotNull] ModifiedFileModel file)
+        private bool SaveResourceCommand_CanExecute(ModifiedFileModel file)
         {
 #pragma warning disable 219
             {
@@ -468,7 +466,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             );
         }
 
-        private void SaveResourceCommand_Execute([NotNull] ModifiedFileModel file)
+        private void SaveResourceCommand_Execute(ModifiedFileModel file)
         {
             if (string.IsNullOrEmpty(file.FilePath) || !File.Exists(file.FilePath))
                 return;
@@ -729,8 +727,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
 
-        [NotNull]
-        private static ModifiedFileModel FileToModel(FileType fileType, [NotNull] string filePath, [CanBeNull] IPackFileInfo fileInfo)
+        private static ModifiedFileModel FileToModel(FileType fileType, string filePath, IPackFileInfo? fileInfo)
         {
             switch (fileType)
             {

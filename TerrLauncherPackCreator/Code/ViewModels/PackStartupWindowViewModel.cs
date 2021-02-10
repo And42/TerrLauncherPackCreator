@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows.Media;
 using CommonLibrary;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Interfaces;
@@ -18,12 +17,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackStartupWindowViewModel : ViewModelBase
     {
-        [NotNull]
         private readonly IAttachedWindowManipulator _attachedWindowManipulator;
-        [NotNull]
         private readonly AppSettingsJson _appSettings;
 
-        [NotNull]
         public string CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name;
         public bool EnglishLanguageActive => CurrentLanguage == "en-US";
         public bool RussianLanguageActive => CurrentLanguage == "ru-RU";
@@ -33,23 +29,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             (Color) ColorConverter.ConvertFromString(CommonConstants.IsPreview ? "#ef5350" : "#66bb6a")
         );
         
-        [CanBeNull]
-        public Action RecreateWindow { get; set; }
+        public Action? RecreateWindow { get; set; }
 
-        [NotNull]
         public IActionCommand CreateNewPackCommand { get; }
-        [NotNull]
         public IActionCommand ChooseExistingPackCommand { get; }
-        [NotNull]
         public IActionCommand LaunchConverterCommand { get; }
-        [NotNull]
         public IActionCommand SwitchToEnglishCommand { get; }
-        [NotNull]
         public IActionCommand SwitchToRussianCommand { get; }
 
         public PackStartupWindowViewModel(
-            [NotNull] IAttachedWindowManipulator attachedWindowManipulator,
-            [NotNull] AppSettingsJson appSettings
+            IAttachedWindowManipulator attachedWindowManipulator,
+            AppSettingsJson appSettings
         )
         {
             _attachedWindowManipulator = attachedWindowManipulator;
@@ -102,7 +92,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             _attachedWindowManipulator.Close();
         }
         
-        private void SwitchLanguageTo([NotNull] string language)
+        private void SwitchLanguageTo(string language)
         {
             if (Thread.CurrentThread.CurrentUICulture.Name == language)
                 return;

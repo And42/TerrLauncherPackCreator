@@ -2,22 +2,19 @@
 using System.IO;
 using System.Threading.Tasks;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
-using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.Implementations
 {
     public class FileConverter : IFileConverter
     {
-        [NotNull]
-        public async Task<(string convertedFile, string configFile)> ConvertToTarget(
+        public async Task<(string convertedFile, string? configFile)> ConvertToTarget(
             FileType fileType,
-            [NotNull] string sourceFile,
-            [CanBeNull] IPackFileInfo fileInfo
+            string sourceFile,
+            IPackFileInfo? fileInfo
         )
         {
             if (!File.Exists(sourceFile))
@@ -27,10 +24,10 @@ namespace TerrLauncherPackCreator.Code.Implementations
             IOUtils.EnsureParentDirExists(targetFile);
 
             // config
-            string configFile = null;
+            string? configFile = null;
             if (fileInfo != null) {
                 configFile = ApplicationDataUtils.GenerateNonExistentFilePath();
-                File.WriteAllText(configFile, JsonConvert.SerializeObject(fileInfo, Formatting.Indented));
+                await File.WriteAllTextAsync(configFile, JsonConvert.SerializeObject(fileInfo, Formatting.Indented));
             }
 
             // file
@@ -39,21 +36,21 @@ namespace TerrLauncherPackCreator.Code.Implementations
             return (targetFile, configFile);
         }
 
-        public async Task<(string sourceFile, IPackFileInfo fileInfo)> ConvertToSource(
+        public async Task<(string sourceFile, IPackFileInfo? fileInfo)> ConvertToSource(
             int packStructureVersion,
             FileType fileType,
-            [NotNull] string targetFile,
-            [CanBeNull] string configFile
+            string targetFile,
+            string? configFile
         )
         {
             if (!File.Exists(targetFile))
                 throw new FileNotFoundException("File not found", targetFile);
 
             // config
-            IPackFileInfo fileInfo = null;
+            IPackFileInfo? fileInfo = null;
             if (configFile != null && File.Exists(configFile))
             {
-                string configText = File.ReadAllText(configFile);
+                string configText = await File.ReadAllTextAsync(configFile);
                 fileInfo = fileType switch
                 {
                     FileType.Texture => JsonConvert.DeserializeObject<TextureFileInfo>(configText),

@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace TerrLauncherPackCreator.Code.Implementations {
+﻿namespace TerrLauncherPackCreator.Code.Implementations {
 
     public class ImageInfo {
         public enum ImageType {
@@ -8,11 +6,10 @@ namespace TerrLauncherPackCreator.Code.Implementations {
             Gif = 1
         }
         
-        [NotNull]
         public byte[] Bytes { get; }
         public ImageType Type { get; }
         
-        public ImageInfo([NotNull] byte[] bytes, ImageType type) {
+        public ImageInfo(byte[] bytes, ImageType type) {
             Bytes = bytes;
             Type = type;
         }

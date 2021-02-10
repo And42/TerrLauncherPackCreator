@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TerrLauncherPackCreator.Code.Enums;
@@ -14,8 +13,7 @@ namespace TerrLauncherPackCreator.Code.Json.TL
     {
         public static class Processor
         {
-            [NotNull]
-            public static PackSettings Deserialize([NotNull] string json)
+            public static PackSettings Deserialize(string json)
             {
                 JObject jsonObject = JObject.Parse(json);
                 int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
@@ -44,18 +42,17 @@ namespace TerrLauncherPackCreator.Code.Json.TL
                 return jsonObject.ToObject<PackSettings>() ?? throw new Exception("Can't parse json");
             }
 
-            [NotNull]
-            public static string Serialize([NotNull] PackSettings settings)
+            public static string Serialize(PackSettings settings)
             {
                 return JsonUtils.Serialize(settings);
             }
             
             private static AuthorJson StringToAuthorJson(string author)
             {
-                string name = null;
-                string color = null;
-                string link = null;
-                string file = null;
+                string? name = null;
+                string? color = null;
+                string? link = null;
+                string? file = null;
                 
                 string[] parts = author.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string part in parts)
@@ -101,13 +98,11 @@ namespace TerrLauncherPackCreator.Code.Json.TL
         [JsonProperty("title")]
         public string Title { get; set; }
         
-        [CanBeNull]
         [JsonProperty("descriptionEnglish")]
-        public string DescriptionEnglish { get; set; }
+        public string? DescriptionEnglish { get; set; }
         
-        [CanBeNull]
         [JsonProperty("descriptionRussian")]
-        public string DescriptionRussian { get; set; }
+        public string? DescriptionRussian { get; set; }
 
         [JsonProperty("version")]
         public int Version { get; set; }
@@ -115,13 +110,11 @@ namespace TerrLauncherPackCreator.Code.Json.TL
         [JsonProperty("guid")]
         public Guid Guid { get; set; }
 
-        [CanBeNull]
         [JsonProperty("authors")]
-        public List<AuthorJson> Authors { get; set; }
+        public List<AuthorJson>? Authors { get; set; }
 
-        [CanBeNull]
         [JsonProperty("predefined_tags")]
-        public List<PredefinedPackTag> PredefinedTags { get; set; }
+        public List<PredefinedPackTag>? PredefinedTags { get; set; }
 
         [JsonProperty("is_bonus")]
         public bool IsBonus { get; set; }
@@ -133,13 +126,13 @@ namespace TerrLauncherPackCreator.Code.Json.TL
 
         public PackSettings(
             int packStructureVersion,
-            [CanBeNull] string title,
-            [CanBeNull] string descriptionEnglish,
-            [CanBeNull] string descriptionRussian,
+            string title,
+            string? descriptionEnglish,
+            string? descriptionRussian,
             int version,
             Guid guid,
-            [CanBeNull] List<AuthorJson> authors,
-            [CanBeNull] List<PredefinedPackTag> predefinedTags,
+            List<AuthorJson>? authors,
+            List<PredefinedPackTag>? predefinedTags,
             bool isBonus,
             BonusType bonusType
         )

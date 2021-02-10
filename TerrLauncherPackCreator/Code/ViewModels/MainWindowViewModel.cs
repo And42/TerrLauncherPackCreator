@@ -6,7 +6,6 @@ using System.Threading;
 using System.Windows.Controls;
 using CommonLibrary;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
@@ -107,27 +106,20 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public double InitialWindowWidth { get; }
         public double InitialWindowHeight { get; }
 
-        [NotNull]
         public Page[] StepsPages { get; }
 
-        [NotNull]
         public IProgressManager LoadProgressManager { get; }
-        [NotNull]
         public IProgressManager SaveProgressManager { get; }
-        [NotNull]
         public IFileConverter FileConverter { get; }
 
-        [NotNull]
         public ObservableCollection<IProgressManager> ProgressManagers { get; }
-        [NotNull]
         public IPackProcessor PackProcessor { get; }
-        [NotNull]
         public ITempDirsProvider TempDirsProvider { get; }
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
 
         public MainWindowViewModel(
-            [CanBeNull] Action restartApp
+            Action? restartApp
         )
         {
             // ReSharper disable once UnreachableCode

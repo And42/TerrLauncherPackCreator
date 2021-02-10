@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Resources.Localizations;
@@ -10,7 +9,6 @@ namespace TerrLauncherPackCreator.Code.Utils
 {
     public static class AppUtils
     {
-        [NotNull]
         public static AppSettingsJson LoadAppSettings()
         {
             if (!File.Exists(Paths.AppSettingsFile))
@@ -29,7 +27,7 @@ namespace TerrLauncherPackCreator.Code.Utils
             }
         }
 
-        public static void SaveAppSettings([NotNull] AppSettingsJson settings)
+        public static void SaveAppSettings(AppSettingsJson settings)
         {
             IOUtils.EnsureParentDirExists(Paths.AppSettingsFile);
             File.WriteAllText(

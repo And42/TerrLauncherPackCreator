@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using CommonLibrary.CommonUtils;
 using Ionic.Zip;
-using JetBrains.Annotations;
 using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json.TL;
@@ -23,24 +23,24 @@ namespace TerrLauncherPackCreator.Code.Implementations
         private const int PackProcessingTries = 20;
         private const int PackProcessingSleepMs = 500;
 
-        public event Action<string> PackLoadingStarted;
+        public event Action<string>? PackLoadingStarted;
 
-        public event Action<(string filePath, PackModel loadedPack, Exception error)> PackLoaded;
+        public event Action<(string filePath, PackModel loadedPack, Exception? error)>? PackLoaded;
 
-        public event Action<(PackModel pack, string targetFilePath)> PackSavingStarted;
+        public event Action<(PackModel pack, string targetFilePath)>? PackSavingStarted;
 
-        public event Action<(PackModel pack, string targetFilePath, Exception error)> PackSaved;
+        public event Action<(PackModel pack, string targetFilePath, Exception? error)>? PackSaved;
 
-        private readonly IProgressManager _loadProgressManager;
-        private readonly IProgressManager _saveProgressManager;
+        private readonly IProgressManager? _loadProgressManager;
+        private readonly IProgressManager? _saveProgressManager;
         private readonly IFileConverter _fileConverter;
 
         private readonly object _loadingLock = new object();
         private readonly object _savingLock = new object();
 
         public PackProcessor(
-            IProgressManager loadProgressManager,
-            IProgressManager saveProgressManager,
+            IProgressManager? loadProgressManager,
+            IProgressManager? saveProgressManager,
             IFileConverter fileConverter
         )
         {
@@ -107,6 +107,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         {
             lock (_loadingLock)
             {
+                Debug.Assert(_loadProgressManager != null, nameof(_loadProgressManager) + " != null");
                 _loadProgressManager.RemainingFilesCount++;
             }
         }
@@ -115,6 +116,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         {
             lock (_loadingLock)
             {
+                Debug.Assert(_loadProgressManager != null, nameof(_loadProgressManager) + " != null");
                 _loadProgressManager.RemainingFilesCount--;
             }
         }
@@ -123,6 +125,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         {
             lock (_savingLock)
             {
+                Debug.Assert(_saveProgressManager != null, nameof(_saveProgressManager) + " != null");
                 _saveProgressManager.RemainingFilesCount++;
             }
         }
@@ -131,6 +134,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         {
             lock (_savingLock)
             {
+                Debug.Assert(_saveProgressManager != null, nameof(_saveProgressManager) + " != null");
                 _saveProgressManager.RemainingFilesCount--;
             }
         }
@@ -149,10 +153,10 @@ namespace TerrLauncherPackCreator.Code.Implementations
             string packAuthorsFolder = Path.Combine(targetFolderPath, "Authors");
             string packModifiedFilesFolder = Path.Combine(targetFolderPath, "Modified");
 
-            string packSettingsText = File.ReadAllText(packSettingsFile, Encoding.UTF8);
+            string packSettingsText = await File.ReadAllTextAsync(packSettingsFile, Encoding.UTF8);
             PackSettings packSettings = PackSettings.Processor.Deserialize(packSettingsText);
 
-            string packIconFile = null;
+            string? packIconFile = null;
             if (File.Exists(packIconGif))
                 packIconFile = packIconGif;
             else if (File.Exists(packIconPng))
@@ -165,7 +169,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     ? Directory.EnumerateFiles(packPreviewsFolder)
                         .Where(it => PreviewExtensions.Contains(Path.GetExtension(it)))
                         .ToArray()
-                    : new string[0];
+                    : Array.Empty<string>();
 
             string[] modifiedFileExts = PackUtils.PacksInfo.Select(it => it.convertedFilesExt).ToArray();
             string[] modifiedFilesPaths =
@@ -173,7 +177,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     ? Directory.EnumerateFiles(packModifiedFilesFolder)
                         .Where(it => modifiedFileExts.Contains(Path.GetExtension(it)))
                         .ToArray()
-                    : new string[0];
+                    : Array.Empty<string>();
 
             var authors = packSettings.Authors?
                 .ConvertAll(it => JsonToAuthorModel(it, packAuthorsFolder))
@@ -182,7 +186,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             var modifiedFiles = new List<PackModel.ModifiedFileInfo>();
             foreach (string modifiedFile in modifiedFilesPaths)
             {
-                string configFile = Path.ChangeExtension(modifiedFile, PackUtils.PackFileConfigExtension);
+                string? configFile = Path.ChangeExtension(modifiedFile, PackUtils.PackFileConfigExtension);
                 if (!File.Exists(configFile)) {
                     configFile = null;
                 }
@@ -220,7 +224,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         private void SavePackModelInternal(PackModel packModel, string filePath)
         {
-            var authorsMappings = new List<(ImageInfo sourceFile, string targetFile, AuthorJson json)>();
+            var authorsMappings = new List<(ImageInfo? sourceFile, string? targetFile, AuthorJson json)>();
             int authorFileIndex = 1;
             foreach (var author in packModel.Authors) {
                 string fileExtension;
@@ -334,19 +338,18 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
         }
 
-        [NotNull]
         private static AuthorJson AuthorModelToJson(
             (string name, Color? color, string link, ImageInfo icon, int iconHeight) author,
             ref int authorFileIndex,
             out bool copyIcon,
-            [CanBeNull] out string fileExtension
+            out string? fileExtension
         )
         {
             string name = author.name ?? string.Empty;
             string color = author.color?.ToString();
             string link = author.link ?? string.Empty;
             
-            string icon = null;
+            string? icon = null;
             fileExtension = null;
             if (author.icon != null) {
                 string extension = author.icon.Type switch
@@ -375,13 +378,13 @@ namespace TerrLauncherPackCreator.Code.Implementations
             );
         }
 
-        private static (string name, Color? color, string link, ImageInfo icon, int iconHeight) StringToAuthorModel(string author, string authorIconsDir)
+        private static (string? name, Color? color, string? link, ImageInfo? icon, int iconHeight) StringToAuthorModel(string author, string authorIconsDir)
         {
             string[] parts = author.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-            string name = null;
+            string? name = null;
             Color? color = null;
-            string link = null;
-            ImageInfo icon = null;
+            string? link = null;
+            ImageInfo? icon = null;
 
             foreach (string part in parts)
             {
@@ -420,14 +423,13 @@ namespace TerrLauncherPackCreator.Code.Implementations
             );
         }
 
-        private static Color ParseAuthorColor([NotNull] string color)
+        private static Color ParseAuthorColor(string color)
         {
             // ReSharper disable once PossibleNullReferenceException
             return (Color) ColorConverter.ConvertFromString(color);
         }
         
-        [CanBeNull]
-        private static ImageInfo ParseAuthorIcon([NotNull] string iconPath)
+        private static ImageInfo? ParseAuthorIcon(string iconPath)
         {
             if (!File.Exists(iconPath))
                 return null;

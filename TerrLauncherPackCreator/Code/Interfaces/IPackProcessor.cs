@@ -5,9 +5,9 @@ namespace TerrLauncherPackCreator.Code.Interfaces
 {
     public interface IPackProcessor
     {
-        event Action<(string filePath, PackModel loadedPack, Exception error)> PackLoaded;
+        event Action<(string filePath, PackModel loadedPack, Exception? error)> PackLoaded;
 
-        event Action<(PackModel pack, string targetFilePath, Exception error)> PackSaved;
+        event Action<(PackModel pack, string targetFilePath, Exception? error)> PackSaved;
 
         void LoadPackFromFile(string filePath);
 
