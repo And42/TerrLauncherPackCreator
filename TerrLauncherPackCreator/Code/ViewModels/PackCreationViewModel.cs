@@ -18,8 +18,6 @@ using CrossPlatform.Code.Models;
 using CrossPlatform.Code.Utils;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
-using TerrLauncherPackCreator.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;

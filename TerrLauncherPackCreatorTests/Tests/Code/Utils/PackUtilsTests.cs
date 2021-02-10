@@ -4,7 +4,6 @@ using System.Linq;
 using CrossPlatform.Code.Enums;
 using CrossPlatform.Code.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
 {

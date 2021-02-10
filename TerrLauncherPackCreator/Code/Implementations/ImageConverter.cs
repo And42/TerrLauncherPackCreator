@@ -1,5 +1,4 @@
 ﻿using CrossPlatform.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.Implementations
