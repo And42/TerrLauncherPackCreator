@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 
 namespace CommonLibrary.CommonUtils
 {
@@ -26,8 +25,7 @@ namespace CommonLibrary.CommonUtils
             return -1;
         }
 
-        [NotNull]
-        public static TOutput[] ConvertAll<TInput, TOutput>([NotNull] this TInput[] array, [NotNull] Converter<TInput, TOutput> converter)
+        public static TOutput[] ConvertAll<TInput, TOutput>(this TInput[] array, Converter<TInput, TOutput> converter)
         {
             return Array.ConvertAll(array, converter);
         }

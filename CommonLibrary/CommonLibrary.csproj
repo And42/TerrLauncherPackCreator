@@ -6,6 +6,7 @@
         <AssemblyName>CommonLibrary</AssemblyName>
         <RootNamespace>CommonLibrary</RootNamespace>
         <Company />
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,12 +14,6 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations">
-        <Version>2020.3.0</Version>
-      </PackageReference>
     </ItemGroup>
 
 </Project>
