@@ -7,79 +7,33 @@ using TerrLauncherPackCreator.Code.Interfaces;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
-    public class PackModel
+    public record PackModel(
+        int PackStructureVersion,
+        string IconFilePath,
+        string Title,
+        string DescriptionRussian,
+        string DescriptionEnglish,
+        Guid Guid,
+        int Version,
+        bool IsBonusPack,
+        IReadOnlyList<PredefinedPackTag> PredefinedTags,
+        IReadOnlyList<PackModel.Author> Authors,
+        IReadOnlyList<string> PreviewsPaths,
+        IReadOnlyList<PackModel.ModifiedFile> ModifiedFiles
+    )
     {
-        public class ModifiedFileInfo
-        {
-            public IPackFileInfo? Config { get; }
-            
-            public string FilePath { get; }
-
-            public FileType FileType { get; }
-            
-            public ModifiedFileInfo(
-                IPackFileInfo? config,
-                string filePath,
-                FileType fileType
-            )
-            {
-                Config = config;
-                FilePath = filePath;
-                FileType = fileType;
-            }
-        }
+        public record Author(
+            string Name,
+            Color? Color,
+            string Link,
+            ImageInfo Icon,
+            int IconHeight
+        );
         
-        public PackModel(
-            (string name, Color? color, string link, ImageInfo icon, int iconHeight)[] authors,
-            string[] previewsPaths,
-            ModifiedFileInfo[] modifiedFiles,
-            int packStructureVersion,
-            string iconFilePath,
-            string title,
-            string descriptionRussian,
-            string descriptionEnglish,
-            Guid guid,
-            int version,
-            bool isBonusPack,
-            List<PredefinedPackTag> predefinedTags
-        )
-        {
-            Authors = authors;
-            PreviewsPaths = previewsPaths;
-            ModifiedFiles = modifiedFiles;
-            PackStructureVersion = packStructureVersion;
-            IconFilePath = iconFilePath;
-            Title = title;
-            DescriptionRussian = descriptionRussian;
-            DescriptionEnglish = descriptionEnglish;
-            Guid = guid;
-            Version = version;
-            IsBonusPack = isBonusPack;
-            PredefinedTags = predefinedTags;
-        }
-
-        public int PackStructureVersion { get; }
-        
-        public string IconFilePath { get; }
-
-        public string Title { get; }
-
-        public string DescriptionRussian { get; }
-
-        public string DescriptionEnglish { get; }
-
-        public Guid Guid { get; }
-
-        public int Version { get; }
-
-        public bool IsBonusPack { get; }
-
-        public List<PredefinedPackTag> PredefinedTags { get; }
-
-        public (string name, Color? color, string link, ImageInfo icon, int iconHeight)[] Authors { get; }
-        
-        public string[] PreviewsPaths { get; }
-
-        public ModifiedFileInfo[] ModifiedFiles { get; }
+        public record ModifiedFile(
+            IPackFileInfo? Config,
+            string FilePath,
+            FileType FileType
+        );
     }
 }

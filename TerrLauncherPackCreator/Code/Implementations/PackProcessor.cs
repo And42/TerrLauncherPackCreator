@@ -25,7 +25,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 
         public event Action<string>? PackLoadingStarted;
 
-        public event Action<(string filePath, PackModel loadedPack, Exception? error)>? PackLoaded;
+        public event Action<(string filePath, PackModel? loadedPack, Exception? error)>? PackLoaded;
 
         public event Action<(PackModel pack, string targetFilePath)>? PackSavingStarted;
 
@@ -35,8 +35,8 @@ namespace TerrLauncherPackCreator.Code.Implementations
         private readonly IProgressManager? _saveProgressManager;
         private readonly IFileConverter _fileConverter;
 
-        private readonly object _loadingLock = new object();
-        private readonly object _savingLock = new object();
+        private readonly object _loadingLock = new();
+        private readonly object _savingLock = new();
 
         public PackProcessor(
             IProgressManager? loadProgressManager,
@@ -112,7 +112,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
         }
 
-        private void OnPackLoaded((string filePath, PackModel loadedPack, Exception error) item)
+        private void OnPackLoaded((string filePath, PackModel? loadedPack, Exception? error) item)
         {
             lock (_loadingLock)
             {
@@ -130,7 +130,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             }
         }
 
-        private void OnPackSaved((PackModel pack, string targetFilePath, Exception error) item)
+        private void OnPackSaved((PackModel pack, string targetFilePath, Exception? error) item)
         {
             lock (_savingLock)
             {
@@ -183,7 +183,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 .ConvertAll(it => JsonToAuthorModel(it, packAuthorsFolder))
                 .ToArray();
 
-            var modifiedFiles = new List<PackModel.ModifiedFileInfo>();
+            var modifiedFiles = new List<PackModel.ModifiedFile>();
             foreach (string modifiedFile in modifiedFilesPaths)
             {
                 string? configFile = Path.ChangeExtension(modifiedFile, PackUtils.PackFileConfigExtension);
@@ -199,26 +199,26 @@ namespace TerrLauncherPackCreator.Code.Implementations
                     targetFile: modifiedFile,
                     configFile: configFile
                 );
-                modifiedFiles.Add(new PackModel.ModifiedFileInfo(
-                    config: fileInfo,
-                    filePath: sourceFile,
-                    fileType: fileType
+                modifiedFiles.Add(new PackModel.ModifiedFile(
+                    Config: fileInfo,
+                    FilePath: sourceFile,
+                    FileType: fileType
                 ));
             }
-
+    
             return new PackModel(
-                authors: authors ?? Array.Empty<(string name, Color? color, string link, ImageInfo icon, int iconHeight)>(),
-                previewsPaths: previewsPaths,
-                modifiedFiles: modifiedFiles.ToArray(),
-                packStructureVersion: packSettings.PackStructureVersion,
-                iconFilePath: packIconFile,
-                title: packSettings.Title,
-                descriptionRussian: packSettings.DescriptionRussian,
-                descriptionEnglish: packSettings.DescriptionEnglish,
-                guid: packSettings.Guid,
-                version: packSettings.Version,
-                isBonusPack: packSettings.IsBonus,
-                predefinedTags: packSettings.PredefinedTags?.ToList() ?? new List<PredefinedPackTag>(0)
+                Authors: authors ?? Array.Empty<PackModel.Author>(),
+                PreviewsPaths: previewsPaths,
+                ModifiedFiles: modifiedFiles.ToArray(),
+                PackStructureVersion: packSettings.PackStructureVersion,
+                IconFilePath: packIconFile,
+                Title: packSettings.Title,
+                DescriptionRussian: packSettings.DescriptionRussian,
+                DescriptionEnglish: packSettings.DescriptionEnglish,
+                Guid: packSettings.Guid,
+                Version: packSettings.Version,
+                IsBonusPack: packSettings.IsBonus,
+                PredefinedTags: packSettings.PredefinedTags?.ToList() ?? new List<PredefinedPackTag>(0)
             );
         }
 
@@ -229,7 +229,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
             foreach (var author in packModel.Authors) {
                 string fileExtension;
                 AuthorJson json = AuthorModelToJson(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
-                authorsMappings.Add((copyIcon ? author.icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
+                authorsMappings.Add((copyIcon ? author.Icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
             }
 #pragma warning disable 219
             const int _ = 1 / (1 / (int) BonusType.LastEnumElement);
@@ -323,7 +323,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 }
 
                 int fileIndex = 1;
-                foreach (PackModel.ModifiedFileInfo modifiedFile in packModel.ModifiedFiles) {
+                foreach (PackModel.ModifiedFile modifiedFile in packModel.ModifiedFiles) {
                     var (convertedFile, configFile) = _fileConverter.ConvertToTarget(modifiedFile.FileType, modifiedFile.FilePath, modifiedFile.Config).GetAwaiter().GetResult();
                     string fileExt = PackUtils.GetConvertedFilesExt(modifiedFile.FileType);
                     string fileName = fileIndex.ToString();
@@ -339,24 +339,24 @@ namespace TerrLauncherPackCreator.Code.Implementations
         }
 
         private static AuthorJson AuthorModelToJson(
-            (string name, Color? color, string link, ImageInfo icon, int iconHeight) author,
+            PackModel.Author author,
             ref int authorFileIndex,
             out bool copyIcon,
             out string? fileExtension
         )
         {
-            string name = author.name ?? string.Empty;
-            string color = author.color?.ToString();
-            string link = author.link ?? string.Empty;
+            string name = author.Name ?? string.Empty;
+            string color = author.Color?.ToString();
+            string link = author.Link ?? string.Empty;
             
             string? icon = null;
             fileExtension = null;
-            if (author.icon != null) {
-                string extension = author.icon.Type switch
+            if (author.Icon != null) {
+                string extension = author.Icon.Type switch
                 {
                     ImageInfo.ImageType.Png => ".png",
                     ImageInfo.ImageType.Gif => ".gif",
-                    _ => throw new ArgumentOutOfRangeException(nameof(author.icon.Type), author.icon.Type, @"Unknown type")
+                    _ => throw new ArgumentOutOfRangeException(nameof(author.Icon.Type), author.Icon.Type, @"Unknown type")
                 };
 
                 fileExtension = extension;
@@ -374,7 +374,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
                 color: color,
                 file: icon,
                 link: link,
-                iconHeight: author.iconHeight
+                iconHeight: author.IconHeight
             );
         }
 
@@ -412,14 +412,14 @@ namespace TerrLauncherPackCreator.Code.Implementations
             return (name, color, link, icon, PackUtils.DefaultAuthorIconHeight);
         }
         
-        private static (string name, Color? color, string link, ImageInfo icon, int iconHeight) JsonToAuthorModel(AuthorJson author, string authorIconsDir)
+        private static PackModel.Author JsonToAuthorModel(AuthorJson author, string authorIconsDir)
         {
-            return (
-                author.Name,
-                ParseAuthorColor(author.Color),
-                author.Link,
-                author.File == null ? null : ParseAuthorIcon(Path.Combine(authorIconsDir, author.File)),
-                author.IconHeight
+            return new(
+                Name: author.Name,
+                Color: ParseAuthorColor(author.Color),
+                Link: author.Link,
+                Icon: author.File == null ? null : ParseAuthorIcon(Path.Combine(authorIconsDir, author.File)),
+                IconHeight: author.IconHeight
             );
         }
 

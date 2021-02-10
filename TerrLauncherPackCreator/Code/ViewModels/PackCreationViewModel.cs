@@ -298,11 +298,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 foreach (var author in packModel.Authors)
                 {
                     Authors.Add(new AuthorItemModel(
-                        name: author.name,
-                        color: author.color,
-                        image: author.icon,
-                        link: author.link,
-                        iconHeight: author.iconHeight
+                        name: author.Name,
+                        color: author.Color,
+                        image: author.Icon,
+                        link: author.Link,
+                        iconHeight: author.IconHeight
                     ));
                 }
 
@@ -556,9 +556,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private PackModel GeneratePackModel()
         {
-            return new PackModel(
-                authors: Authors.Select(author => (author.Name, author.Color, author.Link, author.Image, author.IconHeight)).ToArray(),
-                previewsPaths: Previews.Where(it => !it.IsDragDropTarget)
+            return new(
+                Authors: Authors.Select(author => 
+                    new PackModel.Author(
+                        Name: author.Name,
+                        Color: author.Color,
+                        Link: author.Link,
+                        Icon: author.Image,
+                        IconHeight: author.IconHeight
+                    )
+                ).ToArray(),
+                PreviewsPaths: Previews.Where(it => !it.IsDragDropTarget)
                     .Select(it =>
                     {
                         if (string.IsNullOrEmpty(it.FilePath))
@@ -586,7 +594,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         }
                     })
                     .ToArray(),
-                modifiedFiles: ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
+                ModifiedFiles: ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
                     {
@@ -659,24 +667,24 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 throw new ArgumentOutOfRangeException();
                         }
 
-                        var info = new PackModel.ModifiedFileInfo(
-                            config: fileInfo,
-                            filePath: it.modified.FilePath,
-                            fileType: it.FilesType
+                        var info = new PackModel.ModifiedFile(
+                            Config: fileInfo,
+                            FilePath: it.modified.FilePath,
+                            FileType: it.FilesType
                         );
 
                         return info;
                     })
                     .ToArray(),
-                packStructureVersion: LatestPackStructureVersion,
-                iconFilePath: IconFilePath,
-                title: Title,
-                descriptionRussian: DescriptionRussian,
-                descriptionEnglish: DescriptionEnglish,
-                guid: Guid,
-                version: Version,
-                isBonusPack: IsBonusPack,
-                predefinedTags: PredefinedTags.ToList()
+                PackStructureVersion: LatestPackStructureVersion,
+                IconFilePath: IconFilePath,
+                Title: Title,
+                DescriptionRussian: DescriptionRussian,
+                DescriptionEnglish: DescriptionEnglish,
+                Guid: Guid,
+                Version: Version,
+                IsBonusPack: IsBonusPack,
+                PredefinedTags: PredefinedTags.ToList()
             );
         }
 
