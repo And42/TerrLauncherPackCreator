@@ -5,8 +5,6 @@ using CrossPlatform.Code.Implementations;
 using CrossPlatform.Code.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TerrLauncherPackCreator.Code.Implementations;
-using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.Json
 {
@@ -59,7 +57,7 @@ namespace TerrLauncherPackCreator.Code.Json
 
                 return updatePerformed
                     ? fileJson.ToObject<AuthorsJson>() ?? throw new Exception("Can't parse updated authors file")
-                    : JsonConvert.DeserializeObject<AuthorsJson>(json);
+                    : JsonUtils.Deserialize<AuthorsJson>(json);
             }
 
             public static string Serialize(AuthorsJson model) {

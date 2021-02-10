@@ -2,7 +2,6 @@
 using System.IO;
 using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Utils;
-using Newtonsoft.Json;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Resources.Localizations;
 
@@ -17,7 +16,7 @@ namespace TerrLauncherPackCreator.Code.Utils
 
             try
             {
-                return JsonConvert.DeserializeObject<AppSettingsJson>(
+                return JsonUtils.Deserialize<AppSettingsJson>(
                     File.ReadAllText(Paths.AppSettingsFile)
                 );
             }
@@ -33,7 +32,7 @@ namespace TerrLauncherPackCreator.Code.Utils
             IOUtils.EnsureParentDirExists(Paths.AppSettingsFile);
             File.WriteAllText(
                 Paths.AppSettingsFile,
-                JsonConvert.SerializeObject(settings, Formatting.Indented)
+                JsonUtils.Serialize(settings)
             );
         }
     }
