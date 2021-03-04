@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Shell;
 using CommonLibrary;
@@ -105,7 +104,7 @@ namespace TerrLauncherPackCreatorUpdater.Code.ViewModels
 
             Process.Start(
                 Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
-                $"delete_temp \"{Assembly.GetExecutingAssembly().Location}\""
+                $"delete_temp \"{Process.GetCurrentProcess().MainModule!.FileName}\""
             );
 
             Environment.Exit(0);

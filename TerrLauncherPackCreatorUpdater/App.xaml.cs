@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Utils;
@@ -69,7 +68,7 @@ namespace TerrLauncherPackCreatorUpdater
 
         private static void RunUpdate()
         {
-            string currentExeLocation = Assembly.GetExecutingAssembly().Location;
+            string currentExeLocation = Process.GetCurrentProcess().MainModule!.FileName!;
 
             string tempFile = Path.GetTempFileName();
 
@@ -87,10 +86,7 @@ namespace TerrLauncherPackCreatorUpdater
             var shell = new WshShell();
 
             IWshShortcut shortcut = (IWshShortcut) shell.CreateShortcut(
-                Path.Combine(
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty,
-                    "TerrLauncherPackCreator.lnk"
-                )
+                Path.Combine(AppContext.BaseDirectory, "TerrLauncherPackCreator.lnk")
             );
 
             shortcut.TargetPath = GetCreatorPath();
