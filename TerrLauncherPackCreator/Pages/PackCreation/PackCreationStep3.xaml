@@ -7,7 +7,6 @@
     xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
     xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
     xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
-    xmlns:json="clr-namespace:TerrLauncherPackCreator.Code.Json;assembly=CrossPlatform"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:me="clr-namespace:TerrLauncherPackCreator.Code.MarkupExtensions"
     xmlns:fileInfos="clr-namespace:CrossPlatform.Code.FileInfos;assembly=CrossPlatform"
