@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Code.ViewModels;
 
@@ -15,7 +16,7 @@ namespace TerrLauncherPackCreator.Windows
 
         public ConverterWindowViewModel ViewModel
         {
-            get => DataContext as ConverterWindowViewModel;
+            get => DataContext as ConverterWindowViewModel ?? throw new InvalidOperationException();
             set => DataContext = value;
         }
 
