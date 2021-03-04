@@ -8,8 +8,8 @@
         <RootNamespace>TerrLauncherPackCreatorUpdater</RootNamespace>
         <Company />
         <Product>TerrLauncherPackCreatorUpdater</Product>
-        <AssemblyVersion>1.3.1.0</AssemblyVersion>
-        <FileVersion>1.3.1.0</FileVersion>
+        <AssemblyVersion>1.4.0.0</AssemblyVersion>
+        <FileVersion>1.4.0.0</FileVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
