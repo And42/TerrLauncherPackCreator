@@ -24,9 +24,7 @@ namespace CrossPlatform.Code.Utils
         
         static PackUtils()
         {
-#pragma warning disable 219
             const int _ = 1 / (7 / (int) FileType.LastEnumElement);
-#pragma warning restore 219
             
             PacksInfo = new PackInfo[]
             {
