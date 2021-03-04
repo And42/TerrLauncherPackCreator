@@ -5,19 +5,19 @@ namespace TerrLauncherPackCreator.Code.Models
 {
     public class ModifiedAudioModel : ModifiedFileModel
     {
-        public string? Prefix
+        public string Prefix
         {
             get => _prefix;
             set => SetProperty(ref _prefix, value);
         }
-        private string? _prefix;
+        private string _prefix = "";
         
-        public string? Name
+        public string Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
         }
-        private string? _name;
+        private string _name;
 
         public ObservableCollection<string> CommonPrefixes { get; }
         
