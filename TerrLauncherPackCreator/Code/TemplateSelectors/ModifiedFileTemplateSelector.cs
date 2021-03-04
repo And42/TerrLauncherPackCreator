@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using TerrLauncherPackCreator.Code.Enums;
+using CrossPlatform.Code.Enums;
 using TerrLauncherPackCreator.Code.Models;
 
 namespace TerrLauncherPackCreator.Code.TemplateSelectors

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using JetBrains.Annotations;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
@@ -12,7 +11,7 @@ namespace TerrLauncherPackCreator.Code.Models
         }
         private string _resultFileName;
 
-        public ModifiedCharacterModel([NotNull] string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
+        public ModifiedCharacterModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
         {
             _resultFileName = Path.GetFileNameWithoutExtension(filePath);
         }

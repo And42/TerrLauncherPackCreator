@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using static TerrLauncherPackCreator.Code.Json.TextureFileInfo;
+using static CrossPlatform.Code.FileInfos.TextureFileInfo;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {

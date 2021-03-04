@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
-using JetBrains.Annotations;
+using CrossPlatform.Code.Implementations;
+using CrossPlatform.Code.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TerrLauncherPackCreator.Code.Implementations;
-using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.Json
 {
@@ -13,8 +12,7 @@ namespace TerrLauncherPackCreator.Code.Json
 
         public static class Processor
         {
-            [NotNull]
-            public static AuthorsJson Deserialize([NotNull] string json) {
+            public static AuthorsJson Deserialize(string json) {
                 JObject fileJson = JObject.Parse(json);
                 int fileVersion = fileJson["version"]?.ToObject<int>() ?? 0;
                 bool updatePerformed = false;
@@ -28,7 +26,7 @@ namespace TerrLauncherPackCreator.Code.Json
                             {
                                 foreach (var author in authors)
                                 {
-                                    byte[] iconBytes = author["icon"]?.ToObject<byte[]>();
+                                    byte[]? iconBytes = author["icon"]?.ToObject<byte[]>();
                                     if (iconBytes != null)
                                     {
                                         author["icon"] = JObject.FromObject(new
@@ -59,11 +57,10 @@ namespace TerrLauncherPackCreator.Code.Json
 
                 return updatePerformed
                     ? fileJson.ToObject<AuthorsJson>() ?? throw new Exception("Can't parse updated authors file")
-                    : JsonConvert.DeserializeObject<AuthorsJson>(json);
+                    : JsonUtils.Deserialize<AuthorsJson>(json);
             }
 
-            [NotNull]
-            public static string Serialize([NotNull] AuthorsJson model) {
+            public static string Serialize(AuthorsJson model) {
                 return JsonUtils.Serialize(model);
             }
         }
@@ -73,9 +70,8 @@ namespace TerrLauncherPackCreator.Code.Json
         [JsonProperty("version")]
         public int Version { get; set; }
         
-        [CanBeNull]
         [JsonProperty("authors")]
-        public List<AuthorJson> Authors { get; set; }
+        public List<AuthorJson>? Authors { get; set; }
 
         public static AuthorsJson CreateLatest() {
             return new AuthorsJson {
@@ -105,21 +101,17 @@ namespace TerrLauncherPackCreator.Code.Json
             }
         }
         
-        [CanBeNull]
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
-        [CanBeNull]
         [JsonProperty("color")]
         public Color? Color { get; set; }
 
-        [CanBeNull]
         [JsonProperty("link")]
-        public string Link { get; set; }
+        public string? Link { get; set; }
 
-        [CanBeNull]
         [JsonProperty("icon")]
-        public IconJson Icon { get; set; }
+        public IconJson? Icon { get; set; }
         
         [JsonProperty("icon_height")]
         public int IconHeight { get; set; } = PackUtils.DefaultAuthorIconHeight;

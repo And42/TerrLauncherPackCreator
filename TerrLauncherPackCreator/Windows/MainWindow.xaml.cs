@@ -32,7 +32,7 @@ namespace TerrLauncherPackCreator.Windows
 
         public MainWindowViewModel ViewModel
         {
-            get => DataContext as MainWindowViewModel;
+            get => DataContext as MainWindowViewModel ?? throw new InvalidOperationException();
             set => DataContext = value;
         }
 

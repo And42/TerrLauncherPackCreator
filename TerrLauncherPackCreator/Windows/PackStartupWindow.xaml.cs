@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.ViewModels;
@@ -13,7 +9,7 @@ namespace TerrLauncherPackCreator.Windows
     {
         public PackStartupWindowViewModel ViewModel
         {
-            get => DataContext as PackStartupWindowViewModel;
+            get => DataContext as PackStartupWindowViewModel ?? throw new InvalidOperationException();
             set => DataContext = value;
         }
 

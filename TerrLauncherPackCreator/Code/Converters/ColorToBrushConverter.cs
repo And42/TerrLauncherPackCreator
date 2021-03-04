@@ -1,14 +1,12 @@
 ﻿using System.Globalization;
 using System.Windows.Media;
-using JetBrains.Annotations;
 using MVVM_Tools.Code.Classes;
 
 namespace TerrLauncherPackCreator.Code.Converters
 {
     public class ColorToBrushConverter : ConverterBase<Color, SolidColorBrush>
     {
-        [CanBeNull]
-        private SolidColorBrush _latestBrush;
+        private SolidColorBrush? _latestBrush;
         
         public override SolidColorBrush ConvertInternal(Color value, object parameter, CultureInfo culture)
         {

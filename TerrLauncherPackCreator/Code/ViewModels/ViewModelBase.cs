@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using MVVM_Tools.Code.Classes;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
@@ -18,10 +17,9 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         
         private class WorkingDisposable : IDisposable
         {
-            [CanBeNull]
-            private ViewModelBase _viewModelBase;
+            private ViewModelBase? _viewModelBase;
             
-            public WorkingDisposable([NotNull] ViewModelBase viewModel)
+            public WorkingDisposable(ViewModelBase viewModel)
             {
                 _viewModelBase = viewModel;
                 viewModel.Working = true;

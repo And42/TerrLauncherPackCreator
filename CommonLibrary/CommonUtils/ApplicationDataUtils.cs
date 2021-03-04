@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using JetBrains.Annotations;
 
 namespace CommonLibrary.CommonUtils
 {
@@ -24,8 +23,7 @@ namespace CommonLibrary.CommonUtils
             PathToSessionTempFolder = Path.Combine(PathToRootFolder, "SessionTemp");
         }
 
-        [NotNull]
-        public static string GenerateNonExistentFilePath([CanBeNull] string extension = null)
+        public static string GenerateNonExistentFilePath(string? extension = null)
         {
             string filePath;
             do
@@ -36,7 +34,6 @@ namespace CommonLibrary.CommonUtils
             return filePath;
         }
 
-        [NotNull]
         public static string GenerateNonExistentDirPath()
         {
             string dirPath;

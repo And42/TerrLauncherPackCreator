@@ -4,20 +4,16 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using JetBrains.Annotations;
 using MVVM_Tools.Code.Classes;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
     public class PreviewItemModel : BindableBase
     {
-        [NotNull]
         private static readonly ISet<string> CroppableFileExtensions = new HashSet<string> {".png", ".jpg"};
         
-        [CanBeNull]
-        public Uri ImageUri { get; }
-        [CanBeNull]
-        public string FilePath { get; }
+        public Uri? ImageUri { get; }
+        public string? FilePath { get; }
         public bool IsDragDropTarget { get; }
 
         public bool IsCroppingEnabled
@@ -99,7 +95,7 @@ namespace TerrLauncherPackCreator.Code.Models
         private readonly int _imageWidthPx;
         private readonly int _imageHeightPx;
         
-        public PreviewItemModel([CanBeNull] string filePath, bool isDragDropTarget)
+        public PreviewItemModel(string? filePath, bool isDragDropTarget)
         {
             ImageUri = filePath != null ? new Uri(filePath) : null;
             FilePath = filePath;
@@ -121,7 +117,7 @@ namespace TerrLauncherPackCreator.Code.Models
             PropertyChanged += OnPropertyChanged;
         }
 
-        public static PreviewItemModel FromImageFile([NotNull] string filePath)
+        public static PreviewItemModel FromImageFile(string filePath)
         {
             return new PreviewItemModel(filePath, false);
         }

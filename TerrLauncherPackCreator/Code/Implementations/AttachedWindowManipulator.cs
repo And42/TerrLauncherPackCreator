@@ -6,7 +6,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
 {
     public class AttachedWindowManipulator : IAttachedWindowManipulator
     {
-        private Window _window;
+        private Window? _window;
 
         public AttachedWindowManipulator(Window window)
         {
@@ -17,7 +17,7 @@ namespace TerrLauncherPackCreator.Code.Implementations
         {
             CheckWindowNull();
 
-            _window.Close();
+            _window!.Close();
             _window = null;
         }
 

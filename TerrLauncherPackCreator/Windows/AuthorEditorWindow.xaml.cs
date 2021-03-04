@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using TerrLauncherPackCreator.Code.Models;
+﻿using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Windows
@@ -7,7 +6,7 @@ namespace TerrLauncherPackCreator.Windows
     public partial class AuthorEditorWindow
     {
         public AuthorEditorWindow(
-            [NotNull] AuthorItemModel authorModel
+            AuthorItemModel authorModel
         )
         {
             InitializeComponent();
@@ -17,8 +16,7 @@ namespace TerrLauncherPackCreator.Windows
 
         public AuthorEditorWindowViewModel ViewModel
         {
-            get => DataContext as AuthorEditorWindowViewModel;
-            set => DataContext = value;
+            init => DataContext = value;
         }
     }
 }

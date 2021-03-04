@@ -1,10 +1,8 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using JetBrains.Annotations;
 using Point = System.Drawing.Point;
 
 namespace TerrLauncherPackCreator.Code.Utils
@@ -22,8 +20,7 @@ namespace TerrLauncherPackCreator.Code.Utils
             return bmp;
         }
 
-        [NotNull]
-        public static BitmapSource ToBitmapSource([NotNull] this Bitmap bitmap)
+        public static BitmapSource ToBitmapSource(this Bitmap bitmap)
         {
             using (var stream = new MemoryStream())
             {
@@ -32,8 +29,7 @@ namespace TerrLauncherPackCreator.Code.Utils
             }
         }
         
-        [NotNull]
-        public static BitmapSource ToBitmapSource([NotNull] this Stream stream) {
+        public static BitmapSource ToBitmapSource(this Stream stream) {
             stream.Position = 0;
             BitmapImage result = new BitmapImage();
             result.BeginInit();

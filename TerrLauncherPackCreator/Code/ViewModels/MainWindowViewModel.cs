@@ -6,7 +6,8 @@ using System.Threading;
 using System.Windows.Controls;
 using CommonLibrary;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
+using CrossPlatform.Code.Implementations;
+using CrossPlatform.Code.Interfaces;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
@@ -107,31 +108,24 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public double InitialWindowWidth { get; }
         public double InitialWindowHeight { get; }
 
-        [NotNull]
         public Page[] StepsPages { get; }
 
-        [NotNull]
         public IProgressManager LoadProgressManager { get; }
-        [NotNull]
         public IProgressManager SaveProgressManager { get; }
-        [NotNull]
         public IFileConverter FileConverter { get; }
 
-        [NotNull]
         public ObservableCollection<IProgressManager> ProgressManagers { get; }
-        [NotNull]
         public IPackProcessor PackProcessor { get; }
-        [NotNull]
         public ITempDirsProvider TempDirsProvider { get; }
         public IActionCommand GoToPreviousStepCommand { get; }
         public IActionCommand GoToNextStepCommand { get; }
 
         public MainWindowViewModel(
-            [CanBeNull] Action restartApp
+            Action? restartApp
         )
         {
             // ReSharper disable once UnreachableCode
-            WindowTitle = Assembly.GetEntryAssembly().GetName().Name + (CommonConstants.IsPreview ? " (Preview)" : "");
+            WindowTitle = Assembly.GetEntryAssembly()?.GetName().Name + (CommonConstants.IsPreview ? " (Preview)" : "");
             _currentStep = 1;
             InitialWindowWidth = ValuesProvider.AppSettings.MainWindowWidth;
             InitialWindowHeight = ValuesProvider.AppSettings.MainWindowHeight;
@@ -147,12 +141,14 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
             LoadProgressManager = new ProgressManager {Text = StringResources.LoadingProgressStep};
             SaveProgressManager = new ProgressManager {Text = StringResources.SavingProcessStep};
-            FileConverter = new FileConverter();
+            FileConverter = new FileConverter(SessionHelper.Instance);
 
             PackProcessor = new PackProcessor(
                 LoadProgressManager,
                 SaveProgressManager,
-                FileConverter
+                FileConverter,
+                SessionHelper.Instance,
+                new ImageConverter()
             );
             TempDirsProvider = new TempDirsProvider(Paths.TempDir);
             TempDirsProvider.DeleteAll();

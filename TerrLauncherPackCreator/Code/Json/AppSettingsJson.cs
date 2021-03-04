@@ -1,11 +1,9 @@
-﻿using JetBrains.Annotations;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace TerrLauncherPackCreator.Code.Json
 {
     public class AppSettingsJson
     {
-        [NotNull]
         [JsonProperty("app_language", Required = Required.Always)]
         public string AppLanguage { get; set; }
         
@@ -23,7 +21,7 @@ namespace TerrLauncherPackCreator.Code.Json
         }
 
         public AppSettingsJson(
-            [NotNull] string appLanguage,
+            string appLanguage,
             int mainWindowWidth,
             int mainWindowHeight
         )
