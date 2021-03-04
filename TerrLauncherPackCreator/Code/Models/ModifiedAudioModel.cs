@@ -27,7 +27,8 @@ namespace TerrLauncherPackCreator.Code.Models
             CommonPrefixes = new ObservableCollection<string>
             {
                 "",
-                "Content/Sounds"
+                "Content/Sounds",
+                "Content/Music"
             };
             Prefix = CommonPrefixes[1];
         }

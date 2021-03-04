@@ -98,6 +98,16 @@ namespace TerrLauncherPackCreator.Code.Models
                 "Content/Images/NPC_",
                 "Content/Images/Buff_",
                 "Content/Images/Extra_",
+                "Content/Images/Armor", 
+                "Content/Images/Misc/VortexSky", 
+                "Content/Images/Misc/StarDustSky", 
+                "Content/Images/Misc/SolarSky", 
+                "Content/Images/Misc/NebulaSky", 
+                "Content/Images/Misc",
+                "Content/Images/TownNPCs",
+                "Content/Images/Backgrounds",
+                "Content/Images/Backgrounds/Ambience", 
+                "Content/Images/Accessories"
             };
             TextureTypes = new[]
             {
