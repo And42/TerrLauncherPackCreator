@@ -513,11 +513,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ExportPackCommand_Execute()
         {
+            string fileName = Title;
+            foreach (char invalidChar in Path.GetInvalidFileNameChars())
+                fileName = fileName.Replace(invalidChar, '_');
+
             var dialog = new SaveFileDialog
             {
                 Title = StringResources.SavePackDialogTitle,
                 Filter = $"{StringResources.TlPacksFilter} (*{PackUtils.PacksExtension})|*{PackUtils.PacksExtension}",
-                AddExtension = true
+                AddExtension = true,
+                FileName = $"{fileName}.{PackUtils.PacksExtension}"
             };
 
             if (dialog.ShowDialog() != true)
