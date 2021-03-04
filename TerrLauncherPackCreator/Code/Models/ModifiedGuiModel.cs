@@ -27,7 +27,13 @@ namespace TerrLauncherPackCreator.Code.Models
             CommonPrefixes = new ObservableCollection<string>
             {
                 "",
-                "Content/Images"
+                "Content/Images",
+                "Content/Images/SplashScreens",
+                "Content/Images/UI",
+                "Content/Images/UI/Minimap/Default",
+                "Content/Images/UI/PlayerResourceSets/FancyClassic",
+                "Content/Images/UI/PlayerResourceSets/HorizontalBars",
+                "Content/Images/UI/WorldGen"
             };
             Prefix = CommonPrefixes[1];
         }

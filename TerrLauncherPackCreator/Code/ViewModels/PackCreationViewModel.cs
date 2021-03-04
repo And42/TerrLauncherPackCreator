@@ -671,7 +671,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                 var audioModel = (ModifiedAudioModel) it.modified;
                                 fileInfo = new AudioFileInfo(
                                     EntryName: string.IsNullOrEmpty(audioModel.Prefix)
-                                        ? audioModel.Name ?? string.Empty
+                                        ? audioModel.Name
                                         : $"{audioModel.Prefix}/{audioModel.Name}"
                                 );
                                 break;
@@ -849,7 +849,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     if (fileInfo != null)
                     {
                         var info = (AudioFileInfo) fileInfo;
-                        model.Prefix = null;
+                        model.Prefix = "";
                         model.Name = info.EntryName;
                     }
 
