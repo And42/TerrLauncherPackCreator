@@ -18,6 +18,11 @@ namespace TerrLauncherPackCreator
         {
             base.OnStartup(e);
 
+            DispatcherUnhandledException += (_, args) =>
+            {
+                MessageBoxUtils.ShowError($"Unhandled exception: `{args.Exception}`");
+            };
+
             Task.Run(() =>
             {
                 try
