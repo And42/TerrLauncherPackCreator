@@ -9,7 +9,7 @@
         <Company />
         <Product>TerrLauncherPackCreatorUpdater</Product>
         <AssemblyVersion>1.4.1.0</AssemblyVersion>
-        <FileVersion>1.4.0.0</FileVersion>
+        <FileVersion>1.4.1.0</FileVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
