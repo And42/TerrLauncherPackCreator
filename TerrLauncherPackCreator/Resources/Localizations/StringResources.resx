@@ -351,8 +351,92 @@
   <data name="CantSaveAppSettings" xml:space="preserve">
     <value>Can't save application settings:</value>
   </data>
-  <data name="PredefinedPackTagAnimated" xml:space="preserve">
-    <value>Animated</value>
+  <data name="PredefinedPackTagTexturesAnimated" xml:space="preserve">
+    <value>Textures: Animated</value>
+  </data>
+  <data name="PredefinedPackTagTexturesWeapons" xml:space="preserve">
+    <value>Textures: Weapons</value>
+  </data>
+  <data name="PredefinedPackTagTexturesTools" xml:space="preserve">
+    <value>Textures: Tools</value>
+  </data>
+  <data name="PredefinedPackTagTexturesVanity" xml:space="preserve">
+    <value>Textures: Vanity</value>
+  </data>
+  <data name="PredefinedPackTagTexturesArmor" xml:space="preserve">
+    <value>Textures: Armor</value>
+  </data>
+  <data name="PredefinedPackTagTexturesPets" xml:space="preserve">
+    <value>Textures: Pets</value>
+  </data>
+  <data name="PredefinedPackTagTexturesBosses" xml:space="preserve">
+    <value>Textures: Bosses</value>
+  </data>
+  <data name="PredefinedPackTagTexturesMobs" xml:space="preserve">
+    <value>Textures: Mobs</value>
+  </data>
+  <data name="PredefinedPackTagTexturesNpc" xml:space="preserve">
+    <value>Textures: Npc</value>
+  </data>
+  <data name="PredefinedPackTagTexturesBlocks" xml:space="preserve">
+    <value>Textures: Blocks</value>
+  </data>
+  <data name="PredefinedPackTagTexturesOther" xml:space="preserve">
+    <value>Textures: Other</value>
+  </data>
+  <data name="PredefinedPackTagMapsBuildings" xml:space="preserve">
+    <value>Maps: Buildings</value>
+  </data>
+  <data name="PredefinedPackTagMapsAdventure" xml:space="preserve">
+    <value>Maps: Adventure</value>
+  </data>
+  <data name="PredefinedPackTagMapsSurvival" xml:space="preserve">
+    <value>Maps: Survival</value>
+  </data>
+  <data name="PredefinedPackTagMapsOther" xml:space="preserve">
+    <value>Maps: Other</value>
+  </data>
+  <data name="PredefinedPackTagCharactersCombat" xml:space="preserve">
+    <value>Characters: Combat</value>
+  </data>
+  <data name="PredefinedPackTagCharactersAppearance" xml:space="preserve">
+    <value>Characters: Appearance</value>
+  </data>
+  <data name="PredefinedPackTagCharactersOther" xml:space="preserve">
+    <value>Characters: Other</value>
+  </data>
+  <data name="PredefinedPackTagGuiAnimated" xml:space="preserve">
+    <value>Gui: Animated</value>
+  </data>
+  <data name="PredefinedPackTagGuiInventory" xml:space="preserve">
+    <value>Gui: Inventory</value>
+  </data>
+  <data name="PredefinedPackTagGuiHealthOrMana" xml:space="preserve">
+    <value>Gui: Health or mana</value>
+  </data>
+  <data name="PredefinedPackTagGuiGeneral" xml:space="preserve">
+    <value>Gui: General</value>
+  </data>
+  <data name="PredefinedPackTagGuiOther" xml:space="preserve">
+    <value>Gui: Other</value>
+  </data>
+  <data name="PredefinedPackTagAudioBiomsOrLocations" xml:space="preserve">
+    <value>Audio: Bioms or locations</value>
+  </data>
+  <data name="PredefinedPackTagAudioBosses" xml:space="preserve">
+    <value>Audio: Bosses</value>
+  </data>
+  <data name="PredefinedPackTagAudioEvents" xml:space="preserve">
+    <value>Audio: Events</value>
+  </data>
+  <data name="PredefinedPackTagAudioSounds" xml:space="preserve">
+    <value>Audio: Sounds</value>
+  </data>
+  <data name="PredefinedPackTagAudioOther" xml:space="preserve">
+    <value>Audio: Other</value>
+  </data>
+  <data name="PredefinedPackTagFontsAnimated" xml:space="preserve">
+    <value>Fonts: Animated</value>
   </data>
   <data name="AddTag" xml:space="preserve">
     <value>Add tag</value>

@@ -1,16 +1,15 @@
 ﻿using System.IO;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
+using CrossPlatform.Code.Utils;
 using TerrLauncherPackCreator.Code.Interfaces;
 
 namespace TerrLauncherPackCreator.Code.Implementations
 {
     public class TempDirsProvider : ITempDirsProvider
     {
-        [NotNull]
         private readonly string _initialDir;
 
-        public TempDirsProvider([NotNull] string initialDir)
+        public TempDirsProvider(string initialDir)
         {
             if (!Directory.Exists(initialDir))
                 Directory.CreateDirectory(initialDir);
@@ -18,7 +17,6 @@ namespace TerrLauncherPackCreator.Code.Implementations
             _initialDir = initialDir;
         }
         
-        [NotNull]
         public string GetNewDir()
         {
             for (int i = 1;; i++)

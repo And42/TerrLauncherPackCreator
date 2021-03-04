@@ -7,8 +7,8 @@
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
       xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
       xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
-      xmlns:enums="clr-namespace:TerrLauncherPackCreator.Code.Enums"
       xmlns:packCreation="clr-namespace:TerrLauncherPackCreator.Pages.PackCreation"
+      xmlns:enums="clr-namespace:CrossPlatform.Code.Enums;assembly=CrossPlatform"
       mc:Ignorable="d" 
 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -152,7 +152,7 @@
                 VerticalAlignment="Center"/>
             
             <Popup
-                IsOpen="{Binding IsPredefindTagsPopupOpen}"
+                IsOpen="{Binding IsPredefinedTagsPopupOpen}"
                 PlacementTarget="{Binding ElementName=AddTagButton}">
                 
                 <ListBox

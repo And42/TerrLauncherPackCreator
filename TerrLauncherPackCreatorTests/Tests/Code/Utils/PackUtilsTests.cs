@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TerrLauncherPackCreator.Code.Enums;
-using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
 {
@@ -19,7 +19,7 @@ namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
         [TestMethod]
         public void PacksInfo_PackTypesValid()
         {
-            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
+            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.FileType).ToArray();
 
             Assert.IsTrue(packTypes.All(type => Enum.IsDefined(typeof(FileType), type)));
         }
@@ -27,18 +27,10 @@ namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
         [TestMethod]
         public void PacksInfo_PackTypesUnique()
         {
-            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
+            FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.FileType).ToArray();
             var packTypesSet = new HashSet<FileType>(packTypes);
 
             Assert.IsTrue(packTypes.Length == packTypesSet.Count);
-        }
-
-        [TestMethod]
-        public void PacksInfo_PackTitlesNotEmpty()
-        {
-            string[] titles = PackUtils.PacksInfo.Select(it => it.title).ToArray();
-
-            Assert.IsTrue(titles.All(title => !string.IsNullOrWhiteSpace(title)));
         }
 
         [TestMethod]
@@ -46,7 +38,7 @@ namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
         {
             foreach (var item in PackUtils.PacksInfo)
             {
-                string packExt = item.initialFilesExt;
+                string packExt = item.InitialFilesExt;
                 Assert.IsTrue(packExt[0] == '.' && packExt.Count(ch => ch == '.') == 1);
             }
         }
@@ -57,7 +49,7 @@ namespace TerrLauncherPackCreatorTests.Tests.Code.Utils
             Assert.IsTrue(PackUtils.PacksExtension[0] == '.' && PackUtils.PacksExtension.Count(ch => ch == '.') == 1);
             foreach (var item in PackUtils.PacksInfo)
             {
-                string packFilesExt = item.convertedFilesExt;
+                string packFilesExt = item.ConvertedFilesExt;
                 Assert.IsTrue(packFilesExt[0] == '.' && packFilesExt.Count(ch => ch == '.') == 1);
             }
         }

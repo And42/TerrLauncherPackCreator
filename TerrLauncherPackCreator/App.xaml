@@ -4,16 +4,16 @@
              xmlns:templateSelectors="clr-namespace:TerrLauncherPackCreator.Code.TemplateSelectors"
              ShutdownMode="OnLastWindowClose">
     <Application.Resources>
-         <ResourceDictionary>
-             <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Code/Converters/Converters.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI;component/ColorSchemes/Light.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/AdonisUI.ClassicTheme;component/Resources.xaml"/>
-             </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>
 
-             <templateSelectors:PreviewsTemplateSelector x:Key="PreviewsTemplateSelector"/>
-             <templateSelectors:ModifiedFileTemplateSelector x:Key="ModifiedFilesTemplateSelector"/>
-         </ResourceDictionary>
+            <templateSelectors:PreviewsTemplateSelector x:Key="PreviewsTemplateSelector"/>
+            <templateSelectors:ModifiedFileTemplateSelector x:Key="ModifiedFilesTemplateSelector"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

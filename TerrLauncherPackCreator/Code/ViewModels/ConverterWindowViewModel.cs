@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
+using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.FileInfos;
+using CrossPlatform.Code.Implementations;
+using CrossPlatform.Code.Interfaces;
+using CrossPlatform.Code.Utils;
 using MVVM_Tools.Code.Commands;
-using TerrLauncherPackCreator.Code.Enums;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
@@ -22,20 +25,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             set => SetProperty(ref _currentFileType, value);
         }
 
-        [NotNull]
         public string SourceFilesExtension => PackUtils.GetInitialFilesExt(CurrentFileType);
-        [NotNull]
         public string ConvertedFilesExtension => PackUtils.GetConvertedFilesExt(CurrentFileType);
 
-        public FileType[] FileTypes { get; } = PackUtils.PacksInfo.Select(it => it.fileType).ToArray();
+        public FileType[] FileTypes { get; } = PackUtils.PacksInfo.Select(it => it.FileType).ToArray();
 
-        [NotNull]
-        private readonly IFileConverter _fileConverter = new FileConverter();
+        private readonly IFileConverter _fileConverter = new FileConverter(SessionHelper.Instance);
         private FileType _currentFileType = FileType.Texture;
         
-        [NotNull]
         public IActionCommand<string[]> DropSourceFilesCommand { get; }
-        [NotNull]
         public IActionCommand<string[]> DropConvertedFiledCommand { get; }
 
         public ConverterWindowViewModel()
@@ -100,12 +98,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         string resultsDir = Path.Combine(Path.GetDirectoryName(file), "source_files");
                         IOUtils.EnsureDirExists(resultsDir);
 
-                        string config = Path.ChangeExtension(file, PackUtils.PackFileConfigExtension);
+                        string? config = Path.ChangeExtension(file, PackUtils.PackFileConfigExtension);
                         if (!File.Exists(config))
                             config = null;
         
                         var (convertedFile, fileInfo) = await _fileConverter.ConvertToSource(
-                            packStructureVersion: PackCreationViewModel.LatestPackStructureVersion,
+                            packStructureVersion: PackUtils.LatestPackStructureVersion,
                             fileType: CurrentFileType,
                             targetFile: file,
                             configFile: config
@@ -115,12 +113,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         string resultFileName = Path.GetFileNameWithoutExtension(file);
                         if (fileInfo != null)
                         {
-                            {
-                                const int fileTypesHandled = 7;
-                                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-                            }
-                            
                             switch (CurrentFileType)
                             {
                                 case FileType.Texture:
@@ -151,6 +143,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     var audioInfo = (AudioFileInfo) fileInfo;
                                     resultFileName = audioInfo.EntryName;
                                     break;
+                                case FileType.LastEnumElement:
+                                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }

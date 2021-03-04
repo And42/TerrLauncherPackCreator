@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Windows;
-using JetBrains.Annotations;
 
 namespace TerrLauncherPackCreator.Code.Utils
 {
     public static class DragDropUtils
     {
         public static void HandleDrag(
-            [NotNull] DragEventArgs eventArgs,
-            [NotNull] Predicate<string[]> areFilesValid,
+            DragEventArgs eventArgs,
+            Predicate<string[]> areFilesValid,
             DragDropEffects validEffect
         )
         {
@@ -20,7 +19,7 @@ namespace TerrLauncherPackCreator.Code.Utils
                 return;
             }
 
-            var files = (string[]) eventArgs.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?) eventArgs.Data.GetData(DataFormats.FileDrop);
             if (files != null && areFilesValid(files))
                 eventArgs.Effects = validEffect;
             else
@@ -28,9 +27,9 @@ namespace TerrLauncherPackCreator.Code.Utils
         }
 
         public static void HandleDrop(
-            [NotNull] DragEventArgs eventArgs,
-            [NotNull] Predicate<string[]> areFilesValid,
-            [NotNull] Action<string[]> handleValidFiles
+            DragEventArgs eventArgs,
+            Predicate<string[]> areFilesValid,
+            Action<string[]> handleValidFiles
         )
         {
             eventArgs.Handled = true;
@@ -38,7 +37,7 @@ namespace TerrLauncherPackCreator.Code.Utils
             if (!eventArgs.Data.GetDataPresent(DataFormats.FileDrop))
                 return;
 
-            var files = (string[]) eventArgs.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?) eventArgs.Data.GetData(DataFormats.FileDrop);
             if (files != null && areFilesValid(files))
                 handleValidFiles(files);
         }

@@ -1,31 +1,27 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using JetBrains.Annotations;
 
 namespace TerrLauncherPackCreator.Code.Models
 {
     public class ModifiedFontModel : ModifiedFileModel
     {
-        [CanBeNull]
-        public string Prefix
+        public string? Prefix
         {
             get => _prefix;
             set => SetProperty(ref _prefix, value);
         }
-        private string _prefix;
+        private string? _prefix;
         
-        [CanBeNull]
-        public string Name
+        public string? Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
         }
-        private string _name;
+        private string? _name;
 
-        [NotNull]
         public ObservableCollection<string> CommonPrefixes { get; }
 
-        public ModifiedFontModel([NotNull] string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
+        public ModifiedFontModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
         {
             _name = Path.GetFileNameWithoutExtension(filePath);
             CommonPrefixes = new ObservableCollection<string>

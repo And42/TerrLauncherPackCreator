@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using CrossPlatform.Code.Interfaces;
 using MVVM_Tools.Code.Classes;
 using TerrLauncherPackCreator.Code.Interfaces;
 

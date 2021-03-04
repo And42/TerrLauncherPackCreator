@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using CrossPlatform.Code.Enums;
 using TerrLauncherPackCreator.Code.Models;
-using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.TemplateSelectors
 {
@@ -16,42 +16,25 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
             var previewItem = (ModifiedFileModel) item;
             var containerUi = (FrameworkElement) container;
 
-            {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-            }
-            
+#pragma warning disable 219
+            const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+#pragma warning restore 219
+
             string resourceName;
             if (previewItem.IsDragDropTarget)
                 resourceName = "ModifiedFileDropTargetDataTemplate";
-            else switch (item)
-            {
-                case ModifiedTextureModel _:
-                    resourceName = "ModifiedTextureTemplate";
-                    break;
-                case ModifiedGuiModel _:
-                    resourceName = "ModifiedGuiTemplate";
-                    break;
-                case ModifiedFontModel _:
-                    resourceName = "ModifiedFontTemplate";
-                    break;
-                case ModifiedMapModel _:
-                    resourceName = "ModifiedMapTemplate";
-                    break;
-                case ModifiedCharacterModel _:
-                    resourceName = "ModifiedCharacterTemplate";
-                    break;
-                case ModifiedTranslationModel _:
-                    resourceName = "ModifiedTranslationTemplate";
-                    break;
-                case ModifiedAudioModel _:
-                    resourceName = "ModifiedAudioTemplate";
-                    break;
-                default:
-                    resourceName = "ModifiedFileDataTemplate";
-                    break;
-            }
+            else
+                resourceName = item switch
+                {
+                    ModifiedTextureModel _ => "ModifiedTextureTemplate",
+                    ModifiedGuiModel _ => "ModifiedGuiTemplate",
+                    ModifiedFontModel _ => "ModifiedFontTemplate",
+                    ModifiedMapModel _ => "ModifiedMapTemplate",
+                    ModifiedCharacterModel _ => "ModifiedCharacterTemplate",
+                    ModifiedTranslationModel _ => "ModifiedTranslationTemplate",
+                    ModifiedAudioModel _ => "ModifiedAudioTemplate",
+                    _ => "ModifiedFileDataTemplate"
+                };
 
             return (DataTemplate) containerUi.FindResource(resourceName);
         }

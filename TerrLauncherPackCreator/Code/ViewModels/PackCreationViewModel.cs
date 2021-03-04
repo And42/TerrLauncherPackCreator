@@ -11,12 +11,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using CommonLibrary.CommonUtils;
-using JetBrains.Annotations;
+using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.FileInfos;
+using CrossPlatform.Code.Interfaces;
+using CrossPlatform.Code.Models;
+using CrossPlatform.Code.Utils;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
-using TerrLauncherPackCreator.Code.Enums;
-using TerrLauncherPackCreator.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
@@ -25,15 +26,44 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 {
     public class PackCreationViewModel : ViewModelBase
     {
-        public const int LatestPackStructureVersion = 16;
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
-        private static readonly ISet<PredefinedPackTag> AllPredefinedTags = new HashSet<PredefinedPackTag>
+        // ReSharper disable once UnusedMember.Local
+        private const int _ = 1 / (29 / (int) PredefinedPackTag.LastEnumElement);
+        private static readonly IReadOnlyList<PredefinedPackTag> AllPredefinedTags = new []
         {
-            PredefinedPackTag.Animated
+            PredefinedPackTag.TexturesAnimated,
+            PredefinedPackTag.TexturesWeapons,
+            PredefinedPackTag.TexturesTools,
+            PredefinedPackTag.TexturesVanity,
+            PredefinedPackTag.TexturesArmor,
+            PredefinedPackTag.TexturesPets,
+            PredefinedPackTag.TexturesBosses,
+            PredefinedPackTag.TexturesMobs,
+            PredefinedPackTag.TexturesNpc,
+            PredefinedPackTag.TexturesBlocks,
+            PredefinedPackTag.TexturesOther,
+            PredefinedPackTag.MapsBuildings,
+            PredefinedPackTag.MapsAdventure,
+            PredefinedPackTag.MapsSurvival,
+            PredefinedPackTag.MapsOther,
+            PredefinedPackTag.CharactersCombat,
+            PredefinedPackTag.CharactersAppearance,
+            PredefinedPackTag.CharactersOther,
+            PredefinedPackTag.GuiAnimated,
+            PredefinedPackTag.GuiInventory,
+            PredefinedPackTag.GuiHealthOrMana,
+            PredefinedPackTag.GuiGeneral,
+            PredefinedPackTag.GuiOther,
+            PredefinedPackTag.AudioBiomsOrLocation,
+            PredefinedPackTag.AudioBosses,
+            PredefinedPackTag.AudioEvents,
+            PredefinedPackTag.AudioSounds,
+            PredefinedPackTag.AudioOther,
+            PredefinedPackTag.FontsAnimated,
         };
 
-        [NotNull] private readonly IPackProcessor _packProcessor;
+        private readonly IPackProcessor _packProcessor;
 
         #region Properties
 
@@ -78,10 +108,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         public IReadOnlyList<PredefinedPackTag> RemainedPredefinedTags => AllPredefinedTags.Except(PredefinedTags).ToList();
         
-        public bool IsPredefindTagsPopupOpen
+        public bool IsPredefinedTagsPopupOpen
         {
-            get => _isPredefindTagsPopupOpen;
-            set => SetProperty(ref _isPredefindTagsPopupOpen, value);
+            get => _isPredefinedTagsPopupOpen;
+            set => SetProperty(ref _isPredefinedTagsPopupOpen, value);
         }
 
         public bool IsBonusPack
@@ -91,13 +121,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         // Step 2
-        [NotNull] public ObservableCollection<PreviewItemModel> Previews { get; }
+        public ObservableCollection<PreviewItemModel> Previews { get; }
 
         // Step 3
-        [NotNull] public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
+        public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; }
 
         // Step 4
-        [NotNull] public ObservableCollection<AuthorItemModel> Authors { get; }
+        public ObservableCollection<AuthorItemModel> Authors { get; }
 
         #endregion
 
@@ -110,7 +140,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private string _descriptionEnglish;
         private Guid _guid;
         private int _version;
-        private bool _isPredefindTagsPopupOpen;
+        private bool _isPredefinedTagsPopupOpen;
         private bool _isBonusPack;
 
         #endregion
@@ -138,8 +168,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IActionCommand<AuthorItemModel> DeleteAuthorCommand { get; }
 
         // Step 5
-        [CanBeNull]
-        private readonly Action _restartApp;
+        private readonly Action? _restartApp;
         public IActionCommand ExportPackCommand { get; }
         public IActionCommand RestartSequenceCommand { get; }
 
@@ -147,7 +176,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable AssignNullToNotNullAttribute
-        public PackCreationViewModel() : this(null, null)
+        public PackCreationViewModel() : this(null!, null)
         // ReSharper restore AssignNullToNotNullAttribute
         {
             if (!DesignerUtils.IsInDesignMode())
@@ -155,8 +184,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         }
 
         public PackCreationViewModel(
-            [NotNull] IPackProcessor packProcessor,
-            [CanBeNull] Action restartApp
+            IPackProcessor packProcessor,
+            Action? restartApp
         )
         {
             _packProcessor = packProcessor;
@@ -269,13 +298,15 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
                 foreach (var author in packModel.Authors)
                 {
-                    Authors.Add(new AuthorItemModel(
-                        name: author.name,
-                        color: author.color,
-                        image: author.icon,
-                        link: author.link,
-                        iconHeight: author.iconHeight
-                    ));
+                    Authors.Add(
+                        new AuthorItemModel(
+                            name: author.Name,
+                            color: author.Color?.ToMediaColor(),
+                            image: author.Icon,
+                            link: author.Link,
+                            iconHeight: author.IconHeight
+                        )
+                    );
                 }
 
                 previewItems.ForEach(Previews.Add);
@@ -317,13 +348,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void AddPredefinedTagExecuted()
         {
-            IsPredefindTagsPopupOpen = true;
+            IsPredefinedTagsPopupOpen = !IsPredefinedTagsPopupOpen;
         }
 
         private void AddSelectedTagExecuted(PredefinedPackTag tag)
         {
             PredefinedTags.Add(tag);
-            IsPredefindTagsPopupOpen = false;
+            IsPredefinedTagsPopupOpen = false;
         }
         
         private bool RemovePredefinedTagCanExecute(PredefinedPackTag _)
@@ -422,14 +453,14 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Debug.WriteLine($"Can't delete modified file: {file}");
         }
         
-        private bool SaveResourceCommand_CanExecute([NotNull] ModifiedFileModel file)
+        private bool SaveResourceCommand_CanExecute(ModifiedFileModel file)
         {
+#pragma warning disable 219
             {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
             }
-            
+#pragma warning restore 219
+
             return !Working && !file.IsDragDropTarget && (
                 file is ModifiedTextureModel ||
                 file is ModifiedGuiModel ||
@@ -438,16 +469,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             );
         }
 
-        private void SaveResourceCommand_Execute([NotNull] ModifiedFileModel file)
+        private void SaveResourceCommand_Execute(ModifiedFileModel file)
         {
             if (string.IsNullOrEmpty(file.FilePath) || !File.Exists(file.FilePath))
                 return;
 
+#pragma warning disable 219
             {
-                const int fileTypesHandled = 7;
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
+                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
             }
+#pragma warning restore 219
             
             string extension = file switch
             {
@@ -482,11 +513,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private void ExportPackCommand_Execute()
         {
+            string fileName = Title;
+            foreach (char invalidChar in Path.GetInvalidFileNameChars())
+                fileName = fileName.Replace(invalidChar, '_');
+
             var dialog = new SaveFileDialog
             {
                 Title = StringResources.SavePackDialogTitle,
                 Filter = $"{StringResources.TlPacksFilter} (*{PackUtils.PacksExtension})|*{PackUtils.PacksExtension}",
-                AddExtension = true
+                AddExtension = true,
+                FileName = $"{fileName}.{PackUtils.PacksExtension}"
             };
 
             if (dialog.ShowDialog() != true)
@@ -528,9 +564,17 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private PackModel GeneratePackModel()
         {
-            return new PackModel(
-                authors: Authors.Select(author => (author.Name, author.Color, author.Link, author.Image, author.IconHeight)).ToArray(),
-                previewsPaths: Previews.Where(it => !it.IsDragDropTarget)
+            return new(
+                Authors: Authors.Select(author => 
+                    new PackModel.Author(
+                        Name: author.Name,
+                        Color: author.Color?.ToDrawingColor(),
+                        Link: author.Link,
+                        Icon: author.Image,
+                        IconHeight: author.IconHeight
+                    )
+                ).ToArray(),
+                PreviewsPaths: Previews.Where(it => !it.IsDragDropTarget)
                     .Select(it =>
                     {
                         if (string.IsNullOrEmpty(it.FilePath))
@@ -558,101 +602,103 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         }
                     })
                     .ToArray(),
-                modifiedFiles: ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
+                ModifiedFiles: ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
                     {
-                        {
-                            const int fileTypesHandled = 7;
-                            const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                                          1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-                        }
-                        
                         IPackFileInfo fileInfo;
                         switch (it.FilesType)
                         {
                             case FileType.Texture:
                                 var textureModel = (ModifiedTextureModel) it.modified;
-                                fileInfo = new TextureFileInfo
-                                {
-                                    Type = textureModel.CurrentTextureType,
-                                    Animated = textureModel.Animated,
-                                    AnimateInGui = textureModel.AnimateInGui,
-                                    EntryName = string.IsNullOrEmpty(textureModel.Prefix)
-                                        ? textureModel.Name
+                                fileInfo = new TextureFileInfo(
+                                    Type: textureModel.CurrentTextureType,
+                                    Animated: textureModel.Animated,
+                                    AnimateInGui: textureModel.AnimateInGui,
+                                    EntryName: string.IsNullOrEmpty(textureModel.Prefix)
+                                        ? textureModel.Name ?? string.Empty
                                         : $"{textureModel.Prefix}/{textureModel.Name}",
-                                    ElementId = textureModel.ElementId,
-                                    MillisecondsPerFrame = textureModel.MillisecondsPerFrame,
-                                    NumberOfVerticalFrames = textureModel.NumberOfVerticalFrames,
-                                    NumberOfHorizontalFrames = textureModel.NumberOfHorizontalFrames,
-                                    ApplyOriginalSize = textureModel.ApplyOriginalSize
-                                };
+                                    ElementId: textureModel.ElementId,
+                                    MillisecondsPerFrame: textureModel.MillisecondsPerFrame,
+                                    NumberOfVerticalFrames: textureModel.NumberOfVerticalFrames,
+                                    NumberOfHorizontalFrames: textureModel.NumberOfHorizontalFrames,
+                                    ApplyOriginalSize: textureModel.ApplyOriginalSize
+                                );
                                 break;
                             case FileType.Map:
                                 var mapModel = (ModifiedMapModel) it.modified;
                                 fileInfo = new MapFileInfo(
-                                    resultFileName: mapModel.ResultFileName ?? string.Empty
+                                    ResultFileName: mapModel.ResultFileName ?? string.Empty
                                 );
                                 break;
                             case FileType.Character:
                                 var characterModel = (ModifiedCharacterModel) it.modified;
                                 fileInfo = new CharacterFileInfo(
-                                    resultFileName: characterModel.ResultFileName
+                                    ResultFileName: characterModel.ResultFileName
                                 );
                                 break;
                             case FileType.Gui:
                                 var guiModel = (ModifiedGuiModel) it.modified;
-                                fileInfo = new GuiFileInfo
-                                {
-                                    EntryName = string.IsNullOrEmpty(guiModel.Prefix)
-                                        ? guiModel.Name
-                                        : $"{guiModel.Prefix}/{guiModel.Name}"
-                                };
+                                fileInfo = new GuiFileInfo(
+                                    Type: TextureFileInfo.TextureType.General,
+                                    EntryName: string.IsNullOrEmpty(guiModel.Prefix)
+                                        ? guiModel.Name ?? string.Empty
+                                        : $"{guiModel.Prefix}/{guiModel.Name}",
+                                    ElementId: 0,
+                                    Animated: false,
+                                    AnimateInGui: false,
+                                    NumberOfVerticalFrames: 1,
+                                    NumberOfHorizontalFrames: 1,
+                                    MillisecondsPerFrame: 0,
+                                    ApplyOriginalSize: true
+                                );
                                 break;
                             case FileType.Translation:
                                 var translationModel = (ModifiedTranslationModel) it.modified;
                                 fileInfo = new TranslationFileInfo(
-                                    language: translationModel.CurrentLanguage
+                                    Language: translationModel.CurrentLanguage
                                 );
                                 break;
                             case FileType.Font:
                                 var fontModel = (ModifiedFontModel) it.modified;
                                 fileInfo = new FontFileInfo(
-                                    entryName: string.IsNullOrEmpty(fontModel.Prefix)
-                                        ? fontModel.Name
+                                    EntryName: string.IsNullOrEmpty(fontModel.Prefix)
+                                        ? fontModel.Name ?? string.Empty
                                         : $"{fontModel.Prefix}/{fontModel.Name}"
                                 );
                                 break;
                             case FileType.Audio:
                                 var audioModel = (ModifiedAudioModel) it.modified;
                                 fileInfo = new AudioFileInfo(
-                                    entryName: string.IsNullOrEmpty(audioModel.Prefix)
-                                        ? audioModel.Name
+                                    EntryName: string.IsNullOrEmpty(audioModel.Prefix)
+                                        ? audioModel.Name ?? string.Empty
                                         : $"{audioModel.Prefix}/{audioModel.Name}"
                                 );
                                 break;
+                            case FileType.LastEnumElement:
+                                throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }
 
-                        var info = new PackModel.ModifiedFileInfo(
-                            config: fileInfo,
-                            filePath: it.modified.FilePath,
-                            fileType: it.FilesType
+                        var info = new PackModel.ModifiedFile(
+                            Config: fileInfo,
+                            FilePath: it.modified.FilePath,
+                            FileType: it.FilesType
                         );
 
                         return info;
                     })
                     .ToArray(),
-                packStructureVersion: LatestPackStructureVersion,
-                iconFilePath: IconFilePath,
-                title: Title,
-                descriptionRussian: DescriptionRussian,
-                descriptionEnglish: DescriptionEnglish,
-                guid: Guid,
-                version: Version,
-                isBonusPack: IsBonusPack,
-                predefinedTags: PredefinedTags.ToList()
+                PackStructureVersion: PackUtils.LatestPackStructureVersion,
+                IconFilePath: IconFilePath,
+                Title: Title,
+                DescriptionRussian: DescriptionRussian,
+                DescriptionEnglish: DescriptionEnglish,
+                Guid: Guid,
+                Version: Version,
+                IsBonusPack: IsBonusPack,
+                PredefinedTags: PredefinedTags.ToList()
             );
         }
 
@@ -664,8 +710,21 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             PredefinedTags.Clear();
 
             Previews.Add(new PreviewItemModel(filePath: null, isDragDropTarget: true));
-            foreach ((FileType fileType, string initialFilesExt, string _, string title) in PackUtils.PacksInfo)
+            foreach ((FileType fileType, string initialFilesExt, string _) in PackUtils.PacksInfo)
             {
+                // ReSharper disable once LocalVariableHidesMember
+                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+                
+                string title = fileType switch {
+                    FileType.Texture => StringResources.PackTypeTextures,
+                    FileType.Map => StringResources.PackTypeMaps,
+                    FileType.Character => StringResources.PackTypeCharacters,
+                    FileType.Gui => StringResources.PackTypeGui,
+                    FileType.Translation => StringResources.PackTypeTranslations,
+                    FileType.Font => StringResources.PackTypeFonts,
+                    FileType.Audio => StringResources.PackTypeAudio,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
                 var group = new ModifiedFilesGroupModel(title, initialFilesExt, fileType);
                 group.ModifiedFiles.Add(new ModifiedFileModel(filePath: "drop_target" + initialFilesExt,
                     isDragDropTarget: true));
@@ -703,16 +762,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
 
-        [NotNull]
-        private static ModifiedFileModel FileToModel(FileType fileType, [NotNull] string filePath, [CanBeNull] IPackFileInfo fileInfo)
+        private static ModifiedFileModel FileToModel(FileType fileType, string filePath, IPackFileInfo? fileInfo)
         {
-            {
-                const int fileTypesHandled = 7;
-                // ReSharper disable once UnusedVariable
-                const int _ = 1 / (fileTypesHandled / PackUtils.TotalFileTypes) +
-                              1 / (PackUtils.TotalFileTypes / fileTypesHandled);
-            }
-            
             switch (fileType)
             {
                 case FileType.Texture:
@@ -804,6 +855,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
                     return model;
                 }
+                case FileType.LastEnumElement:
+                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
                 default:
                     throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }

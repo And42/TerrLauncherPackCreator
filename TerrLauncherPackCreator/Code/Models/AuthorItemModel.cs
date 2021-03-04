@@ -1,8 +1,7 @@
 ﻿using System.Windows.Media;
-using JetBrains.Annotations;
+using CrossPlatform.Code.Implementations;
+using CrossPlatform.Code.Utils;
 using MVVM_Tools.Code.Commands;
-using TerrLauncherPackCreator.Code.Implementations;
-using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Code.ViewModels;
 using TerrLauncherPackCreator.Windows;
 
@@ -10,28 +9,24 @@ namespace TerrLauncherPackCreator.Code.Models
 {
     public class AuthorItemModel : ViewModelBase
     {
-        [CanBeNull]
-        public ImageInfo Image
+        public ImageInfo? Image
         {
             get => _image;
             set => SetProperty(ref _image, value);
         }
 
-        [CanBeNull]
         public string Name
         {
             get => _name;
             set => SetProperty(ref _name, value);
         }
 
-        [CanBeNull]
         public Color? Color
         {
             get => _color;
             set => SetProperty(ref _color, value);
         }
 
-        [CanBeNull]
         public string Link
         {
             get => _link;
@@ -46,25 +41,25 @@ namespace TerrLauncherPackCreator.Code.Models
 
         public IActionCommand<AuthorItemModel> EditAuthorCommand { get; }
 
-        [CanBeNull] private ImageInfo _image;
-        [CanBeNull] private string _name;
-        [CanBeNull] private Color? _color;
-        [CanBeNull] private string _link;
+        private ImageInfo? _image;
+        private string _name;
+        private Color? _color;
+        private string _link;
         private int _iconHeight;
 
         public AuthorItemModel(): this(
-            name: null,
+            name: string.Empty,
             color: null,
             image: null,
-            link: null,
+            link: string.Empty,
             iconHeight: PackUtils.DefaultAuthorIconHeight
         ) {}
         
         public AuthorItemModel(
-            [CanBeNull] string name,
-            [CanBeNull] Color? color,
-            [CanBeNull] ImageInfo image,
-            [CanBeNull] string link,
+            string name,
+            Color? color,
+            ImageInfo? image,
+            string link,
             int iconHeight
         )
         {

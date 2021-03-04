@@ -610,11 +610,263 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Animated.
+        ///   Looks up a localized string similar to Audio: Bioms or locations.
         /// </summary>
-        public static string PredefinedPackTagAnimated {
+        public static string PredefinedPackTagAudioBiomsOrLocations {
             get {
-                return ResourceManager.GetString("PredefinedPackTagAnimated", resourceCulture);
+                return ResourceManager.GetString("PredefinedPackTagAudioBiomsOrLocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio: Bosses.
+        /// </summary>
+        public static string PredefinedPackTagAudioBosses {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagAudioBosses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio: Events.
+        /// </summary>
+        public static string PredefinedPackTagAudioEvents {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagAudioEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio: Other.
+        /// </summary>
+        public static string PredefinedPackTagAudioOther {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagAudioOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio: Sounds.
+        /// </summary>
+        public static string PredefinedPackTagAudioSounds {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagAudioSounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characters: Appearance.
+        /// </summary>
+        public static string PredefinedPackTagCharactersAppearance {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagCharactersAppearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characters: Combat.
+        /// </summary>
+        public static string PredefinedPackTagCharactersCombat {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagCharactersCombat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Characters: Other.
+        /// </summary>
+        public static string PredefinedPackTagCharactersOther {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagCharactersOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fonts: Animated.
+        /// </summary>
+        public static string PredefinedPackTagFontsAnimated {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagFontsAnimated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gui: Animated.
+        /// </summary>
+        public static string PredefinedPackTagGuiAnimated {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagGuiAnimated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gui: General.
+        /// </summary>
+        public static string PredefinedPackTagGuiGeneral {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagGuiGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gui: Health or mana.
+        /// </summary>
+        public static string PredefinedPackTagGuiHealthOrMana {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagGuiHealthOrMana", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gui: Inventory.
+        /// </summary>
+        public static string PredefinedPackTagGuiInventory {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagGuiInventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gui: Other.
+        /// </summary>
+        public static string PredefinedPackTagGuiOther {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagGuiOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maps: Adventure.
+        /// </summary>
+        public static string PredefinedPackTagMapsAdventure {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagMapsAdventure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maps: Buildings.
+        /// </summary>
+        public static string PredefinedPackTagMapsBuildings {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagMapsBuildings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maps: Other.
+        /// </summary>
+        public static string PredefinedPackTagMapsOther {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagMapsOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maps: Survival.
+        /// </summary>
+        public static string PredefinedPackTagMapsSurvival {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagMapsSurvival", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Animated.
+        /// </summary>
+        public static string PredefinedPackTagTexturesAnimated {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesAnimated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Armor.
+        /// </summary>
+        public static string PredefinedPackTagTexturesArmor {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesArmor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Blocks.
+        /// </summary>
+        public static string PredefinedPackTagTexturesBlocks {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesBlocks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Bosses.
+        /// </summary>
+        public static string PredefinedPackTagTexturesBosses {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesBosses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Mobs.
+        /// </summary>
+        public static string PredefinedPackTagTexturesMobs {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesMobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Npc.
+        /// </summary>
+        public static string PredefinedPackTagTexturesNpc {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesNpc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Other.
+        /// </summary>
+        public static string PredefinedPackTagTexturesOther {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesOther", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Pets.
+        /// </summary>
+        public static string PredefinedPackTagTexturesPets {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesPets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Tools.
+        /// </summary>
+        public static string PredefinedPackTagTexturesTools {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Vanity.
+        /// </summary>
+        public static string PredefinedPackTagTexturesVanity {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesVanity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Textures: Weapons.
+        /// </summary>
+        public static string PredefinedPackTagTexturesWeapons {
+            get {
+                return ResourceManager.GetString("PredefinedPackTagTexturesWeapons", resourceCulture);
             }
         }
         
