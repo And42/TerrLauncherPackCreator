@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Controls;
-using CommonLibrary;
 using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Implementations;
 using CrossPlatform.Code.Interfaces;
@@ -125,7 +124,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         )
         {
             // ReSharper disable once UnreachableCode
-            WindowTitle = Assembly.GetEntryAssembly()?.GetName().Name + (CommonConstants.IsPreview ? " (Preview)" : "");
+            WindowTitle = Assembly.GetEntryAssembly()?.GetName().Name;
             _currentStep = 1;
             InitialWindowWidth = ValuesProvider.AppSettings.MainWindowWidth;
             InitialWindowHeight = ValuesProvider.AppSettings.MainWindowHeight;

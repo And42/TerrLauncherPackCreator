@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Media;
-using CommonLibrary;
 using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Utils;
 using Microsoft.Win32;
@@ -24,10 +23,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public string CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name;
         public bool EnglishLanguageActive => CurrentLanguage == "en-US";
         public bool RussianLanguageActive => CurrentLanguage == "ru-RU";
-        public SolidColorBrush WindowBackground { get; } = new SolidColorBrush(
+        public SolidColorBrush WindowBackground { get; } = new(
             // ReSharper disable once PossibleNullReferenceException
             // ReSharper disable once UnreachableCode
-            (Color) ColorConverter.ConvertFromString(CommonConstants.IsPreview ? "#ef5350" : "#66bb6a")
+            // todo: check from settings
+            (Color) ColorConverter.ConvertFromString(true ? "#ef5350" : "#66bb6a")
         );
         
         public Action? RecreateWindow { get; set; }

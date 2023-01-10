@@ -15,8 +15,7 @@ namespace CommonLibrary.CommonUtils
         {
             PathToRootFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                // ReSharper disable once UnreachableCode
-                "TerrLauncherPackCreator" + (CommonConstants.IsPreview ? "_preview" : "")
+                "TerrLauncherPackCreator"
             );
 
             PathToDataFolder = Path.Combine(PathToRootFolder, "Data");
