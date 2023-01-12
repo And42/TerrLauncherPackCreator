@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,20 +22,12 @@ namespace TerrLauncherPackCreator
                 MessageBoxUtils.ShowError($"Unhandled exception: `{args.Exception}`");
             };
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
-                    int[] appVersion = UpdateUtils.ConvertVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString(4));
-                    int[] latestVersion = UpdateUtils.ConvertVersion(UpdateUtils.GetLatestVersion());
-
-                    for (int i = 0; i < 4; i++)
+                    if (await UpdateUtils.IsUpdateAvailable())
                     {
-                        if (appVersion[i] > latestVersion[i])
-                            break;
-                        if (appVersion[i] == latestVersion[i])
-                            continue;
-
                         Process.Start(
                             Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
                             "disable_shortcut"
