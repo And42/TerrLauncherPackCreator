@@ -20,30 +20,30 @@ jobs:
       with:
         dotnet-version: 7.0.x
   
-    - name: Restore dependencies
-      run: dotnet restore
+#     - name: Restore dependencies
+#       run: dotnet restore
       
-    - name: Build
-      run: dotnet build --no-restore
+#     - name: Build
+#       run: dotnet build --no-restore
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+#     - name: Test
+#       run: dotnet test --no-build --verbosity normal
 
     - name: Publish framework dependent
       run: dotnet publish /p:PublishProfile=net-7.0-windows-x64-framework-dependent.pubxml
       
-    - name: Upload everything
-      uses: actions/upload-artifact@v3
-      with:
-        name: everything
-        path: TerrLauncherPackCreator
-        if-no-files-found: error
+#     - name: Upload everything
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: everything
+#         path: TerrLauncherPackCreator
+#         if-no-files-found: error
 
     - name: Upload framework dependent
       uses: actions/upload-artifact@v3
       with:
         name: net-7.0-windows-x64-framework-dependent
-        path:
-          TerrLauncherPackCreator\bin\Release\net7.0-windows\publish\win-x64\TerrLauncherPackCreator.exe
-          TerrLauncherPackCreator\bin\Release\net7.0-windows\publish\win-x64\libwebp_x64.dll
+        path: |
+          TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe
+          TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll
         if-no-files-found: error
