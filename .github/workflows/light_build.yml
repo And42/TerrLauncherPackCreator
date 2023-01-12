@@ -22,6 +22,9 @@ jobs:
   
     - name: Restore dependencies
       run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
@@ -41,6 +44,6 @@ jobs:
       with:
         name: net-7.0-windows-x64-framework-dependent
         path:
-          TerrLauncherPackCreator/TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe
-          TerrLauncherPackCreator/TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll
+          TerrLauncherPackCreator\bin\Release\net7.0-windows\publish\win-x64\TerrLauncherPackCreator.exe
+          TerrLauncherPackCreator\bin\Release\net7.0-windows\publish\win-x64\libwebp_x64.dll
         if-no-files-found: error
