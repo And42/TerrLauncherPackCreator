@@ -3,9 +3,9 @@ name: Light build
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
     - name: Upload framework dependent
       uses: actions/upload-artifact@v3
       with:
-        name: net-6.0-windows-x64-framework-dependent
+        name: net-7.0-windows-x64-framework-dependent
         path:
           TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe
           TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll
