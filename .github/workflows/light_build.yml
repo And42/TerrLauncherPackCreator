@@ -32,10 +32,12 @@ jobs:
     - name: Publish framework dependent
       run: dotnet publish /p:PublishProfile=net-7.0-windows-x64-framework-dependent.pubxml
       
-    - name: print current directory
-      run: |
-        dir /s/b *.exe
-        cd
+    - name: Upload everything
+      uses: actions/upload-artifact@v3
+      with:
+        name: everything
+        path: TerrLauncherPackCreator
+        if-no-files-found: error
 
     - name: Upload framework dependent
       uses: actions/upload-artifact@v3
