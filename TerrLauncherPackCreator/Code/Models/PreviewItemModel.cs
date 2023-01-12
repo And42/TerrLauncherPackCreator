@@ -122,7 +122,7 @@ namespace TerrLauncherPackCreator.Code.Models
             return new PreviewItemModel(filePath, false);
         }
         
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

@@ -30,7 +30,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             (Color) ColorConverter.ConvertFromString(true ? "#ef5350" : "#66bb6a")
         );
         
-        public Action? RecreateWindow { get; set; }
+        public Action? RecreateWindow { get; init; }
 
         public IActionCommand CreateNewPackCommand { get; }
         public IActionCommand ChooseExistingPackCommand { get; }
@@ -113,7 +113,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             RecreateWindow?.Invoke();
         }
         
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

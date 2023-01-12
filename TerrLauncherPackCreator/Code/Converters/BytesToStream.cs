@@ -6,7 +6,7 @@ namespace TerrLauncherPackCreator.Code.Converters
 {
     public class BytesToStream : ConverterBase<byte[], Stream>
     {
-        public override Stream? ConvertInternal(byte[]? value, object parameter, CultureInfo culture)
+        public override Stream? ConvertInternal(byte[]? value, object? parameter, CultureInfo culture)
         {
             return value == null ? null : new MemoryStream(value);
         }

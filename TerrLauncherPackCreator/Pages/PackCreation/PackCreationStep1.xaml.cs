@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Enums;
 using TerrLauncherPackCreator.Code.ViewModels;
 
@@ -14,10 +15,10 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             ViewModel = viewModel;
         }
 
-        public PackCreationViewModel ViewModel
+        private PackCreationViewModel ViewModel
         {
-            get => DataContext as PackCreationViewModel;
-            set => DataContext = value;
+            get => (DataContext as PackCreationViewModel).AssertNotNull();
+            init => DataContext = value;
         }
 
         private void PredefinedTag_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

@@ -7,10 +7,10 @@ namespace TerrLauncherPackCreator.Windows
 {
     public partial class PackStartupWindow
     {
-        public PackStartupWindowViewModel ViewModel
+        private PackStartupWindowViewModel ViewModel
         {
-            get => DataContext as PackStartupWindowViewModel ?? throw new InvalidOperationException();
-            set => DataContext = value;
+            get => (DataContext as PackStartupWindowViewModel).AssertNotNull();
+            init => DataContext = value;
         }
 
         public PackStartupWindow()

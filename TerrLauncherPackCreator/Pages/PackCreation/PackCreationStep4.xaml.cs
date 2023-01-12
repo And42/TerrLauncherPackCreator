@@ -16,10 +16,10 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             ViewModel = viewModel;
         }
 
-        public PackCreationViewModel ViewModel
+        private PackCreationViewModel ViewModel
         {
-            get => DataContext as PackCreationViewModel;
-            set => DataContext = value;
+            get => (DataContext as PackCreationViewModel).AssertNotNull();
+            init => DataContext = value;
         }
 
         private void AuthorLink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)

@@ -6,7 +6,7 @@ namespace TerrLauncherPackCreator.Code.Converters
 {
     public class CollapsedIfEqualToParameterConverter : ConverterBase<object, Visibility>
     {
-        public override Visibility ConvertInternal(object value, object parameter, CultureInfo culture)
+        public override Visibility ConvertInternal(object? value, object? parameter, CultureInfo culture)
         {
             return Equals(value, parameter) ? Visibility.Collapsed : Visibility.Visible;
         }

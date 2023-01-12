@@ -8,7 +8,7 @@ namespace TerrLauncherPackCreator.Code.Converters
 {
     public class InMemoryImageSourceConverter : ConverterBase<string, ImageSource>
     {
-        public override ImageSource ConvertInternal(string value, object parameter, CultureInfo culture)
+        public override ImageSource? ConvertInternal(string? value, object? parameter, CultureInfo culture)
         {
             if (string.IsNullOrEmpty(value))
                 return null;

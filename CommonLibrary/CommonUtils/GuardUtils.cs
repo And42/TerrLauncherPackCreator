@@ -2,7 +2,7 @@
 
 namespace CommonLibrary.CommonUtils;
 
-internal static class Utils
+public static class GuardUtils
 {
     public static T AssertNotNull<T>(this T? self) where T : class
     {

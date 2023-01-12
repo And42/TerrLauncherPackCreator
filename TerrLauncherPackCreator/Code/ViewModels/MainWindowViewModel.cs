@@ -24,12 +24,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             // ReSharper disable once NotAccessedField.Local
             private readonly Timer _updateTextTimer;
 
-            private string _initialText;
-            private string[] _steps;
+            private string[]? _steps;
             private int _step;
 
             #region backing fields
-            private string _text;
+            private string _text = string.Empty;
             private int _currentProgress;
             private int _maximumProgress;
             private int _remainingFilesCount;
@@ -44,13 +43,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     if (!SetProperty(ref _text, value))
                         return;
 
-                    _initialText = value;
                     _steps = new[]
                     {
-                        _initialText,
-                        _initialText + ".",
-                        _initialText + "..",
-                        _initialText + "...",
+                        value,
+                        value + ".",
+                        value + "..",
+                        value + "...",
                     };
                 }
             }
@@ -207,7 +205,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
         
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

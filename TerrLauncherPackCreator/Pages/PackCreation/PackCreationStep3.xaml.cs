@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.ViewModels;
 
@@ -13,10 +14,10 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             ViewModel = viewModel;
         }
 
-        public PackCreationViewModel ViewModel
+        private PackCreationViewModel ViewModel
         {
-            get => DataContext as PackCreationViewModel;
-            set => DataContext = value;
+            get => (DataContext as PackCreationViewModel).AssertNotNull();
+            init => DataContext = value;
         }
 
         private void ModifiedFiles_OnDragOver(object sender, DragEventArgs e)
@@ -29,7 +30,7 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
                 return;
             }
 
-            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?) e.Data.GetData(DataFormats.FileDrop);
             var dropModel = (ModifiedFileModel) ((FrameworkElement) sender).DataContext;
 
             if (files != null && ViewModel.DropModifiedFileCommand.CanExecute((files, dropModel)))
@@ -45,7 +46,7 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             if (!e.Data.GetDataPresent(DataFormats.FileDrop))
                 return;
 
-            var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?) e.Data.GetData(DataFormats.FileDrop);
             var dropModel = (ModifiedFileModel) ((FrameworkElement) sender).DataContext;
             if (files != null)
             {

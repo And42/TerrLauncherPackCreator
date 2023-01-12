@@ -118,7 +118,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             File.WriteAllText(Paths.AuthorsFile, AuthorsJson.Processor.Serialize(model), Encoding.UTF8);
         }
         
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

@@ -134,10 +134,10 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         #region Backing fields
 
         // Step 1
-        private string _iconFilePath;
-        private string _title;
-        private string _descriptionRussian;
-        private string _descriptionEnglish;
+        private string _iconFilePath = string.Empty;
+        private string _title = string.Empty;
+        private string _descriptionRussian = string.Empty;
+        private string _descriptionEnglish = string.Empty;
         private Guid _guid;
         private int _version;
         private bool _isPredefinedTagsPopupOpen;
@@ -200,7 +200,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             // Step 1
             PredefinedTags = new ObservableCollection<PredefinedPackTag>();
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute, CreateNewGuidCommand_CanExecute);
-            DropIconCommand = new ActionCommand<string>(file => { }, DropIconCommand_CanExecute);
+            DropIconCommand = new ActionCommand<string>(_ => { }, DropIconCommand_CanExecute);
             AddPredefinedTagCommand = new ActionCommand(AddPredefinedTagExecuted, AddPredefinedTagCanExecute);
             AddSelectedTagCommand = new ActionCommand<PredefinedPackTag>(AddSelectedTagExecuted);
             RemovePredefinedTag = new ActionCommand<PredefinedPackTag>(RemovePredefinedTagExecuted, RemovePredefinedTagCanExecute);
@@ -236,11 +236,11 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             PropertyChanged += OnPropertyChanged;
         }
 
-        private void PackProcessorOnPackLoaded((string filePath, PackModel loadedPack, Exception error) item)
+        private void PackProcessorOnPackLoaded((string filePath, PackModel? loadedPack, Exception? error) item)
         {
             if (item.error == null)
             {
-                InitFromPackModel(item.loadedPack);
+                InitFromPackModel(item.loadedPack.AssertNotNull());
                 return;
             }
 
@@ -251,7 +251,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             );
         }
 
-        private void PackProcessorOnPackSaved((PackModel pack, string targetFilePath, Exception error) item)
+        private void PackProcessorOnPackSaved((PackModel pack, string targetFilePath, Exception? error) item)
         {
             if (item.error == null)
             {
@@ -403,7 +403,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         #region Step 3
 
-        private bool DropModifiedFileCommand_CanExecute((string[] files, ModifiedFileModel dropModel) parameter)
+        private bool DropModifiedFileCommand_CanExecute((string[]? files, ModifiedFileModel dropModel) parameter)
         {
             return !Working && parameter.files != null && parameter.files.All(File.Exists);
         }
@@ -732,12 +732,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
 
-        private void PredefinedTagsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void PredefinedTagsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(RemainedPredefinedTags));
         }
         
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

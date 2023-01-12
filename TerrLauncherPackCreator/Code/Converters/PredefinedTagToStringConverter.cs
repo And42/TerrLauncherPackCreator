@@ -8,7 +8,7 @@ namespace TerrLauncherPackCreator.Code.Converters
 {
     public class PredefinedTagToStringConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (value as PredefinedPackTag?) switch
             {
@@ -48,10 +48,9 @@ namespace TerrLauncherPackCreator.Code.Converters
             };
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var val = value as string;
-            if (val == null)
+            if (value is not string val)
                 return null;
 
 #pragma warning disable 219

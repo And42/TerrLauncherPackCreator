@@ -1,4 +1,5 @@
-﻿using TerrLauncherPackCreator.Code.ViewModels;
+﻿using CommonLibrary.CommonUtils;
+using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation
 {
@@ -11,10 +12,10 @@ namespace TerrLauncherPackCreator.Pages.PackCreation
             ViewModel = viewModel;
         }
 
-        public PackCreationViewModel ViewModel
+        private PackCreationViewModel ViewModel
         {
-            get => DataContext as PackCreationViewModel;
-            set => DataContext = value;
+            get => (DataContext as PackCreationViewModel).AssertNotNull();
+            init => DataContext = value;
         }
     }
 }

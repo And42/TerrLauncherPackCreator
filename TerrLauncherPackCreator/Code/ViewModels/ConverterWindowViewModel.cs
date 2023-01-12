@@ -172,7 +172,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             }
         }
         
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {

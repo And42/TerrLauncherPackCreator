@@ -84,8 +84,8 @@ namespace TerrLauncherPackCreator.Code.Json
     {
         public class IconJson {
             [JsonProperty("bytes")]
-            public byte[] Bytes { get; set; }
-            
+            public byte[] Bytes { get; set; } = null!;
+
             [JsonProperty("type")]
             public ImageInfo.ImageType Type { get; set; }
             
