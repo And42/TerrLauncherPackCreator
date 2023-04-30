@@ -32,7 +32,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         // ReSharper disable once UnusedMember.Local
-        private const int _ = 1 / (32 / (int) PredefinedPackTag.LastEnumElement);
+        private const int _ = 1 / (32 / PredefinedPackTagEnum.Length);
         private static readonly IReadOnlyList<PredefinedPackTag> AllPredefinedTags = new []
         {
             PredefinedPackTag.TexturesAnimated,
@@ -461,10 +461,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         
         private bool SaveResourceCommand_CanExecute(ModifiedFileModel file)
         {
-            {
-                // ReSharper disable once LocalVariableHidesMember
-                const int _ = 1 / (8 / (int) FileType.LastEnumElement);
-            }
+            (1 / (8 / FileTypeEnum.Length)).Ignore();
 
             return !Working && !file.IsDragDropTarget
                 && file is ModifiedTextureModel or ModifiedGuiModel or ModifiedFontModel or ModifiedAudioModel or ModifiedModModel;
@@ -475,10 +472,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             if (file.FilePath.IsNullOrEmpty())
                 return;
 
-            {
-                // ReSharper disable once LocalVariableHidesMember
-                const int _ = 1 / (8 / (int) FileType.LastEnumElement);
-            }
+            (1 / (8 / FileTypeEnum.Length)).Ignore();
             
             void SaveFile(FileType type) => SaveFileResource(extension: PackUtils.GetInitialFilesExt(type), file);
             void SaveFolder() => SaveFolderResource(file);
@@ -666,6 +660,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private static IPackFileInfo ModelToFileInfo(FileType fileType, ModifiedFileModel model)
         {
+            (1 / (8 / FileTypeEnum.Length)).Ignore();
+            
             return fileType switch
             {
                 FileType.Texture => ModelToFileInfo((ModifiedTextureModel) model),
@@ -676,7 +672,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 FileType.Font => ModelToFileInfo((ModifiedFontModel) model),
                 FileType.Audio => ModelToFileInfo((ModifiedAudioModel) model),
                 FileType.Mod => ModelToFileInfo((ModifiedModModel) model),
-                FileType.LastEnumElement => throw new ArgumentException((1 / (8 / (int)FileType.LastEnumElement)).ToString()),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -765,6 +760,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
 
         private static ModifiedFileModel FileToModel(FileType fileType, string filePath, IPackFileInfo? fileInfo)
         {
+            (1 / (8 / FileTypeEnum.Length)).Ignore();
+            
             return fileType switch
             {
                 FileType.Texture => FileInfoToModel(filePath, (TextureFileInfo?) fileInfo),
@@ -775,7 +772,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 FileType.Font => FileInfoToModel(filePath, (FontFileInfo?) fileInfo),
                 FileType.Audio => FileInfoToModel(filePath, (AudioFileInfo?) fileInfo),
                 FileType.Mod => FileInfoToModel(filePath, (ModFileInfo?) fileInfo),
-                FileType.LastEnumElement => throw new ArgumentException((1 / (8 / (int)FileType.LastEnumElement)).ToString()),
                 _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
             };
         }
@@ -892,8 +888,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             Previews.Add(new PreviewItemModel(filePath: null, isDragDropTarget: true));
             foreach ((FileType fileType, string initialFilesExt, string _) in PackUtils.PacksInfo)
             {
-                // ReSharper disable once LocalVariableHidesMember
-                const int _ = 1 / (8 / (int) FileType.LastEnumElement);
+                (1 / (8 / FileTypeEnum.Length)).Ignore();
                 
                 string title = fileType switch {
                     FileType.Texture => StringResources.PackTypeTextures,
@@ -904,7 +899,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     FileType.Font => StringResources.PackTypeFonts,
                     FileType.Audio => StringResources.PackTypeAudio,
                     FileType.Mod => StringResources.PackTypeMods,
-                    FileType.LastEnumElement => throw new ArgumentException(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 var group = new ModifiedFilesGroupModel(title, initialFilesExt, fileType);

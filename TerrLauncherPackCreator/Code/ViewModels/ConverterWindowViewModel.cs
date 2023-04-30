@@ -109,6 +109,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                         string resultFileName = Path.GetFileNameWithoutExtension(file);
                         if (fileInfo != null)
                         {
+                            (1 / (8 / FileTypeEnum.Length)).Ignore();
                             switch (CurrentFileType)
                             {
                                 case FileType.Texture:
@@ -143,8 +144,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException();
-                                case FileType.LastEnumElement:
-                                    throw new ArgumentException((1 / (8 / (int) FileType.LastEnumElement)).ToString());
                             }
                         }
                         

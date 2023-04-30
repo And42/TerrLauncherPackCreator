@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.Utils;
 using TerrLauncherPackCreator.Code.Models;
 
 namespace TerrLauncherPackCreator.Code.TemplateSelectors
@@ -16,9 +17,7 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
             var previewItem = (ModifiedFileModel) item;
             var containerUi = (FrameworkElement) container;
 
-#pragma warning disable 219
-            const int _ = 1 / (8 / (int) FileType.LastEnumElement);
-#pragma warning restore 219
+            (1 / (8 / FileTypeEnum.Length)).Ignore();
 
             string resourceName;
             if (previewItem.IsDragDropTarget)

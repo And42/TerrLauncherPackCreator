@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using CrossPlatform.Code.Enums;
+using CrossPlatform.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Code.Converters
@@ -10,6 +11,8 @@ namespace TerrLauncherPackCreator.Code.Converters
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            (1 / (32 / PredefinedPackTagEnum.Length)).Ignore();
+
             return (value as PredefinedPackTag?) switch
             {
                 PredefinedPackTag.TexturesAnimated => StringResources.PredefinedPackTagTexturesAnimated,
@@ -43,10 +46,7 @@ namespace TerrLauncherPackCreator.Code.Converters
                 PredefinedPackTag.AudioSounds => StringResources.PredefinedPackTagAudioSounds,
                 PredefinedPackTag.AudioOther => StringResources.PredefinedPackTagAudioOther,
                 PredefinedPackTag.FontsAnimated => StringResources.PredefinedPackTagFontsAnimated,
-                PredefinedPackTag.ModsScripts => StringResources.PredefinedPackTagModsScripts,
-                PredefinedPackTag.LastEnumElement => throw new ArgumentException(
-                    (1 / (32 / (int) PredefinedPackTag.LastEnumElement)).ToString()
-                ),
+                PredefinedPackTag.ModsScripts => StringResources.PredefinedPackTagModsScripts
             };
         }
 
@@ -55,9 +55,8 @@ namespace TerrLauncherPackCreator.Code.Converters
             if (value is not string val)
                 return null;
 
-#pragma warning disable 219
-            const int _ = 1 / (32 / (int) PredefinedPackTag.LastEnumElement);
-#pragma warning restore 219
+            (1 / (32 / PredefinedPackTagEnum.Length)).Ignore();
+
             if (val == StringResources.PredefinedPackTagTexturesAnimated)
                 return PredefinedPackTag.TexturesAnimated;
             if (val == StringResources.PredefinedPackTagTexturesWeapons)

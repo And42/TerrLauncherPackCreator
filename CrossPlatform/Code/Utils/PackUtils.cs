@@ -24,7 +24,7 @@ namespace CrossPlatform.Code.Utils
         
         static PackUtils()
         {
-            const int _ = 1 / (8 / (int) FileType.LastEnumElement);
+            (1 / (8 / FileTypeEnum.Length)).Ignore();
 
             PacksInfo = new PackInfo[]
             {

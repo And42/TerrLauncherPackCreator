@@ -37,6 +37,7 @@ namespace CrossPlatform.Code.Implementations
             string? configFile = null;
             if (fileInfo != null) {
                 configFile = _sessionHelper.GenerateNonExistentFilePath();
+                (1 / (8 / FileTypeEnum.Length)).Ignore();
                 await File.WriteAllTextAsync(
                     configFile,
                     fileType switch
@@ -49,9 +50,6 @@ namespace CrossPlatform.Code.Implementations
                         FileType.Font => SerializeFileInfo((FontFileInfo) fileInfo),
                         FileType.Audio => SerializeFileInfo((AudioFileInfo) fileInfo),
                         FileType.Mod => SerializeFileInfo((ModFileInfo) fileInfo),
-                        FileType.LastEnumElement => throw new ArgumentException(
-                            (1 / (8 / (int) FileType.LastEnumElement)).ToString()
-                        ),
                         _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
                     }
                 );
@@ -78,6 +76,7 @@ namespace CrossPlatform.Code.Implementations
             if (configFile != null && File.Exists(configFile))
             {
                 string configText = await File.ReadAllTextAsync(configFile);
+                (1 / (8 / FileTypeEnum.Length)).Ignore();
                 fileInfo = fileType switch
                 {
                     FileType.Texture => DeserializeTextureFileInfo(configText),
@@ -88,7 +87,6 @@ namespace CrossPlatform.Code.Implementations
                     FileType.Font => DeserializeFontFileInfo(configText),
                     FileType.Audio => DeserializeAudioFileInfo(configText),
                     FileType.Mod => DeserializeModFileInfo(configText),
-                    FileType.LastEnumElement => throw new ArgumentException((1 / (8 / (int) FileType.LastEnumElement)).ToString()),
                     _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
                 };
                 if (fileType == FileType.Texture && packStructureVersion < 15)
@@ -99,6 +97,7 @@ namespace CrossPlatform.Code.Implementations
                 }
             }
 
+            (1 / (8 / FileTypeEnum.Length)).Ignore();
             string sourceFile = fileType switch
             {
                 FileType.Texture or
@@ -109,7 +108,6 @@ namespace CrossPlatform.Code.Implementations
                 FileType.Font or
                 FileType.Audio => ConvertFileToSource(targetFile),
                 FileType.Mod => ConvertDirToSource(targetFile),
-                FileType.LastEnumElement =>throw new ArgumentException((1 / (8 / (int)FileType.LastEnumElement)).ToString()),
                 _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
             };
 
