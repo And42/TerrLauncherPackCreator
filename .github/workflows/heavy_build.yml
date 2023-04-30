@@ -28,12 +28,12 @@ jobs:
 #      run: dotnet test --no-build --verbosity normal
 
     - name: Publish framework dependent creator
-      run: dotnet publish /p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml -c:Release TerrLauncherPackCreator
+      run: dotnet publish -p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml
 
     - name: Publish framework dependent updater
-      run: dotnet publish /p:PublishProfile=updater-net-7.0-windows-x64-framework-dependent.pubxml -c:Release TerrLauncherPackCreatorUpdater
+      run: dotnet publish -p:PublishProfile=updater-net-7.0-windows-x64-framework-dependent.pubxml
 
-    - name: Copy all files into uplod directory
+    - name: Copy all files into upload directory
       run: |
         mkdir to_upload
         cp TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe to_upload/TerrLauncherPackCreator.exe
