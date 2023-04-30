@@ -28,10 +28,10 @@ jobs:
 #      run: dotnet test --no-build --verbosity normal
 
     - name: Publish framework dependent creator
-      run: dotnet publish /p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml
+      run: dotnet publish /p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml -c:Release TerrLauncherPackCreator
 
     - name: Publish framework dependent updater
-      run: dotnet publish /p:PublishProfile=updater-net-7.0-windows-x64-framework-dependent.pubxml
+      run: dotnet publish /p:PublishProfile=updater-net-7.0-windows-x64-framework-dependent.pubxml -c:Release TerrLauncherPackCreatorUpdater
 
     - name: Copy all files into uplod directory
       run: |
