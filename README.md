@@ -1,16 +1,16 @@
-# TerrLauncherPackCreator
+U# TerrLauncherPackCreator
 
 Just an app that can help you to create packs for TL Pro: https://play.google.com/store/apps/details?id=com.pixelcurves.terlauncher
 
 ## Requirements
 
-You need to have .Net Framework v4.6.1+ installed to run the app. You can find the exact version on the Microsoft site but I recommend installing version 4.8 instead of the lower ones, as it is backward compatible with previous versions but supports newer versions of framework out of the box. You can find an offline installer here: https://support.microsoft.com/en-us/help/4503548/microsoft-net-framework-4-8-offline-installer-for-windows
+You need to have .NET Desktop Runtime 7.0+ installed to run the app. You can find an installer here: https://dotnet.microsoft.com/en-us/download/dotnet/7.0
 
 ## Installation
 
 The installation is pretty straightforward:
-1. You download the archive from the `Releases` page, extract it somewhere and launch the `installer.exe`
-2. The installer will copy all the needed files to `<system drive>:\Users\<current user>\AppData\Roaming\TerrLauncherPackCreator` for `Master` version and to `<system drive>:\Users\<current user>\AppData\Roaming\TerrLauncherPackCreator_preview` for `Preview` version and create a shortcut in the current folder
+1. Download `installer.exe` from the `Releases` page and launch it
+2. The installer will copy all the needed files to `<system drive>:\Users\<current user>\AppData\Roaming\TerrLauncherPackCreator` and create a shortcut in the current folder
 3. You can then use the app by either launching it via the shortcut or by launching the `.exe` directly
 
 ## Usage
