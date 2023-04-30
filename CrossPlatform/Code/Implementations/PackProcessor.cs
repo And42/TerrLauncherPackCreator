@@ -258,7 +258,7 @@ namespace CrossPlatform.Code.Implementations
 
             using (var zip = new ZipFile(filePath, Encoding.UTF8))
             {
-                zip.AddEntry(".nomedia", new byte[0]);
+                zip.AddEntry(".nomedia", Array.Empty<byte>());
 
                 if (!string.IsNullOrEmpty(packModel.IconFilePath))
                 {
@@ -273,7 +273,7 @@ namespace CrossPlatform.Code.Implementations
 
                 if (authorsMappings.Any())
                 {
-                    zip.AddEntry("Authors/.nomedia", new byte[0]);
+                    zip.AddEntry("Authors/.nomedia", Array.Empty<byte>());
                     foreach (var (sourceFile, targetFile, json) in authorsMappings)
                         if (sourceFile != null)
                         {
@@ -304,7 +304,7 @@ namespace CrossPlatform.Code.Implementations
 
                 if (packModel.PreviewsPaths.Any())
                 {
-                    zip.AddEntry("Previews/.nomedia", new byte[0]);
+                    zip.AddEntry("Previews/.nomedia", Array.Empty<byte>());
                     int previewIndex = 1;
                     foreach (string previewPath in packModel.PreviewsPaths)
                     {
