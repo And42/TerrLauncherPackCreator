@@ -46,6 +46,9 @@
       <PackageReference Include="Newtonsoft.Json">
         <Version>13.0.2</Version>
       </PackageReference>
+      <PackageReference Include="WindowsAPICodePack-Shell">
+        <Version>1.1.1</Version>
+      </PackageReference>
       <PackageReference Include="XamlAnimatedGif">
         <Version>2.1.0</Version>
       </PackageReference>

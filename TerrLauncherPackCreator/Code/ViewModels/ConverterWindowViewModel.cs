@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Enums;
 using CrossPlatform.Code.FileInfos;
 using CrossPlatform.Code.Implementations;
@@ -11,9 +10,6 @@ using CrossPlatform.Code.Interfaces;
 using CrossPlatform.Code.Utils;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
-using TerrLauncherPackCreator.Code.Interfaces;
-using TerrLauncherPackCreator.Code.Json;
-using TerrLauncherPackCreator.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
@@ -143,10 +139,12 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                                     var audioInfo = (AudioFileInfo) fileInfo;
                                     resultFileName = audioInfo.EntryName;
                                     break;
-                                case FileType.LastEnumElement:
-                                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
+                                case FileType.Mod:
+                                    break;
                                 default:
                                     throw new ArgumentOutOfRangeException();
+                                case FileType.LastEnumElement:
+                                    throw new ArgumentException((1 / (8 / (int) FileType.LastEnumElement)).ToString());
                             }
                         }
                         

@@ -231,6 +231,9 @@
   <data name="PackTypeMaps" xml:space="preserve">
     <value>Карты</value>
   </data>
+  <data name="PackTypeMods" xml:space="preserve">
+    <value>Моды</value>
+  </data>
   <data name="PackTypeNotSelected" xml:space="preserve">
     <value>Тип пака не выбран!</value>
   </data>
@@ -429,6 +432,12 @@
   <data name="PredefinedPackTagMapsOther" xml:space="preserve">
     <value>Карты: Другое</value>
   </data>
+  <data name="PredefinedPackTagMapsParkour" xml:space="preserve">
+    <value>Карты: Паркур</value>
+  </data>
+  <data name="PredefinedPackTagMapsForMultiplePlayers" xml:space="preserve">
+    <value>Карты: Для нескольких игроков</value>
+  </data>
   <data name="PredefinedPackTagMapsSurvival" xml:space="preserve">
     <value>Карты: Выживание</value>
   </data>
@@ -461,5 +470,36 @@
   </data>
   <data name="PredefinedPackTagTexturesWeapons" xml:space="preserve">
     <value>Текстуры: Оружие</value>
+  </data>
+  <data name="PredefinedPackTagModsScripts" xml:space="preserve">
+    <value>Моды: Скрипты</value>
+  </data>
+  <data name="TargetPackStructureVersion" xml:space="preserve">
+    <value>Целевая версия структуры паков</value>
+  </data>
+  <data name="PackStructureVersion19Description" xml:space="preserve">
+    <value>19 (TL v1.42+): Возможность проигнорировать переводы при определении категории пака</value>
+  </data>
+  <data name="PackStructureVersion20Description" xml:space="preserve">
+    <value>20 (TL v1.43+): Поддержка свойств структур в модах</value>
+  </data>
+  <data name="PackStructureVersion21Description" xml:space="preserve">
+    <value>21 (TL v1.44.1+):
+  1. Поддержка Thread Static полей в модах
+  2. Изменения в API модов:
+    2.1. Почти все методы TL перемещены в свойство tl
+    2.2. Метод вывода в лог переименован `print` > `log`</value>
+  </data>
+  <data name="PackStructureVersion22Description" xml:space="preserve">
+    <value>22 (TL v1.45.8+): Новые методы в js api: https://github.com/TerLauncher/TL-Mods/wiki/JavaScript-Api#Version_22</value>
+  </data>
+  <data name="PackStructureVersion23Description" xml:space="preserve">
+    <value>23 (TL v1.46+): Поддержка Terraria 1.4.4.1</value>
+  </data>
+  <data name="PackStructureVersion24Description" xml:space="preserve">
+    <value>24 (TL v1.47+): Поддержка Terraria 1.4.4.9</value>
+  </data>
+  <data name="IgnoreForCategory" xml:space="preserve">
+    <value>Игнорировать при определении категории пака</value>
   </data>
 </root>

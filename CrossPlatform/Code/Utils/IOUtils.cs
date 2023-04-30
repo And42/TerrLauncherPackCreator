@@ -55,6 +55,29 @@ namespace CrossPlatform.Code.Utils
             return first;
         }
 
+        public static void CopyFile(string source, string target, bool overwrite = false)
+        {
+            EnsureParentDirExists(target);
+            File.Copy(source, target, overwrite: overwrite);
+        }
+        
+        public static void CopyDirectory(string source, string target, bool overwriteFiles = false)
+        {
+            EnsureDirExists(target);
+            
+            foreach (string directory in Directory.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
+            {
+                string newDir = Path.Combine(target, directory[(source.Length + 1)..]);
+                EnsureDirExists(newDir);
+            }
+
+            foreach (string file in Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories))
+            {
+                string newFile = Path.Combine(target, file[(source.Length + 1)..]);
+                File.Copy(file, newFile, overwrite: overwriteFiles);
+            }
+        }
+
         private static void TryAction(Action action, int triesCount, int triesSleepMs)
         {
             int currentTry = 1;

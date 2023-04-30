@@ -27,6 +27,8 @@ namespace TerrLauncherPackCreator.Code.Converters
                 PredefinedPackTag.MapsAdventure => StringResources.PredefinedPackTagMapsAdventure,
                 PredefinedPackTag.MapsSurvival => StringResources.PredefinedPackTagMapsSurvival,
                 PredefinedPackTag.MapsOther => StringResources.PredefinedPackTagMapsOther,
+                PredefinedPackTag.MapsParkour => StringResources.PredefinedPackTagMapsParkour,
+                PredefinedPackTag.MapsForMultiplePlayers => StringResources.PredefinedPackTagMapsForMultiplePlayers,
                 PredefinedPackTag.CharactersCombat => StringResources.PredefinedPackTagCharactersCombat,
                 PredefinedPackTag.CharactersAppearance => StringResources.PredefinedPackTagCharactersAppearance,
                 PredefinedPackTag.CharactersOther => StringResources.PredefinedPackTagCharactersOther,
@@ -41,10 +43,10 @@ namespace TerrLauncherPackCreator.Code.Converters
                 PredefinedPackTag.AudioSounds => StringResources.PredefinedPackTagAudioSounds,
                 PredefinedPackTag.AudioOther => StringResources.PredefinedPackTagAudioOther,
                 PredefinedPackTag.FontsAnimated => StringResources.PredefinedPackTagFontsAnimated,
+                PredefinedPackTag.ModsScripts => StringResources.PredefinedPackTagModsScripts,
                 PredefinedPackTag.LastEnumElement => throw new ArgumentException(
-                    (1 / (29 / (int) PredefinedPackTag.LastEnumElement)).ToString()
+                    (1 / (32 / (int) PredefinedPackTag.LastEnumElement)).ToString()
                 ),
-                _ => null
             };
         }
 
@@ -54,7 +56,7 @@ namespace TerrLauncherPackCreator.Code.Converters
                 return null;
 
 #pragma warning disable 219
-            const int _ = 1 / (29 / (int) PredefinedPackTag.LastEnumElement);
+            const int _ = 1 / (32 / (int) PredefinedPackTag.LastEnumElement);
 #pragma warning restore 219
             if (val == StringResources.PredefinedPackTagTexturesAnimated)
                 return PredefinedPackTag.TexturesAnimated;
@@ -86,6 +88,10 @@ namespace TerrLauncherPackCreator.Code.Converters
                 return PredefinedPackTag.MapsSurvival;
             if (val == StringResources.PredefinedPackTagMapsOther)
                 return PredefinedPackTag.MapsOther;
+            if (val == StringResources.PredefinedPackTagMapsParkour)
+                return PredefinedPackTag.MapsParkour;
+            if (val == StringResources.PredefinedPackTagMapsForMultiplePlayers)
+                return PredefinedPackTag.MapsForMultiplePlayers;
             if (val == StringResources.PredefinedPackTagCharactersCombat)
                 return PredefinedPackTag.CharactersCombat;
             if (val == StringResources.PredefinedPackTagCharactersAppearance)
@@ -114,6 +120,8 @@ namespace TerrLauncherPackCreator.Code.Converters
                 return PredefinedPackTag.AudioOther;
             if (val == StringResources.PredefinedPackTagFontsAnimated)
                 return PredefinedPackTag.FontsAnimated;
+            if (val == StringResources.PredefinedPackTagModsScripts)
+                return PredefinedPackTag.ModsScripts;
             return null;
         }
     }

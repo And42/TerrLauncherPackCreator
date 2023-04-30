@@ -211,13 +211,16 @@
     <value>Fonts</value>
   </data>
   <data name="PackTypeGui" xml:space="preserve">
-    <value>Gui</value>
+    <value>GUI</value>
   </data>
   <data name="PackTypeHelpText" xml:space="preserve">
     <value>Pack type</value>
   </data>
   <data name="PackTypeMaps" xml:space="preserve">
     <value>Maps</value>
+  </data>
+  <data name="PackTypeMods" xml:space="preserve">
+    <value>Mods</value>
   </data>
   <data name="PackTypeNotSelected" xml:space="preserve">
     <value>Pack type is not selected!</value>
@@ -396,6 +399,12 @@
   <data name="PredefinedPackTagMapsOther" xml:space="preserve">
     <value>Maps: Other</value>
   </data>
+  <data name="PredefinedPackTagMapsParkour" xml:space="preserve">
+    <value>Maps: Parkour</value>
+  </data>
+  <data name="PredefinedPackTagMapsForMultiplePlayers" xml:space="preserve">
+    <value>Maps: For multiple players</value>
+  </data>
   <data name="PredefinedPackTagCharactersCombat" xml:space="preserve">
     <value>Characters: Combat</value>
   </data>
@@ -406,19 +415,19 @@
     <value>Characters: Other</value>
   </data>
   <data name="PredefinedPackTagGuiAnimated" xml:space="preserve">
-    <value>Gui: Animated</value>
+    <value>GUI: Animated</value>
   </data>
   <data name="PredefinedPackTagGuiInventory" xml:space="preserve">
-    <value>Gui: Inventory</value>
+    <value>GUI: Inventory</value>
   </data>
   <data name="PredefinedPackTagGuiHealthOrMana" xml:space="preserve">
-    <value>Gui: Health or mana</value>
+    <value>GUI: Health or mana</value>
   </data>
   <data name="PredefinedPackTagGuiGeneral" xml:space="preserve">
-    <value>Gui: General</value>
+    <value>GUI: General</value>
   </data>
   <data name="PredefinedPackTagGuiOther" xml:space="preserve">
-    <value>Gui: Other</value>
+    <value>GUI: Other</value>
   </data>
   <data name="PredefinedPackTagAudioBiomsOrLocations" xml:space="preserve">
     <value>Audio: Bioms or locations</value>
@@ -437,6 +446,9 @@
   </data>
   <data name="PredefinedPackTagFontsAnimated" xml:space="preserve">
     <value>Fonts: Animated</value>
+  </data>
+  <data name="PredefinedPackTagModsScripts" xml:space="preserve">
+    <value>Mods: Scripts</value>
   </data>
   <data name="AddTag" xml:space="preserve">
     <value>Add tag</value>
@@ -457,9 +469,37 @@
     <value>Are you sure?</value>
   </data>
   <data name="CropImage" xml:space="preserve">
-    <value>Crop</value>
+    <value>Crop</value>\
   </data>
   <data name="ApplyOriginalSize" xml:space="preserve">
     <value>Apply original size</value>
+  </data>
+  <data name="TargetPackStructureVersion" xml:space="preserve">
+    <value>Target pack structure version</value>
+  </data>
+  <data name="PackStructureVersion19Description" xml:space="preserve">
+    <value>19 (TL v1.42+): Ability to ignore translations when determining pack's category</value>
+  </data>
+  <data name="PackStructureVersion20Description" xml:space="preserve">
+    <value>20 (TL v1.43+): Struct properties support in mods</value>
+  </data>
+  <data name="PackStructureVersion21Description" xml:space="preserve">
+    <value>21 (TL v1.44.1+):
+  1. Thread Static fields support in mods
+  2. API changes for mods:
+    2.1. Most of TL methods moved into tl property
+    2.2. `print` renamed to `log`</value>
+  </data>
+  <data name="PackStructureVersion22Description" xml:space="preserve">
+    <value>22 (TL v1.45.8+): New Terraria version support</value>
+  </data>
+  <data name="PackStructureVersion23Description" xml:space="preserve">
+    <value>23 (TL v1.46+): Terraria 1.4.4.1 support</value>
+  </data>
+  <data name="PackStructureVersion24Description" xml:space="preserve">
+    <value>24 (TL v1.47+): Terraria 1.4.4.9 support</value>
+  </data>
+  <data name="IgnoreForCategory" xml:space="preserve">
+    <value>Ignore when determining pack category</value>
   </data>
 </root>

@@ -179,7 +179,7 @@ namespace CrossPlatform.Code.Implementations
             string[] modifiedFileExts = PackUtils.PacksInfo.Select(it => it.ConvertedFilesExt).ToArray();
             string[] modifiedFilesPaths =
                 Directory.Exists(packModifiedFilesFolder)
-                    ? Directory.EnumerateFiles(packModifiedFilesFolder)
+                    ? Directory.EnumerateFileSystemEntries(packModifiedFilesFolder)
                         .Where(it => modifiedFileExts.Contains(Path.GetExtension(it)))
                         .ToArray()
                     : Array.Empty<string>();

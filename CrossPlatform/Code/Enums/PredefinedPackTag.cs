@@ -31,6 +31,9 @@
         AudioSounds = 26,
         AudioOther = 27,
         FontsAnimated = 28,
+        MapsParkour = 29,
+        MapsForMultiplePlayers = 30,
+        ModsScripts = 31,
         LastEnumElement
     }
 }

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Threading;
-using System.Windows.Media;
 using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Utils;
 using Microsoft.Win32;
@@ -23,13 +22,13 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public string CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name;
         public bool EnglishLanguageActive => CurrentLanguage == "en-US";
         public bool RussianLanguageActive => CurrentLanguage == "ru-RU";
-        public SolidColorBrush WindowBackground { get; } = new(
-            // ReSharper disable once PossibleNullReferenceException
-            // ReSharper disable once UnreachableCode
-            // todo: check from settings
-            (Color) ColorConverter.ConvertFromString(true ? "#ef5350" : "#66bb6a")
-        );
-        
+        public bool PackStructureVersion19Active => IsPackStructureVersionActive(19);
+        public bool PackStructureVersion20Active => IsPackStructureVersionActive(20);
+        public bool PackStructureVersion21Active => IsPackStructureVersionActive(21);
+        public bool PackStructureVersion22Active => IsPackStructureVersionActive(22);
+        public bool PackStructureVersion23Active => IsPackStructureVersionActive(23);
+        public bool PackStructureVersion24Active => IsPackStructureVersionActive(24);
+
         public Action? RecreateWindow { get; init; }
 
         public IActionCommand CreateNewPackCommand { get; }
@@ -37,6 +36,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         public IActionCommand LaunchConverterCommand { get; }
         public IActionCommand SwitchToEnglishCommand { get; }
         public IActionCommand SwitchToRussianCommand { get; }
+        public IActionCommand<int> ChangeStructureVersion { get; }
 
         public PackStartupWindowViewModel(
             IAttachedWindowManipulator attachedWindowManipulator,
@@ -51,8 +51,16 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             LaunchConverterCommand = new ActionCommand(LaunchConverterCommand_Execute);
             SwitchToEnglishCommand = new ActionCommand(() => SwitchLanguageTo("en-US"));
             SwitchToRussianCommand = new ActionCommand(() => SwitchLanguageTo("ru-RU"));
+            ChangeStructureVersion = new ActionCommand<int>(ChangeStructureVersion_Execute);
             
             PropertyChanged += OnPropertyChanged;
+            
+            ValidatePackStructureVersion();
+        }
+        
+        private bool IsPackStructureVersionActive(int version)
+        {
+            return _appSettings.PackStructureVersion == version;
         }
 
         private void CreateNewPackCommand_Execute()
@@ -111,6 +119,40 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 MessageBoxUtils.ShowError($"{StringResources.CantSaveAppSettings} {ex.Message}");
             }
             RecreateWindow?.Invoke();
+        }
+        
+        private void ChangeStructureVersion_Execute(int version)
+        {
+            int oldVersion = _appSettings.PackStructureVersion;
+            if (oldVersion == version)
+                return;
+
+            _appSettings.PackStructureVersion = version;
+            try
+            {
+                AppUtils.SaveAppSettings(_appSettings);
+            }
+            catch (Exception ex)
+            {
+                _appSettings.PackStructureVersion = oldVersion;
+                MessageBoxUtils.ShowError($"{StringResources.CantSaveAppSettings} {ex.Message}");
+            }
+            
+            OnPropertyChanged(nameof(PackStructureVersion19Active));
+            OnPropertyChanged(nameof(PackStructureVersion20Active));
+            OnPropertyChanged(nameof(PackStructureVersion21Active));
+            OnPropertyChanged(nameof(PackStructureVersion22Active));
+            OnPropertyChanged(nameof(PackStructureVersion23Active));
+            OnPropertyChanged(nameof(PackStructureVersion24Active));
+            
+            const int _ = 1 / (24 / PackUtils.LatestPackStructureVersion);
+        }
+
+        private void ValidatePackStructureVersion()
+        {
+            const int _ = 1 / (24 / PackUtils.LatestPackStructureVersion);
+            if (_appSettings.PackStructureVersion < 19)
+                ChangeStructureVersion.Execute(PackUtils.LatestPackStructureVersion);
         }
         
         private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)

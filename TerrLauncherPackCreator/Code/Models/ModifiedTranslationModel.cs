@@ -12,6 +12,13 @@ namespace TerrLauncherPackCreator.Code.Models
         }
         private string _currentLanguage;
 
+        public bool IgnoreForCategory
+        {
+            get => _ignoreForCategory;
+            set => SetProperty(ref _ignoreForCategory, value);
+        }
+        private bool _ignoreForCategory;
+
         public IReadOnlyList<string> ShortLanguages { get; }
         
         public ModifiedTranslationModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)

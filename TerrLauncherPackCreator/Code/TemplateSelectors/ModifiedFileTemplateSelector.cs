@@ -17,7 +17,7 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
             var containerUi = (FrameworkElement) container;
 
 #pragma warning disable 219
-            const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+            const int _ = 1 / (8 / (int) FileType.LastEnumElement);
 #pragma warning restore 219
 
             string resourceName;
@@ -33,6 +33,7 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors
                     ModifiedCharacterModel _ => "ModifiedCharacterTemplate",
                     ModifiedTranslationModel _ => "ModifiedTranslationTemplate",
                     ModifiedAudioModel _ => "ModifiedAudioTemplate",
+                    ModifiedModModel => "ModifiedModTemplate",
                     _ => "ModifiedFileDataTemplate"
                 };
 

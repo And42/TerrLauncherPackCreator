@@ -46,7 +46,6 @@
                     <Setter Property="Content" Value="{x:Static localizations:StringResources.DeletePreviewCaption}"/>
                     <Setter Property="Command" Value="{Binding DataContext.DeleteModifiedItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Page}}"/>
                     <Setter Property="CommandParameter" Value="{Binding}"/>
-                    <Setter Property="Padding" Value="7 3"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                 </Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
@@ -556,6 +555,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
@@ -563,6 +563,7 @@
                             ToolTip="{Binding FilePath}" VerticalAlignment="Center" Margin="7 3"
                             TextTrimming="CharacterEllipsis"/>
                         <TextBlock Grid.Column="1" Text=">" VerticalAlignment="Center"/>
+
                         <ComboBox
                             Grid.Column="2"
                             Text="{Binding CurrentLanguage}"
@@ -576,8 +577,16 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+
+                        <CheckBox
+                            Grid.Column="3"
+                            Content="{x:Static localizations:StringResources.IgnoreForCategory}"
+                            IsChecked="{Binding IgnoreForCategory}"/>
+
                         <Button
-                            Grid.Column="3" Style="{StaticResource DeleteItemButton}" Margin="0 3" />
+                            Grid.Column="4"
+                            Style="{StaticResource DeleteItemButton}"
+                            Margin="8 3 0 3" />
                     </Grid>
                 </DataTemplate>
                 
@@ -619,6 +628,67 @@
                             Margin="8 3 0 3"
                             Padding="7 3"
                             VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+                
+                <DataTemplate x:Key="ModifiedModTemplate" DataType="{x:Type models:ModifiedModModel}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Text="{Binding FilePath, Converter={StaticResource PathToFileNameConverter}}"
+                            ToolTip="{Binding FilePath}"
+                            VerticalAlignment="Center"
+                            Margin="7 3"
+                            TextTrimming="CharacterEllipsis"/>
+                        <TextBlock
+                            Grid.Column="1"
+                            Text=">"
+                            VerticalAlignment="Center"/>
+
+                        <!-- todo: add guid check -->
+                        <TextBox
+                            Grid.Column="3"
+                            Text="{Binding Id}"
+                            VerticalAlignment="Center"
+                            Margin="8 3 0 3"
+                            MinWidth="100"/>
+                        
+                        <Button
+                            Grid.Column="4"
+                            Content="{x:Static localizations:StringResources.NewGuidCaption}"
+                            Command="{Binding GenerateNewGuidCommand}"
+                            Margin="8 3 0 3"/>
+                        
+                        <CheckBox
+                            Grid.Column="5"
+                            Margin="8 0 0 0"
+                            Content="{x:Static localizations:StringResources.IgnoreForCategory}"
+                            IsChecked="{Binding IgnoreForCategory}"/>
+
+                        <Button
+                            Grid.Column="6"
+                            Style="{StaticResource DeleteItemButton}"
+                            Margin="8 3 0 3" />
+                        
+                        <Button
+                            Grid.Column="7"
+                            Margin="8 3 0 3"
+                            Content="{x:Static localizations:StringResources.SaveResource}"
+                            Command="{
+                                Binding DataContext.SaveResourceCommand,
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Page}
+                            }"
+                            CommandParameter="{Binding}"/>
                     </Grid>
                 </DataTemplate>
 

@@ -48,6 +48,10 @@ namespace CrossPlatform.Code.Implementations
                         FileType.Translation => SerializeFileInfo((TranslationFileInfo) fileInfo),
                         FileType.Font => SerializeFileInfo((FontFileInfo) fileInfo),
                         FileType.Audio => SerializeFileInfo((AudioFileInfo) fileInfo),
+                        FileType.Mod => SerializeFileInfo((ModFileInfo) fileInfo),
+                        FileType.LastEnumElement => throw new ArgumentException(
+                            (1 / (8 / (int) FileType.LastEnumElement)).ToString()
+                        ),
                         _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
                     }
                 );
@@ -66,7 +70,7 @@ namespace CrossPlatform.Code.Implementations
             string? configFile
         )
         {
-            if (!File.Exists(targetFile))
+            if (!File.Exists(targetFile) && !Directory.Exists(targetFile))
                 throw new FileNotFoundException("File not found", targetFile);
 
             // config
@@ -83,10 +87,9 @@ namespace CrossPlatform.Code.Implementations
                     FileType.Translation => DeserializeTranslationFileInfo(configText),
                     FileType.Font => DeserializeFontFileInfo(configText),
                     FileType.Audio => DeserializeAudioFileInfo(configText),
-                    FileType.LastEnumElement => throw new ArgumentException(
-                        (1 / (7 / (int) FileType.LastEnumElement)).ToString()
-                    ),
-                    _ => throw new ArgumentOutOfRangeException()
+                    FileType.Mod => DeserializeModFileInfo(configText),
+                    FileType.LastEnumElement => throw new ArgumentException((1 / (8 / (int) FileType.LastEnumElement)).ToString()),
+                    _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
                 };
                 if (fileType == FileType.Texture && packStructureVersion < 15)
                 {
@@ -96,27 +99,19 @@ namespace CrossPlatform.Code.Implementations
                 }
             }
 
-            // file
-            string sourceFile;
-            switch (fileType)
+            string sourceFile = fileType switch
             {
-                case FileType.Texture:
-                case FileType.Map:
-                case FileType.Character:
-                case FileType.Gui:
-                case FileType.Translation:
-                case FileType.Font:
-                case FileType.Audio:
-                    string uniqueFile = _sessionHelper.GenerateNonExistentFilePath();
-                    IOUtils.EnsureParentDirExists(uniqueFile);
-                    File.Copy(targetFile, uniqueFile, overwrite: false);
-                    sourceFile = uniqueFile;
-                    break;
-                case FileType.LastEnumElement:
-                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
-            }
+                FileType.Texture or
+                FileType.Map or
+                FileType.Character or
+                FileType.Gui or
+                FileType.Translation or
+                FileType.Font or
+                FileType.Audio => ConvertFileToSource(targetFile),
+                FileType.Mod => ConvertDirToSource(targetFile),
+                FileType.LastEnumElement =>throw new ArgumentException((1 / (8 / (int)FileType.LastEnumElement)).ToString()),
+                _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
+            };
 
             return (sourceFile, fileInfo);
         }
@@ -173,7 +168,8 @@ namespace CrossPlatform.Code.Implementations
         {
             var json = JsonUtils.Deserialize<TranslationFileInfoJson>(text) ?? throw new InvalidOperationException();;
             return new TranslationFileInfo(
-                Language: json.Language
+                Language: json.Language,
+                IgnoreForCategory: json.IgnoreForCategory
             );
         }
         
@@ -193,7 +189,16 @@ namespace CrossPlatform.Code.Implementations
             );
         }
 
-        public static string SerializeFileInfo(TextureFileInfo fileInfo)
+        private static ModFileInfo DeserializeModFileInfo(string text)
+        {
+            var json = JsonUtils.Deserialize<ModFileInfoJson>(text) ?? throw new InvalidOperationException();
+            return new ModFileInfo(
+                Id: json.Id,
+                IgnoreForCategory: json.IgnoreForCategory
+            );
+        }
+
+        private static string SerializeFileInfo(TextureFileInfo fileInfo)
         {
             return JsonUtils.Serialize(
                 new TextureFileInfoJson
@@ -210,8 +215,8 @@ namespace CrossPlatform.Code.Implementations
                 }
             );
         }
-        
-        public static string SerializeFileInfo(MapFileInfo fileInfo)
+
+        private static string SerializeFileInfo(MapFileInfo fileInfo)
         {
             return JsonUtils.Serialize(
                 new MapFileInfoJson
@@ -220,8 +225,8 @@ namespace CrossPlatform.Code.Implementations
                 }
             );
         }
-        
-        public static string SerializeFileInfo(CharacterFileInfo fileInfo)
+
+        private static string SerializeFileInfo(CharacterFileInfo fileInfo)
         {
             return JsonUtils.Serialize(
                 new CharacterFileInfoJson
@@ -230,8 +235,8 @@ namespace CrossPlatform.Code.Implementations
                 }
             );
         }
-        
-        public static string SerializeFileInfo(GuiFileInfo fileInfo)
+
+        private static string SerializeFileInfo(GuiFileInfo fileInfo)
         {
             return JsonUtils.Serialize(
                 new GuiFileInfoJson
@@ -248,18 +253,19 @@ namespace CrossPlatform.Code.Implementations
                 }
             );
         }
-        
-        public static string SerializeFileInfo(TranslationFileInfo fileInfo)
+
+        private static string SerializeFileInfo(TranslationFileInfo fileInfo)
         {
             return JsonUtils.Serialize(
                 new TranslationFileInfoJson
                 {
-                    Language = fileInfo.Language
+                    Language = fileInfo.Language,
+                    IgnoreForCategory = fileInfo.IgnoreForCategory
                 }
             );
         }
-        
-        public static string SerializeFileInfo(FontFileInfo fileInfo)
+
+        private static string SerializeFileInfo(FontFileInfo fileInfo)
         {
             return JsonUtils.Serialize(
                 new FontFileInfoJson
@@ -268,8 +274,8 @@ namespace CrossPlatform.Code.Implementations
                 }
             );
         }
-        
-        public static string SerializeFileInfo(AudioFileInfo fileInfo)
+
+        private static string SerializeFileInfo(AudioFileInfo fileInfo)
         {
             return JsonUtils.Serialize(
                 new AudioFileInfoJson
@@ -277,6 +283,31 @@ namespace CrossPlatform.Code.Implementations
                     EntryName = fileInfo.EntryName
                 }
             );
+        }
+        
+        private static string SerializeFileInfo(ModFileInfo fileInfo)
+        {
+            return JsonUtils.Serialize(
+                new ModFileInfoJson
+                {
+                    Id = fileInfo.Id,
+                    IgnoreForCategory = fileInfo.IgnoreForCategory
+                }
+            );
+        }
+
+        private string ConvertFileToSource(string file)
+        {
+            string uniqueFile = _sessionHelper.GenerateNonExistentFilePath();
+            IOUtils.CopyFile(file, uniqueFile, overwrite: false);
+            return uniqueFile;
+        }
+        
+        private string ConvertDirToSource(string file)
+        {
+            string uniqueDir = _sessionHelper.GenerateNonExistentDirPath();
+            IOUtils.CopyDirectory(file, uniqueDir, overwriteFiles: true);
+            return uniqueDir;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace CrossPlatform.Code.Utils
             string ConvertedFilesExt
         );
         
-        public const int LatestPackStructureVersion = 17;
+        public const int LatestPackStructureVersion = 24;
         public const int DefaultAuthorIconHeight = 70;
         public const string PacksExtension = ".tl";
         public const string PacksActualExtension = ".zip";
@@ -24,8 +24,8 @@ namespace CrossPlatform.Code.Utils
         
         static PackUtils()
         {
-            const int _ = 1 / (7 / (int) FileType.LastEnumElement);
-            
+            const int _ = 1 / (8 / (int) FileType.LastEnumElement);
+
             PacksInfo = new PackInfo[]
             {
                 new(FileType.Texture,     ".png",  ".texture"),
@@ -34,7 +34,8 @@ namespace CrossPlatform.Code.Utils
                 new(FileType.Gui,         ".png",  ".gui"),
                 new(FileType.Translation, ".json", ".translation"),
                 new(FileType.Font,        ".png",  ".font"),
-                new(FileType.Audio,       ".mp3",  ".audio")
+                new(FileType.Audio,       ".mp3",  ".audio"),
+                new(FileType.Mod,         "",      ".mod")
             };
             TranslationLanguages = new[] { "en-US", "de-DE", "it-IT", "fr-FR", "es-ES", "ru-RU", "pt-BR", /*"zh-Hans", "pl-PL", "ja-JP"*/ };
             TranslationLanguageTitles = new[] { "English", "Deutsch", "Italiano", "Français", "Español", "Русский", "Português brasileiro" };

@@ -3,6 +3,7 @@
 namespace CrossPlatform.Code.FileInfos
 {
     public record TranslationFileInfo(
-        string Language
+        string Language,
+        bool IgnoreForCategory
     ) : IPackFileInfo;
 }

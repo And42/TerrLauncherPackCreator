@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
         xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d"
         Height="350" Width="500"
-        Background="{Binding WindowBackground}"
+        Background="#66bb6a"
         
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
@@ -28,6 +29,62 @@
                     Header="Русский"
                     IsChecked="{Binding RussianLanguageActive, Mode=OneWay}"
                     Command="{Binding SwitchToRussianCommand}"/>
+            </MenuItem>
+            
+            <MenuItem Header="{x:Static localizations:StringResources.TargetPackStructureVersion}" Padding="6 3">
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion19Description}"
+                    IsChecked="{Binding PackStructureVersion19Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>19</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion20Description}"
+                    IsChecked="{Binding PackStructureVersion20Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>20</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion21Description}"
+                    IsChecked="{Binding PackStructureVersion21Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>21</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion22Description}"
+                    IsChecked="{Binding PackStructureVersion22Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>22</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+                
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion23Description}"
+                    IsChecked="{Binding PackStructureVersion23Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>23</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+                
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion24Description}"
+                    IsChecked="{Binding PackStructureVersion24Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>24</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
             </MenuItem>
         </Menu>
         

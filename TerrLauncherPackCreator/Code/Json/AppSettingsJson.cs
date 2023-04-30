@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CrossPlatform.Code.Utils;
+using Newtonsoft.Json;
 
 namespace TerrLauncherPackCreator.Code.Json
 {
@@ -12,23 +13,29 @@ namespace TerrLauncherPackCreator.Code.Json
 
         [JsonProperty("main_window_height")]
         public int MainWindowHeight { get; set; }
+        
+        [JsonProperty("pack_structure_version")]
+        public int PackStructureVersion { get; set; }
 
         public AppSettingsJson()
         {
             AppLanguage = string.Empty;
             MainWindowWidth = 1100;
             MainWindowHeight = 750;
+            PackStructureVersion = PackUtils.LatestPackStructureVersion;
         }
 
         public AppSettingsJson(
             string appLanguage,
             int mainWindowWidth,
-            int mainWindowHeight
+            int mainWindowHeight,
+            int packStructureVersion
         )
         {
             AppLanguage = appLanguage;
             MainWindowWidth = mainWindowWidth;
             MainWindowHeight = mainWindowHeight;
+            PackStructureVersion = packStructureVersion;
         }
     }
 }

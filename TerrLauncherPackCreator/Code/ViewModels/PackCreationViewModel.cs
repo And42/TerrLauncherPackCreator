@@ -16,11 +16,14 @@ using CrossPlatform.Code.FileInfos;
 using CrossPlatform.Code.Interfaces;
 using CrossPlatform.Code.Models;
 using CrossPlatform.Code.Utils;
-using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace TerrLauncherPackCreator.Code.ViewModels
 {
@@ -29,7 +32,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         private static readonly ISet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
         private static readonly ISet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
         // ReSharper disable once UnusedMember.Local
-        private const int _ = 1 / (29 / (int) PredefinedPackTag.LastEnumElement);
+        private const int _ = 1 / (32 / (int) PredefinedPackTag.LastEnumElement);
         private static readonly IReadOnlyList<PredefinedPackTag> AllPredefinedTags = new []
         {
             PredefinedPackTag.TexturesAnimated,
@@ -47,6 +50,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             PredefinedPackTag.MapsAdventure,
             PredefinedPackTag.MapsSurvival,
             PredefinedPackTag.MapsOther,
+            PredefinedPackTag.MapsParkour,
+            PredefinedPackTag.MapsForMultiplePlayers,
             PredefinedPackTag.CharactersCombat,
             PredefinedPackTag.CharactersAppearance,
             PredefinedPackTag.CharactersOther,
@@ -61,6 +66,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             PredefinedPackTag.AudioSounds,
             PredefinedPackTag.AudioOther,
             PredefinedPackTag.FontsAnimated,
+            PredefinedPackTag.ModsScripts
         };
 
         private readonly IPackProcessor _packProcessor;
@@ -455,46 +461,75 @@ namespace TerrLauncherPackCreator.Code.ViewModels
         
         private bool SaveResourceCommand_CanExecute(ModifiedFileModel file)
         {
-#pragma warning disable 219
             {
-                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+                // ReSharper disable once LocalVariableHidesMember
+                const int _ = 1 / (8 / (int) FileType.LastEnumElement);
             }
-#pragma warning restore 219
 
-            return !Working && !file.IsDragDropTarget && (
-                file is ModifiedTextureModel ||
-                file is ModifiedGuiModel ||
-                file is ModifiedFontModel ||
-                file is ModifiedAudioModel
-            );
+            return !Working && !file.IsDragDropTarget
+                && file is ModifiedTextureModel or ModifiedGuiModel or ModifiedFontModel or ModifiedAudioModel or ModifiedModModel;
         }
 
         private void SaveResourceCommand_Execute(ModifiedFileModel file)
         {
-            if (string.IsNullOrEmpty(file.FilePath) || !File.Exists(file.FilePath))
+            if (file.FilePath.IsNullOrEmpty())
                 return;
 
-#pragma warning disable 219
             {
-                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+                // ReSharper disable once LocalVariableHidesMember
+                const int _ = 1 / (8 / (int) FileType.LastEnumElement);
             }
-#pragma warning restore 219
             
-            string extension = file switch
+            void SaveFile(FileType type) => SaveFileResource(extension: PackUtils.GetInitialFilesExt(type), file);
+            void SaveFolder() => SaveFolderResource(file);
+            
+            switch (file)
             {
-                ModifiedTextureModel _ => PackUtils.GetInitialFilesExt(FileType.Texture),
-                ModifiedGuiModel _ => PackUtils.GetInitialFilesExt(FileType.Gui),
-                ModifiedFontModel _ => PackUtils.GetInitialFilesExt(FileType.Font),
-                ModifiedAudioModel _ => PackUtils.GetInitialFilesExt(FileType.Audio),
-                _ => throw new ArgumentOutOfRangeException(nameof(file))
-            };
+                case ModifiedTextureModel:
+                    SaveFile(type: FileType.Texture);
+                    break;
+                case ModifiedGuiModel:
+                    SaveFile(type: FileType.Gui);
+                    break;
+                case ModifiedFontModel:
+                    SaveFile(type: FileType.Font);
+                    break;
+                case ModifiedAudioModel:
+                    SaveFile(type: FileType.Audio);
+                    break;
+                case ModifiedModModel:
+                    // todo: validate
+                    SaveFolder();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(file));
+            }
+        }
 
+        private static void SaveFileResource(string extension, ModifiedFileModel fileModel)
+        {
+            if (!File.Exists(fileModel.FilePath))
+                return;
+            
             var dialog = new SaveFileDialog
             {
                 Filter = $"{StringResources.SaveFileFilterTitle} (*{extension})|*{extension}"
             };
             if (dialog.ShowDialog() == true)
-                File.Copy(file.FilePath, dialog.FileName, true);
+                IOUtils.CopyFile(fileModel.FilePath, dialog.FileName, overwrite: true);
+        }
+        
+        private static void SaveFolderResource(ModifiedFileModel fileModel)
+        {
+            if (!Directory.Exists(fileModel.FilePath))
+                return;
+            
+            var dialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true
+            };
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                IOUtils.CopyDirectory(fileModel.FilePath, dialog.FileName, overwriteFiles: true);
         }
 
         private void AddAuthorCommand_Execute()
@@ -606,80 +641,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     .Where(it => !it.modified.IsDragDropTarget)
                     .Select(it =>
                     {
-                        IPackFileInfo fileInfo;
-                        switch (it.FilesType)
-                        {
-                            case FileType.Texture:
-                                var textureModel = (ModifiedTextureModel) it.modified;
-                                fileInfo = new TextureFileInfo(
-                                    Type: textureModel.CurrentTextureType,
-                                    Animated: textureModel.Animated,
-                                    AnimateInGui: textureModel.AnimateInGui,
-                                    EntryName: string.IsNullOrEmpty(textureModel.Prefix)
-                                        ? textureModel.Name ?? string.Empty
-                                        : $"{textureModel.Prefix}/{textureModel.Name}",
-                                    ElementId: textureModel.ElementId,
-                                    MillisecondsPerFrame: textureModel.MillisecondsPerFrame,
-                                    NumberOfVerticalFrames: textureModel.NumberOfVerticalFrames,
-                                    NumberOfHorizontalFrames: textureModel.NumberOfHorizontalFrames,
-                                    ApplyOriginalSize: textureModel.ApplyOriginalSize
-                                );
-                                break;
-                            case FileType.Map:
-                                var mapModel = (ModifiedMapModel) it.modified;
-                                fileInfo = new MapFileInfo(
-                                    ResultFileName: mapModel.ResultFileName ?? string.Empty
-                                );
-                                break;
-                            case FileType.Character:
-                                var characterModel = (ModifiedCharacterModel) it.modified;
-                                fileInfo = new CharacterFileInfo(
-                                    ResultFileName: characterModel.ResultFileName
-                                );
-                                break;
-                            case FileType.Gui:
-                                var guiModel = (ModifiedGuiModel) it.modified;
-                                fileInfo = new GuiFileInfo(
-                                    Type: TextureFileInfo.TextureType.General,
-                                    EntryName: string.IsNullOrEmpty(guiModel.Prefix)
-                                        ? guiModel.Name ?? string.Empty
-                                        : $"{guiModel.Prefix}/{guiModel.Name}",
-                                    ElementId: 0,
-                                    Animated: false,
-                                    AnimateInGui: false,
-                                    NumberOfVerticalFrames: 1,
-                                    NumberOfHorizontalFrames: 1,
-                                    MillisecondsPerFrame: 0,
-                                    ApplyOriginalSize: true
-                                );
-                                break;
-                            case FileType.Translation:
-                                var translationModel = (ModifiedTranslationModel) it.modified;
-                                fileInfo = new TranslationFileInfo(
-                                    Language: translationModel.CurrentLanguage
-                                );
-                                break;
-                            case FileType.Font:
-                                var fontModel = (ModifiedFontModel) it.modified;
-                                fileInfo = new FontFileInfo(
-                                    EntryName: string.IsNullOrEmpty(fontModel.Prefix)
-                                        ? fontModel.Name ?? string.Empty
-                                        : $"{fontModel.Prefix}/{fontModel.Name}"
-                                );
-                                break;
-                            case FileType.Audio:
-                                var audioModel = (ModifiedAudioModel) it.modified;
-                                fileInfo = new AudioFileInfo(
-                                    EntryName: string.IsNullOrEmpty(audioModel.Prefix)
-                                        ? audioModel.Name
-                                        : $"{audioModel.Prefix}/{audioModel.Name}"
-                                );
-                                break;
-                            case FileType.LastEnumElement:
-                                throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
+                        IPackFileInfo fileInfo = ModelToFileInfo(it.FilesType, it.modified);
 
                         var info = new PackModel.ModifiedFile(
                             Config: fileInfo,
@@ -702,6 +664,224 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             );
         }
 
+        private static IPackFileInfo ModelToFileInfo(FileType fileType, ModifiedFileModel model)
+        {
+            return fileType switch
+            {
+                FileType.Texture => ModelToFileInfo((ModifiedTextureModel) model),
+                FileType.Map => ModelToFileInfo((ModifiedMapModel) model),
+                FileType.Character => ModelToFileInfo((ModifiedCharacterModel) model),
+                FileType.Gui => ModelToFileInfo((ModifiedGuiModel) model),
+                FileType.Translation => ModelToFileInfo((ModifiedTranslationModel) model),
+                FileType.Font => ModelToFileInfo((ModifiedFontModel) model),
+                FileType.Audio => ModelToFileInfo((ModifiedAudioModel) model),
+                FileType.Mod => ModelToFileInfo((ModifiedModModel) model),
+                FileType.LastEnumElement => throw new ArgumentException((1 / (8 / (int)FileType.LastEnumElement)).ToString()),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        private static AudioFileInfo ModelToFileInfo(ModifiedAudioModel model)
+        {
+            return new AudioFileInfo(
+                EntryName: string.IsNullOrEmpty(model.Prefix)
+                    ? model.Name
+                    : $"{model.Prefix}/{model.Name}"
+            );
+        }
+
+        private static TextureFileInfo ModelToFileInfo(ModifiedTextureModel model)
+        {
+            return new TextureFileInfo(
+                Type: model.CurrentTextureType,
+                Animated: model.Animated,
+                AnimateInGui: model.AnimateInGui,
+                EntryName: string.IsNullOrEmpty(model.Prefix)
+                    ? model.Name ?? string.Empty
+                    : $"{model.Prefix}/{model.Name}",
+                ElementId: model.ElementId,
+                MillisecondsPerFrame: model.MillisecondsPerFrame,
+                NumberOfVerticalFrames: model.NumberOfVerticalFrames,
+                NumberOfHorizontalFrames: model.NumberOfHorizontalFrames,
+                ApplyOriginalSize: model.ApplyOriginalSize
+            );
+        }
+
+        private static MapFileInfo ModelToFileInfo(ModifiedMapModel model)
+        {
+            return new MapFileInfo(
+                ResultFileName: model.ResultFileName ?? string.Empty
+            );
+        }
+
+        private static CharacterFileInfo ModelToFileInfo(ModifiedCharacterModel model)
+        {
+            return new CharacterFileInfo(
+                ResultFileName: model.ResultFileName
+            );
+        }
+
+        private static GuiFileInfo ModelToFileInfo(ModifiedGuiModel model)
+        {
+            return new GuiFileInfo(
+                Type: TextureFileInfo.TextureType.General,
+                EntryName: string.IsNullOrEmpty(model.Prefix)
+                    ? model.Name ?? string.Empty
+                    : $"{model.Prefix}/{model.Name}",
+                ElementId: 0,
+                Animated: false,
+                AnimateInGui: false,
+                NumberOfVerticalFrames: 1,
+                NumberOfHorizontalFrames: 1,
+                MillisecondsPerFrame: 0,
+                ApplyOriginalSize: true
+            );
+        }
+
+        private static TranslationFileInfo ModelToFileInfo(ModifiedTranslationModel model)
+        {
+            return new TranslationFileInfo(
+                Language: model.CurrentLanguage,
+                IgnoreForCategory: model.IgnoreForCategory
+            );
+        }
+
+        private static FontFileInfo ModelToFileInfo(ModifiedFontModel model)
+        {
+            return new FontFileInfo(
+                EntryName: string.IsNullOrEmpty(model.Prefix)
+                    ? model.Name ?? string.Empty
+                    : $"{model.Prefix}/{model.Name}"
+            );
+        }
+        
+        private static ModFileInfo ModelToFileInfo(ModifiedModModel model)
+        {
+            return new ModFileInfo(
+                Id: model.Id,
+                IgnoreForCategory: model.IgnoreForCategory
+            );
+        }
+
+        private static ModifiedFileModel FileToModel(FileType fileType, string filePath, IPackFileInfo? fileInfo)
+        {
+            return fileType switch
+            {
+                FileType.Texture => FileInfoToModel(filePath, (TextureFileInfo?) fileInfo),
+                FileType.Gui => FileInfoToModel(filePath, (GuiFileInfo?) fileInfo),
+                FileType.Map => FileInfoToModel(filePath, (MapFileInfo?) fileInfo),
+                FileType.Character => FileInfoToModel(filePath, (CharacterFileInfo?) fileInfo),
+                FileType.Translation => FileInfoToModel(filePath, (TranslationFileInfo?) fileInfo),
+                FileType.Font => FileInfoToModel(filePath, (FontFileInfo?) fileInfo),
+                FileType.Audio => FileInfoToModel(filePath, (AudioFileInfo?) fileInfo),
+                FileType.Mod => FileInfoToModel(filePath, (ModFileInfo?) fileInfo),
+                FileType.LastEnumElement => throw new ArgumentException((1 / (8 / (int)FileType.LastEnumElement)).ToString()),
+                _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
+            };
+        }
+
+        private static ModifiedTextureModel FileInfoToModel(string filePath, TextureFileInfo? fileInfo)
+        {
+            var model = new ModifiedTextureModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.Prefix = null;
+                model.Name = fileInfo.EntryName;
+                model.CurrentTextureType = fileInfo.Type;
+                model.Animated = fileInfo.Animated;
+                model.AnimateInGui = fileInfo.AnimateInGui;
+                model.ElementId = fileInfo.ElementId;
+                model.NumberOfVerticalFrames = fileInfo.NumberOfVerticalFrames;
+                model.NumberOfHorizontalFrames = fileInfo.NumberOfHorizontalFrames;
+                model.MillisecondsPerFrame = fileInfo.MillisecondsPerFrame;
+                model.ApplyOriginalSize = fileInfo.ApplyOriginalSize;
+            }
+
+            return model;
+        }
+
+        private static ModifiedGuiModel FileInfoToModel(string filePath, GuiFileInfo? fileInfo)
+        {
+            var model = new ModifiedGuiModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.Prefix = null;
+                model.Name = fileInfo.EntryName;
+            }
+
+            return model;
+        }
+
+        private static ModifiedMapModel FileInfoToModel(string filePath, MapFileInfo? fileInfo)
+        {
+            var model = new ModifiedMapModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.ResultFileName = fileInfo.ResultFileName;
+            }
+
+            return model;
+        }
+
+        private static ModifiedCharacterModel FileInfoToModel(string filePath, CharacterFileInfo? fileInfo)
+        {
+            var model = new ModifiedCharacterModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.ResultFileName = fileInfo.ResultFileName;
+            }
+
+            return model;
+        }
+
+        private static ModifiedTranslationModel FileInfoToModel(string filePath, TranslationFileInfo? fileInfo)
+        {
+            var model = new ModifiedTranslationModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.CurrentLanguage = fileInfo.Language;
+                model.IgnoreForCategory = fileInfo.IgnoreForCategory;
+            }
+
+            return model;
+        }
+
+        private static ModifiedFontModel FileInfoToModel(string filePath, FontFileInfo? fileInfo)
+        {
+            var model = new ModifiedFontModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.Prefix = null;
+                model.Name = fileInfo.EntryName;
+            }
+
+            return model;
+        }
+
+        private static ModifiedAudioModel FileInfoToModel(string filePath, AudioFileInfo? fileInfo)
+        {
+            var model = new ModifiedAudioModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.Prefix = "";
+                model.Name = fileInfo.EntryName;
+            }
+
+            return model;
+        }
+        
+        private static ModifiedModModel FileInfoToModel(string filePath, ModFileInfo? fileInfo)
+        {
+            var model = new ModifiedModModel(filePath, false);
+            if (fileInfo != null)
+            {
+                model.Id = fileInfo.Id;
+                model.IgnoreForCategory = fileInfo.IgnoreForCategory;
+            }
+
+            return model;
+        }
+        
         private void ResetCollections()
         {
             Previews.Clear();
@@ -713,7 +893,7 @@ namespace TerrLauncherPackCreator.Code.ViewModels
             foreach ((FileType fileType, string initialFilesExt, string _) in PackUtils.PacksInfo)
             {
                 // ReSharper disable once LocalVariableHidesMember
-                const int _ = 1 / (7 / (int) FileType.LastEnumElement);
+                const int _ = 1 / (8 / (int) FileType.LastEnumElement);
                 
                 string title = fileType switch {
                     FileType.Texture => StringResources.PackTypeTextures,
@@ -723,6 +903,8 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                     FileType.Translation => StringResources.PackTypeTranslations,
                     FileType.Font => StringResources.PackTypeFonts,
                     FileType.Audio => StringResources.PackTypeAudio,
+                    FileType.Mod => StringResources.PackTypeMods,
+                    FileType.LastEnumElement => throw new ArgumentException(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 var group = new ModifiedFilesGroupModel(title, initialFilesExt, fileType);
@@ -759,106 +941,6 @@ namespace TerrLauncherPackCreator.Code.ViewModels
                 case nameof(RemainedPredefinedTags):
                     AddPredefinedTagCommand.RaiseCanExecuteChanged();
                     break;
-            }
-        }
-
-        private static ModifiedFileModel FileToModel(FileType fileType, string filePath, IPackFileInfo? fileInfo)
-        {
-            switch (fileType)
-            {
-                case FileType.Texture:
-                {
-                    var model = new ModifiedTextureModel(filePath, false);
-                    if (fileInfo != null)
-                    {
-                        var info = (TextureFileInfo) fileInfo;
-                        model.Prefix = null;
-                        model.Name = info.EntryName;
-                        model.CurrentTextureType = info.Type;
-                        model.Animated = info.Animated;
-                        model.AnimateInGui = info.AnimateInGui;
-                        model.ElementId = info.ElementId;
-                        model.NumberOfVerticalFrames = info.NumberOfVerticalFrames;
-                        model.NumberOfHorizontalFrames = info.NumberOfHorizontalFrames;
-                        model.MillisecondsPerFrame = info.MillisecondsPerFrame;
-                        model.ApplyOriginalSize = info.ApplyOriginalSize;
-                    }
-
-                    return model;
-                }
-                case FileType.Gui:
-                {
-                    var model = new ModifiedGuiModel(filePath, false);
-                    if (fileInfo != null)
-                    {
-                        var info = (GuiFileInfo) fileInfo;
-                        model.Prefix = null;
-                        model.Name = info.EntryName;
-                    }
-
-                    return model;
-                }
-                case FileType.Map:
-                {
-                    var model = new ModifiedMapModel(filePath, false);
-                    if (fileInfo != null)
-                    {
-                        var info = (MapFileInfo) fileInfo;
-                        model.ResultFileName = info.ResultFileName;
-                    }
-
-                    return model;
-                }
-                case FileType.Character:
-                {
-                    var model = new ModifiedCharacterModel(filePath, false);
-                    if (fileInfo != null)
-                    {
-                        var info = (CharacterFileInfo) fileInfo;
-                        model.ResultFileName = info.ResultFileName;
-                    }
-
-                    return model;
-                }
-                case FileType.Translation:
-                {
-                    var model = new ModifiedTranslationModel(filePath, false);
-                    if (fileInfo != null)
-                    {
-                        var info = (TranslationFileInfo) fileInfo;
-                        model.CurrentLanguage = info.Language;
-                    }
-
-                    return model;
-                }
-                case FileType.Font:
-                {
-                    var model = new ModifiedFontModel(filePath, false);
-                    if (fileInfo != null)
-                    {
-                        var info = (FontFileInfo) fileInfo;
-                        model.Prefix = null;
-                        model.Name = info.EntryName;
-                    }
-
-                    return model;
-                }
-                case FileType.Audio:
-                {
-                    var model = new ModifiedAudioModel(filePath, false);
-                    if (fileInfo != null)
-                    {
-                        var info = (AudioFileInfo) fileInfo;
-                        model.Prefix = "";
-                        model.Name = info.EntryName;
-                    }
-
-                    return model;
-                }
-                case FileType.LastEnumElement:
-                    throw new ArgumentException((1 / (7 / (int) FileType.LastEnumElement)).ToString());
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
             }
         }
     }

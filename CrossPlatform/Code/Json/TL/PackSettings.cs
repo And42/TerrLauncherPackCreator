@@ -15,7 +15,7 @@ namespace CrossPlatform.Code.Json.TL
             {
                 JObject jsonObject = JObject.Parse(json);
                 int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
-                const int _ = 1 / (17 / PackUtils.LatestPackStructureVersion);
+                const int _ = 1 / (24 / PackUtils.LatestPackStructureVersion);
                 while (packStructureVersion < PackUtils.LatestPackStructureVersion)
                 {
                     if (packStructureVersion <= 15)
@@ -33,7 +33,7 @@ namespace CrossPlatform.Code.Json.TL
                     }
                     else
                     {
-                        packStructureVersion = 17;
+                        packStructureVersion = PackUtils.LatestPackStructureVersion;
                     }
                 }
 

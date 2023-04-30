@@ -7,5 +7,8 @@ namespace CrossPlatform.Code.Json.FileInfos
     {
         [JsonProperty("language", Required = Required.Always)]
         public string Language = null!;
+
+        [JsonProperty("ignore_for_category")]
+        public bool IgnoreForCategory;
     }
 }
