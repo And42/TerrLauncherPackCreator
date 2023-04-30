@@ -4,28 +4,27 @@ using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Enums;
 using TerrLauncherPackCreator.Code.ViewModels;
 
-namespace TerrLauncherPackCreator.Pages.PackCreation
+namespace TerrLauncherPackCreator.Pages.PackCreation;
+
+public partial class PackCreationStep1
 {
-    public partial class PackCreationStep1
+    public PackCreationStep1(PackCreationViewModel viewModel)
     {
-        public PackCreationStep1(PackCreationViewModel viewModel)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            ViewModel = viewModel;
-        }
+        ViewModel = viewModel;
+    }
 
-        private PackCreationViewModel ViewModel
-        {
-            get => (DataContext as PackCreationViewModel).AssertNotNull();
-            init => DataContext = value;
-        }
+    private PackCreationViewModel ViewModel
+    {
+        get => (DataContext as PackCreationViewModel).AssertNotNull();
+        init => DataContext = value;
+    }
 
-        private void PredefinedTag_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var selectedTag = (PredefinedPackTag) ((FrameworkElement) sender).DataContext;
-            if (ViewModel.AddSelectedTagCommand.CanExecute(selectedTag))
-                ViewModel.AddSelectedTagCommand.Execute(selectedTag);
-        }
+    private void PredefinedTag_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        var selectedTag = (PredefinedPackTag) ((FrameworkElement) sender).DataContext;
+        if (ViewModel.AddSelectedTagCommand.CanExecute(selectedTag))
+            ViewModel.AddSelectedTagCommand.Execute(selectedTag);
     }
 }

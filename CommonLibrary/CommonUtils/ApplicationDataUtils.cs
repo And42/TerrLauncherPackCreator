@@ -1,47 +1,46 @@
 ﻿using System;
 using System.IO;
 
-namespace CommonLibrary.CommonUtils
+namespace CommonLibrary.CommonUtils;
+
+public static class ApplicationDataUtils
 {
-    public static class ApplicationDataUtils
+    public static string PathToRootFolder { get; }
+
+    public static string PathToDataFolder { get; }
+
+    public static string PathToSessionTempFolder { get; }
+
+    static ApplicationDataUtils()
     {
-        public static string PathToRootFolder { get; }
+        PathToRootFolder = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "TerrLauncherPackCreator"
+        );
 
-        public static string PathToDataFolder { get; }
+        PathToDataFolder = Path.Combine(PathToRootFolder, "Data");
+        PathToSessionTempFolder = Path.Combine(PathToRootFolder, "SessionTemp");
+    }
 
-        public static string PathToSessionTempFolder { get; }
-
-        static ApplicationDataUtils()
+    public static string GenerateNonExistentFilePath(string? extension = null)
+    {
+        string filePath;
+        do
         {
-            PathToRootFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "TerrLauncherPackCreator"
-            );
+            filePath = Path.Combine(PathToSessionTempFolder, $"{Guid.NewGuid().ToString()}{extension}");
+        } while (File.Exists(filePath));
 
-            PathToDataFolder = Path.Combine(PathToRootFolder, "Data");
-            PathToSessionTempFolder = Path.Combine(PathToRootFolder, "SessionTemp");
-        }
+        return filePath;
+    }
 
-        public static string GenerateNonExistentFilePath(string? extension = null)
+    public static string GenerateNonExistentDirPath()
+    {
+        string dirPath;
+        do
         {
-            string filePath;
-            do
-            {
-                filePath = Path.Combine(PathToSessionTempFolder, $"{Guid.NewGuid().ToString()}{extension}");
-            } while (File.Exists(filePath));
+            dirPath = Path.Combine(PathToSessionTempFolder, Guid.NewGuid().ToString());
+        } while (Directory.Exists(dirPath));
 
-            return filePath;
-        }
-
-        public static string GenerateNonExistentDirPath()
-        {
-            string dirPath;
-            do
-            {
-                dirPath = Path.Combine(PathToSessionTempFolder, Guid.NewGuid().ToString());
-            } while (Directory.Exists(dirPath));
-
-            return dirPath;
-        }
+        return dirPath;
     }
 }

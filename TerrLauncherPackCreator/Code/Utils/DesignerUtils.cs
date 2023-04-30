@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 
-namespace TerrLauncherPackCreator.Code.Utils
+namespace TerrLauncherPackCreator.Code.Utils;
+
+public static class DesignerUtils
 {
-    public static class DesignerUtils
+    public static bool IsInDesignMode()
     {
-        public static bool IsInDesignMode()
-        {
-            return DesignerProperties.GetIsInDesignMode(new DependencyObject());
-        }
+        return DesignerProperties.GetIsInDesignMode(new DependencyObject());
     }
 }

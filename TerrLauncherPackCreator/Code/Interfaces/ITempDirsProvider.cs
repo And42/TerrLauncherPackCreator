@@ -1,9 +1,8 @@
-﻿namespace TerrLauncherPackCreator.Code.Interfaces
-{
-    public interface ITempDirsProvider
-    {
-        string GetNewDir();
+﻿namespace TerrLauncherPackCreator.Code.Interfaces;
 
-        void DeleteAll();
-    }
+public interface ITempDirsProvider
+{
+    string GetNewDir();
+
+    void DeleteAll();
 }

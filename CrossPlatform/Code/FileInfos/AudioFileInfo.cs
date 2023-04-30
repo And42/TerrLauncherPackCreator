@@ -1,9 +1,7 @@
 ﻿using CrossPlatform.Code.Interfaces;
 
-namespace CrossPlatform.Code.FileInfos
-{
+namespace CrossPlatform.Code.FileInfos;
 
-    public record AudioFileInfo(
-        string EntryName
-    ) : IPackFileInfo;
-}
+public record AudioFileInfo(
+    string EntryName
+) : IPackFileInfo;

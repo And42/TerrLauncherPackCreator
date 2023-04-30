@@ -10,99 +10,98 @@ using TerrLauncherPackCreatorUpdater.Windows;
 using File = System.IO.File;
 using ProcessStartInfo = System.Diagnostics.ProcessStartInfo;
 
-namespace TerrLauncherPackCreatorUpdater
+namespace TerrLauncherPackCreatorUpdater;
+
+public partial class App
 {
-    public partial class App
+    protected override void OnStartup(StartupEventArgs e)
     {
-        protected override void OnStartup(StartupEventArgs e)
+        string[] commandLineArguments = e.Args;
+
+        if (commandLineArguments.Length == 0)
         {
-            string[] commandLineArguments = e.Args;
+            CreateShortcut();
+            RunUpdate();
+        }
 
-            if (commandLineArguments.Length == 0)
-            {
-                CreateShortcut();
+        switch (commandLineArguments[0])
+        {
+            case "disable_shortcut":
                 RunUpdate();
-            }
-
-            switch (commandLineArguments[0])
-            {
-                case "disable_shortcut":
-                    RunUpdate();
-                    break;
-                case "process_update":
-                    break;
-                case "delete_temp":
-                    if (commandLineArguments.Length != 2)
-                    {
-                        InvalidArguments();
-                        return;
-                    }
-
-                    try
-                    {
-                        IOUtils.TryDeleteFile(commandLineArguments[1], 20, 500);
-                    }
-                    catch (Exception ex)
-                    {
-                        CrashUtils.HandleException(ex);
-                    }
-
-                    Process.Start(GetCreatorPath());
-
-                    Shutdown(0);
-                    return;
-                default:
+                break;
+            case "process_update":
+                break;
+            case "delete_temp":
+                if (commandLineArguments.Length != 2)
+                {
                     InvalidArguments();
                     return;
-            }
+                }
 
-            base.OnStartup(e);
+                try
+                {
+                    IOUtils.TryDeleteFile(commandLineArguments[1], 20, 500);
+                }
+                catch (Exception ex)
+                {
+                    CrashUtils.HandleException(ex);
+                }
 
-            new UpdaterWindow().Show();
+                Process.Start(GetCreatorPath());
+
+                Shutdown(0);
+                return;
+            default:
+                InvalidArguments();
+                return;
         }
 
-        private static string GetCreatorPath()
+        base.OnStartup(e);
+
+        new UpdaterWindow().Show();
+    }
+
+    private static string GetCreatorPath()
+    {
+        return Path.Combine(ApplicationDataUtils.PathToRootFolder, "TerrLauncherPackCreator.exe");
+    }
+
+    private static void RunUpdate()
+    {
+        string currentExeLocation = Process.GetCurrentProcess().MainModule!.FileName!;
+
+        string tempFile = Path.GetTempFileName();
+
+        File.Copy(currentExeLocation, tempFile, true);
+        Process.Start(new ProcessStartInfo(tempFile, "process_update")
         {
-            return Path.Combine(ApplicationDataUtils.PathToRootFolder, "TerrLauncherPackCreator.exe");
-        }
+            UseShellExecute = false
+        });
 
-        private static void RunUpdate()
-        {
-            string currentExeLocation = Process.GetCurrentProcess().MainModule!.FileName!;
+        Environment.Exit(0);
+    }
 
-            string tempFile = Path.GetTempFileName();
+    private static void CreateShortcut()
+    {
+        var shell = new WshShell();
 
-            File.Copy(currentExeLocation, tempFile, true);
-            Process.Start(new ProcessStartInfo(tempFile, "process_update")
-            {
-                UseShellExecute = false
-            });
+        IWshShortcut shortcut = (IWshShortcut) shell.CreateShortcut(
+            Path.Combine(AppContext.BaseDirectory, "TerrLauncherPackCreator.lnk")
+        );
 
-            Environment.Exit(0);
-        }
+        shortcut.TargetPath = GetCreatorPath();
+        shortcut.Save();
+    }
 
-        private static void CreateShortcut()
-        {
-            var shell = new WshShell();
+    private void InvalidArguments()
+    {
+        MessageBox.Show(
+            StringResources.InvalidArguments,
+            StringResources.ErrorLower,
+            MessageBoxButton.OK,
+            MessageBoxImage.Error
+        );
 
-            IWshShortcut shortcut = (IWshShortcut) shell.CreateShortcut(
-                Path.Combine(AppContext.BaseDirectory, "TerrLauncherPackCreator.lnk")
-            );
-
-            shortcut.TargetPath = GetCreatorPath();
-            shortcut.Save();
-        }
-
-        private void InvalidArguments()
-        {
-            MessageBox.Show(
-                StringResources.InvalidArguments,
-                StringResources.ErrorLower,
-                MessageBoxButton.OK,
-                MessageBoxImage.Error
-            );
-
-            Shutdown(1);
-        }
+        Shutdown(1);
     }
 }

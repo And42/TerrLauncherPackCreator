@@ -2,13 +2,12 @@
 using System.Windows;
 using MVVM_Tools.Code.Classes;
 
-namespace TerrLauncherPackCreator.Code.Converters
+namespace TerrLauncherPackCreator.Code.Converters;
+
+public class VisibleIfEqualToParameterConverter : ConverterBase<object, Visibility>
 {
-    public class VisibleIfEqualToParameterConverter : ConverterBase<object, Visibility>
+    public override Visibility ConvertInternal(object value, object parameter, CultureInfo culture)
     {
-        public override Visibility ConvertInternal(object value, object parameter, CultureInfo culture)
-        {
-            return Equals(value, parameter) ? Visibility.Visible : Visibility.Collapsed;
-        }
+        return Equals(value, parameter) ? Visibility.Visible : Visibility.Collapsed;
     }
 }

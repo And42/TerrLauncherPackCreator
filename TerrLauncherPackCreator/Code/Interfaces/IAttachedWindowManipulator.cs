@@ -1,7 +1,6 @@
-﻿namespace TerrLauncherPackCreator.Code.Interfaces
+﻿namespace TerrLauncherPackCreator.Code.Interfaces;
+
+public interface IAttachedWindowManipulator
 {
-    public interface IAttachedWindowManipulator
-    {
-        void Close();
-    }
+    void Close();
 }

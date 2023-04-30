@@ -1,22 +1,21 @@
 ﻿using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.ViewModels;
 
-namespace TerrLauncherPackCreator.Windows
+namespace TerrLauncherPackCreator.Windows;
+
+public partial class AuthorEditorWindow
 {
-    public partial class AuthorEditorWindow
+    public AuthorEditorWindow(
+        AuthorItemModel authorModel
+    )
     {
-        public AuthorEditorWindow(
-            AuthorItemModel authorModel
-        )
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            ViewModel = new AuthorEditorWindowViewModel(authorModel);
-        }
+        ViewModel = new AuthorEditorWindowViewModel(authorModel);
+    }
 
-        public AuthorEditorWindowViewModel ViewModel
-        {
-            init => DataContext = value;
-        }
+    public AuthorEditorWindowViewModel ViewModel
+    {
+        init => DataContext = value;
     }
 }

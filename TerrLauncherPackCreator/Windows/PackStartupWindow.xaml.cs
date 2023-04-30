@@ -3,38 +3,37 @@ using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.ViewModels;
 
-namespace TerrLauncherPackCreator.Windows
+namespace TerrLauncherPackCreator.Windows;
+
+public partial class PackStartupWindow
 {
-    public partial class PackStartupWindow
+    private PackStartupWindowViewModel ViewModel
     {
-        private PackStartupWindowViewModel ViewModel
-        {
-            get => (DataContext as PackStartupWindowViewModel).AssertNotNull();
-            init => DataContext = value;
-        }
+        get => (DataContext as PackStartupWindowViewModel).AssertNotNull();
+        init => DataContext = value;
+    }
 
-        public PackStartupWindow()
-        {
-            InitializeComponent();
+    public PackStartupWindow()
+    {
+        InitializeComponent();
 
-            ViewModel = new PackStartupWindowViewModel(
-                new AttachedWindowManipulator(this),
-                ValuesProvider.AppSettings
-            )
-            {
-                RecreateWindow = RecreateWindow
-            };
-        }
-
-        private void PackStartupWindow_OnSourceInitialized(object sender, EventArgs e)
+        ViewModel = new PackStartupWindowViewModel(
+            new AttachedWindowManipulator(this),
+            ValuesProvider.AppSettings
+        )
         {
-            WindowUtils.RemoveIcon(this);
-        }
+            RecreateWindow = RecreateWindow
+        };
+    }
+
+    private void PackStartupWindow_OnSourceInitialized(object sender, EventArgs e)
+    {
+        WindowUtils.RemoveIcon(this);
+    }
         
-        private void RecreateWindow()
-        {
-            new PackStartupWindow().Show();
-            Close();
-        }
+    private void RecreateWindow()
+    {
+        new PackStartupWindow().Show();
+        Close();
     }
 }

@@ -1,21 +1,20 @@
 ﻿using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Code.ViewModels;
 
-namespace TerrLauncherPackCreator.Pages.PackCreation
+namespace TerrLauncherPackCreator.Pages.PackCreation;
+
+public partial class PackCreationStep5
 {
-    public partial class PackCreationStep5
+    public PackCreationStep5(PackCreationViewModel viewModel)
     {
-        public PackCreationStep5(PackCreationViewModel viewModel)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            ViewModel = viewModel;
-        }
+        ViewModel = viewModel;
+    }
 
-        private PackCreationViewModel ViewModel
-        {
-            get => (DataContext as PackCreationViewModel).AssertNotNull();
-            init => DataContext = value;
-        }
+    private PackCreationViewModel ViewModel
+    {
+        get => (DataContext as PackCreationViewModel).AssertNotNull();
+        init => DataContext = value;
     }
 }

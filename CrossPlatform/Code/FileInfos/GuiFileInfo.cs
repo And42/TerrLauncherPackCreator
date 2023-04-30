@@ -1,30 +1,29 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace CrossPlatform.Code.FileInfos {
+namespace CrossPlatform.Code.FileInfos;
 
-    public record GuiFileInfo : TextureFileInfo
-    {
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        public GuiFileInfo(
-            TextureType Type,
-            string EntryName,
-            int ElementId,
-            bool Animated,
-            bool AnimateInGui,
-            int NumberOfVerticalFrames,
-            int NumberOfHorizontalFrames,
-            int MillisecondsPerFrame,
-            bool ApplyOriginalSize
-        ) : base(
-            Type,
-            EntryName,
-            ElementId,
-            Animated,
-            AnimateInGui,
-            NumberOfVerticalFrames,
-            NumberOfHorizontalFrames,
-            MillisecondsPerFrame,
-            ApplyOriginalSize
-        ) { }
-    }
+public record GuiFileInfo : TextureFileInfo
+{
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public GuiFileInfo(
+        TextureType Type,
+        string EntryName,
+        int ElementId,
+        bool Animated,
+        bool AnimateInGui,
+        int NumberOfVerticalFrames,
+        int NumberOfHorizontalFrames,
+        int MillisecondsPerFrame,
+        bool ApplyOriginalSize
+    ) : base(
+        Type,
+        EntryName,
+        ElementId,
+        Animated,
+        AnimateInGui,
+        NumberOfVerticalFrames,
+        NumberOfHorizontalFrames,
+        MillisecondsPerFrame,
+        ApplyOriginalSize
+    ) { }
 }

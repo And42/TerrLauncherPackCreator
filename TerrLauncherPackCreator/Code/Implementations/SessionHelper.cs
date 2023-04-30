@@ -2,22 +2,21 @@
 using CrossPlatform.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Interfaces;
 
-namespace TerrLauncherPackCreator.Code.Implementations
+namespace TerrLauncherPackCreator.Code.Implementations;
+
+public class SessionHelper : ISessionHelper
 {
-    public class SessionHelper : ISessionHelper
+    public static readonly SessionHelper Instance = new();
+
+    private SessionHelper() {}
+
+    public string GenerateNonExistentDirPath()
     {
-        public static readonly SessionHelper Instance = new();
+        return ApplicationDataUtils.GenerateNonExistentDirPath();
+    }
 
-        private SessionHelper() {}
-
-        public string GenerateNonExistentDirPath()
-        {
-            return ApplicationDataUtils.GenerateNonExistentDirPath();
-        }
-
-        public string GenerateNonExistentFilePath(string? extension = null)
-        {
-            return ApplicationDataUtils.GenerateNonExistentFilePath();
-        }
+    public string GenerateNonExistentFilePath(string? extension = null)
+    {
+        return ApplicationDataUtils.GenerateNonExistentFilePath();
     }
 }

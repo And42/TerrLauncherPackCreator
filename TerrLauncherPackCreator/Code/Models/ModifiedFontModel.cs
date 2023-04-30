@@ -1,35 +1,34 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 
-namespace TerrLauncherPackCreator.Code.Models
+namespace TerrLauncherPackCreator.Code.Models;
+
+public class ModifiedFontModel : ModifiedFileModel
 {
-    public class ModifiedFontModel : ModifiedFileModel
+    public string? Prefix
     {
-        public string? Prefix
-        {
-            get => _prefix;
-            set => SetProperty(ref _prefix, value);
-        }
-        private string? _prefix;
+        get => _prefix;
+        set => SetProperty(ref _prefix, value);
+    }
+    private string? _prefix;
         
-        public string? Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-        private string? _name;
+    public string? Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
+    }
+    private string? _name;
 
-        public ObservableCollection<string> CommonPrefixes { get; }
+    public ObservableCollection<string> CommonPrefixes { get; }
 
-        public ModifiedFontModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
+    public ModifiedFontModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
+    {
+        _name = Path.GetFileNameWithoutExtension(filePath);
+        CommonPrefixes = new ObservableCollection<string>
         {
-            _name = Path.GetFileNameWithoutExtension(filePath);
-            CommonPrefixes = new ObservableCollection<string>
-            {
-                "",
-                "Content/Fonts"
-            };
-            _prefix = CommonPrefixes[1];
-        }
+            "",
+            "Content/Fonts"
+        };
+        _prefix = CommonPrefixes[1];
     }
 }

@@ -6,31 +6,30 @@ using System.Windows;
 using System.Windows.Data;
 using TextureType = CrossPlatform.Code.FileInfos.TextureFileInfo.TextureType;
 
-namespace TerrLauncherPackCreator.Code.Converters
+namespace TerrLauncherPackCreator.Code.Converters;
+
+public class TextureModelToHorizontalFramesVisibility : IMultiValueConverter
 {
-    public class TextureModelToHorizontalFramesVisibility : IMultiValueConverter
-    {
-        private static readonly IList<TextureType> HorizontalFramesVisibleTypes = new List<TextureType> {
-            TextureType.General,
-            TextureType.NpcDeprecated,
-            TextureType.Item
-        };
-        private static readonly object VisibleObject = Visibility.Visible;
-        private static readonly object CollapsedObject = Visibility.Collapsed;
+    private static readonly IList<TextureType> HorizontalFramesVisibleTypes = new List<TextureType> {
+        TextureType.General,
+        TextureType.NpcDeprecated,
+        TextureType.Item
+    };
+    private static readonly object VisibleObject = Visibility.Visible;
+    private static readonly object CollapsedObject = Visibility.Collapsed;
         
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            Debug.Assert(targetType == typeof(Visibility));
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+        Debug.Assert(targetType == typeof(Visibility));
 
-            bool animated = (bool) values[0];
-            TextureType currentTextureType = (TextureType) values[1];
+        bool animated = (bool) values[0];
+        TextureType currentTextureType = (TextureType) values[1];
 
-            return animated && HorizontalFramesVisibleTypes.Contains(currentTextureType) ? VisibleObject : CollapsedObject;
-        }
+        return animated && HorizontalFramesVisibleTypes.Contains(currentTextureType) ? VisibleObject : CollapsedObject;
+    }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }

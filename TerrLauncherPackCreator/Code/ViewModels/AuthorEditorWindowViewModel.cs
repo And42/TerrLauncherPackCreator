@@ -13,131 +13,130 @@ using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 
-namespace TerrLauncherPackCreator.Code.ViewModels
+namespace TerrLauncherPackCreator.Code.ViewModels;
+
+public class AuthorEditorWindowViewModel : ViewModelBase
 {
-    public class AuthorEditorWindowViewModel : ViewModelBase
+    public AuthorItemModel EditableAuthor { get; }
+        
+    public IActionCommand<string> DropAuthorImageCommand { get; }
+        
+    public IActionCommand<AuthorJson> DeleteSavedAuthor { get; }
+        
+    public IActionCommand SaveAuthor { get; }
+        
+    public ObservableCollection<AuthorJson> SavedAuthors { get; }
+
+    public AuthorJson? SelectedSavedAuthor
     {
-        public AuthorItemModel EditableAuthor { get; }
-        
-        public IActionCommand<string> DropAuthorImageCommand { get; }
-        
-        public IActionCommand<AuthorJson> DeleteSavedAuthor { get; }
-        
-        public IActionCommand SaveAuthor { get; }
-        
-        public ObservableCollection<AuthorJson> SavedAuthors { get; }
+        get => _selectedSavedAuthor;
+        set => SetProperty(ref _selectedSavedAuthor, value);
+    }
+    private AuthorJson? _selectedSavedAuthor;
 
-        public AuthorJson? SelectedSavedAuthor
+    public AuthorEditorWindowViewModel(
+        AuthorItemModel editableAuthor
+    )
+    {
+        EditableAuthor = editableAuthor;
+        SavedAuthors = new ObservableCollection<AuthorJson>();
+        DropAuthorImageCommand = new ActionCommand<string>(DropAuthorImage_Execute, DropAuthorImageCommand_CanExecute);
+        DeleteSavedAuthor = new ActionCommand<AuthorJson>(DeleteSavedAuthor_Execute);
+        SaveAuthor = new ActionCommand(SaveAuthor_Execute);
+
+        if (File.Exists(Paths.AuthorsFile))
         {
-            get => _selectedSavedAuthor;
-            set => SetProperty(ref _selectedSavedAuthor, value);
+            AuthorsJson savedAuthors = AuthorsJson.Processor.Deserialize(File.ReadAllText(Paths.AuthorsFile));
+            savedAuthors.Authors?.Select(it => new AuthorJson(
+                name: it.Name,
+                color: it.Color,
+                link: it.Link,
+                icon: it.Icon,
+                iconHeight: it.IconHeight
+            )).ForEach(SavedAuthors.Add);
         }
-        private AuthorJson? _selectedSavedAuthor;
-
-        public AuthorEditorWindowViewModel(
-            AuthorItemModel editableAuthor
-        )
-        {
-            EditableAuthor = editableAuthor;
-            SavedAuthors = new ObservableCollection<AuthorJson>();
-            DropAuthorImageCommand = new ActionCommand<string>(DropAuthorImage_Execute, DropAuthorImageCommand_CanExecute);
-            DeleteSavedAuthor = new ActionCommand<AuthorJson>(DeleteSavedAuthor_Execute);
-            SaveAuthor = new ActionCommand(SaveAuthor_Execute);
-
-            if (File.Exists(Paths.AuthorsFile))
-            {
-                AuthorsJson savedAuthors = AuthorsJson.Processor.Deserialize(File.ReadAllText(Paths.AuthorsFile));
-                savedAuthors.Authors?.Select(it => new AuthorJson(
-                    name: it.Name,
-                    color: it.Color,
-                    link: it.Link,
-                    icon: it.Icon,
-                    iconHeight: it.IconHeight
-                )).ForEach(SavedAuthors.Add);
-            }
             
-            PropertyChanged += OnPropertyChanged;
-        }
+        PropertyChanged += OnPropertyChanged;
+    }
 
-        private void SaveAuthor_Execute()
-        {
-            SavedAuthors.Add(new AuthorJson(
-                name: EditableAuthor.Name,
-                color: EditableAuthor.Color,
-                icon: EditableAuthor.Image == null
-                    ? null
-                    : new AuthorJson.IconJson {
-                        Bytes = EditableAuthor.Image.Bytes,
-                        Type = EditableAuthor.Image.Type
-                    },
-                link: EditableAuthor.Link,
-                iconHeight: EditableAuthor.IconHeight
-            ));
-            WriteAuthorsToFile();
-        }
+    private void SaveAuthor_Execute()
+    {
+        SavedAuthors.Add(new AuthorJson(
+            name: EditableAuthor.Name,
+            color: EditableAuthor.Color,
+            icon: EditableAuthor.Image == null
+                ? null
+                : new AuthorJson.IconJson {
+                    Bytes = EditableAuthor.Image.Bytes,
+                    Type = EditableAuthor.Image.Type
+                },
+            link: EditableAuthor.Link,
+            iconHeight: EditableAuthor.IconHeight
+        ));
+        WriteAuthorsToFile();
+    }
 
-        private void DropAuthorImage_Execute(string iconPath) {
-            ImageInfo.ImageType imageType;
-            switch (Path.GetExtension(iconPath)) {
-                case ".png":
-                    imageType = ImageInfo.ImageType.Png;
-                    break;
-                case ".gif":
-                    imageType = ImageInfo.ImageType.Gif;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension");
-            }
+    private void DropAuthorImage_Execute(string iconPath) {
+        ImageInfo.ImageType imageType;
+        switch (Path.GetExtension(iconPath)) {
+            case ".png":
+                imageType = ImageInfo.ImageType.Png;
+                break;
+            case ".gif":
+                imageType = ImageInfo.ImageType.Gif;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension");
+        }
             
-            EditableAuthor.Image = new ImageInfo(File.ReadAllBytes(iconPath), imageType);
+        EditableAuthor.Image = new ImageInfo(File.ReadAllBytes(iconPath), imageType);
+    }
+
+    private void DeleteSavedAuthor_Execute(AuthorJson? obj)
+    {
+        if (obj == null)
+            return;
+
+        SavedAuthors.Remove(obj);
+        WriteAuthorsToFile();
+    }
+
+    private bool DropAuthorImageCommand_CanExecute(string filePath)
+    {
+        if (Working || !File.Exists(filePath)) {
+            return false;
         }
 
-        private void DeleteSavedAuthor_Execute(AuthorJson? obj)
-        {
-            if (obj == null)
-                return;
+        string extension = Path.GetExtension(filePath);
+        return extension == ".png" || extension == ".gif";
+    }
 
-            SavedAuthors.Remove(obj);
-            WriteAuthorsToFile();
-        }
-
-        private bool DropAuthorImageCommand_CanExecute(string filePath)
-        {
-            if (Working || !File.Exists(filePath)) {
-                return false;
-            }
-
-            string extension = Path.GetExtension(filePath);
-            return extension == ".png" || extension == ".gif";
-        }
-
-        private void WriteAuthorsToFile() {
-            var model = AuthorsJson.CreateLatest();
-            model.Authors = SavedAuthors.ToList();
-            IOUtils.EnsureParentDirExists(Paths.AuthorsFile);
-            File.WriteAllText(Paths.AuthorsFile, AuthorsJson.Processor.Serialize(model), Encoding.UTF8);
-        }
+    private void WriteAuthorsToFile() {
+        var model = AuthorsJson.CreateLatest();
+        model.Authors = SavedAuthors.ToList();
+        IOUtils.EnsureParentDirExists(Paths.AuthorsFile);
+        File.WriteAllText(Paths.AuthorsFile, AuthorsJson.Processor.Serialize(model), Encoding.UTF8);
+    }
         
-        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
         {
-            switch (e.PropertyName)
-            {
-                case nameof(SelectedSavedAuthor):
-                    if (SelectedSavedAuthor == null)
-                        return;
+            case nameof(SelectedSavedAuthor):
+                if (SelectedSavedAuthor == null)
+                    return;
 
-                    EditableAuthor.Name = SelectedSavedAuthor.Name;
-                    EditableAuthor.Color = SelectedSavedAuthor.Color;
-                    EditableAuthor.Link = SelectedSavedAuthor.Link;
-                    EditableAuthor.IconHeight = SelectedSavedAuthor.IconHeight;
-                    if (SelectedSavedAuthor.Icon != null) {
-                        EditableAuthor.Image = new ImageInfo(
-                            SelectedSavedAuthor.Icon.Bytes, SelectedSavedAuthor.Icon.Type
-                        );
-                    }
+                EditableAuthor.Name = SelectedSavedAuthor.Name;
+                EditableAuthor.Color = SelectedSavedAuthor.Color;
+                EditableAuthor.Link = SelectedSavedAuthor.Link;
+                EditableAuthor.IconHeight = SelectedSavedAuthor.IconHeight;
+                if (SelectedSavedAuthor.Icon != null) {
+                    EditableAuthor.Image = new ImageInfo(
+                        SelectedSavedAuthor.Icon.Bytes, SelectedSavedAuthor.Icon.Type
+                    );
+                }
 
-                    break;
-            }
+                break;
         }
     }
 }

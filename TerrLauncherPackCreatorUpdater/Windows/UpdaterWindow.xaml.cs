@@ -4,31 +4,30 @@ using System.Windows.Shell;
 using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreatorUpdater.Code.ViewModels;
 
-namespace TerrLauncherPackCreatorUpdater.Windows
+namespace TerrLauncherPackCreatorUpdater.Windows;
+
+public partial class UpdaterWindow
 {
-    public partial class UpdaterWindow
+    public UpdaterWindowViewModel ViewModel
     {
-        public UpdaterWindowViewModel ViewModel
-        {
-            get => DataContext as UpdaterWindowViewModel ?? throw new InvalidOperationException();
-            init => DataContext = value;
-        }
+        get => DataContext as UpdaterWindowViewModel ?? throw new InvalidOperationException();
+        init => DataContext = value;
+    }
 
-        public UpdaterWindow()
-        {
-            InitializeComponent();
+    public UpdaterWindow()
+    {
+        InitializeComponent();
             
-            ViewModel = new UpdaterWindowViewModel(TaskbarItemInfo = new TaskbarItemInfo());
-        }
+        ViewModel = new UpdaterWindowViewModel(TaskbarItemInfo = new TaskbarItemInfo());
+    }
 
-        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.StartLoading();
-        }
+    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        ViewModel.StartLoading();
+    }
 
-        private void MainWindow_OnSourceInitialized(object sender, EventArgs e)
-        {
-            WindowUtils.RemoveIcon(this);
-        }
+    private void MainWindow_OnSourceInitialized(object sender, EventArgs e)
+    {
+        WindowUtils.RemoveIcon(this);
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace CommonLibrary.CommonUtils
+namespace CommonLibrary.CommonUtils;
+
+public static class CrashUtils
 {
-    public static class CrashUtils
+    public static void HandleException(Exception exception)
     {
-        public static void HandleException(Exception exception)
-        {
 #if DEBUG
-            throw exception;
+        throw exception;
 #endif
-        }
     }
 }
