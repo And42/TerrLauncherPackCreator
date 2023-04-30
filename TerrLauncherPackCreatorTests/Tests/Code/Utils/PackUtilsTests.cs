@@ -34,12 +34,12 @@ public class PackUtilsTests
     }
 
     [TestMethod]
-    public void PacksInfo_PackInitialFilesExtensionsWithDot()
+    public void PacksInfo_PackInitialFilesExtensionsShouldBeEmptyOrWithDot()
     {
         foreach (var item in PackUtils.PacksInfo)
         {
             string packExt = item.InitialFilesExt;
-            Assert.IsTrue(packExt[0] == '.' && packExt.Count(ch => ch == '.') == 1);
+            Assert.IsTrue(packExt == "" || packExt[0] == '.' && packExt.Count(ch => ch == '.') == 1);
         }
     }
 
