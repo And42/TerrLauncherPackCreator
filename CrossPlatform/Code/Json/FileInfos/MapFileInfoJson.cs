@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class MapFileInfoJson
 {
-    [JsonProperty("result_file_name", Required = Required.Always)]
+    [JsonPropertyName("result_file_name")]
+    [JsonRequired]
     public string ResultFileName = null!;
 }

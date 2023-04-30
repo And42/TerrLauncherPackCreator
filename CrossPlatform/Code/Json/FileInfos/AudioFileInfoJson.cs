@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class AudioFileInfoJson
 {
-    [JsonProperty("entry_name", Required = Required.Always)]
+    [JsonPropertyName("entry_name")]
+    [JsonRequired]
     public string EntryName = null!;
 }

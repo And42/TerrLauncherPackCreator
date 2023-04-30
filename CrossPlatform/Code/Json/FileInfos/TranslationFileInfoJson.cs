@@ -1,13 +1,14 @@
-﻿using CrossPlatform.Code.Interfaces;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using CrossPlatform.Code.Interfaces;
 
 namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class TranslationFileInfoJson : IPackFileInfo
 {
-    [JsonProperty("language", Required = Required.Always)]
+    [JsonPropertyName("language")]
+    [JsonRequired]
     public string Language = null!;
 
-    [JsonProperty("ignore_for_category")]
+    [JsonPropertyName("ignore_for_category")]
     public bool IgnoreForCategory;
 }

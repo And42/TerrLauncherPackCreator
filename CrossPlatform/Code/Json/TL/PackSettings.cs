@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using CrossPlatform.Code.Enums;
 using CrossPlatform.Code.Utils;
 using Newtonsoft.Json;
@@ -13,8 +16,8 @@ public class PackSettings
     {
         public static PackSettings Deserialize(string json)
         {
-            JObject jsonObject = JObject.Parse(json);
-            int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
+            JsonNode jsonObject = JsonSerializer.Deserialize<JsonNode>(json);
+            int packStructureVersion = jsonObject["packStructureVersion"]?.GetValue<int>() ?? 0;
             const int _ = 1 / (24 / PackUtils.LatestPackStructureVersion);
             while (packStructureVersion < PackUtils.LatestPackStructureVersion)
             {
@@ -87,37 +90,37 @@ public class PackSettings
     }
 
     // deprecated
-    // [JsonProperty("terrariaStructureVersion")]
+    // [JsonPropertyName("terrariaStructureVersion")]
     // public int TerrariaStructureVersion { get; set; }
 
-    [JsonProperty("packStructureVersion")]
+    [JsonPropertyName("packStructureVersion")]
     public int PackStructureVersion { get; set; }
 
-    [JsonProperty("title")]
+    [JsonPropertyName("title")]
     public string Title { get; set; } = null!;
 
-    [JsonProperty("descriptionEnglish")]
+    [JsonPropertyName("descriptionEnglish")]
     public string? DescriptionEnglish { get; set; }
         
-    [JsonProperty("descriptionRussian")]
+    [JsonPropertyName("descriptionRussian")]
     public string? DescriptionRussian { get; set; }
 
-    [JsonProperty("version")]
+    [JsonPropertyName("version")]
     public int Version { get; set; }
         
-    [JsonProperty("guid")]
+    [JsonPropertyName("guid")]
     public Guid Guid { get; set; }
 
-    [JsonProperty("authors")]
+    [JsonPropertyName("authors")]
     public List<AuthorJson>? Authors { get; set; }
 
-    [JsonProperty("predefined_tags")]
+    [JsonPropertyName("predefined_tags")]
     public List<PredefinedPackTag>? PredefinedTags { get; set; }
 
-    [JsonProperty("is_bonus")]
+    [JsonPropertyName("is_bonus")]
     public bool IsBonus { get; set; }
 
-    [JsonProperty("bonus_type")]
+    [JsonPropertyName("bonus_type")]
     public BonusType BonusType { get; set; }
 
     public PackSettings() {}
