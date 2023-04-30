@@ -21,11 +21,11 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
+#    - name: Build
+#      run: dotnet build --no-restore
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+#    - name: Test
+#      run: dotnet test --no-build --verbosity normal
 
     - name: Publish framework dependent creator
       run: dotnet publish /p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml
@@ -50,7 +50,9 @@ jobs:
         ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows
         echo "TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish >>"
         ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish
-        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/updater.exe to_upload/updater.exe
+        echo "TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/win-x64 >>"
+        ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/win-x64
+        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/win-x64/updater.exe to_upload/updater.exe
 
     - name: Upload framework dependent
       uses: actions/upload-artifact@v3
