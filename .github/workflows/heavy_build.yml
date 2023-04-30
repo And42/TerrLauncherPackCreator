@@ -38,6 +38,18 @@ jobs:
         mkdir to_upload
         cp TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe to_upload/TerrLauncherPackCreator.exe
         cp TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll to_upload/libwebp_x64.dll
+        echo ".. >>"
+        ls ..
+        echo "TerrLauncherPackCreatorUpdater >>"
+        ls TerrLauncherPackCreatorUpdater
+        echo "TerrLauncherPackCreatorUpdater/bin >>"
+        ls TerrLauncherPackCreatorUpdater/bin
+        echo "TerrLauncherPackCreatorUpdater/bin/Release >>"
+        ls TerrLauncherPackCreatorUpdater/bin/Release
+        echo "TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows >>"
+        ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows
+        echo "TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish >>"
+        ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish
         cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/updater.exe to_upload/updater.exe
 
     - name: Upload framework dependent
