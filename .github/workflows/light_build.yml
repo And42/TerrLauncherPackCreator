@@ -29,8 +29,8 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    - name: Publish framework dependent
-      run: dotnet publish /p:PublishProfile=net-7.0-windows-x64-framework-dependent.pubxml
+    - name: Publish framework dependent creator
+      run: dotnet publish /p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml
 
     - name: Upload framework dependent
       uses: actions/upload-artifact@v3
