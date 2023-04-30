@@ -1,4 +1,4 @@
-U# TerrLauncherPackCreator
+# TerrLauncherPackCreator
 
 Just an app that can help you to create packs for TL Pro: https://play.google.com/store/apps/details?id=com.pixelcurves.terlauncher
 
