@@ -33,12 +33,16 @@ jobs:
     - name: Publish framework dependent updater
       run: dotnet publish /p:PublishProfile=updater-net-7.0-windows-x64-framework-dependent.pubxml
 
+    - name: Copy all files into uplod directory
+      run: |
+        mkdir to_upload
+        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe to_upload/TerrLauncherPackCreator.exe
+        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll to_upload/libwebp_x64.dll
+        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/updater.exe to_upload/updater.exe
+
     - name: Upload framework dependent
       uses: actions/upload-artifact@v3
       with:
         name: net-7.0-windows-x64-framework-dependent
-        path: |
-          TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe
-          TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll
-          TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/updater.exe
+        path: to_upload/**
         if-no-files-found: error
