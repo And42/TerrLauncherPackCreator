@@ -36,12 +36,13 @@ jobs:
       run: dotnet publish TerrLauncherPackCreatorUpdater/TerrLauncherPackCreatorUpdater.csproj --configuration Release --runtime win-x64 -p:PublishSingleFile=true --self-contained false
 
     - name: Copy all files into upload directory
+      # mkdir -p creates all directories in path
       run: |
-        mkdir --parents to_upload/data
+        mkdir -p to_upload/data
         cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/TerrLauncherPackCreator.exe to_upload/data/TerrLauncherPackCreator.exe
         cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/libwebp_x64.dll to_upload/data/libwebp_x64.dll
         cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/win-x64/publish/updater.exe to_upload/data/updater.exe
-        mkdir --parents to_upload/installer
+        mkdir -p to_upload/installer
         cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/win-x64/publish/updater.exe to_upload/installer/installer.exe
 
     - name: Upload data
