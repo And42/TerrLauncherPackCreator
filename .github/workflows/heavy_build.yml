@@ -21,42 +21,37 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-#    - name: Build
-#      run: dotnet build --no-restore
+    - name: Build
+      run: dotnet build --no-restore
 
-#    - name: Test
-#      run: dotnet test --no-build --verbosity normal
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
 
     - name: Publish framework dependent creator
-      run: dotnet publish TerrLauncherPackCreator /p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml
+      # dotnet command can not handle some of pubxml profiles' data. Using plain commands just to not have to much headache
+      run: dotnet publish TerrLauncherPackCreator/TerrLauncherPackCreator.csproj --configuration Release --runtime win-x64 -p:PublishSingleFile=true --self-contained false
 
     - name: Publish framework dependent updater
-      run: dotnet publish TerrLauncherPackCreatorUpdater /p:PublishProfile=updater-net-7.0-windows-x64-framework-dependent.pubxml
+      # dotnet command can not handle some of pubxml profiles' data. Using plain commands just to not have to much headache
+      run: dotnet publish TerrLauncherPackCreatorUpdater/TerrLauncherPackCreatorUpdater.csproj --configuration Release --runtime win-x64 -p:PublishSingleFile=true --self-contained false
 
     - name: Copy all files into upload directory
       run: |
         mkdir to_upload
-        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe to_upload/TerrLauncherPackCreator.exe
-        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll to_upload/libwebp_x64.dll
-        echo ".. >>"
-        ls ..
-        echo "TerrLauncherPackCreatorUpdater >>"
-        ls TerrLauncherPackCreatorUpdater
-        echo "TerrLauncherPackCreatorUpdater/bin >>"
-        ls TerrLauncherPackCreatorUpdater/bin
-        echo "TerrLauncherPackCreatorUpdater/bin/Release >>"
-        ls TerrLauncherPackCreatorUpdater/bin/Release
-        echo "TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows >>"
-        ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows
-        echo "TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish >>"
-        ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish
-        echo "TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/win-x64 >>"
-        ls TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/win-x64
-        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/publish/win-x64/updater.exe to_upload/updater.exe
+        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/TerrLauncherPackCreator.exe to_upload/TerrLauncherPackCreator.exe
+        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/libwebp_x64.dll to_upload/libwebp_x64.dll
+        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/win-x64/publish/updater.exe to_upload/updater.exe
 
-    - name: Upload framework dependent
+    - name: Upload data
       uses: actions/upload-artifact@v3
       with:
-        name: net-7.0-windows-x64-framework-dependent
+        name: data-net-7.0-windows-x64-framework-dependent
         path: to_upload/**
+        if-no-files-found: error
+        
+    - name: Upload installer
+      uses: actions/upload-artifact@v3
+      with:
+        name: installer-net-7.0-windows-x64-framework-dependent
+        path: to_upload/updater.exe
         if-no-files-found: error
