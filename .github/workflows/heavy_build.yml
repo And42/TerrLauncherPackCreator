@@ -37,21 +37,23 @@ jobs:
 
     - name: Copy all files into upload directory
       run: |
-        mkdir to_upload
-        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/TerrLauncherPackCreator.exe to_upload/TerrLauncherPackCreator.exe
-        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/libwebp_x64.dll to_upload/libwebp_x64.dll
-        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/win-x64/publish/updater.exe to_upload/updater.exe
+        mkdir --parents to_upload/data
+        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/TerrLauncherPackCreator.exe to_upload/data/TerrLauncherPackCreator.exe
+        cp TerrLauncherPackCreator/bin/Release/net7.0-windows/win-x64/publish/libwebp_x64.dll to_upload/data/libwebp_x64.dll
+        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/win-x64/publish/updater.exe to_upload/data/updater.exe
+        mkdir --parents to_upload/installer
+        cp TerrLauncherPackCreatorUpdater/bin/Release/net7.0-windows/win-x64/publish/updater.exe to_upload/installer/installer.exe
 
     - name: Upload data
       uses: actions/upload-artifact@v3
       with:
         name: data-net-7.0-windows-x64-framework-dependent
-        path: to_upload/**
+        path: to_upload/data/**
         if-no-files-found: error
         
     - name: Upload installer
       uses: actions/upload-artifact@v3
       with:
         name: installer-net-7.0-windows-x64-framework-dependent
-        path: to_upload/updater.exe
+        path: to_upload/installer/**
         if-no-files-found: error

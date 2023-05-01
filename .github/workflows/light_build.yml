@@ -28,15 +28,3 @@ jobs:
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
-
-    - name: Publish framework dependent creator
-      run: dotnet publish /p:PublishProfile=creator-net-7.0-windows-x64-framework-dependent.pubxml
-
-    - name: Upload framework dependent
-      uses: actions/upload-artifact@v3
-      with:
-        name: net-7.0-windows-x64-framework-dependent
-        path: |
-          TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/TerrLauncherPackCreator.exe
-          TerrLauncherPackCreator/bin/Release/net7.0-windows/publish/win-x64/libwebp_x64.dll
-        if-no-files-found: error
