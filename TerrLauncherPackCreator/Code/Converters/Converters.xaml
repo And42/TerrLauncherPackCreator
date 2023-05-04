@@ -4,6 +4,7 @@
     xmlns:local="clr-namespace:TerrLauncherPackCreator.Code.Converters">
 
     <local:VisibleIfNullConverter x:Key="VisibleIfNullConverter"/>
+    <local:VisibleIfNullOrEmptyConverter x:Key="VisibleIfNullOrEmptyConverter"/>
     <local:AnyToVisibleConverter x:Key="AnyToVisibleConverter"/>
     <local:StatusBarVisibilityConverter x:Key="StatusBarVisibilityConverter"/>
     <local:PathToFileNameConverter x:Key="PathToFileNameConverter"/>
