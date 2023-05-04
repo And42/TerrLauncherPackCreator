@@ -10,8 +10,9 @@ using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
+using TerrLauncherPackCreator.Code.ViewModels;
 
-namespace TerrLauncherPackCreator.Code.ViewModels;
+namespace TerrLauncherPackCreator.Windows;
 
 public class AuthorEditorWindowViewModel : ViewModelBase
 {

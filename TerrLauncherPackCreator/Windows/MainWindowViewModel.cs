@@ -11,10 +11,11 @@ using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Utils;
+using TerrLauncherPackCreator.Code.ViewModels;
 using TerrLauncherPackCreator.Pages.PackCreation;
 using TerrLauncherPackCreator.Resources.Localizations;
 
-namespace TerrLauncherPackCreator.Code.ViewModels;
+namespace TerrLauncherPackCreator.Windows;
 
 public class MainWindowViewModel : ViewModelBase
 {

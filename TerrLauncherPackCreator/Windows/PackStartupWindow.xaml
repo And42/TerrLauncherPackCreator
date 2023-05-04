@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
-        xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:windows="clr-namespace:TerrLauncherPackCreator.Windows"
         mc:Ignorable="d"
         Height="350" Width="500"
         Background="#66bb6a"
@@ -17,7 +17,7 @@
         
         SourceInitialized="PackStartupWindow_OnSourceInitialized"
         
-        d:DataContext="{d:DesignInstance viewModels:PackStartupWindowViewModel, IsDesignTimeCreatable=True}">
+        d:DataContext="{d:DesignInstance windows:PackStartupWindowViewModel, IsDesignTimeCreatable=True}">
     <DockPanel UseLayoutRounding="True" LastChildFill="True">
         <Menu DockPanel.Dock="Top" Background="WhiteSmoke">
             <MenuItem Header="{x:Static localizations:StringResources.Language}" Padding="6 3">

@@ -10,8 +10,9 @@ using CrossPlatform.Code.Interfaces;
 using CrossPlatform.Code.Utils;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
+using TerrLauncherPackCreator.Code.ViewModels;
 
-namespace TerrLauncherPackCreator.Code.ViewModels;
+namespace TerrLauncherPackCreator.Windows;
 
 public class ConverterWindowViewModel : ViewModelBase
 {

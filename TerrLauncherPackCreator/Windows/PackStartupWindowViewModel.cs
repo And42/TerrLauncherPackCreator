@@ -9,10 +9,10 @@ using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Interfaces;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Utils;
+using TerrLauncherPackCreator.Code.ViewModels;
 using TerrLauncherPackCreator.Resources.Localizations;
-using TerrLauncherPackCreator.Windows;
 
-namespace TerrLauncherPackCreator.Code.ViewModels;
+namespace TerrLauncherPackCreator.Windows;
 
 public class PackStartupWindowViewModel : ViewModelBase
 {

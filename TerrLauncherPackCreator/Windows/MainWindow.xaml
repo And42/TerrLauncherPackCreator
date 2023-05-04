@@ -5,16 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
-    xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
     xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
     xmlns:interfaces="clr-namespace:CrossPlatform.Code.Interfaces;assembly=CrossPlatform"
+    xmlns:windows="clr-namespace:TerrLauncherPackCreator.Windows"
     mc:Ignorable="d"
     Title="{Binding WindowTitle, Mode=OneWay}"
     MinWidth="600"
     MinHeight="450"
     WindowStartupLocation="CenterScreen"
     FontSize="14"
-    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}"
+    d:DataContext="{d:DesignInstance windows:MainWindowViewModel, IsDesignTimeCreatable=True}"
     Closed="MainWindow_OnClosed">
 
     <Grid Margin="5" UseLayoutRounding="True">
