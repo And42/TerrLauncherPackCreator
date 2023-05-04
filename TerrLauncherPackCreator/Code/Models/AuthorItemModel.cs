@@ -3,7 +3,7 @@ using CrossPlatform.Code.Implementations;
 using CrossPlatform.Code.Utils;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.ViewModels;
-using TerrLauncherPackCreator.Windows;
+using TerrLauncherPackCreator.Presentation;
 
 namespace TerrLauncherPackCreator.Code.Models;
 

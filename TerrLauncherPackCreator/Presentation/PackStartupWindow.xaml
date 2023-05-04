@@ -1,0 +1,113 @@
+﻿<Window x:Class="TerrLauncherPackCreator.Presentation.PackStartupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:presentation="clr-namespace:TerrLauncherPackCreator.Presentation"
+        mc:Ignorable="d"
+        Height="350" Width="500"
+        Background="#66bb6a"
+        
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        FontSize="16"
+        FontFamily="Rockwell Nova"
+        
+        SourceInitialized="PackStartupWindow_OnSourceInitialized"
+        
+        d:DataContext="{d:DesignInstance presentation:PackStartupWindowViewModel, IsDesignTimeCreatable=True}">
+    <DockPanel UseLayoutRounding="True" LastChildFill="True">
+        <Menu DockPanel.Dock="Top" Background="WhiteSmoke">
+            <MenuItem Header="{x:Static localizations:StringResources.Language}" Padding="6 3">
+                <MenuItem
+                    Header="English"
+                    IsChecked="{Binding EnglishLanguageActive, Mode=OneWay}"
+                    Command="{Binding SwitchToEnglishCommand}"/>
+                <MenuItem
+                    Header="Русский"
+                    IsChecked="{Binding RussianLanguageActive, Mode=OneWay}"
+                    Command="{Binding SwitchToRussianCommand}"/>
+            </MenuItem>
+            
+            <MenuItem Header="{x:Static localizations:StringResources.TargetPackStructureVersion}" Padding="6 3">
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion19Description}"
+                    IsChecked="{Binding PackStructureVersion19Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>19</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion20Description}"
+                    IsChecked="{Binding PackStructureVersion20Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>20</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion21Description}"
+                    IsChecked="{Binding PackStructureVersion21Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>21</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion22Description}"
+                    IsChecked="{Binding PackStructureVersion22Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>22</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+                
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion23Description}"
+                    IsChecked="{Binding PackStructureVersion23Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>23</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+                
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion24Description}"
+                    IsChecked="{Binding PackStructureVersion24Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>24</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        
+        <StackPanel 
+            DockPanel.Dock="Top"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <Button 
+                Style="{StaticResource ActionButtonMarginStyle}"
+                Content="{x:Static localizations:StringResources.PackCreateNew}"
+                Command="{Binding CreateNewPackCommand}"
+                VerticalAlignment="Top"/>
+
+            <Button
+                Style="{StaticResource ActionButtonMarginStyle}"
+                Content="{x:Static localizations:StringResources.PackLoadExisting}"
+                Command="{Binding ChooseExistingPackCommand}"/>
+        
+            <Button
+                Style="{StaticResource ActionButtonMarginStyle}"
+                Content="{x:Static localizations:StringResources.ResourcesConverter}"
+                Command="{Binding LaunchConverterCommand}"/>
+        </StackPanel>
+    </DockPanel>
+</Window>

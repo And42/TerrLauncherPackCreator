@@ -84,4 +84,51 @@
       <ProjectReference Include="..\CrossPlatform\CrossPlatform.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Page Update="UI\Controls\DragAndDropImage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\Controls\DragAndDropImageBytes.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\Controls\PageNavigationNumberButton.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\AuthorEditorWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\ConverterWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\MainWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\PackStartupWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="UI\PackCreation\PackCreationStep1.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\PackCreation\PackCreationStep2.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\PackCreation\PackCreationStep3.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\PackCreation\PackCreationStep4.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+      <Page Update="UI\PackCreation\PackCreationStep5.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+
 </Project>
