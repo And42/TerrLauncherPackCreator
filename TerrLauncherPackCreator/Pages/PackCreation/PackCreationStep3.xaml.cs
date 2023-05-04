@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Code.Models;
-using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation;
 

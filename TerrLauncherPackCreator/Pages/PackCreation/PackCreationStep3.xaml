@@ -5,17 +5,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
-    xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
     xmlns:models="clr-namespace:TerrLauncherPackCreator.Code.Models"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:me="clr-namespace:TerrLauncherPackCreator.Code.MarkupExtensions"
     xmlns:fileInfos="clr-namespace:CrossPlatform.Code.FileInfos;assembly=CrossPlatform"
+    xmlns:packCreation="clr-namespace:TerrLauncherPackCreator.Pages.PackCreation"
     mc:Ignorable="d" 
 
     d:DesignHeight="450" d:DesignWidth="800"
     FontSize="14"
       
-    d:DataContext="{d:DesignInstance viewModels:PackCreationViewModel, IsDesignTimeCreatable=True}">
+    d:DataContext="{d:DesignInstance packCreation:PackCreationViewModel, IsDesignTimeCreatable=True}">
 
     <Page.Resources>
         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">

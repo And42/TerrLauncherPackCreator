@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Enums;
-using TerrLauncherPackCreator.Code.ViewModels;
 
 namespace TerrLauncherPackCreator.Pages.PackCreation;
 

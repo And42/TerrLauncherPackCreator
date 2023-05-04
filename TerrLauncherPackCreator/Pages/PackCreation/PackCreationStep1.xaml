@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       xmlns:localizations="clr-namespace:TerrLauncherPackCreator.Resources.Localizations"
-      xmlns:viewModels="clr-namespace:TerrLauncherPackCreator.Code.ViewModels"
       xmlns:controls="clr-namespace:TerrLauncherPackCreator.Controls"
       xmlns:packCreation="clr-namespace:TerrLauncherPackCreator.Pages.PackCreation"
       xmlns:enums="clr-namespace:CrossPlatform.Code.Enums;assembly=CrossPlatform"
@@ -14,7 +13,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       FontSize="14"
       
-      d:DataContext="{d:DesignInstance viewModels:PackCreationViewModel, IsDesignTimeCreatable=True}">
+      d:DataContext="{d:DesignInstance packCreation:PackCreationViewModel, IsDesignTimeCreatable=True}">
 
     <StackPanel UseLayoutRounding="True" Margin="4 0">
         <StackPanel.Resources>
@@ -156,7 +155,7 @@
                 PlacementTarget="{Binding ElementName=AddTagButton}">
                 
                 <ListBox
-                    ItemsSource="{Binding RemainedPredefinedTags}"
+                    ItemsSource="{Binding RemainingPredefinedTags}"
                     Background="White"
                     BorderBrush="DarkGray"
                     BorderThickness="1">
