@@ -57,7 +57,7 @@ public class ConverterWindowViewModel : ViewModelBase
             {
                 foreach (string file in files)
                 {
-                    string resultsDir = Path.Combine(Path.GetDirectoryName(file), "converted_files");
+                    string resultsDir = Path.Combine(Path.GetDirectoryName(file) ?? string.Empty, "converted_files");
                     IOUtils.EnsureDirExists(resultsDir);
                         
                     var (convertedFile, _) = await _fileConverter.ConvertToTarget(CurrentFileType, file, null);
@@ -91,7 +91,7 @@ public class ConverterWindowViewModel : ViewModelBase
             {
                 foreach (string file in files)
                 {
-                    string resultsDir = Path.Combine(Path.GetDirectoryName(file), "source_files");
+                    string resultsDir = Path.Combine(Path.GetDirectoryName(file) ?? string.Empty, "source_files");
                     IOUtils.EnsureDirExists(resultsDir);
 
                     string? config = Path.ChangeExtension(file, PackUtils.PackFileConfigExtension);

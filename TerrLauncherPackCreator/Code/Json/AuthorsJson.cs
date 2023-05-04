@@ -119,10 +119,10 @@ public class AuthorJson
     public AuthorJson() {}
         
     public AuthorJson(
-        string name,
+        string? name,
         Color? color,
-        string link,
-        IconJson icon,
+        string? link,
+        IconJson? icon,
         int iconHeight
     )
     {

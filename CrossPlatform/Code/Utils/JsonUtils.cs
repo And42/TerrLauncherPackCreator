@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
@@ -27,6 +28,7 @@ public static class JsonUtils
 
     public static T Deserialize<T>(string value)
     {
-        return JsonConvert.DeserializeObject<T>(value);
+        return JsonConvert.DeserializeObject<T>(value)
+            ?? throw new InvalidOperationException("Unable to deserialize json: " + value);
     }
 }

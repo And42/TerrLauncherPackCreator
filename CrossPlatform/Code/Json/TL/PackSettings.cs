@@ -15,7 +15,7 @@ public class PackSettings
         {
             JObject jsonObject = JObject.Parse(json);
             int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
-            const int _ = 1 / (24 / PackUtils.LatestPackStructureVersion);
+            (1 / (24 / PackUtils.LatestPackStructureVersion)).Ignore();
             while (packStructureVersion < PackUtils.LatestPackStructureVersion)
             {
                 if (packStructureVersion <= 15)

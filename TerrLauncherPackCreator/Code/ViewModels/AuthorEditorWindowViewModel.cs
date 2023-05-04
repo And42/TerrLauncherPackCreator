@@ -4,11 +4,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using CommonLibrary.CommonUtils;
 using CrossPlatform.Code.Implementations;
 using CrossPlatform.Code.Utils;
 using MVVM_Tools.Code.Commands;
-using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
@@ -126,9 +124,9 @@ public class AuthorEditorWindowViewModel : ViewModelBase
                 if (SelectedSavedAuthor == null)
                     return;
 
-                EditableAuthor.Name = SelectedSavedAuthor.Name;
+                EditableAuthor.Name = SelectedSavedAuthor.Name ?? string.Empty;
                 EditableAuthor.Color = SelectedSavedAuthor.Color;
-                EditableAuthor.Link = SelectedSavedAuthor.Link;
+                EditableAuthor.Link = SelectedSavedAuthor.Link ?? string.Empty;
                 EditableAuthor.IconHeight = SelectedSavedAuthor.IconHeight;
                 if (SelectedSavedAuthor.Icon != null) {
                     EditableAuthor.Image = new ImageInfo(

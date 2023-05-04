@@ -116,7 +116,7 @@ public class FileConverter : IFileConverter
 
     private static TextureFileInfo DeserializeTextureFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<TextureFileInfoJson>(text) ?? throw new InvalidOperationException();;
+        var json = JsonUtils.Deserialize<TextureFileInfoJson>(text);
         return new TextureFileInfo(
             Type: json.Type,
             EntryName: json.EntryName ?? string.Empty,
@@ -132,7 +132,7 @@ public class FileConverter : IFileConverter
 
     private static MapFileInfo DeserializeMapFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<MapFileInfoJson>(text) ?? throw new InvalidOperationException();;
+        var json = JsonUtils.Deserialize<MapFileInfoJson>(text);
         return new MapFileInfo(
             ResultFileName: json.ResultFileName
         );
@@ -140,7 +140,7 @@ public class FileConverter : IFileConverter
         
     private static CharacterFileInfo DeserializeCharacterFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<CharacterFileInfoJson>(text) ?? throw new InvalidOperationException();;
+        var json = JsonUtils.Deserialize<CharacterFileInfoJson>(text);
         return new CharacterFileInfo(
             ResultFileName: json.ResultFileName
         );
@@ -148,7 +148,7 @@ public class FileConverter : IFileConverter
 
     private static TextureFileInfo DeserializeGuiFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<GuiFileInfoJson>(text) ?? throw new InvalidOperationException();;
+        var json = JsonUtils.Deserialize<GuiFileInfoJson>(text);
         return new GuiFileInfo(
             Type: json.Type,
             EntryName: json.EntryName ?? string.Empty,
@@ -164,7 +164,7 @@ public class FileConverter : IFileConverter
         
     private static TranslationFileInfo DeserializeTranslationFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<TranslationFileInfoJson>(text) ?? throw new InvalidOperationException();;
+        var json = JsonUtils.Deserialize<TranslationFileInfoJson>(text);
         return new TranslationFileInfo(
             Language: json.Language,
             IgnoreForCategory: json.IgnoreForCategory
@@ -173,7 +173,7 @@ public class FileConverter : IFileConverter
         
     private static FontFileInfo DeserializeFontFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<FontFileInfoJson>(text) ?? throw new InvalidOperationException();;
+        var json = JsonUtils.Deserialize<FontFileInfoJson>(text);
         return new FontFileInfo(
             EntryName: json.EntryName ?? string.Empty
         );
@@ -181,7 +181,7 @@ public class FileConverter : IFileConverter
         
     private static AudioFileInfo DeserializeAudioFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<AudioFileInfoJson>(text) ?? throw new InvalidOperationException();
+        var json = JsonUtils.Deserialize<AudioFileInfoJson>(text);
         return new AudioFileInfo(
             EntryName: json.EntryName ?? throw new InvalidOperationException()
         );
@@ -189,7 +189,7 @@ public class FileConverter : IFileConverter
 
     private static ModFileInfo DeserializeModFileInfo(string text)
     {
-        var json = JsonUtils.Deserialize<ModFileInfoJson>(text) ?? throw new InvalidOperationException();
+        var json = JsonUtils.Deserialize<ModFileInfoJson>(text);
         return new ModFileInfo(
             Id: json.Id,
             IgnoreForCategory: json.IgnoreForCategory

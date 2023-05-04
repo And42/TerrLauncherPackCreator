@@ -24,10 +24,13 @@ public class TextureModelToAnimateInGuiVisibility : IMultiValueConverter
         // todo: remove when animate in gui is supported
         return CollapsedObject;
 
+#pragma warning disable CS0162
+        // ReSharper disable once HeuristicUnreachableCode
         bool animated = (bool) values[0];
         TextureType currentTextureType = (TextureType) values[1];
 
         return animated && AnimateInGuiVisibleTypes.Contains(currentTextureType) ? VisibleObject : CollapsedObject;
+#pragma warning restore CS0162
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

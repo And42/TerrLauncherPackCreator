@@ -145,12 +145,12 @@ public class PackStartupWindowViewModel : ViewModelBase
         OnPropertyChanged(nameof(PackStructureVersion23Active));
         OnPropertyChanged(nameof(PackStructureVersion24Active));
             
-        const int _ = 1 / (24 / PackUtils.LatestPackStructureVersion);
+        (1 / (24 / PackUtils.LatestPackStructureVersion)).Ignore();
     }
 
     private void ValidatePackStructureVersion()
     {
-        const int _ = 1 / (24 / PackUtils.LatestPackStructureVersion);
+        (1 / (24 / PackUtils.LatestPackStructureVersion)).Ignore();
         if (_appSettings.PackStructureVersion < 19)
             ChangeStructureVersion.Execute(PackUtils.LatestPackStructureVersion);
     }

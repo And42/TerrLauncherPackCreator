@@ -4,7 +4,7 @@ using MVVM_Tools.Code.Classes;
 
 namespace TerrLauncherPackCreator.Code.Converters;
 
-public class BytesToStream : ConverterBase<byte[], Stream>
+public class BytesToStream : ConverterBase<byte[]?, Stream?>
 {
     public override Stream? ConvertInternal(byte[]? value, object? parameter, CultureInfo culture)
     {

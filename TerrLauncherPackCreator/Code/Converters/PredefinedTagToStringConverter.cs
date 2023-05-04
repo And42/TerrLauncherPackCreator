@@ -13,7 +13,9 @@ public class PredefinedTagToStringConverter : IValueConverter
     {
         (1 / (32 / PredefinedPackTagEnum.Length)).Ignore();
 
+#pragma warning disable CS8524
         return (value as PredefinedPackTag?) switch
+#pragma warning restore CS8524
         {
             PredefinedPackTag.TexturesAnimated => StringResources.PredefinedPackTagTexturesAnimated,
             PredefinedPackTag.TexturesWeapons => StringResources.PredefinedPackTagTexturesWeapons,

@@ -121,8 +121,7 @@ public class MainWindowViewModel : ViewModelBase
         Action? restartApp
     )
     {
-        // ReSharper disable once UnreachableCode
-        WindowTitle = Assembly.GetEntryAssembly()?.GetName().Name;
+        WindowTitle = Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty;
         _currentStep = 1;
         InitialWindowWidth = ValuesProvider.AppSettings.MainWindowWidth;
         InitialWindowHeight = ValuesProvider.AppSettings.MainWindowHeight;
