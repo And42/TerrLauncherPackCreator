@@ -111,41 +111,19 @@ public class ConverterWindowViewModel : ViewModelBase
                     if (fileInfo != null)
                     {
                         (1 / (8 / FileTypeEnum.Length)).Ignore();
-                        switch (CurrentFileType)
+#pragma warning disable CS8524
+                        resultFileName = CurrentFileType switch
+#pragma warning restore CS8524
                         {
-                            case FileType.Texture:
-                                var textureInfo = (TextureFileInfo) fileInfo;
-                                resultFileName = textureInfo.EntryName;
-                                break;
-                            case FileType.Map:
-                                var mapInfo = (MapFileInfo) fileInfo;
-                                resultFileName = mapInfo.ResultFileName;
-                                break;
-                            case FileType.Character:
-                                var characterInfo = (CharacterFileInfo) fileInfo;
-                                resultFileName = characterInfo.ResultFileName;
-                                break;
-                            case FileType.Gui:
-                                var guiInfo = (GuiFileInfo) fileInfo;
-                                resultFileName = guiInfo.EntryName;
-                                break;
-                            case FileType.Translation:
-                                var translationInfo = (TranslationFileInfo) fileInfo;
-                                resultFileName = translationInfo.Language;
-                                break;
-                            case FileType.Font:
-                                var fontInfo = (FontFileInfo) fileInfo;
-                                resultFileName = fontInfo.EntryName;
-                                break;
-                            case FileType.Audio:
-                                var audioInfo = (AudioFileInfo) fileInfo;
-                                resultFileName = audioInfo.EntryName;
-                                break;
-                            case FileType.Mod:
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
+                            FileType.Texture => ((TextureFileInfo) fileInfo).EntryName,
+                            FileType.Map => ((MapFileInfo) fileInfo).ResultFileName,
+                            FileType.Character => ((CharacterFileInfo) fileInfo).ResultFileName,
+                            FileType.Gui => ((GuiFileInfo) fileInfo).EntryName,
+                            FileType.Translation => ((TranslationFileInfo) fileInfo).Language,
+                            FileType.Font => ((FontFileInfo) fileInfo).EntryName,
+                            FileType.Audio => ((AudioFileInfo) fileInfo).EntryName,
+                            FileType.Mod => resultFileName
+                        };
                     }
                         
                     foreach (char invalidChar in Path.GetInvalidFileNameChars())
