@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -122,59 +123,10 @@ public partial class PackCreationViewModel
     
     private PackModel GeneratePackModel()
     {
-        return new(
-            Authors: Authors.Select(author => 
-                new PackModel.Author(
-                    Name: author.Name,
-                    Color: author.Color?.ToDrawingColor(),
-                    Link: author.Link,
-                    Icon: author.Image,
-                    IconHeight: author.IconHeight
-                )
-            ).ToArray(),
-            PreviewsPaths: Previews.Where(it => !it.IsDragDropTarget)
-                .Select(it =>
-                {
-                    if (string.IsNullOrEmpty(it.FilePath))
-                        throw new ArgumentException();
-                    if (!it.IsCroppingAvailable || !it.IsCroppingEnabled)
-                        return it.FilePath;
-
-                    Bitmap cropped;
-                    using (var bmp = new Bitmap(it.FilePath))
-                    {
-                        var crop = new Int32Rect(
-                            it.CropLeftPixels,
-                            it.CropTopPixels,
-                            bmp.Width - it.CropLeftPixels - it.CropRightPixels,
-                            bmp.Height - it.CropTopPixels - it.CropBottomPixels
-                        );
-                        cropped = new CroppedBitmap(bmp.ToBitmapSource(), crop).ToBitmap();
-                    }
-
-                    using (cropped)
-                    {
-                        string tempFile = ApplicationDataUtils.GenerateNonExistentFilePath(extension: ".png");
-                        cropped.Save(tempFile, ImageFormat.Png);
-                        return tempFile;
-                    }
-                })
-                .ToArray(),
-            ModifiedFiles: ModifiedFileGroups.SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
-                .Where(it => !it.modified.IsDragDropTarget)
-                .Select(it =>
-                {
-                    IPackFileInfo fileInfo = ModelToFileInfoConverter.Convert(it.FilesType, it.modified);
-
-                    var info = new PackModel.ModifiedFile(
-                        Config: fileInfo,
-                        FilePath: it.modified.FilePath,
-                        FileType: it.FilesType
-                    );
-
-                    return info;
-                })
-                .ToArray(),
+        return new PackModel(
+            Authors: GeneratePackAuthors(),
+            PreviewsPaths: GeneratePackPreviews(),
+            ModifiedFiles: GeneratePackModifiedFiles(),
             PackStructureVersion: PackUtils.LatestPackStructureVersion,
             IconFilePath: IconFilePath,
             Title: Title,
@@ -185,6 +137,72 @@ public partial class PackCreationViewModel
             IsBonusPack: IsBonusPack,
             PredefinedTags: PredefinedTags.ToList()
         );
+    }
+
+    private List<PackModel.Author> GeneratePackAuthors()
+    {
+        return Authors.Select(author =>
+            new PackModel.Author(
+                Name: author.Name,
+                Color: author.Color?.ToDrawingColor(),
+                Link: author.Link,
+                Icon: author.Image,
+                IconHeight: author.IconHeight
+            )
+        ).ToList();
+    }
+
+    private List<string> GeneratePackPreviews()
+    {
+        return Previews
+            .Where(it => !it.IsDragDropTarget)
+            .Select(it =>
+            {
+                if (string.IsNullOrEmpty(it.FilePath))
+                    throw new ArgumentException();
+                if (!it.IsCroppingAvailable || !it.IsCroppingEnabled)
+                    return it.FilePath;
+
+                Bitmap cropped;
+                using (var bmp = new Bitmap(it.FilePath))
+                {
+                    var crop = new Int32Rect(
+                        it.CropLeftPixels,
+                        it.CropTopPixels,
+                        bmp.Width - it.CropLeftPixels - it.CropRightPixels,
+                        bmp.Height - it.CropTopPixels - it.CropBottomPixels
+                    );
+                    cropped = new CroppedBitmap(bmp.ToBitmapSource(), crop).ToBitmap();
+                }
+
+                using (cropped)
+                {
+                    string tempFile = ApplicationDataUtils.GenerateNonExistentFilePath(extension: ".png");
+                    cropped.Save(tempFile, ImageFormat.Png);
+                    return tempFile;
+                }
+            })
+            .ToList();
+    }
+
+    private List<PackModel.ModifiedFile> GeneratePackModifiedFiles()
+    {
+        return ModifiedFileGroups
+            .SelectMany(it => it.ModifiedFiles.Select(modified => (it.FilesType, modified)))
+            .Where(it => !it.modified.IsDragDropTarget)
+            .Select(it =>
+            {
+                IPackFileInfo fileInfo = ModelToFileInfoConverter.Convert(it.FilesType, it.modified);
+
+                var info = new PackModel.ModifiedFile(
+                    Config: fileInfo,
+                    FilePath: it.modified.FilePath,
+                    FileType: it.FilesType
+                );
+
+                return info;
+            })
+            .ToList();
     }
 
     private void OnPropertyChangedStep5(object? sender, PropertyChangedEventArgs e)
