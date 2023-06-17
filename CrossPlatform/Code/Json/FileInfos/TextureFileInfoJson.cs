@@ -5,8 +5,8 @@ namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class TextureFileInfoJson
 {
-    [JsonProperty("type", Required = Required.Always)]
-    public TextureFileInfo.TextureType Type;
+    [JsonProperty("type")]
+    public TextureFileInfo.TextureType Type = TextureFileInfo.TextureType.General;
 
     [JsonProperty("entry_name")]
     public string? EntryName;
