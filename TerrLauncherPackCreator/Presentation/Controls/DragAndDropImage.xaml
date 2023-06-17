@@ -12,7 +12,8 @@
     <Grid
         AllowDrop="True"
         DragOver="Icon_OnDragOver"
-        Drop="Icon_OnDrop">
+        Drop="Icon_OnDrop"
+        MouseLeftButtonUp="Icon_OnMouseLeftButtonUp">
 
         <Grid
             Visibility="{

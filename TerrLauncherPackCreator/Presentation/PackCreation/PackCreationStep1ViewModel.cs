@@ -9,6 +9,8 @@ using CrossPlatform.Code.Enums;
 using CrossPlatform.Code.Models;
 using CrossPlatform.Code.Utils;
 using MVVM_Tools.Code.Commands;
+using TerrLauncherPackCreator.Code.Utils;
+using TerrLauncherPackCreator.Resources.Localizations;
 
 namespace TerrLauncherPackCreator.Presentation.PackCreation;
 
@@ -115,6 +117,7 @@ public partial class PackCreationViewModel
     
     public IActionCommand CreateNewGuidCommand { get; private init; } = null!;
     public IActionCommand<string> DropIconCommand { get; private init; } = null!;
+    public IActionCommand IconClickCommand { get; private init; } = null!;
     public IActionCommand AddPredefinedTagCommand { get; private init; } = null!;
     public IActionCommand<PredefinedPackTag> AddSelectedTagCommand { get; private init; } = null!;
     public IActionCommand<PredefinedPackTag> RemovePredefinedTag { get; private init; } = null!;
@@ -126,6 +129,7 @@ public partial class PackCreationViewModel
         {
             CreateNewGuidCommand = new ActionCommand(CreateNewGuidCommand_Execute, CreateNewGuidCommand_CanExecute);
             DropIconCommand = new ActionCommand<string>(_ => { }, DropIconCommand_CanExecute);
+            IconClickCommand = new ActionCommand(IconClickCommandExecuted, IconClickCommandCanExecute);
             AddPredefinedTagCommand = new ActionCommand(AddPredefinedTagExecuted, AddPredefinedTagCanExecute);
             AddSelectedTagCommand = new ActionCommand<PredefinedPackTag>(AddSelectedTagExecuted);
             RemovePredefinedTag = new ActionCommand<PredefinedPackTag>(RemovePredefinedTagExecuted, RemovePredefinedTagCanExecute);
@@ -168,6 +172,29 @@ public partial class PackCreationViewModel
     {
         return !Working && RemainingPredefinedTags.Count != 0;
     }
+    
+    private void IconClickCommandExecuted()
+    {
+        string? filePath = PickerUtils.PickFile(
+            title: "",
+            filters: new [] {
+                new PickerUtils.Filter(
+                    Description: StringResources.IconDialogFilter,
+                    FileNameGlobs: IconExtensions.Select(it => "*" + it).ToArray()
+                )
+            },
+            checkFileExists: true
+        );
+        if (filePath is null)
+            return;
+
+        IconFilePath = filePath;
+    }
+    
+    private bool IconClickCommandCanExecute()
+    {
+        return !Working;
+    }
 
     private void AddPredefinedTagExecuted()
     {
@@ -202,6 +229,7 @@ public partial class PackCreationViewModel
             case nameof(Working):
                 CreateNewGuidCommand.RaiseCanExecuteChanged();
                 DropIconCommand.RaiseCanExecuteChanged();
+                IconClickCommand.RaiseCanExecuteChanged();
                 break;
             case nameof(RemainingPredefinedTags):
                 AddPredefinedTagCommand.RaiseCanExecuteChanged();

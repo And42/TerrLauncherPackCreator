@@ -321,6 +321,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Icon files (*.png, *.gif).
+        /// </summary>
+        public static string IconDialogFilter {
+            get {
+                return ResourceManager.GetString("IconDialogFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ignore when determining pack category.
         /// </summary>
         public static string IgnoreForCategory {

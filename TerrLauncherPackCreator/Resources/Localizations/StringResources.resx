@@ -135,6 +135,9 @@
   <data name="DragIconHelpText" xml:space="preserve">
     <value>Drag an icon here (.png|.gif)</value>
   </data>
+  <data name="IconDialogFilter" xml:space="preserve">
+    <value>Icon files (*.png, *.gif)</value>
+  </data>
   <data name="DragAuthorImageHelpText" xml:space="preserve">
     <value>Drag an icon here (.png|.gif)</value>
   </data>
