@@ -258,7 +258,7 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drag an icon here (.png|.gif).
+        ///   Looks up a localized string similar to Click or drag an icon here (.png|.gif).
         /// </summary>
         public static string DragIconHelpText {
             get {

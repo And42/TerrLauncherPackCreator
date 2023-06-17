@@ -145,7 +145,7 @@
     <value>Перетащите иконку сюда (.png|.gif)</value>
   </data>
   <data name="DragIconHelpText" xml:space="preserve">
-    <value>Перетащите иконку сюда (.png|.gif)</value>
+    <value>Нажмите или перетащите иконку сюда (.png|.gif)</value>
   </data>
   <data name="IconDialogFilter" xml:space="preserve">
     <value>Файлы иконок (*.png, *.gif)</value>
