@@ -12,7 +12,7 @@ public static class PackUtils
         string ConvertedFilesExt
     );
         
-    public const int LatestPackStructureVersion = 24;
+    public const int LatestPackStructureVersion = 25;
     public const int DefaultAuthorIconHeight = 70;
     public const string PacksExtension = ".tl";
     public const string PacksActualExtension = ".zip";

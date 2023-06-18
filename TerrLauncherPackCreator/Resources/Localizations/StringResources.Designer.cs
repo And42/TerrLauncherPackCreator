@@ -586,6 +586,15 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 25 (TL v1.48+): Terraria 1.4.4.9.2 support.
+        /// </summary>
+        public static string PackStructureVersion25Description {
+            get {
+                return ResourceManager.GetString("PackStructureVersion25Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string PackTitle {

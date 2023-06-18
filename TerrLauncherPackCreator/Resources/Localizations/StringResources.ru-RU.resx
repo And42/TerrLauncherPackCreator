@@ -502,6 +502,9 @@
   <data name="PackStructureVersion24Description" xml:space="preserve">
     <value>24 (TL v1.47+): Поддержка Terraria 1.4.4.9</value>
   </data>
+  <data name="PackStructureVersion25Description" xml:space="preserve">
+    <value>25 (TL v1.48+): Поддержка Terraria 1.4.4.9.2</value>
+  </data>
   <data name="IgnoreForCategory" xml:space="preserve">
     <value>Игнорировать при определении категории пака</value>
   </data>

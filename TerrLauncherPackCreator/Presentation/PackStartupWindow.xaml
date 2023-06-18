@@ -85,6 +85,15 @@
                         <system:Int32>24</system:Int32>
                     </MenuItem.CommandParameter>
                 </MenuItem>
+                
+                <MenuItem
+                    Header="{x:Static localizations:StringResources.PackStructureVersion25Description}"
+                    IsChecked="{Binding PackStructureVersion25Active, Mode=OneWay}"
+                    Command="{Binding ChangeStructureVersion}">
+                    <MenuItem.CommandParameter>
+                        <system:Int32>25</system:Int32>
+                    </MenuItem.CommandParameter>
+                </MenuItem>
             </MenuItem>
         </Menu>
         

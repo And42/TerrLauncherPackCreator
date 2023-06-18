@@ -28,6 +28,7 @@ public class PackStartupWindowViewModel : ViewModelBase
     public bool PackStructureVersion22Active => IsPackStructureVersionActive(22);
     public bool PackStructureVersion23Active => IsPackStructureVersionActive(23);
     public bool PackStructureVersion24Active => IsPackStructureVersionActive(24);
+    public bool PackStructureVersion25Active => IsPackStructureVersionActive(25);
 
     public Action? RecreateWindow { get; init; }
 
@@ -144,13 +145,14 @@ public class PackStartupWindowViewModel : ViewModelBase
         OnPropertyChanged(nameof(PackStructureVersion22Active));
         OnPropertyChanged(nameof(PackStructureVersion23Active));
         OnPropertyChanged(nameof(PackStructureVersion24Active));
+        OnPropertyChanged(nameof(PackStructureVersion25Active));
             
-        (1 / (24 / PackUtils.LatestPackStructureVersion)).Ignore();
+        (1 / (25 / PackUtils.LatestPackStructureVersion)).Ignore();
     }
 
     private void ValidatePackStructureVersion()
     {
-        (1 / (24 / PackUtils.LatestPackStructureVersion)).Ignore();
+        (1 / (25 / PackUtils.LatestPackStructureVersion)).Ignore();
         if (_appSettings.PackStructureVersion < 19)
             ChangeStructureVersion.Execute(PackUtils.LatestPackStructureVersion);
     }
