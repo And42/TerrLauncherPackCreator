@@ -16,6 +16,7 @@ using CrossPlatform.Code.Models;
 using CrossPlatform.Code.Utils;
 using Microsoft.Win32;
 using MVVM_Tools.Code.Commands;
+using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Resources.Localizations;
@@ -25,16 +26,18 @@ namespace TerrLauncherPackCreator.Presentation.PackCreation;
 public partial class PackCreationViewModel
 {
     private readonly IPackProcessor _packProcessor = null!;
+    private readonly AppSettingsJson _appSettings = null!;
     private readonly Action? _restartApp;
     public IActionCommand ExportPackCommand { get; private init; } = null!;
     public IActionCommand RestartSequenceCommand { get; private init; } = null!;
 
-    private (IPackProcessor packProcessor, Action? restartApp) InitializeStep5
+    private (IPackProcessor packProcessor, AppSettingsJson appSettings, Action? restartApp) InitializeStep5
     {
         // ReSharper disable once ValueParameterNotUsed
         init
         {
             _packProcessor = value.packProcessor;
+            _appSettings = value.appSettings;
             _restartApp = value.restartApp;
             
             ExportPackCommand = new ActionCommand(ExportPackCommand_Execute, ExportPackCommand_CanExecute);
@@ -127,7 +130,7 @@ public partial class PackCreationViewModel
             Authors: GeneratePackAuthors(),
             PreviewsPaths: GeneratePackPreviews(),
             ModifiedFiles: GeneratePackModifiedFiles(),
-            PackStructureVersion: PackUtils.LatestPackStructureVersion,
+            PackStructureVersion: _appSettings.PackStructureVersion,
             IconFilePath: IconFilePath,
             Title: Title,
             DescriptionRussian: DescriptionRussian,

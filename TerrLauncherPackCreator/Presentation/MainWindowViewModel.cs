@@ -150,7 +150,7 @@ public class MainWindowViewModel : ViewModelBase
         TempDirsProvider = new TempDirsProvider(Paths.TempDir);
         TempDirsProvider.DeleteAll();
             
-        PackCreationViewModel = new PackCreationViewModel(PackProcessor, restartApp);
+        PackCreationViewModel = new PackCreationViewModel(PackProcessor, ValuesProvider.AppSettings, restartApp);
 
         StepsPages = new Page[]
         {
