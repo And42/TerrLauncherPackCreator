@@ -3,7 +3,8 @@ name: Heavy build
 on:
   workflow_dispatch:
   push:
-    branches: [ "releases/**" ]
+    tags:
+      - "**"
 
 jobs:
   build:
