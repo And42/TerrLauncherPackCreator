@@ -11,10 +11,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
   
@@ -46,14 +46,14 @@ jobs:
         cp TerrLauncherPackCreatorUpdater/bin/Release/net8.0-windows/win-x64/publish/updater.exe to_upload/installer/installer.exe
 
     - name: Upload data
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: data-net-8.0-windows-x64-framework-dependent
         path: to_upload/data/**
         if-no-files-found: error
         
     - name: Upload installer
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: installer-net-8.0-windows-x64-framework-dependent
         path: to_upload/installer/**
