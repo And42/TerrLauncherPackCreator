@@ -22,13 +22,8 @@ public class PackStartupWindowViewModel : ViewModelBase
     public string CurrentLanguage => Thread.CurrentThread.CurrentUICulture.Name;
     public bool EnglishLanguageActive => CurrentLanguage == "en-US";
     public bool RussianLanguageActive => CurrentLanguage == "ru-RU";
-    public bool PackStructureVersion19Active => IsPackStructureVersionActive(19);
-    public bool PackStructureVersion20Active => IsPackStructureVersionActive(20);
-    public bool PackStructureVersion21Active => IsPackStructureVersionActive(21);
-    public bool PackStructureVersion22Active => IsPackStructureVersionActive(22);
-    public bool PackStructureVersion23Active => IsPackStructureVersionActive(23);
-    public bool PackStructureVersion24Active => IsPackStructureVersionActive(24);
-    public bool PackStructureVersion25Active => IsPackStructureVersionActive(25);
+    public bool PackStructureVersion26Active => IsPackStructureVersionActive(PackUtils.PackStructureVersions.V26);
+    public bool PackStructureVersion27Active => IsPackStructureVersionActive(PackUtils.PackStructureVersions.V27);
 
     public Action? RecreateWindow { get; init; }
 
@@ -138,23 +133,16 @@ public class PackStartupWindowViewModel : ViewModelBase
             _appSettings.PackStructureVersion = oldVersion;
             MessageBoxUtils.ShowError($"{StringResources.CantSaveAppSettings} {ex.Message}");
         }
+        OnPropertyChanged(nameof(PackStructureVersion26Active));
+        OnPropertyChanged(nameof(PackStructureVersion27Active));
             
-        OnPropertyChanged(nameof(PackStructureVersion19Active));
-        OnPropertyChanged(nameof(PackStructureVersion20Active));
-        OnPropertyChanged(nameof(PackStructureVersion21Active));
-        OnPropertyChanged(nameof(PackStructureVersion22Active));
-        OnPropertyChanged(nameof(PackStructureVersion23Active));
-        OnPropertyChanged(nameof(PackStructureVersion24Active));
-        OnPropertyChanged(nameof(PackStructureVersion25Active));
-            
-        (1 / (25 / PackUtils.LatestPackStructureVersion)).Ignore();
+        (1 / (27 / PackUtils.PackStructureVersions.Latest)).Ignore();
     }
 
     private void ValidatePackStructureVersion()
     {
-        (1 / (25 / PackUtils.LatestPackStructureVersion)).Ignore();
-        if (_appSettings.PackStructureVersion < 19)
-            ChangeStructureVersion.Execute(PackUtils.LatestPackStructureVersion);
+        if (_appSettings.PackStructureVersion < PackUtils.PackStructureVersions.Oldest)
+            ChangeStructureVersion.Execute(PackUtils.PackStructureVersions.Oldest);
     }
         
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)

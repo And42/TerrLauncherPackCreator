@@ -100,7 +100,7 @@ public class ConverterWindowViewModel : ViewModelBase
                         config = null;
         
                     var (convertedFile, fileInfo) = await _fileConverter.ConvertToSource(
-                        packStructureVersion: PackUtils.LatestPackStructureVersion,
+                        packStructureVersion: PackUtils.PackStructureVersions.Latest,
                         fileType: CurrentFileType,
                         targetFile: file,
                         configFile: config

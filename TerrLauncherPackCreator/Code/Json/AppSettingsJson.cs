@@ -22,7 +22,7 @@ public class AppSettingsJson
         AppLanguage = string.Empty;
         MainWindowWidth = 1100;
         MainWindowHeight = 750;
-        PackStructureVersion = PackUtils.LatestPackStructureVersion;
+        PackStructureVersion = PackUtils.PackStructureVersions.Latest;
     }
 
     public AppSettingsJson(

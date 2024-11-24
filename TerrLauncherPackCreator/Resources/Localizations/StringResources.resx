@@ -480,30 +480,11 @@
   <data name="TargetPackStructureVersion" xml:space="preserve">
     <value>Target pack structure version</value>
   </data>
-  <data name="PackStructureVersion19Description" xml:space="preserve">
-    <value>19 (TL v1.42+): Ability to ignore translations when determining pack's category</value>
+  <data name="PackStructureVersion26Description" xml:space="preserve">
+    <value>26 (TL v1.49.8+): Terraria 1.4.4.9.5 support</value>
   </data>
-  <data name="PackStructureVersion20Description" xml:space="preserve">
-    <value>20 (TL v1.43+): Struct properties support in mods</value>
-  </data>
-  <data name="PackStructureVersion21Description" xml:space="preserve">
-    <value>21 (TL v1.44.1+):
-  1. Thread Static fields support in mods
-  2. API changes for mods:
-    2.1. Most of TL methods moved into tl property
-    2.2. `print` renamed to `log`</value>
-  </data>
-  <data name="PackStructureVersion22Description" xml:space="preserve">
-    <value>22 (TL v1.45.8+): New Terraria version support</value>
-  </data>
-  <data name="PackStructureVersion23Description" xml:space="preserve">
-    <value>23 (TL v1.46+): Terraria 1.4.4.1 support</value>
-  </data>
-  <data name="PackStructureVersion24Description" xml:space="preserve">
-    <value>24 (TL v1.47+): Terraria 1.4.4.9 support</value>
-  </data>
-  <data name="PackStructureVersion25Description" xml:space="preserve">
-    <value>25 (TL v1.48+): Terraria 1.4.4.9.2 support</value>
+  <data name="PackStructureVersion27Description" xml:space="preserve">
+    <value>27 (TL v1.52.0+): New JavaScript APIs</value>
   </data>
   <data name="IgnoreForCategory" xml:space="preserve">
     <value>Ignore when determining pack category</value>

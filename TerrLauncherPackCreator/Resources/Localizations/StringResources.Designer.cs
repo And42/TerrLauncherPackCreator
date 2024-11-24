@@ -528,69 +528,20 @@ namespace TerrLauncherPackCreator.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 19 (TL v1.42+): Ability to ignore translations when determining pack&apos;s category.
+        ///   Looks up a localized string similar to 26 (TL v1.49.8+): Terraria 1.4.4.9.5 support.
         /// </summary>
-        public static string PackStructureVersion19Description {
+        public static string PackStructureVersion26Description {
             get {
-                return ResourceManager.GetString("PackStructureVersion19Description", resourceCulture);
+                return ResourceManager.GetString("PackStructureVersion26Description", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20 (TL v1.43+): Struct properties support in mods.
+        ///   Looks up a localized string similar to 27 (TL v1.52.0+): New JavaScript APIs.
         /// </summary>
-        public static string PackStructureVersion20Description {
+        public static string PackStructureVersion27Description {
             get {
-                return ResourceManager.GetString("PackStructureVersion20Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 21 (TL v1.44.1+):
-        ///  1. Thread Static fields support in mods
-        ///  2. API changes for mods:
-        ///    2.1. Most of TL methods moved into tl property
-        ///    2.2. `print` renamed to `log`.
-        /// </summary>
-        public static string PackStructureVersion21Description {
-            get {
-                return ResourceManager.GetString("PackStructureVersion21Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 22 (TL v1.45.8+): New Terraria version support.
-        /// </summary>
-        public static string PackStructureVersion22Description {
-            get {
-                return ResourceManager.GetString("PackStructureVersion22Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 23 (TL v1.46+): Terraria 1.4.4.1 support.
-        /// </summary>
-        public static string PackStructureVersion23Description {
-            get {
-                return ResourceManager.GetString("PackStructureVersion23Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 24 (TL v1.47+): Terraria 1.4.4.9 support.
-        /// </summary>
-        public static string PackStructureVersion24Description {
-            get {
-                return ResourceManager.GetString("PackStructureVersion24Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 25 (TL v1.48+): Terraria 1.4.4.9.2 support.
-        /// </summary>
-        public static string PackStructureVersion25Description {
-            get {
-                return ResourceManager.GetString("PackStructureVersion25Description", resourceCulture);
+                return ResourceManager.GetString("PackStructureVersion27Description", resourceCulture);
             }
         }
         

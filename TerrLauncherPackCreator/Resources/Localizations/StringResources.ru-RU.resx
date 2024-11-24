@@ -480,30 +480,11 @@
   <data name="TargetPackStructureVersion" xml:space="preserve">
     <value>Целевая версия структуры паков</value>
   </data>
-  <data name="PackStructureVersion19Description" xml:space="preserve">
-    <value>19 (TL v1.42+): Возможность проигнорировать переводы при определении категории пака</value>
+  <data name="PackStructureVersion26Description" xml:space="preserve">
+    <value>26 (TL v1.49.8+): Поддержка Terraria 1.4.4.9.5</value>
   </data>
-  <data name="PackStructureVersion20Description" xml:space="preserve">
-    <value>20 (TL v1.43+): Поддержка свойств структур в модах</value>
-  </data>
-  <data name="PackStructureVersion21Description" xml:space="preserve">
-    <value>21 (TL v1.44.1+):
-  1. Поддержка Thread Static полей в модах
-  2. Изменения в API модов:
-    2.1. Почти все методы TL перемещены в свойство tl
-    2.2. Метод вывода в лог переименован `print` > `log`</value>
-  </data>
-  <data name="PackStructureVersion22Description" xml:space="preserve">
-    <value>22 (TL v1.45.8+): Новые методы в js api: https://github.com/TerLauncher/TL-Mods/wiki/JavaScript-Api#Version_22</value>
-  </data>
-  <data name="PackStructureVersion23Description" xml:space="preserve">
-    <value>23 (TL v1.46+): Поддержка Terraria 1.4.4.1</value>
-  </data>
-  <data name="PackStructureVersion24Description" xml:space="preserve">
-    <value>24 (TL v1.47+): Поддержка Terraria 1.4.4.9</value>
-  </data>
-  <data name="PackStructureVersion25Description" xml:space="preserve">
-    <value>25 (TL v1.48+): Поддержка Terraria 1.4.4.9.2</value>
+  <data name="PackStructureVersion27Description" xml:space="preserve">
+    <value>27 (TL v1.52.0+): Новые функции в JavaScript API</value>
   </data>
   <data name="IgnoreForCategory" xml:space="preserve">
     <value>Игнорировать при определении категории пака</value>

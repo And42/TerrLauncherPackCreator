@@ -11,8 +11,15 @@ public static class PackUtils
         string InitialFilesExt,
         string ConvertedFilesExt
     );
-        
-    public const int LatestPackStructureVersion = 25;
+
+    public static class PackStructureVersions
+    {
+        public const int V26 = 26;
+        public const int V27 = 27;
+        public const int Oldest = V26;
+        public const int Latest = V27;
+    }
+
     public const int DefaultAuthorIconHeight = 70;
     public const string PacksExtension = ".tl";
     public const string PacksActualExtension = ".zip";
