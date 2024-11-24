@@ -4,7 +4,7 @@ Just an app that can help you to create packs for TL Pro: https://play.google.co
 
 ## Requirements
 
-You need to have .NET Desktop Runtime 7.0+ installed to run the app. You can find an installer here: https://dotnet.microsoft.com/en-us/download/dotnet/7.0
+You need to have .NET Desktop Runtime 8.0+ installed to run the app. You can find an installer here: https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 
 ## Installation
 
