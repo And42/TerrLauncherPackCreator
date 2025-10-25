@@ -1,2 +1,0 @@
-﻿C:\Files\Programming\Repos\MVVM-Tools\MVVM Tools\bin\Release\MVVM_Tools.dll
-only_dll

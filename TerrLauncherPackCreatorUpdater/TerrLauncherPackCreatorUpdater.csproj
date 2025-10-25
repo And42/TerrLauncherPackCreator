@@ -14,12 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="Libraries\MVVM_Tools.dll" />
       <Content Include="Libraries\MVVM_Tools.pdb" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Resource Include="Libraries\zzz_dependencies.txt" />
     </ItemGroup>
 
     <ItemGroup>
@@ -38,9 +33,12 @@
       <Reference Include="Interop.IWshRuntimeLibrary">
         <HintPath>Libraries\Interop.IWshRuntimeLibrary.dll</HintPath>
       </Reference>
-      <Reference Include="MVVM_Tools, Version=1.5.2.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>Libraries\MVVM_Tools.dll</HintPath>
-      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MVVM_Tools">
+        <Version>1.6.1.2</Version>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
