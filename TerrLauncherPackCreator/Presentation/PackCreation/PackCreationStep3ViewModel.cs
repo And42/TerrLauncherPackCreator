@@ -11,7 +11,6 @@ using CrossPlatform.Code.Interfaces;
 using CrossPlatform.Code.Models;
 using CrossPlatform.Code.Utils;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Models;
 using TerrLauncherPackCreator.Resources.Localizations;
@@ -196,12 +195,9 @@ public partial class PackCreationViewModel
         if (!Directory.Exists(fileModel.FilePath))
             return;
             
-        var dialog = new CommonOpenFileDialog
-        {
-            IsFolderPicker = true
-        };
-        if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            IOUtils.CopyDirectory(fileModel.FilePath, dialog.FileName, overwriteFiles: true);
+        var dialog = new OpenFolderDialog();
+        if (dialog.ShowDialog() == true)
+            IOUtils.CopyDirectory(fileModel.FilePath, dialog.FolderName, overwriteFiles: true);
     }
 
     private void OnPropertyChangedStep3(object? sender, PropertyChangedEventArgs e)
