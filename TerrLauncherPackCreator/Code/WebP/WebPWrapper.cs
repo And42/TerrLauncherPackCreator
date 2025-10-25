@@ -902,9 +902,14 @@ namespace WebPWrapper
     internal sealed partial class UnsafeNativeMethods
     {
 
-        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
-        public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
-
+        public static void CopyMemory(IntPtr dest, IntPtr src, uint count)
+        {
+            unsafe
+            {
+                Buffer.MemoryCopy((void*)src, (void*)dest, count, count);
+            }
+        }
+        
         private static readonly int WEBP_DECODER_ABI_VERSION = 0x0208;
 
         /// <summary>This function will initialize the configuration according to a predefined set of parameters (referred to by 'preset') and a given quality factor.</summary>

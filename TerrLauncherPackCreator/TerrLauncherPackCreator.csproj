@@ -12,6 +12,7 @@
         <NeutralLanguage>en</NeutralLanguage>
         <Nullable>enable</Nullable>
         <ApplicationIcon>Resources\Images\app.ico</ApplicationIcon>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
