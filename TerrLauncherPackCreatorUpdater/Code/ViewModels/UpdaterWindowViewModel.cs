@@ -2,12 +2,12 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Windows;
 using System.Windows.Shell;
 using CommonLibrary;
 using CommonLibrary.CommonUtils;
-using Ionic.Zip;
 using MVVM_Tools.Code.Classes;
 using TerrLauncherPackCreatorUpdater.Code.Implementations;
 using TerrLauncherPackCreatorUpdater.Resources.Localizations;
@@ -97,9 +97,9 @@ public class UpdaterWindowViewModel : BindableBase
         _webClient.Dispose();
 
         using (var memoryStream = new MemoryStream(e.Result))
-        using (var zip = ZipFile.Read(memoryStream))
+        using (var zip = new ZipArchive(memoryStream, ZipArchiveMode.Read))
         {
-            zip.ExtractAll(ApplicationDataUtils.PathToRootFolder, ExtractExistingFileAction.OverwriteSilently);
+            zip.ExtractToDirectory(ApplicationDataUtils.PathToRootFolder, overwriteFiles: true);
         }
 
         Process.Start(

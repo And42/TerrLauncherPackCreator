@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,6 @@ using CrossPlatform.Code.Interfaces;
 using CrossPlatform.Code.Json.TL;
 using CrossPlatform.Code.Models;
 using CrossPlatform.Code.Utils;
-using Ionic.Zip;
 using AuthorJson = CrossPlatform.Code.Json.TL.AuthorJson;
 
 namespace CrossPlatform.Code.Implementations;
@@ -147,8 +147,8 @@ public class PackProcessor : IPackProcessor
     private async Task<PackModel> LoadPackModelInternal(string filePath)
     {
         string targetFolderPath = _sessionHelper.GenerateNonExistentDirPath();
-        using (var zip = ZipFile.Read(filePath))
-            zip.ExtractAll(targetFolderPath);
+        using (var zip = ZipFile.OpenRead(filePath))
+            zip.ExtractToDirectory(targetFolderPath);
 
         string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
         string packIconGif = Path.Combine(targetFolderPath, "Icon.gif");
@@ -256,9 +256,10 @@ public class PackProcessor : IPackProcessor
 
         IOUtils.TryDeleteFile(filePath, PackProcessingTries, PackProcessingSleepMs);
 
-        using (var zip = new ZipFile(filePath, Encoding.UTF8))
+        var compressionLevel = CompressionLevel.SmallestSize;
+        using (var zip = ZipFile.Open(filePath, ZipArchiveMode.Create))
         {
-            zip.AddEntry(".nomedia", Array.Empty<byte>());
+            zip.CreateEntry(".nomedia");
 
             if (!string.IsNullOrEmpty(packModel.IconFilePath))
             {
@@ -268,18 +269,23 @@ public class PackProcessor : IPackProcessor
                         packModel.IconFilePath,
                         _imageConverter.ConvertImageToTempWebPFile(packModel.IconFilePath, lossless: true)
                     );
-                zip.AddFile(targetPath).FileName = $"Icon{Path.GetExtension(targetPath)}";
+
+                zip.CreateEntryFromFile(
+                    sourceFileName: targetPath,
+                    entryName: $"Icon{Path.GetExtension(targetPath)}",
+                    compressionLevel
+                );
             }
 
             if (authorsMappings.Any())
             {
-                zip.AddEntry("Authors/.nomedia", Array.Empty<byte>());
+                zip.CreateEntry("Authors/.nomedia");
                 foreach (var (sourceFile, targetFile, json) in authorsMappings)
                     if (sourceFile != null)
                     {
                         if (sourceFile.Type == ImageInfo.ImageType.Gif)
                         {
-                            zip.AddEntry($"Authors/{targetFile}", sourceFile.Bytes);
+                            CreateEntryFromBytes(zip, sourceFile.Bytes, entryName: $"Authors/{targetFile}", compressionLevel: compressionLevel);
                         }
                         else
                         {
@@ -288,23 +294,27 @@ public class PackProcessor : IPackProcessor
                             {
                                 json.File = Path.ChangeExtension(targetFile, ".webp");
                                 string compressedFileName = $"Authors/{json.File}";
-                                zip.AddFile(webPImage).FileName = compressedFileName;
+                                zip.CreateEntryFromFile(
+                                    sourceFileName: webPImage,
+                                    entryName: compressedFileName,
+                                    compressionLevel
+                                );
                             }
                             else
                             {
                                 File.Delete(webPImage);
-                                zip.AddEntry($"Authors/{targetFile}", sourceFile.Bytes);
+                                CreateEntryFromBytes(zip, sourceFile.Bytes, entryName: $"Authors/{targetFile}", compressionLevel: compressionLevel);
                             }
                         }
                     }
             }
                 
             // add after authors as author mappings can change due to image compression
-            zip.AddEntry("Settings.json", PackSettings.Processor.Serialize(packSettingsJson), Encoding.UTF8);
+            CreateEntryFromString(zip, content: PackSettings.Processor.Serialize(packSettingsJson), entryName: "Settings.json", compressionLevel);
 
             if (packModel.PreviewsPaths.Any())
             {
-                zip.AddEntry("Previews/.nomedia", Array.Empty<byte>());
+                zip.CreateEntry("Previews/.nomedia");
                 int previewIndex = 1;
                 foreach (string previewPath in packModel.PreviewsPaths)
                 {
@@ -323,8 +333,11 @@ public class PackProcessor : IPackProcessor
                         );
                     }
 
-                    zip.AddFile(targetPath).FileName =
-                        $"Previews/{previewIndex++}{Path.GetExtension(targetPath)}";
+                    zip.CreateEntryFromFile(
+                        sourceFileName: targetPath,
+                        entryName: $"Previews/{previewIndex++}{Path.GetExtension(targetPath)}",
+                        compressionLevel
+                    );
                 }
             }
 
@@ -334,14 +347,35 @@ public class PackProcessor : IPackProcessor
                 string fileExt = PackUtils.GetConvertedFilesExt(modifiedFile.FileType);
                 string fileName = fileIndex.ToString();
                 fileIndex++;
-                zip.AddFile(convertedFile).FileName = $"Modified/{fileName}{fileExt}";
+                zip.CreateEntryFromFile(
+                    sourceFileName: convertedFile,
+                    entryName: $"Modified/{fileName}{fileExt}",
+                    compressionLevel
+                );
                 if (configFile != null) {
-                    zip.AddFile(configFile).FileName = $"Modified/{fileName}.json";
+                    zip.CreateEntryFromFile(
+                        sourceFileName: configFile,
+                        entryName: $"Modified/{fileName}.json",
+                        compressionLevel
+                    );
                 }
             }
-
-            zip.Save();
         }
+    }
+
+    private static void CreateEntryFromBytes(ZipArchive zip, byte[] content, string entryName, CompressionLevel compressionLevel)
+    {
+        ZipArchiveEntry entry = zip.CreateEntry(entryName, compressionLevel);
+        using (Stream stream = entry.Open())
+            stream.Write(content, offset: 0, count: content.Length);
+    }
+    
+    private static void CreateEntryFromString(ZipArchive zip, string content, string entryName, CompressionLevel compressionLevel)
+    {
+        ZipArchiveEntry entry = zip.CreateEntry(entryName, compressionLevel);
+        using (Stream stream = entry.Open())
+            using (var writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)))
+                writer.Write(content);
     }
 
     private static AuthorJson AuthorModelToJson(
