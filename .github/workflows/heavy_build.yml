@@ -17,7 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
   
     - name: Restore dependencies
       run: dotnet restore
@@ -40,22 +40,22 @@ jobs:
       # mkdir -p creates all directories in path
       run: |
         mkdir -p to_upload/data
-        cp TerrLauncherPackCreator/bin/Release/net8.0-windows/win-x64/publish/TerrLauncherPackCreator.exe to_upload/data/TerrLauncherPackCreator.exe
-        cp TerrLauncherPackCreator/bin/Release/net8.0-windows/win-x64/publish/libwebp_x64.dll to_upload/data/libwebp_x64.dll
-        cp TerrLauncherPackCreatorUpdater/bin/Release/net8.0-windows/win-x64/publish/updater.exe to_upload/data/updater.exe
+        cp TerrLauncherPackCreator/bin/Release/net9.0-windows/win-x64/publish/TerrLauncherPackCreator.exe to_upload/data/TerrLauncherPackCreator.exe
+        cp TerrLauncherPackCreator/bin/Release/net9.0-windows/win-x64/publish/libwebp_x64.dll to_upload/data/libwebp_x64.dll
+        cp TerrLauncherPackCreatorUpdater/bin/Release/net9.0-windows/win-x64/publish/updater.exe to_upload/data/updater.exe
         mkdir -p to_upload/installer
-        cp TerrLauncherPackCreatorUpdater/bin/Release/net8.0-windows/win-x64/publish/updater.exe to_upload/installer/installer.exe
+        cp TerrLauncherPackCreatorUpdater/bin/Release/net9.0-windows/win-x64/publish/updater.exe to_upload/installer/installer.exe
 
     - name: Upload data
       uses: actions/upload-artifact@v4
       with:
-        name: data-net-8.0-windows-x64-framework-dependent
+        name: data-net-9.0-windows-x64-framework-dependent
         path: to_upload/data/**
         if-no-files-found: error
         
     - name: Upload installer
       uses: actions/upload-artifact@v4
       with:
-        name: installer-net-8.0-windows-x64-framework-dependent
+        name: installer-net-9.0-windows-x64-framework-dependent
         path: to_upload/installer/**
         if-no-files-found: error
