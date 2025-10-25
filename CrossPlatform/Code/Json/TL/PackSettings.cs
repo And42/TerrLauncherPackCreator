@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using CrossPlatform.Code.Enums;
 using CrossPlatform.Code.Utils;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace CrossPlatform.Code.Json.TL;
 
@@ -13,20 +13,20 @@ public class PackSettings
     {
         public static PackSettings Deserialize(string json)
         {
-            JObject jsonObject = JObject.Parse(json);
-            int packStructureVersion = jsonObject["packStructureVersion"]?.ToObject<int>() ?? 0;
+            JsonNode jsonObject = JsonUtils.ParseJsonNode(json) ?? throw new Exception("Can't parse root element");
+            int packStructureVersion = jsonObject["packStructureVersion"]?.GetValue<int>() ?? 0;
             (1 / (27 / PackUtils.PackStructureVersions.Latest)).Ignore();
             while (packStructureVersion < PackUtils.PackStructureVersions.Latest)
             {
                 if (packStructureVersion <= 15)
                 {
-                    var authors = jsonObject["authors"]?.ToObject<string>();
+                    var authors = jsonObject["authors"]?.GetValue<string>();
                     if (authors != null)
                     {
-                        jsonObject["authors"] = JArray.FromObject(authors
-                            .Split(new[] {"<->"}, StringSplitOptions.RemoveEmptyEntries)
-                            .ConvertAll(StringToAuthorJson)
-                        );
+                        var newAuthors = authors
+                            .Split(["<->"], StringSplitOptions.RemoveEmptyEntries)
+                            .ConvertAll(StringToAuthorJson);
+                        jsonObject["authors"] = JsonUtils.SerializeToNode(newAuthors);
                     }
 
                     packStructureVersion = 16;
@@ -37,7 +37,7 @@ public class PackSettings
                 }
             }
 
-            return jsonObject.ToObject<PackSettings>() ?? throw new Exception("Can't parse json");
+            return JsonUtils.Deserialize<PackSettings>(jsonObject) ?? throw new Exception("Can't parse json");
         }
 
         public static string Serialize(PackSettings settings)
@@ -52,7 +52,7 @@ public class PackSettings
             string? link = null;
             string? file = null;
                 
-            string[] parts = author.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = author.Split(['|'], StringSplitOptions.RemoveEmptyEntries);
             foreach (string part in parts)
             {
                 string[] keyValue = part.Split('=');
@@ -90,34 +90,34 @@ public class PackSettings
     // [JsonProperty("terrariaStructureVersion")]
     // public int TerrariaStructureVersion { get; set; }
 
-    [JsonProperty("packStructureVersion")]
+    [JsonPropertyName("packStructureVersion")]
     public int PackStructureVersion { get; set; }
 
-    [JsonProperty("title")]
+    [JsonPropertyName("title")]
     public string Title { get; set; } = null!;
 
-    [JsonProperty("descriptionEnglish")]
+    [JsonPropertyName("descriptionEnglish")]
     public string? DescriptionEnglish { get; set; }
         
-    [JsonProperty("descriptionRussian")]
+    [JsonPropertyName("descriptionRussian")]
     public string? DescriptionRussian { get; set; }
 
-    [JsonProperty("version")]
+    [JsonPropertyName("version")]
     public int Version { get; set; }
         
-    [JsonProperty("guid")]
+    [JsonPropertyName("guid")]
     public Guid Guid { get; set; }
 
-    [JsonProperty("authors")]
+    [JsonPropertyName("authors")]
     public List<AuthorJson>? Authors { get; set; }
 
-    [JsonProperty("predefined_tags")]
+    [JsonPropertyName("predefined_tags")]
     public List<PredefinedPackTag>? PredefinedTags { get; set; }
 
-    [JsonProperty("is_bonus")]
+    [JsonPropertyName("is_bonus")]
     public bool IsBonus { get; set; }
 
-    [JsonProperty("bonus_type")]
+    [JsonPropertyName("bonus_type")]
     public BonusType BonusType { get; set; }
 
     public PackSettings() {}

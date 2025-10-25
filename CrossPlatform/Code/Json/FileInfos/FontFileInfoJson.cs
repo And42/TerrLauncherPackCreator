@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class FontFileInfoJson
 {
-    [JsonProperty("entry_name")]
+    [JsonPropertyName("entry_name")]
     public string? EntryName { get; set; }
 }

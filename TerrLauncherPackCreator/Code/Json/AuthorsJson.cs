@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Windows.Media;
 using CrossPlatform.Code.Implementations;
 using CrossPlatform.Code.Utils;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace TerrLauncherPackCreator.Code.Json;
 
@@ -13,23 +13,26 @@ public class AuthorsJson {
     public static class Processor
     {
         public static AuthorsJson Deserialize(string json) {
-            JObject fileJson = JObject.Parse(json);
-            int fileVersion = fileJson["version"]?.ToObject<int>() ?? 0;
+            JsonNode fileJson = JsonUtils.ParseJsonNode(json) ?? throw new Exception("Can't parse authors file");
+            int fileVersion = fileJson["version"]?.GetValue<int>() ?? 0;
             bool updatePerformed = false;
             for (; fileVersion < LatestVersion; fileVersion++) {
                 switch (fileVersion) {
                     case 0:
                     {
                         fileJson["version"] = 1;
-                        var authors = fileJson["authors"];
+                        JsonNode? authors = fileJson["authors"];
                         if (authors != null)
                         {
-                            foreach (var author in authors)
+                            foreach (JsonNode? author in authors.AsArray())
                             {
-                                byte[]? iconBytes = author["icon"]?.ToObject<byte[]>();
+                                if (author == null)
+                                    continue;
+                                
+                                byte[]? iconBytes = author["icon"]?.GetValue<byte[]>();
                                 if (iconBytes != null)
                                 {
-                                    author["icon"] = JObject.FromObject(new
+                                    author["icon"] = JsonUtils.SerializeToNode(new
                                     {
                                         bytes = iconBytes,
                                         type = ImageInfo.ImageType.Png
@@ -44,8 +47,16 @@ public class AuthorsJson {
                         fileJson["version"] = 2;
                         var authors = fileJson["authors"];
                         if (authors != null)
-                            foreach (var author in authors)
-                                author["icon_height"] = PackUtils.DefaultAuthorIconHeight;
+                        {
+                            foreach (var author in authors.AsArray())
+                            {
+                                if (author != null)
+                                {
+                                    author["icon_height"] = PackUtils.DefaultAuthorIconHeight;
+                                }
+                            }
+                        }
+
                         break;
                     }
                     default:
@@ -56,7 +67,7 @@ public class AuthorsJson {
             }
 
             return updatePerformed
-                ? fileJson.ToObject<AuthorsJson>() ?? throw new Exception("Can't parse updated authors file")
+                ? JsonUtils.Deserialize<AuthorsJson>(fileJson) ?? throw new Exception("Can't parse updated authors file")
                 : JsonUtils.Deserialize<AuthorsJson>(json);
         }
 
@@ -67,10 +78,10 @@ public class AuthorsJson {
 
     private const int LatestVersion = 2;
         
-    [JsonProperty("version")]
+    [JsonPropertyName("version")]
     public int Version { get; set; }
         
-    [JsonProperty("authors")]
+    [JsonPropertyName("authors")]
     public List<AuthorJson>? Authors { get; set; }
 
     public static AuthorsJson CreateLatest() {
@@ -83,10 +94,10 @@ public class AuthorsJson {
 public class AuthorJson
 {
     public class IconJson {
-        [JsonProperty("bytes")]
+        [JsonPropertyName("bytes")]
         public byte[] Bytes { get; set; } = null!;
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public ImageInfo.ImageType Type { get; set; }
             
         public IconJson() {}
@@ -101,19 +112,19 @@ public class AuthorJson
         }
     }
         
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
         
-    [JsonProperty("color")]
+    [JsonPropertyName("color")]
     public Color? Color { get; set; }
 
-    [JsonProperty("link")]
+    [JsonPropertyName("link")]
     public string? Link { get; set; }
 
-    [JsonProperty("icon")]
+    [JsonPropertyName("icon")]
     public IconJson? Icon { get; set; }
         
-    [JsonProperty("icon_height")]
+    [JsonPropertyName("icon_height")]
     public int IconHeight { get; set; } = PackUtils.DefaultAuthorIconHeight;
 
     public AuthorJson() {}

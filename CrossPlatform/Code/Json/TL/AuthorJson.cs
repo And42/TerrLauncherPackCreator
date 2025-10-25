@@ -1,23 +1,23 @@
-﻿using CrossPlatform.Code.Utils;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using CrossPlatform.Code.Utils;
 
 namespace CrossPlatform.Code.Json.TL;
 
 public class AuthorJson
 {
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
         
-    [JsonProperty("color")]
+    [JsonPropertyName("color")]
     public string? Color { get; set; }
         
-    [JsonProperty("file")]
+    [JsonPropertyName("file")]
     public string? File { get; set; }
         
-    [JsonProperty("link")]
+    [JsonPropertyName("link")]
     public string? Link { get; set; }
         
-    [JsonProperty("icon_height")]
+    [JsonPropertyName("icon_height")]
     public int IconHeight { get; set; } = PackUtils.DefaultAuthorIconHeight;
         
     public AuthorJson() {}

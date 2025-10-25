@@ -1,13 +1,14 @@
-﻿using CrossPlatform.Code.Interfaces;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using CrossPlatform.Code.Interfaces;
 
 namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class ModFileInfoJson : IPackFileInfo
 {
-    [JsonProperty("id", Required = Required.Always)]
+    [JsonRequired]
+    [JsonPropertyName("id")]
     public string Id = null!;
 
-    [JsonProperty("ignore_for_category")]
+    [JsonPropertyName("ignore_for_category")]
     public bool IgnoreForCategory;
 }

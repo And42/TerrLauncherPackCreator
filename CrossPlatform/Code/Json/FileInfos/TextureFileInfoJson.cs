@@ -1,34 +1,34 @@
-﻿using CrossPlatform.Code.FileInfos;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using CrossPlatform.Code.FileInfos;
 
 namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class TextureFileInfoJson
 {
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public TextureFileInfo.TextureType Type = TextureFileInfo.TextureType.General;
 
-    [JsonProperty("entry_name")]
+    [JsonPropertyName("entry_name")]
     public string? EntryName;
 
-    [JsonProperty("element_id")]
+    [JsonPropertyName("element_id")]
     public int? ElementId;
 
-    [JsonProperty("animated")]
+    [JsonPropertyName("animated")]
     public bool? Animated;
 
-    [JsonProperty("animate_in_gui")]
+    [JsonPropertyName("animate_in_gui")]
     public bool? AnimateInGui;
 
-    [JsonProperty("number_of_vertical_frames")]
+    [JsonPropertyName("number_of_vertical_frames")]
     public int? NumberOfVerticalFrames;
 
-    [JsonProperty("number_of_horizontal_frames")]
+    [JsonPropertyName("number_of_horizontal_frames")]
     public int? NumberOfHorizontalFrames;
 
-    [JsonProperty("milliseconds_per_frame")]
+    [JsonPropertyName("milliseconds_per_frame")]
     public int? MillisecondsPerFrame;
 
-    [JsonProperty("apply_original_size")]
+    [JsonPropertyName("apply_original_size")]
     public bool? ApplyOriginalSize;
 }

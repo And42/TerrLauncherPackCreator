@@ -1,20 +1,21 @@
-﻿using CrossPlatform.Code.Utils;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using CrossPlatform.Code.Utils;
 
 namespace TerrLauncherPackCreator.Code.Json;
 
 public class AppSettingsJson
 {
-    [JsonProperty("app_language", Required = Required.Always)]
+    [JsonRequired]
+    [JsonPropertyName("app_language")]
     public string AppLanguage { get; set; }
         
-    [JsonProperty("main_window_width")]
+    [JsonPropertyName("main_window_width")]
     public int MainWindowWidth { get; set; }
 
-    [JsonProperty("main_window_height")]
+    [JsonPropertyName("main_window_height")]
     public int MainWindowHeight { get; set; }
         
-    [JsonProperty("pack_structure_version")]
+    [JsonPropertyName("pack_structure_version")]
     public int PackStructureVersion { get; set; }
 
     public AppSettingsJson()

@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace CrossPlatform.Code.Json.FileInfos;
 
 internal class CharacterFileInfoJson
 {
-    [JsonProperty("result_file_name", Required = Required.Always)]
+    [JsonRequired]
+    [JsonPropertyName("result_file_name")]
     public string ResultFileName = null!;
 }

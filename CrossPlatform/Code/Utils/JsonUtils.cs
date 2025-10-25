@@ -1,34 +1,41 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace CrossPlatform.Code.Utils;
 
 public static class JsonUtils
 {
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        WriteIndented = true,
+        IndentSize = 4,
+        IncludeFields = true
+    };
+    
     public static string Serialize<T>(T value)
     {
-        StringBuilder sb = new(256);
-        StringWriter sw = new(sb, CultureInfo.InvariantCulture);
+        return JsonSerializer.Serialize(value, SerializerOptions);
+    }
 
-        var jsonSerializer = JsonSerializer.CreateDefault();
-        using (JsonTextWriter jsonWriter = new(sw))
-        {
-            jsonWriter.Formatting = Formatting.Indented;
-            jsonWriter.IndentChar = ' ';
-            jsonWriter.Indentation = 4;
-
-            jsonSerializer.Serialize(jsonWriter, value, typeof(T));
-        }
-
-        return sw.ToString();
+    public static JsonNode? SerializeToNode<TValue>(TValue value)
+    {
+        return JsonSerializer.SerializeToNode(value, SerializerOptions);
     }
 
     public static T Deserialize<T>(string value)
     {
-        return JsonConvert.DeserializeObject<T>(value)
+        return JsonSerializer.Deserialize<T>(value, SerializerOptions)
             ?? throw new InvalidOperationException("Unable to deserialize json: " + value);
+    }
+
+    public static T? Deserialize<T>(JsonNode node)
+    {
+        return node.Deserialize<T>(SerializerOptions);
+    }
+
+    public static JsonNode? ParseJsonNode(string json)
+    {
+        return JsonNode.Parse(json);
     }
 }
