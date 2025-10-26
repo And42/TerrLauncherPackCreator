@@ -21,7 +21,7 @@ public class PackUtilsTests
     {
         FileType[] packTypes = PackUtils.PacksInfo.Select(it => it.FileType).ToArray();
 
-        Assert.IsTrue(packTypes.All(type => Enum.IsDefined(typeof(FileType), type)));
+        Assert.IsTrue(packTypes.All(Enum.IsDefined));
     }
 
     [TestMethod]
@@ -36,7 +36,7 @@ public class PackUtilsTests
     [TestMethod]
     public void PacksInfo_PackInitialFilesExtensionsShouldBeEmptyOrWithDot()
     {
-        foreach (var item in PackUtils.PacksInfo)
+        foreach (PackUtils.PackInfo item in PackUtils.PacksInfo)
         {
             string packExt = item.InitialFilesExt;
             Assert.IsTrue(packExt == "" || packExt[0] == '.' && packExt.Count(ch => ch == '.') == 1);
@@ -47,7 +47,7 @@ public class PackUtilsTests
     public void PacksInfo_PackConvertedFilesExtensionsWithDot()
     {
         Assert.IsTrue(PackUtils.PacksExtension[0] == '.' && PackUtils.PacksExtension.Count(ch => ch == '.') == 1);
-        foreach (var item in PackUtils.PacksInfo)
+        foreach (PackUtils.PackInfo item in PackUtils.PacksInfo)
         {
             string packFilesExt = item.ConvertedFilesExt;
             Assert.IsTrue(packFilesExt[0] == '.' && packFilesExt.Count(ch => ch == '.') == 1);

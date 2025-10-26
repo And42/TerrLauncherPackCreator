@@ -1,3 +1,3 @@
 ﻿namespace CrossPlatform.Code.Json.FileInfos;
 
-internal class GuiFileInfoJson : TextureFileInfoJson {}
+internal class GuiFileInfoJson : TextureFileInfoJson;

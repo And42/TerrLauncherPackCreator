@@ -13,6 +13,7 @@
         <Nullable>enable</Nullable>
         <ApplicationIcon>Resources\Images\app.ico</ApplicationIcon>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

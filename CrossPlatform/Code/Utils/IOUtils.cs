@@ -9,10 +9,8 @@ public static class IOUtils
 {
     public static void TryDeleteFile(string filePath, int triesCount, int triesSleepMs)
     {
-        if (triesCount < 1)
-            throw new ArgumentOutOfRangeException(nameof(triesCount));
-        if (triesSleepMs < 0)
-            throw new ArgumentOutOfRangeException(nameof(triesSleepMs));
+        ArgumentOutOfRangeException.ThrowIfLessThan(triesCount, 1);
+        ArgumentOutOfRangeException.ThrowIfNegative(triesSleepMs);
 
         if (!File.Exists(filePath))
             return;
@@ -22,10 +20,8 @@ public static class IOUtils
 
     public static void TryDeleteDirectory(string dirPath, int triesCount, int triesSleepMs)
     {
-        if (triesCount < 1)
-            throw new ArgumentOutOfRangeException(nameof(triesCount));
-        if (triesSleepMs < 0)
-            throw new ArgumentOutOfRangeException(nameof(triesSleepMs));
+        ArgumentOutOfRangeException.ThrowIfLessThan(triesCount, 1);
+        ArgumentOutOfRangeException.ThrowIfNegative(triesSleepMs);
 
         if (!Directory.Exists(dirPath))
             return;

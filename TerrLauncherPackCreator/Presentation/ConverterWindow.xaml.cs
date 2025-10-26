@@ -13,10 +13,10 @@ public partial class ConverterWindow
         ViewModel = new ConverterWindowViewModel();
     }
 
-    public ConverterWindowViewModel ViewModel
+    private ConverterWindowViewModel ViewModel
     {
         get => DataContext as ConverterWindowViewModel ?? throw new InvalidOperationException();
-        set => DataContext = value;
+        init => DataContext = value;
     }
 
     private void SourceFiles_OnDragOver(object sender, DragEventArgs e)

@@ -8,7 +8,7 @@ namespace TerrLauncherPackCreator.Code.Converters;
 
 public class TextureTypeToStringConverter : IValueConverter
 {
-    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not TextureType casted)
             return null;
@@ -25,7 +25,7 @@ public class TextureTypeToStringConverter : IValueConverter
         };
     }
 
-    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not string cast)
             return null;

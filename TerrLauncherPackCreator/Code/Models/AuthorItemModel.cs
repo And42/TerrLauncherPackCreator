@@ -11,41 +11,35 @@ public class AuthorItemModel : ViewModelBase
 {
     public ImageInfo? Image
     {
-        get => _image;
-        set => SetProperty(ref _image, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public string Name
     {
-        get => _name;
-        set => SetProperty(ref _name, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public Color? Color
     {
-        get => _color;
-        set => SetProperty(ref _color, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public string Link
     {
-        get => _link;
-        set => SetProperty(ref _link, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public int IconHeight
     {
-        get => _iconHeight;
-        set => SetProperty(ref _iconHeight, value);
+        get;
+        set => SetProperty(ref field, value);
     }
 
     public IActionCommand<AuthorItemModel> EditAuthorCommand { get; }
-
-    private ImageInfo? _image;
-    private string _name;
-    private Color? _color;
-    private string _link;
-    private int _iconHeight;
 
     public AuthorItemModel(): this(
         name: string.Empty,
@@ -63,16 +57,16 @@ public class AuthorItemModel : ViewModelBase
         int iconHeight
     )
     {
-        _name = name;
-        _color = color;
-        _image = image;
-        _link = link;
-        _iconHeight = iconHeight;
+        Name = name;
+        Color = color;
+        Image = image;
+        Link = link;
+        IconHeight = iconHeight;
             
         EditAuthorCommand = new ActionCommand<AuthorItemModel>(EditAuthorCommand_Execute);
     }
 
-    private void EditAuthorCommand_Execute(AuthorItemModel authorModel)
+    private static void EditAuthorCommand_Execute(AuthorItemModel authorModel)
     {
         new AuthorEditorWindow(authorModel).ShowDialog();
     }

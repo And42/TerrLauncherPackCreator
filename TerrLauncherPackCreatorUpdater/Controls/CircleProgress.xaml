@@ -9,20 +9,28 @@
     Width="300" Height="300">
     <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:CircleProgress}}">
 
-        <local:Arc Margin="0" StartAngle="0" Stretch="None"
-                EndAngle="{Binding Progress, Converter={StaticResource ProgressToArcEndConverter}}"
-                Stroke="#007ACC"
-                StrokeThickness="13"
-                StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+        <local:Arc
+            Margin="0"
+            StartAngle="0"
+            Stretch="None"
+            EndAngle="{Binding Progress, Converter={StaticResource ProgressToArcEndConverter}}"
+            Stroke="#007ACC"
+            StrokeThickness="13"
+            StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
 
-        <local:Arc Margin="18" StartAngle="0" Stretch="None"
-                EndAngle="{Binding Progress, Converter={StaticResource ProgressToArcEndConverter}}"
-                Stroke="#88AFDD"
-                StrokeThickness="10"
-                StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+        <local:Arc
+            Margin="18"
+            StartAngle="0"
+            Stretch="None"
+            EndAngle="{Binding Progress, Converter={StaticResource ProgressToArcEndConverter}}"
+            Stroke="#88AFDD"
+            StrokeThickness="10"
+            StrokeStartLineCap="Round"
+            StrokeEndLineCap="Round"/>
 
-        <Ellipse Fill="#F5F5F5"
-                 Margin="37"/>
+        <Ellipse
+            Fill="#F5F5F5"
+            Margin="37"/>
 
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0">
             <Grid.RowDefinitions>
@@ -34,25 +42,33 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock FontSize="60"
-                       FontFamily="Century Gothic"
-                       Foreground="#444444"
-                       Text="{Binding Progress}"
-                       HorizontalAlignment="Right"/>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                FontSize="60"
+                FontFamily="Century Gothic"
+                Foreground="#444444"
+                Text="{Binding Progress}"
+                HorizontalAlignment="Right"/>
 
-            <TextBlock Grid.Column="1"
-                       FontSize="42"
-                       Text="%"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Bottom"
-                       Margin="5 0 0 5"/>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                FontSize="42"
+                Text="%"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Margin="5 0 0 5"/>
             
-            <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
-                       Foreground="#888888"
-                       FontFamily="Century Gothic"
-                       FontSize="25"
-                       HorizontalAlignment="Center"
-                       Text="{Binding DownloadSpeedInBytes, Converter={StaticResource SpeedToStringConverter}}"/>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Foreground="#888888"
+                FontFamily="Century Gothic"
+                FontSize="25"
+                HorizontalAlignment="Center"
+                Text="{Binding DownloadSpeedInBytes, Converter={StaticResource SpeedToStringConverter}}"/>
         </Grid>
 
     </Grid>

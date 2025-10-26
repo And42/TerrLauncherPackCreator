@@ -90,7 +90,7 @@ public partial class DragAndDropImage
 
     private void Icon_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        var command = ImageClickCommand;
+        IActionCommand? command = ImageClickCommand;
         if (command == null)
             return;
         

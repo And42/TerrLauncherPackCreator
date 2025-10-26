@@ -264,12 +264,14 @@
                                 <TextBlock
                                     Style="{StaticResource NumberOfHorizontalFramesHintStyle}"/>
                                 <xctk:IntegerUpDown
+                                    Grid.Row="0"
                                     Grid.Column="2"
                                     Style="{StaticResource NumberOfHorizontalFramesStyle}">
                                 </xctk:IntegerUpDown>
                                 
                                 <TextBlock
                                     Grid.Row="2"
+                                    Grid.Column="0"
                                     Style="{StaticResource MillisecondsPerFrameHintStyle}"/>
                                 <xctk:IntegerUpDown
                                     Grid.Row="2"

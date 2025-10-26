@@ -68,7 +68,7 @@ public partial class App
 
     private static void RunUpdate()
     {
-        string currentExeLocation = Process.GetCurrentProcess().MainModule!.FileName!;
+        string currentExeLocation = Process.GetCurrentProcess().MainModule!.FileName;
 
         string tempFile = Path.GetTempFileName();
 
@@ -85,7 +85,7 @@ public partial class App
     {
         var shell = new WshShell();
 
-        IWshShortcut shortcut = (IWshShortcut) shell.CreateShortcut(
+        var shortcut = (IWshShortcut) shell.CreateShortcut(
             Path.Combine(AppContext.BaseDirectory, "TerrLauncherPackCreator.lnk")
         );
 

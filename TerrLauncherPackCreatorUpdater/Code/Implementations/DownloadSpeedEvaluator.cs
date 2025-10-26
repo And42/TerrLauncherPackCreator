@@ -8,7 +8,7 @@ internal class DownloadSpeedEvaluator : IDisposable
 {
     public delegate void SpeedMeasured(long speedBytesPerSecond);
 
-    private readonly object _updateLock = new();
+    private readonly Lock _updateLock = new();
 
     private Resources? _resources;
 
@@ -23,12 +23,9 @@ internal class DownloadSpeedEvaluator : IDisposable
         SpeedMeasured onSpeedMeasured
     )
     {
-        if (webClient == null)
-            throw new ArgumentNullException(nameof(webClient));
-        if (updatePeriodMs < 1)
-            throw new ArgumentOutOfRangeException(nameof(updatePeriodMs));
-        if (onSpeedMeasured == null)
-            throw new ArgumentNullException(nameof(onSpeedMeasured));
+        ArgumentNullException.ThrowIfNull(webClient);
+        ArgumentOutOfRangeException.ThrowIfLessThan(updatePeriodMs, 1);
+        ArgumentNullException.ThrowIfNull(onSpeedMeasured);
 
         webClient.DownloadProgressChanged += WebClientOnDownloadProgressChanged;
         var updateTimer = new Timer(_ => _resources?.OnSpeedMeasured(_currentSpeed), null, 0, updatePeriodMs);

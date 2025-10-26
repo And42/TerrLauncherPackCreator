@@ -8,7 +8,7 @@ namespace TerrLauncherPackCreator.Presentation.PackCreation;
 
 public partial class PackCreationViewModel
 {
-    public ObservableCollection<AuthorItemModel> Authors { get; } = new();
+    public ObservableCollection<AuthorItemModel> Authors { get; } = [];
     
     public IActionCommand AddAuthorCommand { get; private init; } = null!;
     public IActionCommand<AuthorItemModel> DeleteAuthorCommand { get; private init; } = null!;
@@ -27,7 +27,7 @@ public partial class PackCreationViewModel
     {
         Authors.Clear();
         
-        foreach (var author in packModel.Authors)
+        foreach (PackModel.Author author in packModel.Authors)
         {
             Authors.Add(
                 new AuthorItemModel(

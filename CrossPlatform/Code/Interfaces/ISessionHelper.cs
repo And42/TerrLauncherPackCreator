@@ -1,9 +1,8 @@
-﻿namespace CrossPlatform.Code.Interfaces
-{
-    public interface ISessionHelper
-    {
-        string GenerateNonExistentDirPath();
+﻿namespace CrossPlatform.Code.Interfaces;
 
-        string GenerateNonExistentFilePath(string? extension = null);
-    }
+public interface ISessionHelper
+{
+    string GenerateNonExistentDirPath();
+
+    string GenerateNonExistentFilePath(string? extension = null);
 }

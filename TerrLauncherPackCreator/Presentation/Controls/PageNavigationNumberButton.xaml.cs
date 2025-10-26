@@ -5,7 +5,7 @@ namespace TerrLauncherPackCreator.Presentation.Controls;
 public partial class PageNavigationNumberButton
 {
     public static readonly DependencyProperty PageNumberProperty = DependencyProperty.Register(
-        nameof(PageNumber), typeof(int), typeof(PageNavigationNumberButton), new PropertyMetadata(default(int)));
+        nameof(PageNumber), typeof(int), typeof(PageNavigationNumberButton), new PropertyMetadata(0));
 
     public int PageNumber
     {
@@ -23,7 +23,7 @@ public partial class PageNavigationNumberButton
     }
 
     public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(
-        nameof(IsActive), typeof(bool), typeof(PageNavigationNumberButton), new PropertyMetadata(default(bool), IsActiveChanged));
+        nameof(IsActive), typeof(bool), typeof(PageNavigationNumberButton), new PropertyMetadata(false, IsActiveChanged));
 
     public bool IsActive
     {

@@ -27,7 +27,7 @@ public class TextureModelToAnimateInGuiVisibility : IMultiValueConverter
 #pragma warning disable CS0162
         // ReSharper disable once HeuristicUnreachableCode
         bool animated = (bool) values[0];
-        TextureType currentTextureType = (TextureType) values[1];
+        var currentTextureType = (TextureType) values[1];
 
         return animated && AnimateInGuiVisibleTypes.Contains(currentTextureType) ? VisibleObject : CollapsedObject;
 #pragma warning restore CS0162

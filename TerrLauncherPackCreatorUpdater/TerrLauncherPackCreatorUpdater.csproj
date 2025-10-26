@@ -11,6 +11,7 @@
         <AssemblyVersion>1.4.1.0</AssemblyVersion>
         <FileVersion>1.4.1.0</FileVersion>
         <Nullable>enable</Nullable>
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

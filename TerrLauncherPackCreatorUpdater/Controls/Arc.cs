@@ -35,20 +35,20 @@ public class Arc : Shape
             double endAngle = EndAngle - 90;
             double radiusX = ActualWidth / 2;
             double radiusY = ActualHeight / 2;
-            Point center = new Point(radiusX, radiusY);
+            var center = new Point(radiusX, radiusY);
 
-            Point startPoint = new Point(
+            var startPoint = new Point(
                 center.X + radiusX * Math.Cos(startAngle * Math.PI / 180),
                 center.Y + radiusY * Math.Sin(startAngle * Math.PI / 180));
 
-            Point endPoint = new Point(
+            var endPoint = new Point(
                 center.X + radiusX * Math.Cos(endAngle * Math.PI / 180),
                 center.Y + radiusY * Math.Sin(endAngle * Math.PI / 180));
 
             bool isLargeArc = Math.Abs(endAngle - startAngle) > 180;
 
-            PathGeometry geometry = new PathGeometry();
-            PathFigure figure = new PathFigure { StartPoint = startPoint };
+            var geometry = new PathGeometry();
+            var figure = new PathFigure { StartPoint = startPoint };
             figure.Segments.Add(new ArcSegment(endPoint, new Size(radiusX, radiusY), 0, isLargeArc, SweepDirection.Clockwise, true));
             geometry.Figures.Add(figure);
 

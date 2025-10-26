@@ -19,7 +19,7 @@ namespace TerrLauncherPackCreator.Presentation.PackCreation;
 
 public partial class PackCreationViewModel
 {
-    public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; } = new();
+    public ObservableCollection<ModifiedFilesGroupModel> ModifiedFileGroups { get; } = [];
     
     public IActionCommand<(string[] files, ModifiedFileModel dropModel)> DropModifiedFileCommand { get; private init; } = null!;
     public IActionCommand<ModifiedFileModel> DeleteModifiedItemCommand { get; private init; } = null!;
@@ -52,7 +52,7 @@ public partial class PackCreationViewModel
         
         foreach (PackModel.ModifiedFile modifiedFile in packModel.ModifiedFiles)
         {
-            var fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesType == modifiedFile.FileType);
+            ModifiedFilesGroupModel? fileGroup = ModifiedFileGroups.FirstOrDefault(it => it.FilesType == modifiedFile.FileType);
             fileGroup?.ModifiedFiles.Add(
                 FileInfoToModelConverter.Convert(fileGroup.FilesType, modifiedFile.FilePath, modifiedFile.Config)
             );

@@ -12,8 +12,7 @@ public class SpeedToStringConverter : ConverterBase<long, string>
 
     public override string ConvertInternal(long speed, object parameter, CultureInfo culture)
     {
-        if (speed < 0)
-            throw new ArgumentOutOfRangeException(nameof(speed));
+        ArgumentOutOfRangeException.ThrowIfNegative(speed);
 
         var ordinal = 0;
 

@@ -1,15 +1,14 @@
-﻿namespace CrossPlatform.Code.Interfaces
+﻿namespace CrossPlatform.Code.Interfaces;
+
+public interface IProgressManager
 {
-    public interface IProgressManager
-    {
-        string Text { get; set; }
+    string Text { get; set; }
 
-        int CurrentProgress { get; set; }
+    int CurrentProgress { get; set; }
 
-        int MaximumProgress { get; set; }
+    int MaximumProgress { get; set; }
 
-        int RemainingFilesCount { get; set; }
+    int RemainingFilesCount { get; set; }
 
-        bool IsIndeterminate { get; set; }
-    }
+    bool IsIndeterminate { get; set; }
 }

@@ -28,10 +28,10 @@ public static class BitmapUtils
             return stream.ToBitmapSource();
         }
     }
-        
-    public static BitmapSource ToBitmapSource(this Stream stream) {
+
+    private static BitmapImage ToBitmapSource(this Stream stream) {
         stream.Position = 0;
-        BitmapImage result = new BitmapImage();
+        var result = new BitmapImage();
         result.BeginInit();
         // According to MSDN, "The default OnDemand cache option retains access to the stream until the image is needed."
         // Force the bitmap to load right now so we can dispose the stream.
@@ -40,22 +40,5 @@ public static class BitmapUtils
         result.EndInit();
         result.Freeze();
         return result;
-    }
-
-    public static Bitmap ToBitmap(this byte[] imageBytes)
-    {
-        using (var memoryStream = new System.IO.MemoryStream(imageBytes))
-        {
-            return new Bitmap(memoryStream);
-        }
-    }
-
-    public static byte[] ToByteArray(this Bitmap bitmap)
-    {
-        using (var memoryStream = new System.IO.MemoryStream())
-        {
-            bitmap.Save(memoryStream, ImageFormat.Png);
-            return memoryStream.ToArray();
-        }
     }
 }

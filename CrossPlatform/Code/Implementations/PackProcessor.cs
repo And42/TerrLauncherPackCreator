@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using CrossPlatform.Code.Enums;
 using CrossPlatform.Code.Interfaces;
@@ -36,8 +37,8 @@ public class PackProcessor : IPackProcessor
     private readonly ISessionHelper _sessionHelper;
     private readonly IImageConverter _imageConverter;
 
-    private readonly object _loadingLock = new();
-    private readonly object _savingLock = new();
+    private readonly Lock _loadingLock = new();
+    private readonly Lock _savingLock = new();
 
     public PackProcessor(
         IProgressManager? loadProgressManager,
@@ -68,15 +69,14 @@ public class PackProcessor : IPackProcessor
 
     public void LoadPackFromFile(string filePath)
     {
-        if (filePath == null)
-            throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
 
         Task.Run(async () =>
         {
             try
             {
                 PackLoadingStarted?.Invoke(filePath);
-                var packModel = await LoadPackModelInternal(filePath);
+                PackModel packModel = await LoadPackModelInternal(filePath);
                 PackLoaded?.Invoke((filePath, packModel, null));
             }
             catch (Exception ex)
@@ -88,10 +88,8 @@ public class PackProcessor : IPackProcessor
 
     public void SavePackToFile(PackModel pack, string targetFilePath)
     {
-        if (pack == null)
-            throw new ArgumentNullException(nameof(pack));
-        if (targetFilePath == null)
-            throw new ArgumentNullException(nameof(targetFilePath));
+        ArgumentNullException.ThrowIfNull(pack);
+        ArgumentNullException.ThrowIfNull(targetFilePath);
 
         Task.Run(() =>
         {
@@ -147,7 +145,7 @@ public class PackProcessor : IPackProcessor
     private async Task<PackModel> LoadPackModelInternal(string filePath)
     {
         string targetFolderPath = _sessionHelper.GenerateNonExistentDirPath();
-        using (var zip = ZipFile.OpenRead(filePath))
+        using (ZipArchive zip = ZipFile.OpenRead(filePath))
             zip.ExtractToDirectory(targetFolderPath);
 
         string packSettingsFile = Path.Combine(targetFolderPath, "Settings.json");
@@ -174,7 +172,7 @@ public class PackProcessor : IPackProcessor
                 ? Directory.EnumerateFiles(packPreviewsFolder)
                     .Where(it => PreviewExtensions.Contains(Path.GetExtension(it)))
                     .ToArray()
-                : Array.Empty<string>();
+                : [];
 
         string[] modifiedFileExts = PackUtils.PacksInfo.Select(it => it.ConvertedFilesExt).ToArray();
         string[] modifiedFilesPaths =
@@ -182,7 +180,7 @@ public class PackProcessor : IPackProcessor
                 ? Directory.EnumerateFileSystemEntries(packModifiedFilesFolder)
                     .Where(it => modifiedFileExts.Contains(Path.GetExtension(it)))
                     .ToArray()
-                : Array.Empty<string>();
+                : [];
 
         var authors = packSettings.Authors?
             .ConvertAll(it => JsonToAuthorModel(it, packAuthorsFolder))
@@ -214,7 +212,7 @@ public class PackProcessor : IPackProcessor
         }
     
         return new PackModel(
-            Authors: authors ?? Array.Empty<PackModel.Author>(),
+            Authors: authors ?? [],
             PreviewsPaths: previewsPaths,
             ModifiedFiles: modifiedFiles.ToArray(),
             PackStructureVersion: packSettings.PackStructureVersion,
@@ -225,7 +223,7 @@ public class PackProcessor : IPackProcessor
             Guid: packSettings.Guid,
             Version: packSettings.Version,
             IsBonusPack: packSettings.IsBonus,
-            PredefinedTags: packSettings.PredefinedTags?.ToList() ?? new List<PredefinedPackTag>(0)
+            PredefinedTags: packSettings.PredefinedTags?.ToList() ?? []
         );
     }
 
@@ -233,7 +231,7 @@ public class PackProcessor : IPackProcessor
     {
         var authorsMappings = new List<(ImageInfo? sourceFile, string? targetFile, AuthorJson json)>();
         int authorFileIndex = 1;
-        foreach (var author in packModel.Authors) {
+        foreach (PackModel.Author author in packModel.Authors) {
             string? fileExtension;
             AuthorJson json = AuthorModelToJson(author, ref authorFileIndex, out bool copyIcon, out fileExtension);
             authorsMappings.Add((copyIcon ? author.Icon : null, copyIcon ? $"{authorFileIndex - 1}{fileExtension}" : null, json));
@@ -256,8 +254,8 @@ public class PackProcessor : IPackProcessor
 
         IOUtils.TryDeleteFile(filePath, PackProcessingTries, PackProcessingSleepMs);
 
-        var compressionLevel = CompressionLevel.SmallestSize;
-        using (var zip = ZipFile.Open(filePath, ZipArchiveMode.Create))
+        const CompressionLevel compressionLevel = CompressionLevel.SmallestSize;
+        using (ZipArchive zip = ZipFile.Open(filePath, ZipArchiveMode.Create))
         {
             zip.CreateEntry(".nomedia");
 
@@ -320,7 +318,7 @@ public class PackProcessor : IPackProcessor
                 {
                     string targetPath;
                     string previewExtension = Path.GetExtension(previewPath);
-                    if (previewExtension == ".gif" || previewExtension == ".webp")
+                    if (previewExtension is ".gif" or ".webp")
                     {
                         // animated .webp is not supported and we do not want compress .webp once again
                         targetPath = previewPath;
@@ -396,7 +394,7 @@ public class PackProcessor : IPackProcessor
             {
                 ImageInfo.ImageType.Png => ".png",
                 ImageInfo.ImageType.Gif => ".gif",
-                _ => throw new ArgumentOutOfRangeException(nameof(author.Icon.Type), author.Icon.Type, @"Unknown type")
+                _ => throw new ArgumentOutOfRangeException(nameof(author.Icon.Type), author.Icon.Type, "Unknown type")
             };
 
             fileExtension = extension;
@@ -457,7 +455,7 @@ public class PackProcessor : IPackProcessor
                 iconPath = _imageConverter.ConvertWebPToTempPngFile(iconPath);
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension");
+                throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, "Unknown extension");
         }
         return new ImageInfo(File.ReadAllBytes(iconPath), iconType);
     }

@@ -7,10 +7,10 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors;
 
 public class PreviewsTemplateSelector : DataTemplateSelector
 {
-    public override DataTemplate SelectTemplate(object item, DependencyObject container)
+    public override DataTemplate SelectTemplate(object? item, DependencyObject container)
     {
-        Debug.Assert(item != null, "item != null");
-        Debug.Assert(container != null, "container != null");
+        Debug.Assert(item != null);
+        Debug.Assert(container != null);
 
         var previewItem = (PreviewItemModel) item;
         var containerUi = (FrameworkElement) container;

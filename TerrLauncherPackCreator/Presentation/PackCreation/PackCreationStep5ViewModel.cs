@@ -81,7 +81,7 @@ public partial class PackCreationViewModel
 
     private void RestartSequenceCommand_Execute()
     {
-        var result = MessageBox.Show(
+        MessageBoxResult result = MessageBox.Show(
             StringResources.RestartSequenceConfirmation,
             StringResources.InformationLower,
             MessageBoxButton.YesNo,
@@ -235,7 +235,7 @@ public partial class PackCreationViewModel
                 FileType.Font => Convert((ModifiedFontModel) model),
                 FileType.Audio => Convert((ModifiedAudioModel) model),
                 FileType.Mod => Convert((ModifiedModModel) model),
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(fileType))
             };
         }
 

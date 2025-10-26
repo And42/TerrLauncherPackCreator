@@ -70,9 +70,11 @@
             UpdateDataOnDrop="False"/>
 
         <TextBlock
+            Grid.Row="0"
             Grid.Column="2"
             Text="{x:Static localizations:StringResources.SavedAuthor}"/>
         <ComboBox
+            Grid.Row="0"
             Grid.Column="4"
             ItemsSource="{Binding SavedAuthors}"
             SelectedItem="{Binding SelectedSavedAuthor}"

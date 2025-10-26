@@ -20,7 +20,7 @@ public static class PickerUtils
         {
             return new Filter(
                 Description: description,
-                FileNameGlobs: new []{fileNameGlob}
+                FileNameGlobs: [fileNameGlob]
             );
         }
     }

@@ -8,7 +8,7 @@ public class ProgressToArcEndConverter : ConverterBase<int, double>
 {
     public override double ConvertInternal(int value, object parameter, CultureInfo culture)
     {
-        if (value < 0 || value > 100)
+        if (value is < 0 or > 100)
             throw new ArgumentOutOfRangeException(nameof(value));
 
         return value * 360 / 100.0;

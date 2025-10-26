@@ -19,8 +19,8 @@ public partial class PackCreationViewModel
     private static readonly IReadOnlySet<string> IconExtensions = new HashSet<string> {".png", ".gif"};
     // ReSharper disable once UnusedMember.Local
     private const int _ = 1 / (32 / PredefinedPackTagEnum.Length);
-    private static readonly IReadOnlyList<PredefinedPackTag> AllPredefinedTags = new []
-    {
+    private static readonly IReadOnlyList<PredefinedPackTag> AllPredefinedTags =
+    [
         PredefinedPackTag.TexturesAnimated,
         PredefinedPackTag.TexturesWeapons,
         PredefinedPackTag.TexturesTools,
@@ -53,68 +53,60 @@ public partial class PackCreationViewModel
         PredefinedPackTag.AudioOther,
         PredefinedPackTag.FontsAnimated,
         PredefinedPackTag.ModsScripts
-    };
+    ];
 
     public string IconFilePath
     {
-        get => _iconFilePath;
-        set => SetProperty(ref _iconFilePath, value);
-    }
-    private string _iconFilePath = string.Empty;
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public string Title
     {
-        get => _title;
-        set => SetProperty(ref _title, value);
-    }
-    private string _title = string.Empty;
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public string DescriptionRussian
     {
-        get => _descriptionRussian;
-        set => SetProperty(ref _descriptionRussian, value);
-    }
-    private string _descriptionRussian = string.Empty;
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public string DescriptionEnglish
     {
-        get => _descriptionEnglish;
-        set => SetProperty(ref _descriptionEnglish, value);
-    }
-    private string _descriptionEnglish = string.Empty;
+        get;
+        set => SetProperty(ref field, value);
+    } = string.Empty;
 
     public Guid Guid
     {
-        get => _guid;
-        set => SetProperty(ref _guid, value);
-    }
-    private Guid _guid = Guid.NewGuid();
+        get;
+        set => SetProperty(ref field, value);
+    } = Guid.NewGuid();
 
     public int Version
     {
-        get => _version;
-        set => SetProperty(ref _version, value);
-    }
-    private int _version = 1;
+        get;
+        set => SetProperty(ref field, value);
+    } = 1;
 
-    public ObservableCollection<PredefinedPackTag> PredefinedTags { get; } = new();
+    public ObservableCollection<PredefinedPackTag> PredefinedTags { get; } = [];
 
     public IReadOnlyList<PredefinedPackTag> RemainingPredefinedTags => AllPredefinedTags.Except(PredefinedTags).ToList();
-        
+
     public bool IsPredefinedTagsPopupOpen
     {
-        get => _isPredefinedTagsPopupOpen;
-        set => SetProperty(ref _isPredefinedTagsPopupOpen, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private bool _isPredefinedTagsPopupOpen;
 
     public bool IsBonusPack
     {
-        get => _isBonusPack;
-        set => SetProperty(ref _isBonusPack, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private bool _isBonusPack;
-    
+
     public IActionCommand CreateNewGuidCommand { get; private init; } = null!;
     public IActionCommand<string> DropIconCommand { get; private init; } = null!;
     public IActionCommand IconClickCommand { get; private init; } = null!;
@@ -177,12 +169,13 @@ public partial class PackCreationViewModel
     {
         string? filePath = PickerUtils.PickFile(
             title: "",
-            filters: new [] {
+            filters:
+            [
                 new PickerUtils.Filter(
                     Description: StringResources.IconDialogFilter,
                     FileNameGlobs: IconExtensions.Select(it => "*" + it).ToArray()
                 )
-            },
+            ],
             checkFileExists: true
         );
         if (filePath is null)

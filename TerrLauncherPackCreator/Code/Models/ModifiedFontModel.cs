@@ -7,28 +7,26 @@ public class ModifiedFontModel : ModifiedFileModel
 {
     public string? Prefix
     {
-        get => _prefix;
-        set => SetProperty(ref _prefix, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private string? _prefix;
-        
+
     public string? Name
     {
-        get => _name;
-        set => SetProperty(ref _name, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private string? _name;
 
     public ObservableCollection<string> CommonPrefixes { get; }
 
     public ModifiedFontModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
     {
-        _name = Path.GetFileNameWithoutExtension(filePath);
-        CommonPrefixes = new ObservableCollection<string>
-        {
+        Name = Path.GetFileNameWithoutExtension(filePath);
+        CommonPrefixes =
+        [
             "",
             "Content/Fonts"
-        };
-        _prefix = CommonPrefixes[1];
+        ];
+        Prefix = CommonPrefixes[1];
     }
 }

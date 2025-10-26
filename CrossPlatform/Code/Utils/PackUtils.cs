@@ -33,8 +33,8 @@ public static class PackUtils
     {
         (1 / (8 / FileTypeEnum.Length)).Ignore();
 
-        PacksInfo = new PackInfo[]
-        {
+        PacksInfo =
+        [
             new(FileType.Texture,     ".png",  ".texture"),
             new(FileType.Map,         ".wld",  ".world"),
             new(FileType.Character,   ".plr",  ".character"),
@@ -43,9 +43,9 @@ public static class PackUtils
             new(FileType.Font,        ".png",  ".font"),
             new(FileType.Audio,       ".mp3",  ".audio"),
             new(FileType.Mod,         "",      ".mod")
-        };
-        TranslationLanguages = new[] { "en-US", "de-DE", "it-IT", "fr-FR", "es-ES", "ru-RU", "pt-BR", /*"zh-Hans", "pl-PL", "ja-JP"*/ };
-        TranslationLanguageTitles = new[] { "English", "Deutsch", "Italiano", "Français", "Español", "Русский", "Português brasileiro" };
+        ];
+        TranslationLanguages = ["en-US", "de-DE", "it-IT", "fr-FR", "es-ES", "ru-RU", "pt-BR" /*"zh-Hans", "pl-PL", "ja-JP"*/];
+        TranslationLanguageTitles = ["English", "Deutsch", "Italiano", "Français", "Español", "Русский", "Português brasileiro"];
     }
 
     public static string GetInitialFilesExt(FileType fileType)

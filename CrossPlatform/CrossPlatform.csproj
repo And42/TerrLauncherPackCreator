@@ -4,6 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <Company />
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
 
 </Project>

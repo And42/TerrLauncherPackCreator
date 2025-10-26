@@ -9,54 +9,53 @@ using CommonLibrary.CommonUtils;
 using TerrLauncherPackCreator.Code.Implementations;
 using TerrLauncherPackCreator.Presentation;
 
-namespace TerrLauncherPackCreator
+namespace TerrLauncherPackCreator;
+
+public partial class App
 {
-    public partial class App
+    protected override void OnStartup(StartupEventArgs e)
     {
-        protected override void OnStartup(StartupEventArgs e)
+        base.OnStartup(e);
+
+        DispatcherUnhandledException += (_, args) =>
         {
-            base.OnStartup(e);
+            MessageBoxUtils.ShowError($"Unhandled exception: `{args.Exception}`");
+        };
 
-            DispatcherUnhandledException += (_, args) =>
+        Task.Run(async () =>
+        {
+            try
             {
-                MessageBoxUtils.ShowError($"Unhandled exception: `{args.Exception}`");
-            };
-
-            Task.Run(async () =>
+                if (await UpdateUtils.IsUpdateAvailable())
+                {
+                    Process.Start(
+                        Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
+                        "disable_shortcut"
+                    );
+                    Environment.Exit(0);
+                }
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    if (await UpdateUtils.IsUpdateAvailable())
-                    {
-                        Process.Start(
-                            Path.Combine(ApplicationDataUtils.PathToRootFolder, "updater.exe"),
-                            "disable_shortcut"
-                        );
-                        Environment.Exit(0);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    CrashUtils.HandleException(ex);
-                }
-            });
+                CrashUtils.HandleException(ex);
+            }
+        });
 
-            SetCurrentLanguage();
-            new PackStartupWindow().Show();
-        }
+        SetCurrentLanguage();
+        new PackStartupWindow().Show();
+    }
 
-        protected override void OnExit(ExitEventArgs e) {
-            base.OnExit(e);
+    protected override void OnExit(ExitEventArgs e) {
+        base.OnExit(e);
             
-            if (Directory.Exists(ApplicationDataUtils.PathToSessionTempFolder))
-                Directory.Delete(ApplicationDataUtils.PathToSessionTempFolder, true);
-        }
+        if (Directory.Exists(ApplicationDataUtils.PathToSessionTempFolder))
+            Directory.Delete(ApplicationDataUtils.PathToSessionTempFolder, true);
+    }
 
-        private static void SetCurrentLanguage()
-        {
-            string appLanguage = ValuesProvider.AppSettings.AppLanguage;
-            if (!string.IsNullOrEmpty(appLanguage))
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo(appLanguage);
-        }
+    private static void SetCurrentLanguage()
+    {
+        string appLanguage = ValuesProvider.AppSettings.AppLanguage;
+        if (!string.IsNullOrEmpty(appLanguage))
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(appLanguage);
     }
 }

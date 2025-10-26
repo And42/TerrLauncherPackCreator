@@ -30,8 +30,8 @@ public static class ImageUtils
         using (var imageBitmap = new Bitmap(imageMemory))
             return ConvertImageToTempWebPFile(imageBitmap, lossless);
     }
-        
-    public static string ConvertImageToTempWebPFile(Bitmap imageBitmap, bool lossless)
+
+    private static string ConvertImageToTempWebPFile(Bitmap imageBitmap, bool lossless)
     {
         string tempIcon = ApplicationDataUtils.GenerateNonExistentFilePath(extension: ".webp");
         IOUtils.EnsureParentDirExists(tempIcon);

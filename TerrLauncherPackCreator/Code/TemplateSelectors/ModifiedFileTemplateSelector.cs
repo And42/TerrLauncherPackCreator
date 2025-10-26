@@ -9,10 +9,10 @@ namespace TerrLauncherPackCreator.Code.TemplateSelectors;
 
 public class ModifiedFileTemplateSelector : DataTemplateSelector
 {
-    public override DataTemplate SelectTemplate(object item, DependencyObject container)
+    public override DataTemplate SelectTemplate(object? item, DependencyObject container)
     {
-        Debug.Assert(item != null, "item != null");
-        Debug.Assert(container != null, "container != null");
+        Debug.Assert(item != null);
+        Debug.Assert(container != null);
 
         var previewItem = (ModifiedFileModel) item;
         var containerUi = (FrameworkElement) container;
@@ -25,13 +25,13 @@ public class ModifiedFileTemplateSelector : DataTemplateSelector
         else
             resourceName = item switch
             {
-                ModifiedTextureModel _ => "ModifiedTextureTemplate",
-                ModifiedGuiModel _ => "ModifiedGuiTemplate",
-                ModifiedFontModel _ => "ModifiedFontTemplate",
-                ModifiedMapModel _ => "ModifiedMapTemplate",
-                ModifiedCharacterModel _ => "ModifiedCharacterTemplate",
-                ModifiedTranslationModel _ => "ModifiedTranslationTemplate",
-                ModifiedAudioModel _ => "ModifiedAudioTemplate",
+                ModifiedTextureModel => "ModifiedTextureTemplate",
+                ModifiedGuiModel => "ModifiedGuiTemplate",
+                ModifiedFontModel => "ModifiedFontTemplate",
+                ModifiedMapModel => "ModifiedMapTemplate",
+                ModifiedCharacterModel => "ModifiedCharacterTemplate",
+                ModifiedTranslationModel => "ModifiedTranslationTemplate",
+                ModifiedAudioModel => "ModifiedAudioTemplate",
                 ModifiedModModel => "ModifiedModTemplate",
                 _ => "ModifiedFileDataTemplate"
             };

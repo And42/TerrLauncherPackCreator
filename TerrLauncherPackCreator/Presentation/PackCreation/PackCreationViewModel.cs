@@ -51,8 +51,7 @@ public partial class PackCreationViewModel : ViewModelBase
 
     private void InitFromPackModel(PackModel packModel)
     {
-        if (packModel == null)
-            throw new ArgumentNullException(nameof(packModel));
+        ArgumentNullException.ThrowIfNull(packModel);
 
         Application.Current.Dispatcher.Invoke(() =>
         {

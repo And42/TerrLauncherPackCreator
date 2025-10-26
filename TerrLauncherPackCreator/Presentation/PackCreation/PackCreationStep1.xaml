@@ -75,6 +75,7 @@
                 Padding="50 4 7 4"/>
     
             <TextBlock
+                Grid.Column="0"
                 Margin="10 0 0 1"
                 Text="{x:Static localizations:StringResources.PackGuid}"/>
 
@@ -152,6 +153,7 @@
                 VerticalAlignment="Center"/>
             
             <Popup
+                Grid.Column="0"
                 IsOpen="{Binding IsPredefinedTagsPopupOpen}"
                 PlacementTarget="{Binding ElementName=AddTagButton}">
                 

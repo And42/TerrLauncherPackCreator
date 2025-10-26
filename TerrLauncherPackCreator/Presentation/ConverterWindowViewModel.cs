@@ -18,9 +18,9 @@ public class ConverterWindowViewModel : ViewModelBase
 {
     public FileType CurrentFileType
     {
-        get => _currentFileType;
-        set => SetProperty(ref _currentFileType, value);
-    }
+        get;
+        set => SetProperty(ref field, value);
+    } = FileType.Texture;
 
     public string SourceFilesExtension => PackUtils.GetInitialFilesExt(CurrentFileType);
     public string ConvertedFilesExtension => PackUtils.GetConvertedFilesExt(CurrentFileType);
@@ -28,8 +28,7 @@ public class ConverterWindowViewModel : ViewModelBase
     public FileType[] FileTypes { get; } = PackUtils.PacksInfo.Select(it => it.FileType).ToArray();
 
     private readonly IFileConverter _fileConverter = new FileConverter(SessionHelper.Instance);
-    private FileType _currentFileType = FileType.Texture;
-        
+
     public IActionCommand<string[]> DropSourceFilesCommand { get; }
     public IActionCommand<string[]> DropConvertedFiledCommand { get; }
 
@@ -61,7 +60,7 @@ public class ConverterWindowViewModel : ViewModelBase
                     string resultsDir = Path.Combine(Path.GetDirectoryName(file) ?? string.Empty, "converted_files");
                     IOUtils.EnsureDirExists(resultsDir);
                         
-                    var (convertedFile, _) = await _fileConverter.ConvertToTarget(CurrentFileType, file, null);
+                    (string convertedFile, _) = await _fileConverter.ConvertToTarget(CurrentFileType, file, null);
                     string resultFileExt = PackUtils.GetConvertedFilesExt(CurrentFileType);
                     string resultFile = Path.Combine(resultsDir, Path.GetFileNameWithoutExtension(file) + resultFileExt);
                     File.Copy(convertedFile, resultFile, overwrite: true);

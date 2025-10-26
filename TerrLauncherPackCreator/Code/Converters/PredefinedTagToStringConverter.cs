@@ -9,7 +9,7 @@ namespace TerrLauncherPackCreator.Code.Converters;
 
 public class PredefinedTagToStringConverter : IValueConverter
 {
-    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         (1 / (32 / PredefinedPackTagEnum.Length)).Ignore();
 
@@ -52,7 +52,7 @@ public class PredefinedTagToStringConverter : IValueConverter
         };
     }
 
-    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not string val)
             return null;

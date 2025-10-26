@@ -8,7 +8,7 @@ namespace TerrLauncherPackCreatorUpdater.Windows;
 
 public partial class UpdaterWindow
 {
-    public UpdaterWindowViewModel ViewModel
+    private UpdaterWindowViewModel ViewModel
     {
         get => DataContext as UpdaterWindowViewModel ?? throw new InvalidOperationException();
         init => DataContext = value;

@@ -23,7 +23,7 @@ public class TextureModelToVerticalFramesVisibility : IMultiValueConverter
         Debug.Assert(targetType == typeof(Visibility));
 
         bool animated = (bool) values[0];
-        TextureType currentTextureType = (TextureType) values[1];
+        var currentTextureType = (TextureType) values[1];
 
         return animated && VerticalFramesVisibleTypes.Contains(currentTextureType) ? VisibleObject : CollapsedObject;
     }

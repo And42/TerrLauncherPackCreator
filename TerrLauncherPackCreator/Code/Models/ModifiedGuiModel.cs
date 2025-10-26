@@ -7,25 +7,23 @@ public class ModifiedGuiModel : ModifiedFileModel
 {
     public string? Prefix
     {
-        get => _prefix;
-        set => SetProperty(ref _prefix, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private string? _prefix;
-        
+
     public string? Name
     {
-        get => _name;
-        set => SetProperty(ref _name, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private string? _name;
 
     public ObservableCollection<string> CommonPrefixes { get; }
         
     public ModifiedGuiModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
     {
-        _name = Path.GetFileNameWithoutExtension(filePath);
-        CommonPrefixes = new ObservableCollection<string>
-        {
+        Name = Path.GetFileNameWithoutExtension(filePath);
+        CommonPrefixes =
+        [
             "",
             "Content/Images",
             "Content/Images/SplashScreens",
@@ -34,7 +32,7 @@ public class ModifiedGuiModel : ModifiedFileModel
             "Content/Images/UI/PlayerResourceSets/FancyClassic",
             "Content/Images/UI/PlayerResourceSets/HorizontalBars",
             "Content/Images/UI/WorldGen"
-        };
+        ];
         Prefix = CommonPrefixes[1];
     }
 }

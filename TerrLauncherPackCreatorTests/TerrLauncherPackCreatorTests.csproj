@@ -5,6 +5,7 @@
         <AssemblyName>TerrLauncherPackCreatorTests</AssemblyName>
         <RootNamespace>TerrLauncherPackCreatorTests</RootNamespace>
         <Company />
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,16 +1,15 @@
 ﻿using System;
 using CrossPlatform.Code.Models;
 
-namespace CrossPlatform.Code.Interfaces
+namespace CrossPlatform.Code.Interfaces;
+
+public interface IPackProcessor
 {
-    public interface IPackProcessor
-    {
-        event Action<(string filePath, PackModel? loadedPack, Exception? error)> PackLoaded;
+    event Action<(string filePath, PackModel? loadedPack, Exception? error)> PackLoaded;
 
-        event Action<(PackModel pack, string targetFilePath, Exception? error)> PackSaved;
+    event Action<(PackModel pack, string targetFilePath, Exception? error)> PackSaved;
 
-        void LoadPackFromFile(string filePath);
+    void LoadPackFromFile(string filePath);
 
-        void SavePackToFile(PackModel pack, string targetFilePath);
-    }
+    void SavePackToFile(PackModel pack, string targetFilePath);
 }

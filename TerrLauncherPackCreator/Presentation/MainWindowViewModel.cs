@@ -9,7 +9,7 @@ using CrossPlatform.Code.Implementations;
 using CrossPlatform.Code.Interfaces;
 using MVVM_Tools.Code.Commands;
 using TerrLauncherPackCreator.Code.Implementations;
-using TerrLauncherPackCreator.Code.Interfaces;
+using TerrLauncherPackCreator.Code.Json;
 using TerrLauncherPackCreator.Code.Utils;
 using TerrLauncherPackCreator.Code.ViewModels;
 using TerrLauncherPackCreator.Presentation.PackCreation;
@@ -27,14 +27,7 @@ public class MainWindowViewModel : ViewModelBase
 
         private string[]? _steps;
         private int _step;
-
-        #region backing fields
-        private string _text = string.Empty;
-        private int _currentProgress;
-        private int _maximumProgress;
-        private int _remainingFilesCount;
-        private bool _isIndeterminate;
-        #endregion
+        private string _text = "";
 
         public string Text
         {
@@ -44,39 +37,43 @@ public class MainWindowViewModel : ViewModelBase
                 if (!SetProperty(ref _text, value))
                     return;
 
-                _steps = new[]
-                {
+                _steps =
+                [
                     value,
                     value + ".",
                     value + "..",
-                    value + "...",
-                };
+                    value + "..."
+                ];
             }
         }
+
         public int CurrentProgress
         {
-            get => _currentProgress;
-            set => SetProperty(ref _currentProgress, value);
+            get;
+            set => SetProperty(ref field, value);
         }
+
         public int MaximumProgress
         {
-            get => _maximumProgress;
-            set => SetProperty(ref _maximumProgress, value);
+            get;
+            set => SetProperty(ref field, value);
         }
+
         public int RemainingFilesCount
         {
-            get => _remainingFilesCount;
-            set => SetProperty(ref _remainingFilesCount, value);
+            get;
+            set => SetProperty(ref field, value);
         }
+
         public bool IsIndeterminate
         {
-            get => _isIndeterminate;
-            set => SetProperty(ref _isIndeterminate, value);
+            get;
+            set => SetProperty(ref field, value);
         }
 
         public ProgressManager()
         {
-            _updateTextTimer = new Timer(state =>
+            _updateTextTimer = new Timer(_ =>
             {
                 if (_steps == null)
                     return;
@@ -93,8 +90,6 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public PackCreationViewModel PackCreationViewModel { get; }
-
     public string WindowTitle { get; }
     public int CurrentStep
     {
@@ -108,13 +103,8 @@ public class MainWindowViewModel : ViewModelBase
 
     public Page[] StepsPages { get; }
 
-    public IProgressManager LoadProgressManager { get; }
-    public IProgressManager SaveProgressManager { get; }
-    public IFileConverter FileConverter { get; }
-
     public ObservableCollection<IProgressManager> ProgressManagers { get; }
     public IPackProcessor PackProcessor { get; }
-    public ITempDirsProvider TempDirsProvider { get; }
     public IActionCommand GoToPreviousStepCommand { get; }
     public IActionCommand GoToNextStepCommand { get; }
 
@@ -136,36 +126,36 @@ public class MainWindowViewModel : ViewModelBase
             GoToNextStepCommand_CanExecute
         );
 
-        LoadProgressManager = new ProgressManager {Text = StringResources.LoadingProgressStep};
-        SaveProgressManager = new ProgressManager {Text = StringResources.SavingProcessStep};
-        FileConverter = new FileConverter(SessionHelper.Instance);
+        var loadProgressManager = new ProgressManager {Text = StringResources.LoadingProgressStep};
+        var saveProgressManager = new ProgressManager {Text = StringResources.SavingProcessStep};
+        var fileConverter = new FileConverter(SessionHelper.Instance);
 
         PackProcessor = new PackProcessor(
-            LoadProgressManager,
-            SaveProgressManager,
-            FileConverter,
+            loadProgressManager,
+            saveProgressManager,
+            fileConverter,
             SessionHelper.Instance,
             new ImageConverter()
         );
-        TempDirsProvider = new TempDirsProvider(Paths.TempDir);
-        TempDirsProvider.DeleteAll();
+        var tempDirsProvider = new TempDirsProvider(Paths.TempDir);
+        tempDirsProvider.DeleteAll();
             
-        PackCreationViewModel = new PackCreationViewModel(PackProcessor, ValuesProvider.AppSettings, restartApp);
+        var packCreationViewModel = new PackCreationViewModel(PackProcessor, ValuesProvider.AppSettings, restartApp);
 
-        StepsPages = new Page[]
-        {
-            new PackCreationStep1(PackCreationViewModel), 
-            new PackCreationStep2(PackCreationViewModel), 
-            new PackCreationStep3(PackCreationViewModel), 
-            new PackCreationStep4(PackCreationViewModel), 
-            new PackCreationStep5(PackCreationViewModel) 
-        };
+        StepsPages =
+        [
+            new PackCreationStep1(packCreationViewModel), 
+            new PackCreationStep2(packCreationViewModel), 
+            new PackCreationStep3(packCreationViewModel), 
+            new PackCreationStep4(packCreationViewModel), 
+            new PackCreationStep5(packCreationViewModel)
+        ];
 
-        ProgressManagers = new ObservableCollection<IProgressManager>
-        {
-            LoadProgressManager,
-            SaveProgressManager
-        };
+        ProgressManagers =
+        [
+            loadProgressManager,
+            saveProgressManager
+        ];
 
         PropertyChanged += OnPropertyChanged;
     }
@@ -192,7 +182,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public void OnWindowClosed(int actualWidth, int actualHeight)
     {
-        var appSettings = ValuesProvider.AppSettings;
+        AppSettingsJson appSettings = ValuesProvider.AppSettings;
         appSettings.MainWindowWidth = actualWidth;
         appSettings.MainWindowHeight = actualHeight;
         try

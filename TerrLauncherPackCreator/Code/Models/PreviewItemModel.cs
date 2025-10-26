@@ -18,79 +18,72 @@ public class PreviewItemModel : BindableBase
 
     public bool IsCroppingEnabled
     {
-        get => _isCroppingEnabled;
-        set => SetProperty(ref _isCroppingEnabled, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private bool _isCroppingEnabled;
-        
+
     public bool IsCroppingAvailable { get; }
 
     public double CropLeftDp => CropLeftPixels * ImageWidthDp / _imageWidthPx;
     public double CropTopDp => CropTopPixels * ImageHeightDp / _imageHeightPx;
     public double CropRightDp => CropRightPixels * ImageWidthDp / _imageWidthPx;
     public double CropBottomDp => CropBottomPixels * ImageHeightDp / _imageHeightPx;
-        
+
     public int CropLeftPixels
     {
-        get => _cropLeftPixels;
+        get;
         set
         {
             if (value < 0 || value > _imageWidthPx - CropRightPixels)
-                throw new ArgumentOutOfRangeException();
-            SetProperty(ref _cropLeftPixels, value);
+                throw new ArgumentOutOfRangeException(nameof(CropLeftPixels));
+            SetProperty(ref field, value);
         }
     }
-    private int _cropLeftPixels;
 
     public int CropTopPixels
     {
-        get => _cropTopPixels;
+        get;
         set
         {
             if (value < 0 || value > _imageHeightPx - CropBottomPixels)
-                throw new ArgumentOutOfRangeException();
-            SetProperty(ref _cropTopPixels, value);
+                throw new ArgumentOutOfRangeException(nameof(CropTopPixels));
+            SetProperty(ref field, value);
         }
     }
-    private int _cropTopPixels;
 
     public int CropRightPixels
     {
-        get => _cropRightPixels;
+        get;
         set
         {
             if (value < 0 || value > _imageWidthPx - CropLeftDp)
-                throw new ArgumentOutOfRangeException();
-            SetProperty(ref _cropRightPixels, value);
+                throw new ArgumentOutOfRangeException(nameof(CropRightPixels));
+            SetProperty(ref field, value);
         }
     }
-    private int _cropRightPixels;
 
     public int CropBottomPixels
     {
-        get => _cropBottomPixels;
+        get;
         set
         {
             if (value < 0 || value > _imageHeightPx - CropTopPixels)
-                throw new ArgumentOutOfRangeException();
-            SetProperty(ref _cropBottomPixels, value);
+                throw new ArgumentOutOfRangeException(nameof(CropBottomPixels));
+            SetProperty(ref field, value);
         }
     }
-    private int _cropBottomPixels;
 
     public double ImageWidthDp
     {
-        private get => _imageWidthDp;
-        set => SetProperty(ref _imageWidthDp, value);
+        private get;
+        set => SetProperty(ref field, value);
     }
-    private double _imageWidthDp;
 
     public double ImageHeightDp
     {
-        private get => _imageHeightDp;
-        set => SetProperty(ref _imageHeightDp, value);
+        private get;
+        set => SetProperty(ref field, value);
     }
-    private double _imageHeightDp;
 
     private readonly int _imageWidthPx;
     private readonly int _imageHeightPx;
@@ -112,7 +105,7 @@ public class PreviewItemModel : BindableBase
             }
         }
 
-        Debug.Assert(filePath != null ^ isDragDropTarget, "filePath != null ^ isDragDropTarget");
+        Debug.Assert(filePath != null ^ isDragDropTarget);
             
         PropertyChanged += OnPropertyChanged;
     }

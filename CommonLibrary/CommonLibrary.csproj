@@ -7,6 +7,7 @@
         <RootNamespace>CommonLibrary</RootNamespace>
         <Company />
         <Nullable>enable</Nullable>
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

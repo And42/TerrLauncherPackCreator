@@ -29,7 +29,7 @@
             <ComboBox Margin="8 0 0 0" ItemsSource="{Binding FileTypes}" SelectedItem="{Binding CurrentFileType}" MinWidth="150"/>
         </StackPanel>
         
-        <Grid Grid.Row="2" Height="120" Margin="3" AllowDrop="True" DragOver="SourceFiles_OnDragOver" Drop="SourceFiles_OnDrop">
+        <Grid Grid.Row="2" Grid.Column="0" Height="120" Margin="3" AllowDrop="True" DragOver="SourceFiles_OnDragOver" Drop="SourceFiles_OnDrop">
             <Rectangle StrokeDashArray="4 1" Stroke="#888888" Fill="WhiteSmoke" StrokeThickness="3" RadiusX="10" RadiusY="10"/>
             <TextBlock TextWrapping="Wrap" FontSize="15"
                        HorizontalAlignment="Center" VerticalAlignment="Center">

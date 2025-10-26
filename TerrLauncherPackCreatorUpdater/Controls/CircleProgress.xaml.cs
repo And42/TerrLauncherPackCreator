@@ -5,7 +5,7 @@ namespace TerrLauncherPackCreatorUpdater.Controls;
 public partial class CircleProgress
 {
     public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register(
-        "Progress", typeof(int), typeof(CircleProgress), new PropertyMetadata(50));
+        nameof(Progress), typeof(int), typeof(CircleProgress), new PropertyMetadata(50));
 
     public int Progress
     {
@@ -14,7 +14,7 @@ public partial class CircleProgress
     }
 
     public static readonly DependencyProperty DownloadSpeedInBytesProperty = DependencyProperty.Register(
-        "DownloadSpeedInBytes", typeof(long), typeof(CircleProgress), new PropertyMetadata(default(long)));
+        nameof(DownloadSpeedInBytes), typeof(long), typeof(CircleProgress), new PropertyMetadata(0));
 
     public long DownloadSpeedInBytes
     {

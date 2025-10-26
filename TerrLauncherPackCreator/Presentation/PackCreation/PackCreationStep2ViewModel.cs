@@ -14,7 +14,7 @@ public partial class PackCreationViewModel
 {
     private static readonly IReadOnlySet<string> PreviewExtensions = new HashSet<string> {".jpg", ".png", ".gif"};
 
-    public ObservableCollection<PreviewItemModel> Previews { get; } = new();
+    public ObservableCollection<PreviewItemModel> Previews { get; } = [];
     
     public IActionCommand<string[]> DropPreviewsCommand { get; private init; } = null!;
     public IActionCommand<PreviewItemModel> DeletePreviewItemCommand { get; private init; } = null!;

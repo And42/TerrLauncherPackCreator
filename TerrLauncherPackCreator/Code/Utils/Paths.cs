@@ -5,14 +5,21 @@ namespace TerrLauncherPackCreator.Code.Utils;
 
 public static class Paths
 {
-#if DEBUG
-    public static readonly string ExeDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "Release"));
-#else
-        public static readonly string ExeDir = AppContext.BaseDirectory;
-#endif
+    public static readonly string TempDir;
+    public static readonly string AuthorsFile;
+    public static readonly string AppSettingsFile;
 
-    public static readonly string DataDir = Path.Combine(ExeDir, "data");
-    public static readonly string TempDir = Path.Combine(ExeDir, "temp");
-    public static readonly string AuthorsFile = Path.Combine(DataDir, "authors.json");
-    public static readonly string AppSettingsFile = Path.Combine(DataDir, "appSettings.json");
+    static Paths()
+    {
+#if DEBUG
+        string exeDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "Release"));
+#else
+        string exeDir = AppContext.BaseDirectory;
+#endif
+        string dataDir = Path.Combine(exeDir, "data");
+
+        TempDir = Path.Combine(exeDir, "temp");
+        AuthorsFile = Path.Combine(dataDir, "authors.json");
+        AppSettingsFile = Path.Combine(dataDir, "appSettings.json");
+    }
 }

@@ -6,13 +6,12 @@ public class ModifiedCharacterModel : ModifiedFileModel
 {
     public string ResultFileName
     {
-        get => _resultFileName;
-        set => SetProperty(ref _resultFileName, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private string _resultFileName;
-
+    
     public ModifiedCharacterModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
     {
-        _resultFileName = Path.GetFileNameWithoutExtension(filePath);
+        ResultFileName = Path.GetFileNameWithoutExtension(filePath);
     }
 }

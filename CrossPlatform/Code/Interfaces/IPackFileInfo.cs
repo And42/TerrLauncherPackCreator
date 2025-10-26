@@ -1,4 +1,3 @@
-﻿namespace CrossPlatform.Code.Interfaces {
+﻿namespace CrossPlatform.Code.Interfaces;
 
-    public interface IPackFileInfo {}
-}
+public interface IPackFileInfo;

@@ -7,23 +7,21 @@ public class ModifiedModModel : ModifiedFileModel
 {
     public string Id
     {
-        get => _id;
-        set => SetProperty(ref _id, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private string _id;
 
     public bool IgnoreForCategory
     {
-        get => _ignoreForCategory;
-        set => SetProperty(ref _ignoreForCategory, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private bool _ignoreForCategory;
 
     public IActionCommand GenerateNewGuidCommand { get; }
     
     public ModifiedModModel(string filePath, bool isDragDropTarget) : base(filePath, isDragDropTarget)
     {
-        _id = string.Empty;
+        Id = string.Empty;
         GenerateNewGuidCommand = new ActionCommand(GenerateNewGuid_Execute);
     }
 

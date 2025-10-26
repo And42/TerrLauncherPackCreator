@@ -28,10 +28,9 @@ public class AuthorEditorWindowViewModel : ViewModelBase
 
     public AuthorJson? SelectedSavedAuthor
     {
-        get => _selectedSavedAuthor;
-        set => SetProperty(ref _selectedSavedAuthor, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-    private AuthorJson? _selectedSavedAuthor;
 
     public AuthorEditorWindowViewModel(
         AuthorItemModel editableAuthor
@@ -75,19 +74,15 @@ public class AuthorEditorWindowViewModel : ViewModelBase
         WriteAuthorsToFile();
     }
 
-    private void DropAuthorImage_Execute(string iconPath) {
-        ImageInfo.ImageType imageType;
-        switch (Path.GetExtension(iconPath)) {
-            case ".png":
-                imageType = ImageInfo.ImageType.Png;
-                break;
-            case ".gif":
-                imageType = ImageInfo.ImageType.Gif;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension");
-        }
-            
+    private void DropAuthorImage_Execute(string iconPath)
+    {
+        ImageInfo.ImageType imageType = Path.GetExtension(iconPath) switch
+        {
+            ".png" => ImageInfo.ImageType.Png,
+            ".gif" => ImageInfo.ImageType.Gif,
+            _ => throw new ArgumentOutOfRangeException(nameof(iconPath), iconPath, @"Unknown extension")
+        };
+
         EditableAuthor.Image = new ImageInfo(File.ReadAllBytes(iconPath), imageType);
     }
 
@@ -107,7 +102,7 @@ public class AuthorEditorWindowViewModel : ViewModelBase
         }
 
         string extension = Path.GetExtension(filePath);
-        return extension == ".png" || extension == ".gif";
+        return extension is ".png" or ".gif";
     }
 
     private void WriteAuthorsToFile() {

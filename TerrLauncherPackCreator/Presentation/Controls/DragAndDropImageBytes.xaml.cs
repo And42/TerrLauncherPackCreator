@@ -46,7 +46,7 @@ public partial class DragAndDropImageBytes
     }
 
     public static readonly DependencyProperty UpdateDataOnDropProperty = DependencyProperty.Register(
-        "UpdateDataOnDrop", typeof(bool), typeof(DragAndDropImageBytes), new PropertyMetadata(true));
+        nameof(UpdateDataOnDrop), typeof(bool), typeof(DragAndDropImageBytes), new PropertyMetadata(true));
 
     public bool UpdateDataOnDrop {
         get => (bool) GetValue(UpdateDataOnDropProperty);

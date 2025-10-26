@@ -7,17 +7,22 @@ namespace TerrLauncherPackCreator.Code.Models;
 public class ModifiedFilesGroupModel : ViewModelBase
 {
     public string Title { get; }
-        
-    public string FilesExtension { get; }
-        
-    public FileType FilesType { get; }
-        
-    public ObservableCollection<ModifiedFileModel> ModifiedFiles { get; } = new ObservableCollection<ModifiedFileModel>();
 
-    public ModifiedFilesGroupModel(string title, string filesExtension, FileType filesType)
+    public string FilesExtension { get; }
+
+    public FileType FilesType { get; }
+
+    public ObservableCollection<ModifiedFileModel> ModifiedFiles { get; }
+
+    public ModifiedFilesGroupModel(
+        string title,
+        string filesExtension,
+        FileType filesType
+    )
     {
         Title = title;
         FilesExtension = filesExtension;
         FilesType = filesType;
+        ModifiedFiles = [];
     }
 }

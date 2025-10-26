@@ -7,11 +7,9 @@ public abstract class ViewModelBase : BindableBase
 {
     public bool Working
     {
-        get => _working;
-        set => SetProperty(ref _working, value);
+        get;
+        set => SetProperty(ref field, value);
     }
-
-    private bool _working;
 
     protected IDisposable LaunchWork() => new WorkingDisposable(this);
         
@@ -27,11 +25,11 @@ public abstract class ViewModelBase : BindableBase
             
         public void Dispose()
         {
-            if (_viewModelBase != null)
-            {
-                _viewModelBase.Working = false;
-                _viewModelBase = null;
-            }
+            if (_viewModelBase == null)
+                return;
+
+            _viewModelBase.Working = false;
+            _viewModelBase = null;
         }
     }
 }
