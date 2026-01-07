@@ -2,6 +2,8 @@
 
 Just an app that can help you to create packs for TL Pro: https://play.google.com/store/apps/details?id=com.pixelcurves.terlauncher
 
+Not really supported anymore in favor of the PC port of the Android TL Packer app: https://terlauncher.com/app/en/packer
+
 ## Requirements
 
 You need to have .NET Desktop Runtime 8.0+ installed to run the app. You can find an installer here: https://dotnet.microsoft.com/en-us/download/dotnet/8.0
